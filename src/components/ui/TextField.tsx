@@ -39,7 +39,7 @@ export default function TextField({
         type="text"
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
-        className="w-full px-8 py-3 mt-2 focus:outline-none"
+        className="mt-2 w-full px-8 py-3 focus:outline-none"
         readOnly={readOnly}
         onFocus={(e) => readOnly && e.target.blur()}
       />

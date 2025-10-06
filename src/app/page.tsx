@@ -8,7 +8,6 @@ export default function Home() {
         <ServiceTabSelector></ServiceTabSelector>
       </div>
       <hr className="border-primary w-full border-t-1" />
-
       <UserInputsContainer />
     </div>
   );

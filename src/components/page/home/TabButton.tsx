@@ -13,7 +13,7 @@ export default function TabButton(tabButtonProps: TabButtonProps) {
     <button
       key={tab.name}
       onClick={() => onClick(tab.name)}
-      className={`flex flex-col items-center border-b-4 border-transparent  ${
+      className={`flex flex-col items-center border-b-4 border-transparent ${
         isSelected
           ? "hover:border-b-secondary border-b-secondary scale-105"
           : "hover:border-b-primary"

@@ -9,7 +9,7 @@ interface ExpandedLocationFieldProps {
 }
 
 export default function ExpandedLocationField(
-  expandedLocationFieldProps: ExpandedLocationFieldProps
+  expandedLocationFieldProps: ExpandedLocationFieldProps,
 ) {
   const { onLocationSelect, placeholder, onClose } = expandedLocationFieldProps;
 
@@ -26,7 +26,7 @@ export default function ExpandedLocationField(
     const filtered = value
       ? suggestion
           .filter((item) =>
-            item.city.toLowerCase().includes(value.toLowerCase())
+            item.city.toLowerCase().includes(value.toLowerCase()),
           )
           .slice(0, 6)
       : suggestion.slice(0, 6);
@@ -38,7 +38,7 @@ export default function ExpandedLocationField(
   };
 
   return (
-    <div className="absolute top-0 flex w-full flex-col gap-2 rounded-lg bg-white p-4 shadow-lg ">
+    <div className="absolute top-0 flex w-full flex-col gap-2 rounded-lg bg-white p-4 shadow-lg">
       <input
         type="text"
         value={text}
@@ -52,7 +52,7 @@ export default function ExpandedLocationField(
           {filteredSuggestions.map((item, index) => (
             <li
               key={index}
-              className="cursor-pointer rounded-md px-2 py-2 hover:bg-primary/10"
+              className="hover:bg-primary/10 cursor-pointer rounded-md px-2 py-2"
               onClick={() => onClickSuggestion(item.city)}
             >
               {item.city}
@@ -60,7 +60,7 @@ export default function ExpandedLocationField(
           ))}
         </ul>
       )}
-      <div className="h-px bg-gray-300 -mx-4" />
+      <div className="-mx-4 h-px bg-gray-300" />
 
       <h3 className="text-color-primary-dark mb-2 text-lg font-semibold">
         Popular destinations
@@ -70,7 +70,7 @@ export default function ExpandedLocationField(
           <li
             key={destination}
             onClick={() => onClickSuggestion(destination)}
-            className="cursor-pointer rounded-md px-2 py-1 hover:bg-primary/10"
+            className="hover:bg-primary/10 cursor-pointer rounded-md px-2 py-1"
           >
             {destination}
           </li>

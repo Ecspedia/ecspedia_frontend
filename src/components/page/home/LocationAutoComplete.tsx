@@ -10,7 +10,7 @@ interface LocationAutocompleteProps {
 }
 
 export default function LocationAutoComplete(
-  locationAutocompleteProps: LocationAutocompleteProps
+  locationAutocompleteProps: LocationAutocompleteProps,
 ) {
   const { placeholder = "", onLocationSelect } = locationAutocompleteProps;
   const [isExpanded, setIsExpanded] = useState(false);
