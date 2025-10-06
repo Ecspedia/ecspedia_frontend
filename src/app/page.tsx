@@ -1,16 +1,15 @@
-import LocationAutoComplete from "@/components/features/home/LocationAutoComplete";
-import ServiceSelector from "@/components/features/home/ServiceSelector";
+import ServiceTabSelector from "@/components/page/home/ServiceTabSelector";
+import UserInputsContainer from "@/components/page/home/UserInputsContainer";
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-1/2 mx-auto border-1 border-primary-dark rounded-lg mt-10">
-      <div className="flex flex-col items-center mx-auto mt-5">
-        <ServiceSelector></ServiceSelector>
+    <div className="flex flex-col w-3/5 mx-auto border-1 border-primary rounded-lg mt-10">
+      <div className="mx-auto mt-5">
+        <ServiceTabSelector></ServiceTabSelector>
       </div>
-      <hr className="w-full  border-t-1 border-primary-dark" />
-      <div className="p-8">
-        <LocationAutoComplete />
-      </div>
+      <hr className="w-full  border-t-1 border-primary" />
+
+      <UserInputsContainer />
     </div>
   );
 }
