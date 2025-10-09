@@ -1,11 +1,18 @@
 import { RootState } from "@/libs/store";
+import { ServiceType } from "@/types/services";
 import { createSlice } from "@reduxjs/toolkit";
+
+interface ServiceTabState {
+  selectedService: ServiceType;
+}
+
+const initialState: ServiceTabState = {
+  selectedService: ServiceType.FLIGHTS,
+};
 
 const serviceTabSlice = createSlice({
   name: "serviceTab",
-  initialState: {
-    selectedService: "Flights", // default
-  },
+  initialState,
   reducers: {
     setService: (state, action) => {
       state.selectedService = action.payload;

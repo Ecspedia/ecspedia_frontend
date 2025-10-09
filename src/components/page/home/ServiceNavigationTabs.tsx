@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+
 import { SERVICE_TABS } from "@/constants/services";
-import TabButton from "./TabButton";
+import ServiceNavigationTab from "./ServiceNavigationTab";
 import { useAppDispatch, useAppSelector } from "@/libs/hooks";
 import { setService } from "@/libs/features/serviceTab/serviceTabSlice";
 
-export default function ServiceTabSelector() {
+export default function ServiceNavigationTabs() {
   const dispatch = useAppDispatch();
   const currentServiceTabSelected = useAppSelector(
     (state) => state.serviceTab.selectedService,
@@ -14,12 +14,12 @@ export default function ServiceTabSelector() {
   return (
     <div className="flex gap-8">
       {SERVICE_TABS.map((tab) => (
-        <TabButton
+        <ServiceNavigationTab
           key={tab.name}
           tab={tab}
           isSelected={currentServiceTabSelected == tab.name}
           onClick={() => dispatch(setService(tab.name))}
-        ></TabButton>
+        ></ServiceNavigationTab>
       ))}
     </div>
   );

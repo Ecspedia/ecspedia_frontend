@@ -8,7 +8,7 @@ interface ExpandedLocationFieldProps {
   onClose: () => void;
 }
 
-export default function ExpandedLocationField(
+export default function ExpandedLocationTextField(
   expandedLocationFieldProps: ExpandedLocationFieldProps,
 ) {
   const { onLocationSelect, placeholder, onClose } = expandedLocationFieldProps;
