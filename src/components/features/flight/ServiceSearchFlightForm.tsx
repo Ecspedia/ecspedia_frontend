@@ -1,15 +1,17 @@
 import { ArrowsRightLeftIcon } from "@heroicons/react/16/solid";
-import LocationTextField from "./LocationTextField";
+
 import {
   setArrivalLocation,
   setDepartureDate,
   setDepartureLocation,
   swapLocations,
-} from "@/libs/features/flightSearch/flightSearchSlice";
+} from "@/libs/features/flight/flightSearchSlice";
 import { useAppDispatch, useAppSelector } from "@/libs/hooks";
 import { useEffect, useRef, useState } from "react";
-import DateRangeTextField from "./DateRangeTextField";
+
 import Button from "@/components/ui/Button";
+import LocationTextField from "@/components/shared/LocationTextField";
+import DateRangeTextField from "@/components/shared/DateRangeTextField";
 
 enum LocationFieldType {
   DEPARTURE = "departure",
@@ -100,7 +102,7 @@ export default function ServiceSearchFlightForm() {
         onChange={handleArrivalChange}
         onClose={() => setExpandedField(null)}
       />
-      <Button text="Search"></Button>
+      <Button className="bg-secondary w-24" text="Search"></Button>
     </div>
   );
 }
