@@ -37,7 +37,7 @@ export default function TextField({
 
       <input
         type="text"
-        value={value}
+        value={value || ""}
         onChange={(e) => onChange?.(e.target.value)}
         className="mt-2 w-full px-8 py-3 focus:outline-none"
         readOnly={readOnly}

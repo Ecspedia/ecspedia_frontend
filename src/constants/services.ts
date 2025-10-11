@@ -1,10 +1,10 @@
-import { ServiceTab } from "@/types/services";
+import { ServiceTab, ServiceType } from "@/types/services";
 
 export const SERVICE_TABS: ServiceTab[] = [
-  { name: "Stays", icon: "images/home/light__bed.svg" },
-  { name: "Flights", icon: "images/home/light__flight.svg" },
-  { name: "Cars", icon: "images/home/light__car.svg" },
-  { name: "Packages", icon: "images/home/light__package.svg" },
-  { name: "Things to do", icon: "images/home/light__ticket.svg" },
-  { name: "Cruises", icon: "images/home/light__cruise.svg" },
+  { name: ServiceType.STAYS, icon: "images/home/light__bed.svg" },
+  { name: ServiceType.FLIGHTS, icon: "images/home/light__flight.svg" },
+  { name: ServiceType.CARS, icon: "images/home/light__car.svg" },
+  { name: ServiceType.PACKAGES, icon: "images/home/light__package.svg" },
+  { name: ServiceType.THINGS_TO_DO, icon: "images/home/light__ticket.svg" },
+  { name: ServiceType.CRUISES, icon: "images/home/light__cruise.svg" },
 ];

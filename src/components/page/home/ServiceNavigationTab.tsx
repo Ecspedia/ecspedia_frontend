@@ -7,7 +7,7 @@ interface TabButtonProps {
   onClick: (name: string) => void;
 }
 
-export default function TabButton(tabButtonProps: TabButtonProps) {
+export default function ServiceNavigationTab(tabButtonProps: TabButtonProps) {
   const { tab, isSelected, onClick } = tabButtonProps;
   return (
     <button
