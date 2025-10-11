@@ -19,7 +19,7 @@ export default function Home() {
     <div>
       <div className="mx-auto w-3/5">
         <div className="border-primary mt-10 flex flex-col rounded-lg border-1">
-          <div className="mx-auto mt-5">
+          <div className="mx-auto">
             <ServiceNavigationTabs></ServiceNavigationTabs>
           </div>
           <hr className="border-primary w-full border-t-1" />
