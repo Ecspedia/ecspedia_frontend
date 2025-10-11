@@ -1,6 +1,7 @@
 export interface ServiceTab {
   name: string;
   icon: string;
+  index: number;
 }
 
 export enum ServiceType {
