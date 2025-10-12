@@ -31,23 +31,23 @@ export default function LocationTextField(
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {isExpanded && (
-        <ExpandedLocationTextField
-          onLocationSelect={handleLocationSelect}
-          placeholder={placeholder}
-          onClose={onClose}
-        />
+        <div className="absolute top-0 left-0 w-full z-50">
+          <ExpandedLocationTextField
+            onLocationSelect={handleLocationSelect}
+            placeholder={placeholder}
+            onClose={onClose}
+          />
+        </div>
       )}
-      <div className={isExpanded ? "invisible" : ""}>
-        <TextField
-          placeholder={placeholder}
-          onClick={onToggleExpanded}
-          icon={MapPinIcon}
-          value={value}
-          readOnly={false}
-        />
-      </div>
+      <TextField
+        placeholder={placeholder}
+        onClick={onToggleExpanded}
+        icon={MapPinIcon}
+        value={value}
+        readOnly={false}
+      />
     </div>
   );
 }
