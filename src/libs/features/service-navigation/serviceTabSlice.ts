@@ -7,7 +7,7 @@ interface ServiceTabState {
 }
 
 const initialState: ServiceTabState = {
-  selectedService: ServiceType.FLIGHTS,
+  selectedService: ServiceType.STAYS,
 };
 
 const serviceTabSlice = createSlice({

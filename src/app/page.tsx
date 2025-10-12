@@ -5,6 +5,7 @@ import ServiceNavigationTabs from "@/components/features/service-navigation/Serv
 
 import ServiceSearchForm from "@/components/features/service-navigation/ServiceSearchForm";
 
+import { HotelCardList } from "@/components/features/hotel";
 import { useAppSelector } from "@/libs/hooks";
 import { ServiceType } from "@/types/services";
 
@@ -12,6 +13,21 @@ export default function Home() {
   const currentServiceTabSelected = useAppSelector(
     (state) => state.serviceTab.selectedService,
   );
+  const currentServiceTabHtml = () => {
+    if (currentServiceTabSelected == ServiceType.FLIGHTS)
+      return (
+        <div className="mt-5">
+          <FlightCardList />
+        </div>
+      );
+    if (currentServiceTabSelected == ServiceType.STAYS)
+      return (
+        <div className="mt-5">
+          <HotelCardList />
+        </div>
+      );
+    else return <div></div>;
+  };
 
   return (
     <>
@@ -25,13 +41,7 @@ export default function Home() {
           <hr className="border-primary w-full border-t-1" />
           <ServiceSearchForm />
         </div>
-        {currentServiceTabSelected == ServiceType.FLIGHTS ? (
-          <div className="mt-5">
-            <FlightCardList />
-          </div>
-        ) : (
-          <></>
-        )}
+        {currentServiceTabHtml()}
       </div>
     </div>
   </>

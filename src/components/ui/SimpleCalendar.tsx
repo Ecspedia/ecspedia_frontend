@@ -101,7 +101,7 @@ export default function SimpleCalendar(
   };
 
   return (
-    <div className="absolute top-0 z-9999 w-full bg-white p-2 shadow-lg">
+    <div className="absolute top-0 z-9999 w-90 bg-white p-3 shadow-lg">
       <div className="flex flex-col">
         <MonthNavigation
           monthName={currentMonthToString}
@@ -113,7 +113,7 @@ export default function SimpleCalendar(
         <div className="grid grid-cols-7">
           {getDaysInMonth().map((day, index) => renderDay(day, index))}
         </div>
-        <div className="flex h-10 justify-end py-1">
+        <div className="mt-3 flex h-10 justify-end">
           <Button
             className="bg-secondary w-24"
             onClick={onClose}
@@ -161,7 +161,7 @@ function DayTitles() {
   return (
     <div className="grid grid-cols-7">
       {dayNames.map((day, index) => (
-        <div key={index} className="text-center font-medium">
+        <div key={index} className="border-box w-10 text-center font-medium">
           {day}
         </div>
       ))}
