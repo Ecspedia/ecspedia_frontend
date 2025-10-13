@@ -1,7 +1,5 @@
-import ServiceNavigationTabs from "@/components/page/home/ServiceNavigationTabs";
-import ServiceSearchForm from "@/components/page/home/ServiceSearchForm";
-import { HeaderNav } from "@/components/ui/Header";
 "use client";
+import { HeaderNav } from "@/components/ui/Header";
 import FlightCardList from "@/components/features/flight/FlightCardList";
 import ServiceNavigationTabs from "@/components/features/service-navigation/ServiceNavigationTabs";
 
@@ -16,6 +14,8 @@ export default function Home() {
   );
 
   return (
+    <>
+      <HeaderNav />
     <div>
       <div className="mx-auto w-3/5">
         <div className="border-primary mt-10 flex flex-col rounded-lg border-1">
