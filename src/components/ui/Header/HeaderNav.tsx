@@ -6,16 +6,16 @@ import { BotonBell, BotonHeader } from "./index";
 
 export default function HeaderNav() {
   return (
-    <header className="shadow-md sticky top-2 z-50 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="bg-background sticky top-0 z-[100] shadow-md transition-colors duration-300">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-md bg-gradient-to-br from-yellow-400 to-yellow-400 flex items-center justify-center text-primary ">
+              <div className="text-primary flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-yellow-400 to-yellow-400">
                 <MoveUpLeft size={35} strokeWidth={2} />
               </div>
-              <span className="font-semibold text-primary text-2xl transition-colors duration-300">
+              <span className="text-primary text-2xl font-semibold transition-colors duration-300">
                 Ecspedia
               </span>
             </Link>
