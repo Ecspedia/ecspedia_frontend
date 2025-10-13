@@ -32,19 +32,19 @@ export default function Home() {
   return (
     <>
       <HeaderNav />
-    <div>
-      <div className="mx-auto w-3/5">
-        <div className="border-primary mt-10 flex flex-col rounded-lg border-1">
-          <div className="mx-auto">
-            <ServiceNavigationTabs></ServiceNavigationTabs>
+      <div>
+        <div className="mx-auto px-44">
+          <div className="border-primary mt-5 flex flex-col rounded-lg border-1">
+            <div className="mx-auto">
+              <ServiceNavigationTabs></ServiceNavigationTabs>
+            </div>
+            <hr className="border-primary w-full border-t-1" />
+            <ServiceSearchForm />
           </div>
-          <hr className="border-primary w-full border-t-1" />
-          <ServiceSearchForm />
+          {currentServiceTabHtml()}
         </div>
-        {currentServiceTabHtml()}
       </div>
-    </div>
-  </>
+    </>
   );
 }
 /**/
