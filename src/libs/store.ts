@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import serviceTabReducer from "@/libs/features/serviceTab/serviceTabSlice";
-import flightSearchReducer from "@/libs/features/flightSearch/flightSearchSlice";
+import serviceTabReducer from "@/libs/features/service-navigation/serviceTabSlice";
+import flightSearchReducer from "@/libs/features/flight/flightSearchSlice";
 export const makeStore = () => {
   return configureStore({
     reducer: {

@@ -13,7 +13,8 @@ export default function SimpleCalendar(
 ) {
   const { onClose, onChange, value } = simpleCalendarProps;
 
-  const [dateHelper, setDateHelper] = useState(new Date());
+  const initDate = value ?? new Date();
+  const [dateHelper, setDateHelper] = useState(initDate);
 
   const selectedDate = value;
 
@@ -100,7 +101,7 @@ export default function SimpleCalendar(
   };
 
   return (
-    <div className="absolute top-0 z-3 w-full bg-white shadow-lg">
+    <div className="absolute top-0 z-9999 w-full bg-white p-2 shadow-lg">
       <div className="flex flex-col">
         <MonthNavigation
           monthName={currentMonthToString}
@@ -112,8 +113,12 @@ export default function SimpleCalendar(
         <div className="grid grid-cols-7">
           {getDaysInMonth().map((day, index) => renderDay(day, index))}
         </div>
-        <div className="flex h-10 justify-end">
-          <Button onClick={onClose} text="Done"></Button>
+        <div className="flex h-10 justify-end py-1">
+          <Button
+            className="bg-secondary w-24"
+            onClick={onClose}
+            text="Done"
+          ></Button>
         </div>
       </div>
     </div>

@@ -18,7 +18,9 @@ export default function DateRangeTextField(
   return (
     <div className="relative">
       {isExpanded && (
-        <SimpleCalendar value={value} onChange={onChange} onClose={onClose} />
+        <div className="w-80">
+          <SimpleCalendar value={value} onChange={onChange} onClose={onClose} />
+        </div>
       )}
       <div className={isExpanded ? "invisible" : ""}>
         <TextField
