@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Button from "./Button";
-import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -81,7 +79,7 @@ export default function Calendar() {
     const clickedDate = new Date(year, month, day);
     const newEndDate = new Date(year, month, day + 1);
     //First scenario both are null
-    if (startDate == null && endDate == null) {
+    if (startDate === null && endDate === null) {
       setStartDate(clickedDate);
       setEndDate(newEndDate);
       return;
@@ -94,7 +92,7 @@ export default function Calendar() {
       return;
     }
     //Third Scenario select a range
-    if (startDate != null) {
+    if (startDate !== null) {
       setEndDate(clickedDate);
     }
   };

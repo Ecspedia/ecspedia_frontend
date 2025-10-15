@@ -1,6 +1,6 @@
-import { DEFAULT_CITY_SUGGESTION } from "@/constants/defaultCitySuggestion";
-import { CitySuggestion } from "@/types/citySuggestion";
-import { useState } from "react";
+import { DEFAULT_CITY_SUGGESTION, POPULAR_DESTINATIONS } from '@/constants';
+import { CitySuggestion } from '@/types';
+import { useState } from 'react';
 
 interface ExpandedLocationFieldProps {
   onLocationSelect: (location: string) => void;
@@ -9,14 +9,12 @@ interface ExpandedLocationFieldProps {
 }
 
 export default function ExpandedLocationTextField(
-  expandedLocationFieldProps: ExpandedLocationFieldProps,
+  expandedLocationFieldProps: ExpandedLocationFieldProps
 ) {
-  const { onLocationSelect, placeholder, onClose } = expandedLocationFieldProps;
+  const { onLocationSelect, placeholder, onClose: _onClose } = expandedLocationFieldProps;
 
-  const [text, setText] = useState("");
-  const [filteredSuggestions, setFilteredSuggestions] = useState<
-    CitySuggestion[]
-  >([]);
+  const [text, setText] = useState('');
+  const [filteredSuggestions, setFilteredSuggestions] = useState<CitySuggestion[]>([]);
 
   const suggestion = DEFAULT_CITY_SUGGESTION;
 
@@ -25,9 +23,7 @@ export default function ExpandedLocationTextField(
     setText(value);
     const filtered = value
       ? suggestion
-          .filter((item) =>
-            item.city.toLowerCase().includes(value.toLowerCase()),
-          )
+          .filter((item) => item.city.toLowerCase().includes(value.toLowerCase()))
           .slice(0, 6)
       : suggestion.slice(0, 6);
     setFilteredSuggestions(filtered);
@@ -62,17 +58,15 @@ export default function ExpandedLocationTextField(
       )}
       <div className="-mx-4 h-px bg-gray-300" />
 
-      <h3 className="text-color-primary-dark mb-2 text-lg font-semibold">
-        Popular destinations
-      </h3>
+      <h3 className="text-color-primary-dark mb-2 text-lg font-semibold">Popular destinations</h3>
       <ul>
-        {["New York, USA", "London, UK", "Tokyo, Japan"].map((destination) => (
+        {POPULAR_DESTINATIONS.map((destination) => (
           <li
-            key={destination}
-            onClick={() => onClickSuggestion(destination)}
+            key={destination.city}
+            onClick={() => onClickSuggestion(destination.city)}
             className="hover:bg-primary/10 cursor-pointer rounded-md px-2 py-1"
           >
-            {destination}
+            {destination.city}
           </li>
         ))}
       </ul>

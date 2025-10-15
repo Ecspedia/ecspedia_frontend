@@ -1,4 +1,4 @@
-import { ServiceTab, ServiceType } from "@/types/services";
+import { ServiceTab, ServiceType } from "@/types";
 
 export const SERVICE_TABS: ServiceTab[] = [
   { name: ServiceType.STAYS, icon: "images/home/light__bed.svg", index: 0 },

@@ -2,8 +2,8 @@
 
 import { useAppSelector } from "@/libs/hooks";
 
-import { ServiceType } from "@/types/services";
-import { ServiceSearchHotelForm } from "@/components/features/hotel";
+import { ServiceType } from "@/types";
+import { SearchHotelForm } from "@/components/features/hotel";
 import { ServiceSearchFlightForm } from "@/components/features/flight";
 
 export default function ServiceSearchForm() {
@@ -11,9 +11,9 @@ export default function ServiceSearchForm() {
     (state) => state.serviceTab.selectedService,
   );
 
-  if (currentServiceTabSelected == ServiceType.FLIGHTS)
+  if (currentServiceTabSelected === ServiceType.FLIGHTS)
     return <ServiceSearchFlightForm></ServiceSearchFlightForm>;
-  if (currentServiceTabSelected == ServiceType.STAYS)
-    return <ServiceSearchHotelForm></ServiceSearchHotelForm>;
+  if (currentServiceTabSelected === ServiceType.STAYS)
+    return <SearchHotelForm></SearchHotelForm>;
   return <div className="h-30 w-full"></div>;
 }

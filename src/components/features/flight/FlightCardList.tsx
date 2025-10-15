@@ -1,4 +1,4 @@
-import { flights } from "@/constants/mockFlights";
+import { flights } from "@/constants";
 import FlightCard from "./FlightCard";
 
 export default function FlightCardList() {

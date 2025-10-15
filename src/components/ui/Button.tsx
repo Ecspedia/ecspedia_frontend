@@ -1,19 +1,32 @@
-import { variants, type ButtonVariant } from "@/constants/variants";
+import { variants, type ButtonVariant } from "@/constants";
 
 interface ButtonProps {
   onClick?: () => void;
   text: string;
   className?: string;
   variant?: ButtonVariant;
+  type?: "submit" | "reset" | "button" | undefined;
+  disabled?: boolean;
 }
 
 export default function Button(buttonProps: ButtonProps) {
-  const { onClick, text, className = "", variant = "secondary" } = buttonProps;
+  const {
+    onClick,
+    text,
+    className = "",
+    variant = "secondary",
+    type = "button",
+    disabled = false,
+  } = buttonProps;
+
+  const buttonVariant = disabled ? "disabled" : variant;
 
   return (
     <button
       onClick={onClick}
-      className={`cursor-pointer rounded-full font-bold text-white ${variants[variant]} ${className}`}
+      type={type}
+      disabled={disabled}
+      className={`rounded-full font-bold text-white ${variants[buttonVariant]} ${disabled ? "" : "cursor-pointer"} ${className}`}
     >
       {text}
     </button>

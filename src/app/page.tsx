@@ -1,47 +1,52 @@
-"use client";
-import { HeaderNav } from "@/components/ui/Header";
-import FlightCardList from "@/components/features/flight/FlightCardList";
-import ServiceNavigationTabs from "@/components/features/service-navigation/ServiceNavigationTabs";
+'use client';
+import { HeaderNav } from '@/components/ui/Header';
+import { FlightCardList } from '@/components/features/flight';
+import { ServiceNavigationTabs, ServiceSearchForm } from '@/components/features/service-navigation';
 
-import ServiceSearchForm from "@/components/features/service-navigation/ServiceSearchForm";
-
-import { HotelCardList } from "@/components/features/hotel";
-import { useAppSelector } from "@/libs/hooks";
-import { ServiceType } from "@/types/services";
+import { HotelCardList } from '@/components/features/hotel';
+import { useAppSelector } from '@/libs/hooks';
+import { ServiceType } from '@/types';
+import { selectHotelResults, selectHotelLoading } from '@/libs/features/hotel/hotelSearchSlice';
+import { useMemo } from 'react';
+import { GoogleMapHotel } from '@/components/features/google-hotel-maps';
 
 export default function Home() {
-  const currentServiceTabSelected = useAppSelector(
-    (state) => state.serviceTab.selectedService,
-  );
-  const currentServiceTabHtml = () => {
-    if (currentServiceTabSelected == ServiceType.FLIGHTS)
-      return (
-        <div className="mt-5">
-          <FlightCardList />
-        </div>
-      );
-    if (currentServiceTabSelected == ServiceType.STAYS)
-      return (
-        <div className="mt-5">
-          <HotelCardList />
-        </div>
-      );
-    else return <div></div>;
-  };
+  const currentServiceTabSelected = useAppSelector((state) => state.serviceTab.selectedService);
+  const hotels = useAppSelector(selectHotelResults);
+  const hotelsLoading = useAppSelector(selectHotelLoading);
+  const error = useAppSelector((state) => state.hotelSearch.error);
+  const currentServiceContent = useMemo(() => {
+    switch (currentServiceTabSelected) {
+      case ServiceType.FLIGHTS:
+        return <FlightCardList />;
+      case ServiceType.STAYS:
+        return <HotelCardList hotels={hotels} loading={hotelsLoading} error={error} />;
+      default:
+        return null;
+    }
+  }, [currentServiceTabSelected, hotels, hotelsLoading, error]);
 
   return (
     <>
       <HeaderNav />
       <div>
-        <div className="mx-auto px-44">
-          <div className="border-primary mt-5 flex flex-col rounded-lg border-1">
+        <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44">
+          <div className="border-border mt-5 flex flex-col rounded-lg border">
             <div className="mx-auto">
-              <ServiceNavigationTabs></ServiceNavigationTabs>
+              <ServiceNavigationTabs />
             </div>
-            <hr className="border-primary w-full border-t-1" />
+            <hr className="border-border w-full border-t-1" />
             <ServiceSearchForm />
           </div>
-          {currentServiceTabHtml()}
+          {hotels.length > 0 && currentServiceTabSelected === ServiceType.STAYS ? (
+            <div className="mt-3">
+              {' '}
+              <GoogleMapHotel hotels={hotels} />
+            </div>
+          ) : (
+            <></>
+          )}
+          {currentServiceContent && <div className="mt-3">{currentServiceContent}</div>}
         </div>
       </div>
     </>

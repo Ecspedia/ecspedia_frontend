@@ -23,7 +23,7 @@ export default function TextField({
   return (
     <div
       onClick={onClick}
-      className="border-primary relative rounded-lg border-1 px-4"
+      className="relative rounded-lg border-1 border-primary px-4"
     >
       <label
         className={`text-primary absolute left-12 transition-[transform] duration-200 ${

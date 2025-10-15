@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
 import Image from "next/image";
+import { UI_DIMENSIONS } from "@/constants";
 
 interface FlightCardProps {
   departureLocation: string;
@@ -23,7 +24,7 @@ export default function FlightCard(flightCardProps: FlightCardProps) {
   } = flightCardProps;
 
   return (
-    <div className="border-primary flex justify-between rounded-lg border p-4">
+    <div className="flex justify-between rounded-lg border border-border p-4">
       <div className="flex">
         <div className="flex flex-col justify-center">
           <div className="text-primary text-3xl font-bold">{departureTime}</div>
@@ -47,10 +48,13 @@ export default function FlightCard(flightCardProps: FlightCardProps) {
       <div className="flex">
         <div className="relative mr-16 h-24 overflow-hidden rounded-lg">
           <div className="flex h-full items-center px-6 py-3">
-            <div className="relative z-20 rounded-lg border-8 border-white">
+            <div
+              className="relative z-20 rounded-lg border-white"
+              style={{ borderWidth: UI_DIMENSIONS.FLIGHT_CARD_COMPANY_LOGO_BORDER }}
+            >
               <Image
-                width={48}
-                height={48}
+                width={UI_DIMENSIONS.AIRLINE_ICON_SIZE}
+                height={UI_DIMENSIONS.AIRLINE_ICON_SIZE}
                 src="/images/home/latam_airlines_icon.png"
                 alt="LATAM Airlines"
               />

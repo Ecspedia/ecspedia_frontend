@@ -1,4 +1,4 @@
-import { ServiceTab } from "@/types/services";
+import { ServiceTab } from "@/types";
 import Image from "next/image";
 
 interface TabButtonProps {
