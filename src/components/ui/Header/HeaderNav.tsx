@@ -24,9 +24,9 @@ export default function HeaderNav() {
           {/* Botones */}
           <div className="flex items-center gap-3">
             <BotonBell />
-            <BotonHeader texto="Soporte" ruta="/Soporte" />
-            <BotonHeader texto="Viajes" ruta="/Viajes" />
-            <BotonHeader texto="Iniciar Sesión" ruta="/Login" />
+            <BotonHeader texto="Support" ruta="/Soporte" />
+            <BotonHeader texto="Trips" ruta="/Viajes" />
+            <BotonHeader texto="Sign In" ruta="/Login" />
           </div>
         </div>
       </div>

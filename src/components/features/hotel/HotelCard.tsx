@@ -1,7 +1,7 @@
-"use client";
-import { Heart, Check } from "lucide-react";
-import Image from "next/image";
-import { Hotel } from "@/types/hotel";
+'use client';
+import { Heart, Check } from 'lucide-react';
+import Image from 'next/image';
+import { Hotel } from '@/types/hotel';
 
 interface HotelCardProps {
   hotel: Hotel;
@@ -24,7 +24,7 @@ export default function HotelCard({ hotel }: HotelCardProps) {
     <div className="border-border flex gap-4 rounded-lg border p-4 transition-shadow hover:shadow-lg">
       <div className="group relative h-48 w-64 flex-shrink-0 overflow-hidden rounded-lg">
         <Image
-          src={image || "/images/home/hotel_mock.avif"}
+          src={image || '/images/home/hotel_mock.avif'}
           alt={name}
           fill
           className="object-cover"
@@ -62,25 +62,19 @@ export default function HotelCard({ hotel }: HotelCardProps) {
 
           <div className="mt-3 flex flex-col gap-1">
             {fullyRefundable && (
-              <span className="text-sm font-medium text-green-700">
-                Fully refundable
-              </span>
+              <span className="text-sm font-medium text-green-700">Fully refundable</span>
             )}
             {reserveNowPayLater && (
-              <span className="text-sm text-green-700">
-                Reserve now, pay later
-              </span>
+              <span className="text-sm text-green-700">Reserve now, pay later</span>
             )}
           </div>
 
           <div className="mt-3 flex items-center gap-2">
             <div className="rounded bg-green-700 px-2 py-1 text-sm font-bold text-white">
-              {rating?.toFixed(1) || "N/A"}
+              {rating?.toFixed(1) || 'N/A'}
             </div>
             <div className="flex flex-col">
-              <span className="text-primary text-sm font-semibold">
-                Wonderful
-              </span>
+              <span className="text-primary text-sm font-semibold">Wonderful</span>
               <span className="text-primary/60 text-xs">
                 {reviewCount?.toLocaleString() || 0} reviews
               </span>
@@ -92,8 +86,7 @@ export default function HotelCard({ hotel }: HotelCardProps) {
       <div className="flex flex-col items-end justify-between">
         <div className="text-right">
           <div className="text-primary mt-1 text-lg font-semibold">
-            ${pricePerNight}{" "}
-            <span className="text-primary/60 text-sm font-normal">total</span>
+            ${pricePerNight} <span className="text-primary/60 text-sm font-normal">Per night</span>
           </div>
         </div>
 

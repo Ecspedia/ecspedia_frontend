@@ -4,9 +4,13 @@ import { FlightCardList } from '@/components/features/flight';
 import { ServiceNavigationTabs, ServiceSearchForm } from '@/components/features/service-navigation';
 
 import { HotelCardList } from '@/components/features/hotel';
-import { useAppSelector } from '@/libs/hooks';
+import { useAppSelector } from '@/lib/hooks';
 import { ServiceType } from '@/types';
-import { selectHotelResults, selectHotelLoading } from '@/libs/features/hotel/hotelSearchSlice';
+import {
+  selectHotelResults,
+  selectHotelLoading,
+  selectHotelError,
+} from '@/lib/features/hotel/hotelSearchSlice';
 import { useMemo } from 'react';
 import { GoogleMapHotel } from '@/components/features/google-hotel-maps';
 
@@ -14,7 +18,7 @@ export default function Home() {
   const currentServiceTabSelected = useAppSelector((state) => state.serviceTab.selectedService);
   const hotels = useAppSelector(selectHotelResults);
   const hotelsLoading = useAppSelector(selectHotelLoading);
-  const error = useAppSelector((state) => state.hotelSearch.error);
+  const error = useAppSelector(selectHotelError);
   const currentServiceContent = useMemo(() => {
     switch (currentServiceTabSelected) {
       case ServiceType.FLIGHTS:

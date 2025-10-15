@@ -16,9 +16,8 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
   };
 
   return (
-    <div className="animate-slide-up border-border fixed bottom-0 left-0 right-0 z-[1000] rounded-t-xl border bg-white shadow-2xl">
+    <div className="border-border fixed right-0 bottom-0 left-0 z-[1000] mx-auto w-2/5 min-w-[500px] rounded-lg border bg-white shadow-2xl">
       <div className="flex gap-4 p-4">
-        {/* Hotel Image */}
         <div className="relative h-32 w-48 flex-shrink-0 overflow-hidden rounded-lg">
           <Image
             src={hotel.image || '/images/home/hotel_mock.avif'}
@@ -28,7 +27,6 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
           />
         </div>
 
-        {/* Hotel Info */}
         <div className="flex flex-1 flex-col">
           <div className="flex items-start justify-between gap-2">
             <div>
@@ -43,7 +41,6 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
             </button>
           </div>
 
-          {/* Rating */}
           {hotel.rating && (
             <div className="mt-2 flex items-center gap-2">
               <div className="flex items-center gap-1 rounded bg-green-700 px-2 py-1 text-sm font-bold text-white">
@@ -56,7 +53,6 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
             </div>
           )}
 
-          {/* Amenities */}
           {hotel.amenities && hotel.amenities.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-2">
               {hotel.amenities.slice(0, 4).map((amenity, index) => (
@@ -73,7 +69,6 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
             </div>
           )}
 
-          {/* Refundable Options */}
           {(hotel.fullyRefundable || hotel.reserveNowPayLater) && (
             <div className="mt-2 flex gap-3">
               {hotel.fullyRefundable && (
@@ -86,7 +81,6 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
           )}
         </div>
 
-        {/* Price Section */}
         <div className="flex flex-col items-end justify-between border-l pl-4">
           <div className="text-right">
             <div className="text-primary text-2xl font-bold">${hotel.pricePerNight}</div>

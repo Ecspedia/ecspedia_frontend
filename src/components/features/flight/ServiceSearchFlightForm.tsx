@@ -1,21 +1,24 @@
-import { ArrowsRightLeftIcon } from "@heroicons/react/16/solid";
+import { ArrowsRightLeftIcon } from '@heroicons/react/16/solid';
 
 import {
+  selectArrivalLocation,
+  selectDepartureDate,
+  selectDepartureLocation,
   setArrivalLocation,
   setDepartureDate,
   setDepartureLocation,
   swapLocations,
-} from "@/libs/features/flight/flightSearchSlice";
-import { useAppDispatch, useAppSelector } from "@/libs/hooks";
-import { useEffect, useRef, useState } from "react";
+} from '@/lib/features/flight/flightSearchSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { useEffect, useRef, useState } from 'react';
 
-import { Button } from "@/components/ui";
-import { DateRangeTextField, LocationTextField } from "@/components/shared";
+import { Button } from '@/components/ui';
+import { DateRangeTextField, LocationTextField } from '@/components/shared';
 
 enum LocationFieldType {
-  DEPARTURE = "departure",
-  ARRIVAL = "arrival",
-  DATERANGE = "date_range",
+  DEPARTURE = 'departure',
+  ARRIVAL = 'arrival',
+  DATERANGE = 'date_range',
 }
 
 export default function ServiceSearchFlightForm() {
@@ -25,33 +28,20 @@ export default function ServiceSearchFlightForm() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setExpandedField(null);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const departureValue = useAppSelector(
-    (state) => state.flightSearch.departureLocation,
-  );
-  const arrivalValue = useAppSelector(
-    (state) => state.flightSearch.arrivalLocation,
-  );
-  const departureDateString = useAppSelector(
-    (state) => state.flightSearch.departureDate,
-  );
-  const departureDate = departureDateString
-    ? new Date(departureDateString)
-    : null;
+  const departureValue = useAppSelector(selectDepartureLocation);
+  const arrivalValue = useAppSelector(selectArrivalLocation);
+  const departureDateString = useAppSelector(selectDepartureDate);
+  const departureDate = departureDateString ? new Date() : null;
 
-  const [expandedField, setExpandedField] = useState<LocationFieldType | null>(
-    null,
-  );
+  const [expandedField, setExpandedField] = useState<LocationFieldType | null>(null);
 
   const handleDepartureSelect = (location: string) => {
     dispatch(setDepartureLocation(location));

@@ -1,6 +1,6 @@
-import { RootState } from "@/libs/store";
-import { ServiceType } from "@/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from '@/lib/store';
+import { ServiceType } from '@/types';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface ServiceTabState {
   selectedService: ServiceType;
@@ -11,7 +11,7 @@ const initialState: ServiceTabState = {
 };
 
 const serviceTabSlice = createSlice({
-  name: "serviceTab",
+  name: 'serviceTab',
   initialState,
   reducers: {
     setService: (state, action) => {
@@ -23,7 +23,6 @@ const serviceTabSlice = createSlice({
 export const { setService } = serviceTabSlice.actions;
 
 // Selector to get the selected service
-export const selectService = (state: RootState) =>
-  state.serviceTab.selectedService;
+export const selectService = (state: RootState) => state.serviceTab.selectedService;
 
 export default serviceTabSlice.reducer;

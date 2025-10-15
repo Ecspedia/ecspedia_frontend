@@ -5,8 +5,11 @@ import {
   setLocation,
   setStartDate,
   searchHotels,
-} from '@/libs/features/hotel/hotelSearchSlice';
-import { useAppDispatch, useAppSelector } from '@/libs/hooks';
+  selectLocation,
+  selectStartDate,
+  selectEndDate,
+} from '@/lib/features/hotel/hotelSearchSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -26,9 +29,9 @@ export default function SearchHotelForm() {
   const containerRef = useRef<HTMLFormElement>(null);
   const dispatch = useAppDispatch();
 
-  const locationValue = useAppSelector((state) => state.hotelSearch.location);
-  const startDateValue = useAppSelector((state) => state.hotelSearch.startDate);
-  const endDateValue = useAppSelector((state) => state.hotelSearch.endDate);
+  const locationValue = useAppSelector(selectLocation);
+  const startDateValue = useAppSelector(selectStartDate);
+  const endDateValue = useAppSelector(selectEndDate);
 
   const {
     control,

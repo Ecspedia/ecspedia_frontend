@@ -1,5 +1,5 @@
-import { RootState } from "@/libs/store";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from '@/lib/store';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface FlightSearchState {
   departureLocation: string;
@@ -9,14 +9,14 @@ interface FlightSearchState {
 }
 
 const initialState: FlightSearchState = {
-  departureLocation: "",
-  arrivalLocation: "",
+  departureLocation: '',
+  arrivalLocation: '',
   departureDate: null,
   returnDate: null,
 };
 
 const flightSearchSlice = createSlice({
-  name: "flightSearch",
+  name: 'flightSearch',
   initialState,
   reducers: {
     setDepartureLocation: (state, action: PayloadAction<string>) => {
@@ -50,13 +50,9 @@ export const {
 } = flightSearchSlice.actions;
 
 // Selectors
-export const selectDepartureLocation = (state: RootState) =>
-  state.flightSearch.departureLocation;
-export const selectArrivalLocation = (state: RootState) =>
-  state.flightSearch.arrivalLocation;
-export const selectDepartureDate = (state: RootState) =>
-  state.flightSearch.departureDate;
-export const selectReturnDate = (state: RootState) =>
-  state.flightSearch.returnDate;
+export const selectDepartureLocation = (state: RootState) => state.flightSearch.departureLocation;
+export const selectArrivalLocation = (state: RootState) => state.flightSearch.arrivalLocation;
+export const selectDepartureDate = (state: RootState) => state.flightSearch.departureDate;
+export const selectReturnDate = (state: RootState) => state.flightSearch.returnDate;
 
 export default flightSearchSlice.reducer;

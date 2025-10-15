@@ -84,9 +84,7 @@ export default function HotelMap({ hotels = [], isFullScreen = false }: HotelMap
             >
               <div
                 className={`cursor-pointer rounded px-3 py-1 text-sm font-medium shadow-md ${
-                  selectedHotelId === hotel.id
-                    ? 'bg-secondary text-white'
-                    : 'text-secondary bg-white'
+                  selectedHotelId === hotel.id ? 'bg-primary text-white' : 'bg-secondary text-white'
                 }`}
               >
                 ${hotel.pricePerNight}
