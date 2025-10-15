@@ -16,7 +16,7 @@ export const hotelService = {
       const hotels = await api.get<Hotel[]>(`/hotels/location/${encodeURIComponent(location)}`);
       return hotels;
     } catch (error) {
-      // Re-throw AppError instances
+      // Re-throw AppError instances and safeguard
       if (AppError.isAppError(error)) {
         throw error;
       }

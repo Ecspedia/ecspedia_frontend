@@ -8,7 +8,8 @@ interface HotelCardListProps {
   error?: string | null;
 }
 
-export default function HotelCardList({ hotels, loading = false, error }: HotelCardListProps) {
+export default function HotelCardList(hotelCardListProps: HotelCardListProps) {
+  const { hotels, loading = false, error } = hotelCardListProps;
   if (error && error.length > 0) {
     return (
       <div className="flex flex-col items-center justify-center p-8">

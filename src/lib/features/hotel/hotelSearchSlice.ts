@@ -1,7 +1,7 @@
-import { RootState } from "@/libs/store";
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { hotelService } from "@/services/hotelService";
-import { Hotel } from "@/types/hotel";
+import { RootState } from '@/lib/store';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { hotelService } from '@/services/hotelService';
+import { Hotel } from '@/types/hotel';
 
 interface HotelSearchState {
   location: string;
@@ -13,30 +13,29 @@ interface HotelSearchState {
 }
 
 const initialState: HotelSearchState = {
-  location: "",
-  startDate: null,
-  endDate: null,
+  location: '',
+  startDate: new Date().toISOString(),
+  endDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
   results: [],
   loading: false,
   error: null,
 };
 
 export const searchHotels = createAsyncThunk(
-  "hotelSearch/searchHotels",
+  'hotelSearch/searchHotels',
   async (location: string, { rejectWithValue }) => {
     try {
       const hotels = await hotelService.getHotelsByLocation(location);
       return hotels;
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to fetch hotels";
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch hotels';
       return rejectWithValue(errorMessage);
     }
-  },
+  }
 );
 
 const hotelSearchSlice = createSlice({
-  name: "hotelSearch",
+  name: 'hotelSearch',
   initialState,
   reducers: {
     setLocation: (state, action: PayloadAction<string>) => {
@@ -76,24 +75,15 @@ const hotelSearchSlice = createSlice({
   },
 });
 
-export const {
-  setLocation,
-  setStartDate,
-  setEndDate,
-  setError,
-  resetHotelSearch,
-  clearResults,
-} = hotelSearchSlice.actions;
+export const { setLocation, setStartDate, setEndDate, setError, resetHotelSearch, clearResults } =
+  hotelSearchSlice.actions;
 
 // Selectors
 export const selectLocation = (state: RootState) => state.hotelSearch.location;
-export const selectStartDate = (state: RootState) =>
-  state.hotelSearch.startDate;
+export const selectStartDate = (state: RootState) => state.hotelSearch.startDate;
 export const selectEndDate = (state: RootState) => state.hotelSearch.endDate;
-export const selectHotelResults = (state: RootState) =>
-  state.hotelSearch.results;
-export const selectHotelLoading = (state: RootState) =>
-  state.hotelSearch.loading;
+export const selectHotelResults = (state: RootState) => state.hotelSearch.results;
+export const selectHotelLoading = (state: RootState) => state.hotelSearch.loading;
 export const selectHotelError = (state: RootState) => state.hotelSearch.error;
 
 export default hotelSearchSlice.reducer;
