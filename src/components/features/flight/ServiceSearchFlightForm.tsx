@@ -9,9 +9,8 @@ import {
 import { useAppDispatch, useAppSelector } from "@/libs/hooks";
 import { useEffect, useRef, useState } from "react";
 
-import Button from "@/components/ui/Button";
-import LocationTextField from "@/components/shared/LocationTextField";
-import DateRangeTextField from "@/components/shared/DateRangeTextField";
+import { Button } from "@/components/ui";
+import { DateRangeTextField, LocationTextField } from "@/components/shared";
 
 enum LocationFieldType {
   DEPARTURE = "departure",
@@ -81,7 +80,7 @@ export default function ServiceSearchFlightForm() {
         <div className="relative h-10 w-3">
           <button
             onClick={() => dispatch(swapLocations())}
-            className="border-primary text-secondary absolute top-1/2 z-5 -mx-2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full border bg-white p-1"
+            className="text-secondary border-border absolute top-1/2 z-5 -mx-2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full border bg-white p-1"
           >
             <ArrowsRightLeftIcon />
           </button>

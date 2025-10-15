@@ -1,36 +1,27 @@
 "use client";
 import { Heart, Check } from "lucide-react";
 import Image from "next/image";
+import { Hotel } from "@/types/hotel";
 
 interface HotelCardProps {
-  id: string;
-  name: string;
-  location: string;
-  image?: string;
-  amenities?: string[];
-  fullyRefundable?: boolean;
-  reserveNowPayLater?: boolean;
-  rating?: number;
-  reviewCount?: number;
-  pricePerNight: number;
-  totalPrice: number;
-  includesTaxesAndFees?: boolean;
+  hotel: Hotel;
 }
 
-export default function HotelCard({
-  name,
-  location,
-  image,
-  amenities = [],
-  fullyRefundable = false,
-  reserveNowPayLater = false,
-  rating,
-  reviewCount,
-  totalPrice,
-  includesTaxesAndFees = true,
-}: HotelCardProps) {
+export default function HotelCard({ hotel }: HotelCardProps) {
+  const {
+    name,
+    location,
+    image,
+    amenities = [],
+    fullyRefundable = false,
+    reserveNowPayLater = false,
+    rating,
+    reviewCount,
+    pricePerNight,
+    includesTaxesAndFees = true,
+  } = hotel;
   return (
-    <div className="border-primary flex gap-4 rounded-lg border p-4 transition-shadow hover:shadow-lg">
+    <div className="border-border flex gap-4 rounded-lg border p-4 transition-shadow hover:shadow-lg">
       <div className="group relative h-48 w-64 flex-shrink-0 overflow-hidden rounded-lg">
         <Image
           src={image || "/images/home/hotel_mock.avif"}
@@ -101,7 +92,7 @@ export default function HotelCard({
       <div className="flex flex-col items-end justify-between">
         <div className="text-right">
           <div className="text-primary mt-1 text-lg font-semibold">
-            ${totalPrice}{" "}
+            ${pricePerNight}{" "}
             <span className="text-primary/60 text-sm font-normal">total</span>
           </div>
         </div>

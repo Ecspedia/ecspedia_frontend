@@ -3,5 +3,6 @@ export const variants = {
   secondary: "bg-secondary hover:bg-secondary/90",
   alert: "bg-red-600 hover:bg-red-700",
   success: "bg-green-600 hover:bg-green-700",
+  disabled: "bg-gray-400 cursor-not-allowed",
 };
 export type ButtonVariant = keyof typeof variants;

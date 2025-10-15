@@ -1,52 +1,46 @@
-import HotelCard from "./HotelCard";
+import HotelCard from './HotelCard';
+import { Hotel } from '@/types/hotel';
+import { Spinner } from '@/components/ui';
 
-const mockHotels = [
-  {
-    id: "1",
-    name: "Grand Plaza Hotel",
-    location: "Downtown, New York",
-    amenities: ["Free WiFi", "Pool", "Gym"],
-    fullyRefundable: true,
-    reserveNowPayLater: true,
-    rating: 9.2,
-    reviewCount: 1248,
-    pricePerNight: 189,
-    totalPrice: 945,
-    includesTaxesAndFees: true,
-  },
-  {
-    id: "2",
-    name: "Sunset Beach Resort",
-    location: "Miami Beach, Florida",
-    amenities: ["Beachfront", "Restaurant", "Spa"],
-    fullyRefundable: false,
-    reserveNowPayLater: true,
-    rating: 8.8,
-    reviewCount: 892,
-    pricePerNight: 225,
-    totalPrice: 1125,
-    includesTaxesAndFees: true,
-  },
-  {
-    id: "3",
-    name: "City Center Inn",
-    location: "Financial District, San Francisco",
-    amenities: ["Free Parking", "Business Center"],
-    fullyRefundable: true,
-    reserveNowPayLater: false,
-    rating: 8.5,
-    reviewCount: 456,
-    pricePerNight: 159,
-    totalPrice: 795,
-    includesTaxesAndFees: true,
-  },
-];
+interface HotelCardListProps {
+  hotels: Hotel[];
+  loading?: boolean;
+  error?: string | null;
+}
 
-export default function HotelCardList() {
+export default function HotelCardList({ hotels, loading = false, error }: HotelCardListProps) {
+  if (error && error.length > 0) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8">
+        <div className="text-center">
+          <p className="text-lg font-semibold">An error occurred</p>
+          <p className="mt-2 text-gray-500">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 p-8">
+        <Spinner size="lg" />
+        <p className="text-gray-500">Loading hotels...</p>
+      </div>
+    );
+  }
+
+  if (hotels.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8">
+        <p className="text-gray-500">No hotels found. Try searching for a location.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      {mockHotels.map((hotel) => (
-        <HotelCard key={hotel.id} {...hotel} />
+      {hotels.map((hotel) => (
+        <HotelCard key={hotel.id} hotel={hotel} />
       ))}
     </div>
   );

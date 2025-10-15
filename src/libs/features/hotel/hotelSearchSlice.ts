@@ -1,17 +1,39 @@
 import { RootState } from "@/libs/store";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { hotelService } from "@/services/hotelService";
+import { Hotel } from "@/types/hotel";
 
 interface HotelSearchState {
   location: string;
   startDate: string | null;
   endDate: string | null;
+  results: Hotel[];
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: HotelSearchState = {
   location: "",
   startDate: null,
   endDate: null,
+  results: [],
+  loading: false,
+  error: null,
 };
+
+export const searchHotels = createAsyncThunk(
+  "hotelSearch/searchHotels",
+  async (location: string, { rejectWithValue }) => {
+    try {
+      const hotels = await hotelService.getHotelsByLocation(location);
+      return hotels;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to fetch hotels";
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 
 const hotelSearchSlice = createSlice({
   name: "hotelSearch",
@@ -26,7 +48,31 @@ const hotelSearchSlice = createSlice({
     setEndDate: (state, action: PayloadAction<string | null>) => {
       state.endDate = action.payload;
     },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
     resetHotelSearch: () => initialState,
+    clearResults: (state) => {
+      state.results = [];
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(searchHotels.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(searchHotels.fulfilled, (state, action) => {
+        state.loading = false;
+        state.results = action.payload;
+        state.error = null;
+      })
+      .addCase(searchHotels.rejected, (state, action) => {
+        state.loading = false;
+        state.results = [];
+        state.error = action.payload as string;
+      });
   },
 });
 
@@ -34,15 +80,20 @@ export const {
   setLocation,
   setStartDate,
   setEndDate,
+  setError,
   resetHotelSearch,
+  clearResults,
 } = hotelSearchSlice.actions;
 
 // Selectors
-export const selectLocation = (state: RootState) =>
-  state.hotelSearch.location;
+export const selectLocation = (state: RootState) => state.hotelSearch.location;
 export const selectStartDate = (state: RootState) =>
   state.hotelSearch.startDate;
-export const selectEndDate = (state: RootState) =>
-  state.hotelSearch.endDate;
+export const selectEndDate = (state: RootState) => state.hotelSearch.endDate;
+export const selectHotelResults = (state: RootState) =>
+  state.hotelSearch.results;
+export const selectHotelLoading = (state: RootState) =>
+  state.hotelSearch.loading;
+export const selectHotelError = (state: RootState) => state.hotelSearch.error;
 
 export default hotelSearchSlice.reducer;

@@ -5,6 +5,7 @@
   --foreground: #171717;
   --primary: #191e3b;
   --secondary: #1668e3;
+  --border: #e2e3e7;
 }
 
 @theme inline {
@@ -12,6 +13,7 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-border: var(--border);
   --font-sans: "Centra No2", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
