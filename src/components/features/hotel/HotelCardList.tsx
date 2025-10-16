@@ -1,21 +1,44 @@
 import HotelCard from './HotelCard';
 import { Hotel } from '@/types/hotel';
 import { Spinner } from '@/components/ui';
+import { Hotel as HotelIcon, MapPin, Calendar, Star } from 'lucide-react';
 
 interface HotelCardListProps {
   hotels: Hotel[];
   loading?: boolean;
   error?: string | null;
+  hasSearched?: boolean;
 }
 
 export default function HotelCardList(hotelCardListProps: HotelCardListProps) {
-  const { hotels, loading = false, error } = hotelCardListProps;
+  const { hotels, loading = false, error, hasSearched = false } = hotelCardListProps;
   if (error && error.length > 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-8">
-        <div className="text-center">
-          <p className="text-lg font-semibold">An error occurred</p>
-          <p className="mt-2 text-gray-500">{error}</p>
+      <div className="flex min-h-[400px] flex-col items-center p-12">
+        <div className="max-w-2xl text-center">
+          <h2 className="text-primary mb-4 text-3xl font-bold">
+            We&apos;re Working on Making Your Travel Better
+          </h2>
+
+          <p className="text-primary/70 mb-6 text-lg leading-relaxed">
+            We&apos;re currently experiencing some technical difficulties while searching for
+            hotels. Our team is working hard to get everything back on track for you.
+          </p>
+
+          <div className="mt-8 space-y-3">
+            <p className="text-primary/80 text-sm font-medium">Please try again in a few moments</p>
+            <div className="flex justify-center gap-2">
+              <div className="h-2 w-2 animate-bounce rounded-full bg-yellow-400"></div>
+              <div
+                className="h-2 w-2 animate-bounce rounded-full bg-yellow-400"
+                style={{ animationDelay: '0.2s' }}
+              ></div>
+              <div
+                className="h-2 w-2 animate-bounce rounded-full bg-yellow-400"
+                style={{ animationDelay: '0.4s' }}
+              ></div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -30,10 +53,47 @@ export default function HotelCardList(hotelCardListProps: HotelCardListProps) {
     );
   }
 
-  if (hotels.length === 0) {
+  if (hotels.length === 0 && hasSearched) {
     return (
       <div className="flex flex-col items-center justify-center p-8">
         <p className="text-gray-500">No hotels found. Try searching for a location.</p>
+      </div>
+    );
+  }
+
+  if (hotels.length === 0) {
+    return (
+      <div className="flex min-h-[400px] flex-col items-center justify-center p-12">
+        <div className="max-w-2xl text-center">
+          <div className="mb-8 flex justify-center gap-4">
+            <div className="rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 p-3 shadow-lg">
+              <HotelIcon className="h-10 w-10 text-white" strokeWidth={2} />
+            </div>
+            <div className="rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 p-3 shadow-lg">
+              <MapPin className="h-10 w-10 text-white" strokeWidth={2} />
+            </div>
+            <div className="rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 p-3 shadow-lg">
+              <Calendar className="h-10 w-10 text-white" strokeWidth={2} />
+            </div>
+            <div className="rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 p-3 shadow-lg">
+              <Star className="h-10 w-10 text-white" strokeWidth={2} />
+            </div>
+          </div>
+
+          <h2 className="text-primary mb-4 text-4xl font-bold">Your Perfect Stay Awaits</h2>
+
+          <p className="text-primary/70 mb-6 text-lg leading-relaxed">
+            Discover amazing hotels around the world. Whether you&apos;re planning a business trip,
+            a family vacation, or a romantic getaway, we&apos;ll help you find the perfect place to
+            stay.
+          </p>
+
+          <div className="mt-8">
+            <p className="text-primary/80 text-base font-medium">
+              Start by searching for your destination above
+            </p>
+          </div>
+        </div>
       </div>
     );
   }

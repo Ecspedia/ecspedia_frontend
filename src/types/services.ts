@@ -2,6 +2,7 @@ export interface ServiceTab {
   name: string;
   icon: string;
   index: number;
+  comingSoon?: boolean;
 }
 
 export enum ServiceType {
