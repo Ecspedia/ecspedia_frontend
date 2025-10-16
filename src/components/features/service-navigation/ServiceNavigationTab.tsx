@@ -11,12 +11,15 @@ export default function ServiceNavigationTab(tabButtonProps: TabButtonProps) {
   const { tab, isSelected, onClick } = tabButtonProps;
   return (
     <li
-      onClick={() => onClick(tab.name)}
+      onClick={() => !tab.comingSoon && onClick(tab.name)}
       className={`box-border flex w-[110px] pb-3 ${
         isSelected ? 'hover:border-b-secondary border-b-secondary' : 'hover:border-b-primary'
-      }`}
+      } ${tab.comingSoon ? 'cursor-not-allowed opacity-60' : ''}`}
     >
-      <div key={tab.name} className="mx-auto mt-auto cursor-pointer">
+      <div
+        key={tab.name}
+        className={`mx-auto mt-auto ${tab.comingSoon ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+      >
         <div className="relative inline-block">
           <Image
             src={tab.icon}
