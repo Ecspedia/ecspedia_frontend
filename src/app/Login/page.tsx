@@ -1,14 +1,12 @@
-import { HeaderNav } from "@/components/ui/Header";
-import LoginForm from "@/components/ui/Login";
+import { HeaderNav } from '@/components/ui/Header';
+import LoginForm from '@/components/features/Login';
 export default function ExpediaHeader() {
-
   return (
     <>
       <HeaderNav />
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8">
         <LoginForm />
       </div>
-
     </>
   );
 }
