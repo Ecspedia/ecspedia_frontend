@@ -134,7 +134,7 @@ export default function LoginForm() {
         {/* Enlace para registrarse */}
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{' '}
-          <a href="/Registro" className="font-medium text-blue-600 hover:underline">
+          <a href="/register" className="font-medium text-blue-600 hover:underline">
             Register
           </a>
         </div>
