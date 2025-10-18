@@ -18,23 +18,9 @@ export const getApiBaseUrl = (): string => {
 };
 
 /**
- * API timeout in milliseconds
- */
-export const API_TIMEOUT = 30000; // 30 seconds
-
-/**
- * API request retry configuration
- */
-export const RETRY_CONFIG = {
-  maxRetries: 3,
-  retryDelay: 1000, // 1 second
-  retryableStatuses: [408, 429, 500, 502, 503, 504],
-};
-
-/**
  * Default headers for API requests
  */
 export const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
-  'Accept': 'application/json',
+  Accept: 'application/json',
 };

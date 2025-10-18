@@ -1,5 +1,4 @@
 'use client';
-
 import { SERVICE_TABS, UI_DIMENSIONS, ANIMATION_DURATION } from '@/constants';
 import ServiceNavigationTab from './ServiceNavigationTab';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';

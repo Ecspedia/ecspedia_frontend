@@ -1,5 +1,5 @@
 import { HeaderNav } from '@/components/ui/Header';
-import LoginForm from '@/components/features/Login';
+import { LoginForm } from '@/components/features/auth';
 export default function ExpediaHeader() {
   return (
     <>

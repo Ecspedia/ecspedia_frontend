@@ -18,7 +18,7 @@ export default function ServiceNavigationTab(tabButtonProps: TabButtonProps) {
     >
       <div
         key={tab.name}
-        className={`mx-auto mt-auto ${tab.comingSoon ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+        className={`mx-auto mt-auto flex flex-col items-center ${tab.comingSoon ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       >
         <div className="relative inline-block">
           <Image
@@ -26,7 +26,7 @@ export default function ServiceNavigationTab(tabButtonProps: TabButtonProps) {
             alt={tab.name}
             width={48}
             height={48}
-            className={`mx-auto mt-auto mb-2 ${isSelected ? '' : ''}`}
+            className={`mb-2 ${isSelected ? '' : ''}`}
           />
           {tab.comingSoon && (
             <div className="absolute -top-1 -right-1 flex items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-red-500 px-1.5 py-1 shadow-md ring-1 ring-white">
