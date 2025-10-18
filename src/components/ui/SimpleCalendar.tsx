@@ -1,6 +1,6 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
-import { useState } from "react";
-import Button from "./Button";
+import { useState } from 'react';
+import Button from './Button';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 interface SimpleCalendarProps {
   onClose?: () => void;
@@ -8,9 +8,7 @@ interface SimpleCalendarProps {
   value: Date | null;
 }
 
-export default function SimpleCalendar(
-  simpleCalendarProps: SimpleCalendarProps,
-) {
+export default function SimpleCalendar(simpleCalendarProps: SimpleCalendarProps) {
   const { onClose, onChange, value } = simpleCalendarProps;
 
   const initDate = value ?? new Date();
@@ -22,18 +20,18 @@ export default function SimpleCalendar(
   const currentMonth = dateHelper.getMonth();
   const today = new Date();
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
   const currentMonthToString = monthNames[currentMonth];
 
@@ -84,16 +82,14 @@ export default function SimpleCalendar(
     return (
       <div
         key={index}
-        className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${day ? "hover:border" : ""} ${
+        className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ${day ? 'hover:border' : ''} ${
           isToday(day)
             ? isSelected(day)
-              ? "border-secondary border-8 bg-white text-black!"
-              : "bg-secondary scale-75 text-white hover:border-2 hover:border-black"
-            : ""
-        } ${isSelected(day) ? "bg-secondary text-white hover:border hover:border-black" : ""} `}
-        onClick={() =>
-          handleDateClick(new Date(currentYear, currentMonth, day))
-        }
+              ? 'border-secondary border-8 bg-white text-black!'
+              : 'bg-secondary scale-75 text-white hover:border-2 hover:border-black'
+            : ''
+        } ${isSelected(day) ? 'bg-secondary text-white hover:border hover:border-black' : ''} `}
+        onClick={() => handleDateClick(new Date(currentYear, currentMonth, day))}
       >
         {day}
       </div>
@@ -114,11 +110,7 @@ export default function SimpleCalendar(
           {getDaysInMonth().map((day, index) => renderDay(day, index))}
         </div>
         <div className="mt-3 flex h-10 justify-end">
-          <Button
-            className="bg-secondary w-24"
-            onClick={onClose}
-            text="Done"
-          ></Button>
+          <Button className="bg-secondary w-24" onClick={onClose} text="Done"></Button>
         </div>
       </div>
     </div>
@@ -138,26 +130,20 @@ function MonthNavigation({
 }) {
   return (
     <div className="flex w-full items-center justify-between">
-      <button
-        className="w-8 cursor-pointer rounded p-2 hover:bg-gray-100"
-        onClick={onPrev}
-      >
+      <button className="w-8 cursor-pointer rounded p-2 hover:bg-gray-100" onClick={onPrev}>
         <ChevronLeftIcon />
       </button>
       <div className="text-lg font-semibold">
         {monthName} {year}
       </div>
-      <button
-        className="w-8 cursor-pointer rounded p-2 hover:bg-gray-100"
-        onClick={onNext}
-      >
+      <button className="w-8 cursor-pointer rounded p-2 hover:bg-gray-100" onClick={onNext}>
         <ChevronRightIcon />
       </button>
     </div>
   );
 }
 function DayTitles() {
-  const dayNames = ["S", "M", "T", "W", "T", "F", "S"];
+  const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   return (
     <div className="grid grid-cols-7">
       {dayNames.map((day, index) => (

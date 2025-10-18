@@ -1,25 +1,26 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "@/app/globals.css";
-import StoreProvider from "./storeProvider";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import '@/app/globals.css';
+import StoreProvider from './storeProvider';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Ecspedia - Book Flights & Hotels",
-    template: "%s | Ecspedia",
+    default: 'Ecspedia - Book Flights & Hotels',
+    template: '%s | Ecspedia',
   },
-  description: "Book flights and hotels with Ecspedia. Compare prices and find the best deals for your next trip.",
-  keywords: ["flights", "hotels", "booking", "travel"],
+  description:
+    'Book flights and hotels with Ecspedia. Compare prices and find the best deals for your next trip.',
+  keywords: ['flights', 'hotels', 'booking', 'travel'],
 };
 
 export default function RootLayout({
@@ -30,9 +31,7 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {children}
         </body>
       </html>

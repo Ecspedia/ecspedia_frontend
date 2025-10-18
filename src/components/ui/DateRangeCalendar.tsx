@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Button from "./Button";
-import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import { useState } from 'react';
+import Button from './Button';
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -10,18 +10,18 @@ export default function Calendar() {
   const month = currentDate.getMonth();
 
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   const prevMonth = () => {
@@ -33,7 +33,7 @@ export default function Calendar() {
   };
 
   // Day names
-  const dayNames = ["S", "M", "T", "W", "T", "F", "S"];
+  const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   const numberOfDays = new Date(year, month + 1, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay();
@@ -42,11 +42,7 @@ export default function Calendar() {
 
   const isToday = (day: number) => {
     const today = new Date();
-    return (
-      day === today.getDate() &&
-      month === today.getMonth() &&
-      year === today.getFullYear()
-    );
+    return day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
   };
 
   const isSelected = (day: number) => {
@@ -56,9 +52,7 @@ export default function Calendar() {
       (day === startDate.getDate() &&
         month === startDate.getMonth() &&
         year === startDate.getFullYear()) ||
-      (day === endDate.getDate() &&
-        month === endDate.getMonth() &&
-        year === endDate.getFullYear())
+      (day === endDate.getDate() && month === endDate.getMonth() && year === endDate.getFullYear())
     );
   };
 
@@ -124,18 +118,10 @@ export default function Calendar() {
           {/* Background extends right for start date, left for end date.*/}
           <div
             className={`absolute h-full bg-blue-500/15 ${
-              isStartDate
-                ? getCorrectAngle
-                  ? "right-0 left-1/2"
-                  : "right-1/2 left-0"
-                : ""
+              isStartDate ? (getCorrectAngle ? 'right-0 left-1/2' : 'right-1/2 left-0') : ''
             } ${
-              isEndDate
-                ? getCorrectAngle
-                  ? "right-1/2 left-0"
-                  : "right-0 left-1/2"
-                : ""
-            }${isStartDate && isEndDate ? "right-1/2 left-1/2" : ""}`}
+              isEndDate ? (getCorrectAngle ? 'right-1/2 left-0' : 'right-0 left-1/2') : ''
+            }${isStartDate && isEndDate ? 'right-1/2 left-1/2' : ''}`}
           ></div>
           <div
             className="absolute left-1/2 h-10 w-10 -translate-x-1/2 rounded-full bg-blue-500 p-2 text-center text-white hover:border-2 hover:border-black hover:bg-blue-600"
@@ -162,7 +148,7 @@ export default function Calendar() {
         <div key={day} className="mx-auto">
           <div
             className={`h-10 w-10 rounded-full p-2 text-center text-gray-900 hover:border ${
-              today ? "bg-secondary scale-75 text-white" : ""
+              today ? 'bg-secondary scale-75 text-white' : ''
             }`}
             onClick={() => handleDayClick(day)}
           >
@@ -180,29 +166,29 @@ export default function Calendar() {
       <div className="top-0 left-0 bg-white p-2 focus:border-transparent">
         <div className="flex items-center p-4">
           {startDate &&
-            new Date(startDate).toLocaleDateString("en-US", {
-              weekday: "short",
-              month: "short",
-              day: "numeric",
+            new Date(startDate).toLocaleDateString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
             })}
           <ArrowRightIcon className="mx-2 h-5 w-5" />
 
           {endDate &&
-            new Date(endDate).toLocaleDateString("en-US", {
-              weekday: "short",
-              month: "short",
-              day: "numeric",
+            new Date(endDate).toLocaleDateString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
             })}
         </div>
         <div className="flex justify-between">
           <button className="w-8 cursor-pointer p-2" onClick={prevMonth}>
-            <ChevronLeftIcon></ChevronLeftIcon>
+            <ChevronLeftIcon />
           </button>
           <div className="text-lg font-semibold">
             {monthNames[month]} {year}
           </div>
           <button className="w-8 cursor-pointer p-2" onClick={nextMonth}>
-            <ChevronRightIcon></ChevronRightIcon>
+            <ChevronRightIcon />
           </button>
         </div>
         <div className="grid grid-cols-7">
