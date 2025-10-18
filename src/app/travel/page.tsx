@@ -1,33 +1,31 @@
-import { HeaderNav } from "@/components/ui/Header";
-import Link from "next/link";
+import { HeaderNav } from '@/components/ui/Header';
+import Link from 'next/link';
 
 export default function ExpediaHeader() {
-
-    return (
-        <>
-            <HeaderNav />
-            <div className="max-w-7xl mx-auto px-4 py-8">
-                <h1 className="text-3xl font-bold mb-4 text-primary">Trips</h1>
-                <div className="bg-secondary/5 p-6 rounded-lg shadow mb-6">
-                    <h2 className="text-xl font-semibold text-primary mb-2">
-                        Your next adventure awaits when you sign in!
-                    </h2>
-                    <ul className="list-disc pl-5 text-primary/70 space-y-1">
-                        <li>
-                            Save money with Member Prices on thousands of hotels, activities, car rentals, and cruises
-                        </li>
-                        <li>
-                            Plan and share trip details with your travel group
-                        </li>
-                        <Link
-                            href="/Login"
-                            className="inline-block px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition"
-                        >
-                            Sign In or Register
-                        </Link>
-                    </ul>
-                </div>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <HeaderNav />
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        <h1 className="text-primary mb-4 text-3xl font-bold">Trips</h1>
+        <div className="bg-secondary/5 mb-6 rounded-lg p-6 shadow">
+          <h2 className="text-primary mb-2 text-xl font-semibold">
+            Your next adventure awaits when you sign in!
+          </h2>
+          <ul className="text-primary/70 list-disc space-y-1 pl-5">
+            <li>
+              Save money with Member Prices on thousands of hotels, activities, car rentals, and
+              cruises
+            </li>
+            <li>Plan and share trip details with your travel group</li>
+          </ul>
+          <Link
+            href="/login"
+            className="bg-secondary hover:bg-secondary/90 mt-4 inline-block rounded-lg px-4 py-2 text-white transition"
+          >
+            Sign In or Register
+          </Link>
+        </div>
+      </div>
+    </>
+  );
 }
