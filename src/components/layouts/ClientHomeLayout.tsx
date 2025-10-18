@@ -13,7 +13,7 @@ import {
 import { useMemo } from 'react';
 import { GoogleMapHotel } from '@/components/features/google-hotel-maps';
 
-export default function ClientHomePage() {
+export default function ClientHomeLayout() {
   const currentServiceTabSelected = useAppSelector((state) => state.serviceTab.selectedService);
   const hotels = useAppSelector(selectHotelResults);
   const hotelsLoading = useAppSelector(selectHotelLoading);
