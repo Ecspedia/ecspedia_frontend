@@ -11,10 +11,18 @@ import {
   selectHotelError,
 } from '@/lib/features/hotel/hotelSearchSlice';
 import { useMemo } from 'react';
-import { GoogleMapHotel } from '@/components/features/google-hotel-maps';
+import { selectService } from '@/lib/features/service-navigation/serviceTabSlice';
+import dynamic from 'next/dynamic';
+const GoogleHotelMap = dynamic(
+  () => import('@/components/features/google-hotel-maps/GoogleHotelMap'),
+  {
+    ssr: false,
+    loading: () => <div className="h-[300px] w-full animate-pulse rounded-xl bg-gray-200" />,
+  }
+);
 
 export default function ClientHomeLayout() {
-  const currentServiceTabSelected = useAppSelector((state) => state.serviceTab.selectedService);
+  const currentServiceTabSelected = useAppSelector(selectService);
   const hotels = useAppSelector(selectHotelResults);
   const hotelsLoading = useAppSelector(selectHotelLoading);
   const error = useAppSelector(selectHotelError);
@@ -39,13 +47,15 @@ export default function ClientHomeLayout() {
         <hr className="border-border w-full border-t-1" />
         <ServiceSearchForm />
       </div>
-      {hotels.length > 0 && currentServiceTabSelected === ServiceType.STAYS ? (
-        <div className="mt-3">
-          <GoogleMapHotel hotels={hotels} />
-        </div>
-      ) : (
-        <></>
-      )}
+
+      <div
+        className={
+          hotels.length > 0 && currentServiceTabSelected === ServiceType.STAYS ? 'mt-3' : 'hidden'
+        }
+      >
+        <GoogleHotelMap hotels={hotels} />
+      </div>
+
       {currentServiceContent && <div className="mt-3">{currentServiceContent}</div>}
     </div>
   );
