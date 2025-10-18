@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import TextField from "@/components/ui/TextField";
-import { MapPinIcon } from "@heroicons/react/24/outline";
-import ExpandedLocationTextField from "./ExpandedLocationTextField";
+import TextField from '@/components/ui/TextField';
+
+import ExpandedLocationTextField from './ExpandedLocationTextField';
+import { MapPinIcon } from 'lucide-react';
 
 interface LocationAutocompleteProps {
   placeholder: string;
@@ -13,17 +14,9 @@ interface LocationAutocompleteProps {
   onClose: () => void;
 }
 
-export default function LocationTextField(
-  locationAutocompleteProps: LocationAutocompleteProps,
-) {
-  const {
-    placeholder,
-    onLocationSelect,
-    value,
-    isExpanded,
-    onToggleExpanded,
-    onClose,
-  } = locationAutocompleteProps;
+export default function LocationTextField(locationAutocompleteProps: LocationAutocompleteProps) {
+  const { placeholder, onLocationSelect, value, isExpanded, onToggleExpanded, onClose } =
+    locationAutocompleteProps;
 
   const handleLocationSelect = (location: string) => {
     onLocationSelect(location);
@@ -33,7 +26,7 @@ export default function LocationTextField(
   return (
     <div className="relative w-full">
       {isExpanded && (
-        <div className="absolute top-0 left-0 w-full z-50">
+        <div className="absolute top-0 left-0 z-50 w-full">
           <ExpandedLocationTextField
             onLocationSelect={handleLocationSelect}
             placeholder={placeholder}

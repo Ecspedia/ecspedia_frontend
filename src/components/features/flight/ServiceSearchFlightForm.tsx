@@ -1,5 +1,3 @@
-import { ArrowsRightLeftIcon } from '@heroicons/react/16/solid';
-
 import {
   selectArrivalLocation,
   selectDepartureDate,
@@ -14,6 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui';
 import { DateRangeTextField, LocationTextField } from '@/components/shared';
+import { ArrowRightLeftIcon } from 'lucide-react';
 
 enum LocationFieldType {
   DEPARTURE = 'departure',
@@ -72,7 +71,7 @@ export default function ServiceSearchFlightForm() {
             onClick={() => dispatch(swapLocations())}
             className="text-secondary border-border absolute top-1/2 z-5 -mx-2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full border bg-white p-1"
           >
-            <ArrowsRightLeftIcon />
+            <ArrowRightLeftIcon />
           </button>
         </div>
         <LocationTextField
