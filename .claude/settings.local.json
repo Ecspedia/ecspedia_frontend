@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l src/**/*.{ts,tsx})",
+      "Bash(npx next build --dry-run)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

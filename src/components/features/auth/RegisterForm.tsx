@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
 import { User } from '@/types/user';
 import { userService } from '@/services/userService';
 
@@ -59,8 +58,7 @@ export default function Register() {
 
     try {
       const user: User = { username, email, password };
-      const newUser = await userService.createUser(user);
-      console.log(newUser);
+      await userService.createUser(user);
       router.push('/Login');
     } catch (error) {
       throw error;
@@ -69,7 +67,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen justify-items-center">
+    <div className="flex justify-center">
       <form
         onSubmit={handleSubmit}
         className="relative w-full max-w-sm rounded-xl bg-white p-6 shadow-md"

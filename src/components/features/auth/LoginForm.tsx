@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Login() {
+export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -69,7 +69,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen justify-items-center">
+    <div className="flex justify-center">
       <form
         onSubmit={handleSubmit}
         className="relative w-full max-w-sm rounded-xl bg-white p-6 shadow-md"

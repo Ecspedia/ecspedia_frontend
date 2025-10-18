@@ -1,5 +1,5 @@
 import { HeaderNav } from '@/components/ui/Header';
-import Register from '@/components/features/Register/RegisterForm';
+import Register from '@/components/features/auth/RegisterForm';
 export default function ExpediaHeader() {
   return (
     <>

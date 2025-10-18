@@ -8,7 +8,7 @@ import {
   ServerError,
   ValidationError,
 } from '@/lib/errors/AppError';
-import { getApiBaseUrl, API_TIMEOUT, DEFAULT_HEADERS } from './config';
+import { getApiBaseUrl, DEFAULT_HEADERS } from './config';
 
 /**
  * API Error Response structure
@@ -25,7 +25,7 @@ interface ApiErrorResponse {
 const createApiClient = (): AxiosInstance => {
   const client = axios.create({
     baseURL: getApiBaseUrl(),
-    timeout: API_TIMEOUT,
+
     headers: DEFAULT_HEADERS,
   });
 
@@ -58,7 +58,9 @@ const createApiClient = (): AxiosInstance => {
         const endTime = new Date();
         const duration = endTime.getTime() - response.config.metadata.startTime.getTime();
         // eslint-disable-next-line no-console
-        console.log(`[API] ${response.config.method?.toUpperCase()} ${response.config.url} - ${duration}ms`);
+        console.log(
+          `[API] ${response.config.method?.toUpperCase()} ${response.config.url} - ${duration}ms`
+        );
       }
 
       return response;
@@ -117,32 +119,6 @@ const handleApiError = (error: AxiosError<ApiErrorResponse>): AppError => {
       return new AppError(message, status);
   }
 };
-
-/**
- * Retry logic for failed requests
- * Currently not in use but available for future implementation
- */
-// const retryRequest = async (
-//   client: AxiosInstance,
-//   config: AxiosRequestConfig,
-//   retryCount: number = 0
-// ): Promise<AxiosResponse> => {
-//   try {
-//     return await client.request(config);
-//   } catch (error) {
-//     if (retryCount >= RETRY_CONFIG.maxRetries) {
-//       throw error;
-//     }
-
-//     if (AppError.isAppError(error) && RETRY_CONFIG.retryableStatuses.includes(error.statusCode)) {
-//       // Wait before retrying
-//       await new Promise((resolve) => setTimeout(resolve, RETRY_CONFIG.retryDelay * (retryCount + 1)));
-//       return retryRequest(client, config, retryCount + 1);
-//     }
-
-//     throw error;
-//   }
-// };
 
 // Create the API client instance
 const apiClient = createApiClient();

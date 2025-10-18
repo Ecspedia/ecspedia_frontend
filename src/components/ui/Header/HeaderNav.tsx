@@ -1,8 +1,6 @@
-"use client";
-
-import Link from "next/link";
-import { MoveUpLeft } from "lucide-react";
-import { BotonBell, BotonHeader } from "./index";
+import Link from 'next/link';
+import { MoveUpLeft } from 'lucide-react';
+import { BotonBell, BotonHeader } from './index';
 
 export default function HeaderNav() {
   return (
