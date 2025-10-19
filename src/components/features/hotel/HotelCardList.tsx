@@ -1,4 +1,4 @@
-import HotelCard from './HotelCard';
+import HotelCard from './hotel-card/HotelCard';
 import { Hotel } from '@/types/hotel';
 import { Spinner } from '@/components/ui';
 import { Hotel as HotelIcon, MapPin, Calendar, Star, Construction } from 'lucide-react';
