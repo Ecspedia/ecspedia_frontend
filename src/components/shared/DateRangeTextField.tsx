@@ -2,11 +2,11 @@ import SimpleCalendar from "@/components/ui/SimpleCalendar";
 import TextField from "@/components/ui/TextField";
 
 interface DateRangeTextFieldProps {
-  isExpanded: boolean;
-  onToggleExpanded: () => void;
-  value: Date | null;
-  onChange: (date: Date) => void;
-  onClose: () => void;
+  isCalendarOpen: boolean;
+  onOpenCalendar: () => void;
+  selectedDate: Date | null;
+  onDateSelect: (date: Date) => void;
+  onCalendarClose: () => void;
   placeholder?: string;
 }
 
@@ -14,29 +14,29 @@ export default function DateRangeTextField(
   dateRangeTextFieldProps: DateRangeTextFieldProps,
 ) {
   const {
-    isExpanded,
-    onToggleExpanded,
-    value,
-    onChange,
-    onClose,
+    isCalendarOpen,
+    onOpenCalendar,
+    selectedDate,
+    onDateSelect,
+    onCalendarClose,
     placeholder = "Dates",
   } = dateRangeTextFieldProps;
 
   return (
     <div className="relative">
-      {isExpanded && (
+      {isCalendarOpen && (
         <div className="absolute top-0 left-0 z-50">
-          <SimpleCalendar value={value} onChange={onChange} onClose={onClose} />
+          <SimpleCalendar value={selectedDate} onChange={onDateSelect} onClose={onCalendarClose} />
         </div>
       )}
       <TextField
-        value={value?.toLocaleDateString("en-US", {
+        value={selectedDate?.toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
           day: "numeric",
         })}
         placeholder={placeholder}
-        onClick={onToggleExpanded}
+        onClick={onOpenCalendar}
         readOnly={false}
       />
     </div>

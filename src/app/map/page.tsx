@@ -1,9 +1,10 @@
 'use client';
-import { useAppSelector } from '@/lib/hooks';
-import { selectHotelResults } from '@/lib/features/hotel/hotelSearchSlice';
-import { GoogleMapHotel } from '@/components/features/google-hotel-maps';
+import { useAppSelector } from '@/hooks/hooks';
+import { selectHotelResults } from '@/components/features/hotel/search-form/store/hotelSearchSlice';
+
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
+import { GoogleMapHotel } from '@/components/features/hotel/map';
 
 export default function FullScreenMapPage() {
   const hotels = useAppSelector(selectHotelResults);

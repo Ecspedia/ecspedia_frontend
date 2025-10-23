@@ -22,7 +22,7 @@ export default function TextField({
   const hasValue = value && value.length > 0;
 
   return (
-    <div onClick={onClick} className="border-primary relative rounded-lg border-1 px-4">
+    <div onClick={onClick} className="border-primary relative rounded-lg border px-4">
       <label
         className={`text-primary absolute left-12 transition-[transform] duration-200 ${
           hasValue ? 'top-1 text-xs' : 'top-1/2 -translate-y-1/2 text-base opacity-50'
