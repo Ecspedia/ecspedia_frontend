@@ -103,7 +103,7 @@ export default function Register() {
             }`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="e.g. youremail@example.com"
+            placeholder="e.g. tuemailbakan@gmail.com"
           />
           {emailError && (
             <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-white shadow-lg">

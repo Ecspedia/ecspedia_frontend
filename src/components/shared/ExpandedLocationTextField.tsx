@@ -57,19 +57,42 @@ export default function ExpandedLocationTextField(
         </ul>
       )}
       <div className="-mx-4 h-px bg-gray-300" />
-
-      <h3 className="text-color-primary-dark mb-2 text-lg font-semibold">Popular destinations</h3>
-      <ul>
-        {POPULAR_DESTINATIONS.map((destination) => (
-          <li
-            key={destination.city}
-            onClick={() => onClickSuggestion(destination.city)}
-            className="hover:bg-primary/10 cursor-pointer rounded-md px-2 py-1"
-          >
-            {destination.city}
-          </li>
-        ))}
-      </ul>
+      <PopularDestinationsTitle />
+      <PopularDestinations
+        destinations={POPULAR_DESTINATIONS}
+        onLocationSelect={onLocationSelect}
+      />
     </div>
   );
 }
+
+const PopularDestinationsTitle = () => {
+  return (
+    <h3 className="text-color-primary-dark mb-2 text-lg font-semibold">Popular destinations</h3>
+  );
+};
+
+const PopularDestinations = ({
+  destinations,
+  onLocationSelect,
+}: {
+  destinations: CitySuggestion[];
+  onLocationSelect: (city: string) => void;
+}) => {
+  const onClick = (city: string) => {
+    onLocationSelect(city);
+  };
+  return (
+    <ul>
+      {destinations.map((destination) => (
+        <li
+          key={destination.city}
+          onClick={() => onClick(destination.city)}
+          className="hover:bg-primary/10 cursor-pointer rounded-md px-2 py-1"
+        >
+          {destination.city}
+        </li>
+      ))}
+    </ul>
+  );
+};

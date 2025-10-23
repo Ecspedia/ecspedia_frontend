@@ -6,13 +6,14 @@ import {
   setDepartureDate,
   setDepartureLocation,
   swapLocations,
-} from '@/lib/features/flight/flightSearchSlice';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { useEffect, useRef, useState } from 'react';
+} from '@/components/features/flight/store/flightSearchSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 
 import { Button } from '@/components/ui';
 import { DateRangeTextField, LocationTextField } from '@/components/shared';
 import { ArrowRightLeftIcon } from 'lucide-react';
+import { useExpandableFields } from '@/hooks';
+import { PropsWithChildren } from 'react';
 
 enum LocationFieldType {
   DEPARTURE = 'departure',
@@ -20,77 +21,76 @@ enum LocationFieldType {
   DATERANGE = 'date_range',
 }
 
-export default function ServiceSearchFlightForm() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
+export default function ServiceFlightForm() {
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setExpandedField(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const departureValue = useAppSelector(selectDepartureLocation);
   const arrivalValue = useAppSelector(selectArrivalLocation);
   const departureDateString = useAppSelector(selectDepartureDate);
-  const departureDate = departureDateString ? new Date() : null;
+  const departureDate = departureDateString ? new Date(departureDateString) : null;
 
-  const [expandedField, setExpandedField] = useState<LocationFieldType | null>(null);
+  const { containerRef, selectField, closeField, isFieldExpanded } =
+    useExpandableFields<LocationFieldType>();
 
   const handleDepartureSelect = (location: string) => {
     dispatch(setDepartureLocation(location));
-    setExpandedField(null);
+    closeField();
   };
 
   const handleArrivalSelect = (location: string) => {
     dispatch(setArrivalLocation(location));
-    setExpandedField(null);
+    closeField();
   };
-  const handleArrivalChange = (date: Date) => {
+  const handleDepartureDate = (date: Date) => {
     dispatch(setDepartureDate(date.toISOString()));
   };
 
   return (
     <div ref={containerRef} className="flex justify-center gap-4 p-8">
-      <div className="flex items-center">
+      <LocationFieldsContainer>
         <LocationTextField
           placeholder="Leaving from"
-          onLocationSelect={handleDepartureSelect}
+          onChange={handleDepartureSelect}
           value={departureValue}
-          isExpanded={expandedField === LocationFieldType.DEPARTURE}
-          onToggleExpanded={() => setExpandedField(LocationFieldType.DEPARTURE)}
-          onClose={() => setExpandedField(null)}
+          isOpen={isFieldExpanded(LocationFieldType.DEPARTURE)}
+          onOpen={() => selectField(LocationFieldType.DEPARTURE)}
+          onClose={closeField}
         />
-        <div className="relative h-10 w-3">
-          <button
-            onClick={() => dispatch(swapLocations())}
-            className="text-secondary border-border absolute top-1/2 z-5 -mx-2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full border bg-white p-1"
-          >
-            <ArrowRightLeftIcon />
-          </button>
-        </div>
+        <LocationSwapButton />
         <LocationTextField
           placeholder="Going to"
-          onLocationSelect={handleArrivalSelect}
+          onChange={handleArrivalSelect}
           value={arrivalValue}
-          isExpanded={expandedField === LocationFieldType.ARRIVAL}
-          onToggleExpanded={() => setExpandedField(LocationFieldType.ARRIVAL)}
-          onClose={() => setExpandedField(null)}
+          isOpen={isFieldExpanded(LocationFieldType.ARRIVAL)}
+          onOpen={() => selectField(LocationFieldType.ARRIVAL)}
+          onClose={closeField}
         />
-      </div>
+      </LocationFieldsContainer>
       <DateRangeTextField
-        isExpanded={expandedField === LocationFieldType.DATERANGE}
-        onToggleExpanded={() => setExpandedField(LocationFieldType.DATERANGE)}
-        value={departureDate}
-        onChange={handleArrivalChange}
-        onClose={() => setExpandedField(null)}
+        isCalendarOpen={isFieldExpanded(LocationFieldType.DATERANGE)}
+        onOpenCalendar={() => selectField(LocationFieldType.DATERANGE)}
+        selectedDate={departureDate}
+        onDateSelect={handleDepartureDate}
+        onCalendarClose={closeField}
       />
       <Button className="bg-secondary w-24" text="Search"></Button>
     </div>
   );
 }
+
+const LocationFieldsContainer = ({ children }: PropsWithChildren) => {
+  return <div className="flex items-center">{children}</div>;
+};
+
+const LocationSwapButton = () => {
+  const dispatch = useAppDispatch();
+  return (
+    <div className="relative h-10 w-3">
+      <button
+        onClick={() => dispatch(swapLocations())}
+        className="text-secondary border-border absolute top-1/2 z-5 -mx-2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full border bg-white p-1"
+      >
+        <ArrowRightLeftIcon />
+      </button>
+    </div>
+  );
+};

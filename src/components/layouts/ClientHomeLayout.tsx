@@ -1,20 +1,22 @@
 'use client';
 
 import { FlightCardList } from '@/components/features/flight';
-import { ServiceNavigationTabs, ServiceSearchForm } from '@/components/features/service-navigation';
-import { HotelCardList } from '@/components/features/hotel';
-import { useAppSelector } from '@/lib/hooks';
+import { ServiceTabSelector, ServiceSearchForm } from '@/components/features/service-selector';
+import { HotelCardList, GoogleHotelMap } from '@/components/features/hotel';
+import { useAppSelector } from '@/hooks/hooks';
 import { ServiceType } from '@/types';
 import {
   selectHotelResults,
   selectHotelLoading,
   selectHotelError,
-} from '@/lib/features/hotel/hotelSearchSlice';
+} from '@/components/features/hotel/search-form/store/hotelSearchSlice';
 import { useMemo } from 'react';
-import { selectService } from '@/lib/features/service-navigation/serviceTabSlice';
+import { selectService } from '@/components/features/service-selector/store/serviceSelectorSlice';
 import dynamic from 'next/dynamic';
-const GoogleHotelMap = dynamic(
-  () => import('@/components/features/google-hotel-maps/GoogleHotelMap'),
+import HotelSearchResult from '../features/hotel/result/HotelSearchResult';
+
+const DynamicGoogleHotelMap = dynamic(
+  () => import('@/components/features/hotel').then((mod) => ({ default: mod.GoogleHotelMap })),
   {
     ssr: false,
     loading: () => <div className="h-[300px] w-full animate-pulse rounded-xl bg-gray-200" />,
@@ -32,7 +34,7 @@ export default function ClientHomeLayout() {
       case ServiceType.FLIGHTS:
         return <FlightCardList />;
       case ServiceType.STAYS:
-        return <HotelCardList hotels={hotels} loading={hotelsLoading} error={error} />;
+        return <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={error} />;
       default:
         return null;
     }
@@ -42,9 +44,9 @@ export default function ClientHomeLayout() {
     <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44">
       <div className="border-border mt-5 flex flex-col rounded-lg border">
         <div className="mx-auto">
-          <ServiceNavigationTabs />
+          <ServiceTabSelector />
         </div>
-        <hr className="border-border w-full border-t-1" />
+        <hr className="border-border w-full border-t" />
         <ServiceSearchForm />
       </div>
 
@@ -53,7 +55,7 @@ export default function ClientHomeLayout() {
           hotels.length > 0 && currentServiceTabSelected === ServiceType.STAYS ? 'mt-3' : 'hidden'
         }
       >
-        <GoogleHotelMap hotels={hotels} />
+        <DynamicGoogleHotelMap hotels={hotels} />
       </div>
 
       {currentServiceContent && <div className="mt-3">{currentServiceContent}</div>}
