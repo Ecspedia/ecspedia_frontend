@@ -25,15 +25,21 @@ export default function ServiceTabSelector() {
           onClick={() => dispatch(setService(tab.name))}
         ></ServiceNavigationTab>
       ))}
-      <span
-        className={`bg-secondary absolute bottom-0 transition-all duration-300 ease-in-out ${
-          animate ? 'h-[4px]' : 'h-[2px]'
-        }`}
-        style={{
-          left: `${selectedIndex * UI_DIMENSIONS.TAB_WIDTH_PX}px`,
-          width: `${UI_DIMENSIONS.TAB_WIDTH_PX}px`,
-        }}
-      />
+      <TabUnderline animate={animate} selectedIndex={selectedIndex} />
     </ul>
   );
 }
+
+const TabUnderline = ({ animate, selectedIndex }: { animate: boolean; selectedIndex: number }) => {
+  return (
+    <span
+      className={`bg-secondary absolute bottom-0 transition-all duration-300 ease-in-out ${
+        animate ? 'h-1' : 'h-0.5'
+      }`}
+      style={{
+        left: `${selectedIndex * UI_DIMENSIONS.TAB_WIDTH_PX}px`,
+        width: `${UI_DIMENSIONS.TAB_WIDTH_PX}px`,
+      }}
+    />
+  );
+};
