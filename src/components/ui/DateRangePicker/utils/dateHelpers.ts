@@ -47,6 +47,14 @@ export class DateHelper {
     });
   }
 
+  static formatDateMonthDay(date: Date | null): string {
+    if (!date) return 'Select date';
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+    });
+  }
+
   static normalizeDate(date: Date): Date {
     const normalized = new Date(date);
     normalized.setHours(0, 0, 0, 0);

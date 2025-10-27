@@ -21,9 +21,8 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={handleToggle}
-      className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 ${
-        isDarkMode ? 'ring-primary/50 bg-[#2e2e2e] ring-2' : 'bg-muted'
-      } hover:opacity-90`}
+      className={`bg-overlay relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 ${isDarkMode ? 'ring-primary/50 bg-[#2e2e2e] ring-2' : 'bg-gray-300 ring-2 ring-gray-400'
+        } hover:opacity-90`}
       title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
       aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
       role="switch"
@@ -32,9 +31,8 @@ export default function DarkModeToggle() {
     >
       {/* Toggle slider */}
       <span
-        className={`bg-background inline-flex h-6 w-6 transform items-center justify-center rounded-full shadow-md transition-transform duration-300 ${
-          isDarkMode ? 'translate-x-9' : 'translate-x-1'
-        }`}
+        className={`bg-background inline-flex h-6 w-6 transform items-center justify-center rounded-full shadow-md transition-transform duration-300 ${isDarkMode ? 'translate-x-9' : 'translate-x-1'
+          }`}
       >
         {isDarkMode ? (
           <Moon className="text-primary h-4 w-4" />

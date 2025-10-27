@@ -1,6 +1,9 @@
 'use client';
 
 import { CalendarIcon } from 'lucide-react';
+import { selectIsDarkMode } from '../features/dark-mode';
+import { useAppSelector } from '@/hooks';
+import { cn } from '@/lib/utils';
 
 interface TextFieldProps {
   placeholder?: string;
@@ -20,13 +23,14 @@ export default function TextField({
   readOnly = false,
 }: TextFieldProps) {
   const hasValue = value && value.length > 0;
+  const isDarkMode = useAppSelector(selectIsDarkMode);
 
   return (
-    <div onClick={onClick} className="border-primary bg-surface relative rounded-lg border px-4">
+    <div onClick={onClick} className={cn("border-primary  relative rounded-lg border px-4",
+      isDarkMode && "bg-surface")}>
       <label
-        className={`text-primary absolute left-12 transition-[transform] duration-200 ${
-          hasValue ? 'top-1 text-xs' : 'top-1/2 -translate-y-1/2 text-base opacity-50'
-        }`}
+        className={`text-primary absolute left-12 transition-[transform] duration-200 ${hasValue ? 'top-1 text-xs' : 'top-1/2 -translate-y-1/2 text-base opacity-50'
+          }`}
       >
         {placeholder}
       </label>

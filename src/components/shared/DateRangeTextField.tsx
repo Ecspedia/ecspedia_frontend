@@ -25,7 +25,7 @@ export default function DateRangeTextField(dateRangeTextFieldProps: DateRangeTex
 
   const formatDateRange = () => {
     if (!startDate || !endDate) return '';
-    return `${DateHelper.formatDate(startDate)} - ${DateHelper.formatDate(endDate)}`;
+    return `${DateHelper.formatDateMonthDay(startDate)} - ${DateHelper.formatDateMonthDay(endDate)}`;
   };
 
   return (
