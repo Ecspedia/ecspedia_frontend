@@ -4,6 +4,7 @@ import { Moon, Sun } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { toggleDarkMode, selectIsDarkMode } from './store/darkModeSlice';
 import { useDarkMode } from './hooks';
+import { cn } from '@/lib/utils';
 
 export default function DarkModeToggle() {
   const dispatch = useAppDispatch();
@@ -21,8 +22,10 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={handleToggle}
-      className={`bg-overlay relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 ${isDarkMode ? 'ring-primary/50 bg-[#2e2e2e] ring-2' : 'bg-gray-300 ring-2 ring-gray-400'
-        } hover:opacity-90`}
+      className={cn(
+        "bg-overlay relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 ",
+        isDarkMode ? 'ring-primary/50 bg-[#2e2e2e] ring-2' : 'bg-overlay ring-2 ring-primary/30',
+      )}
       title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
       aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
       role="switch"

@@ -42,23 +42,7 @@ export default function ServiceTab(tabButtonProps: TabButtonProps) {
 
 const ServiceImage = function ServiceImage({ tab, isSelected }: { tab: ServiceTabType; isSelected: boolean }) {
   const isDarkMode = useAppSelector(selectIsDarkMode);
-
-  let iconSrc: string;
-
-  if (isSelected) {
-    // Use theme-specific selected icons if available, fallback to generic selected icon
-    if (isDarkMode && tab.iconSelectedDark) {
-      iconSrc = tab.iconSelectedDark;
-    } else if (!isDarkMode && tab.iconSelectedLight) {
-      iconSrc = tab.iconSelectedLight;
-    } else if (tab.iconSelected) {
-      iconSrc = tab.iconSelected;
-    } else {
-      iconSrc = isDarkMode ? tab.iconDark : tab.icon;
-    }
-  } else {
-    iconSrc = isDarkMode ? tab.iconDark : tab.icon;
-  }
+  const iconSrc = isDarkMode ? tab.iconDark : tab.icon;
 
   return <Image src={iconSrc} alt={tab.name} width={48} height={48} className={`mb-2`} />;
 };
