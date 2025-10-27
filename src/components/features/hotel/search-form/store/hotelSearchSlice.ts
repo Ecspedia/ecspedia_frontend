@@ -7,6 +7,7 @@ interface HotelSearchState {
   location: string;
   startDate: string | null;
   endDate: string | null;
+  adults: number;
   results: Hotel[];
   loading: boolean;
   error: string | null;
@@ -16,6 +17,7 @@ const initialState: HotelSearchState = {
   location: '',
   startDate: new Date().toISOString(),
   endDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  adults: 2,
   results: [],
   loading: false,
   error: null,
@@ -47,6 +49,9 @@ const hotelSearchSlice = createSlice({
     setEndDate: (state, action: PayloadAction<string | null>) => {
       state.endDate = action.payload;
     },
+    setAdults: (state, action: PayloadAction<number>) => {
+      state.adults = action.payload;
+    },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
@@ -75,13 +80,14 @@ const hotelSearchSlice = createSlice({
   },
 });
 
-export const { setLocation, setStartDate, setEndDate, setError, resetHotelSearch, clearResults } =
+export const { setLocation, setStartDate, setEndDate, setAdults, setError, resetHotelSearch, clearResults } =
   hotelSearchSlice.actions;
 
 // Selectors
 export const selectLocation = (state: RootState) => state.hotelSearch.location;
 export const selectStartDate = (state: RootState) => state.hotelSearch.startDate;
 export const selectEndDate = (state: RootState) => state.hotelSearch.endDate;
+export const selectAdults = (state: RootState) => state.hotelSearch.adults;
 export const selectHotelResults = (state: RootState) => state.hotelSearch.results;
 export const selectHotelLoading = (state: RootState) => state.hotelSearch.loading;
 export const selectHotelError = (state: RootState) => state.hotelSearch.error;

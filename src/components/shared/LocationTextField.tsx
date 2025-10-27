@@ -15,8 +15,7 @@ interface LocationTextFieldProps {
 }
 
 export default function LocationTextField(locationTextFieldProps: LocationTextFieldProps) {
-  const { placeholder, onChange, value, isOpen, onOpen, onClose } =
-    locationTextFieldProps;
+  const { placeholder, onChange, value, isOpen, onOpen, onClose } = locationTextFieldProps;
 
   const handleLocationSelect = (location: string) => {
     onChange(location);

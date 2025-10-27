@@ -10,7 +10,7 @@ export default function ExpediaHeader() {
           <h2 className="text-primary mb-2 text-xl font-semibold">
             Need help? Our support team is available to assist you
           </h2>
-          <ul className="text-primary/70 list-disc space-y-1 pl-5">
+          <ul className="text-secondary list-disc space-y-1 pl-5">
             <h3>You can contact us through the contact form, email, or live chat.</h3>
             <li>Frequently asked questions</li>
             <li>User guides</li>

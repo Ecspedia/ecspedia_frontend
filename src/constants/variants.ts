@@ -1,8 +1,8 @@
 export const variants = {
-  primary: "bg-primary hover:bg-primary/90",
-  secondary: "bg-secondary hover:bg-secondary/90",
-  alert: "bg-red-600 hover:bg-red-700",
-  success: "bg-green-600 hover:bg-green-700",
-  disabled: "bg-gray-400 cursor-not-allowed",
+  primary: "bg-brand-primary hover:bg-brand-primary-hover text-white",
+  secondary: "bg-brand-secondary hover:bg-brand-secondary-hover text-white",
+  alert: "bg-error hover:bg-error-dark text-white",
+  success: "bg-success hover:bg-success-dark text-white",
+  disabled: "bg-disabled cursor-not-allowed text-secondary",
 };
 export type ButtonVariant = keyof typeof variants;

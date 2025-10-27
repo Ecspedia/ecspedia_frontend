@@ -19,7 +19,7 @@ const DynamicGoogleHotelMap = dynamic(
   () => import('@/components/features/hotel').then((mod) => ({ default: mod.GoogleHotelMap })),
   {
     ssr: false,
-    loading: () => <div className="h-[300px] w-full animate-pulse rounded-xl bg-gray-200" />,
+    loading: () => <div className="h-[300px] w-full animate-pulse rounded-xl bg-muted" />,
   }
 );
 

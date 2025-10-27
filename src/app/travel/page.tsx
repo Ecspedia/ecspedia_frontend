@@ -11,7 +11,7 @@ export default function ExpediaHeader() {
           <h2 className="text-primary mb-2 text-xl font-semibold">
             Your next adventure awaits when you sign in!
           </h2>
-          <ul className="text-primary/70 list-disc space-y-1 pl-5">
+          <ul className="text-secondary list-disc space-y-1 pl-5">
             <li>
               Save money with Member Prices on thousands of hotels, activities, car rentals, and
               cruises
@@ -20,7 +20,7 @@ export default function ExpediaHeader() {
           </ul>
           <Link
             href="/login"
-            className="bg-secondary hover:bg-secondary/90 mt-4 inline-block rounded-lg px-4 py-2 text-white transition"
+            className="bg-brand-secondary hover:bg-brand-secondary/90 mt-4 inline-block rounded-lg px-4 py-2 text-white transition"
           >
             Sign In or Register
           </Link>

@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import serviceTabReducer from '@/components/features/service-selector/store/serviceSelectorSlice';
 import flightSearchReducer from '@/components/features/flight/store/flightSearchSlice';
 import hotelSearchReducer from '@/components/features/hotel/search-form/store/hotelSearchSlice';
+import darkModeReducer from '@/components/features/dark-mode/store/darkModeSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -10,6 +11,7 @@ export const makeStore = () => {
       serviceTab: serviceTabReducer,
       flightSearch: flightSearchReducer,
       hotelSearch: hotelSearchReducer,
+      darkMode: darkModeReducer,
     },
   });
 };

@@ -1,40 +1,47 @@
-import SimpleCalendar from "@/components/ui/SimpleCalendar";
-import TextField from "@/components/ui/TextField";
+import TextField from '@/components/ui/TextField';
+import { Calendar } from '@/components/ui/DateRangePicker';
+import { DateHelper } from '@/components/ui/DateRangePicker/utils/dateHelpers';
 
 interface DateRangeTextFieldProps {
   isCalendarOpen: boolean;
   onOpenCalendar: () => void;
-  selectedDate: Date | null;
-  onDateSelect: (date: Date) => void;
+  startDate: Date | null;
+  endDate: Date | null;
+  onDateRangeSelect: (startDate: Date, endDate: Date) => void;
   onCalendarClose: () => void;
   placeholder?: string;
 }
 
-export default function DateRangeTextField(
-  dateRangeTextFieldProps: DateRangeTextFieldProps,
-) {
+export default function DateRangeTextField(dateRangeTextFieldProps: DateRangeTextFieldProps) {
   const {
     isCalendarOpen,
     onOpenCalendar,
-    selectedDate,
-    onDateSelect,
+    startDate,
+    endDate,
+    onDateRangeSelect,
     onCalendarClose,
-    placeholder = "Dates",
+    placeholder = 'Dates',
   } = dateRangeTextFieldProps;
+
+  const formatDateRange = () => {
+    if (!startDate || !endDate) return '';
+    return `${DateHelper.formatDate(startDate)} - ${DateHelper.formatDate(endDate)}`;
+  };
 
   return (
     <div className="relative">
       {isCalendarOpen && (
         <div className="absolute top-0 left-0 z-50">
-          <SimpleCalendar value={selectedDate} onChange={onDateSelect} onClose={onCalendarClose} />
+          <Calendar
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onDateRangeSelect={onDateRangeSelect}
+            onClose={onCalendarClose}
+          />
         </div>
       )}
       <TextField
-        value={selectedDate?.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })}
+        value={formatDateRange()}
         placeholder={placeholder}
         onClick={onOpenCalendar}
         readOnly={false}
@@ -42,3 +49,7 @@ export default function DateRangeTextField(
     </div>
   );
 }
+
+/* <SimpleCalendar value={selectedDate} onChange={onDateSelect} onClose={onCalendarClose} /> */
+
+/* <SimpleCalendar value={selectedDate} onChange={onDateSelect} onClose={onCalendarClose} /> */

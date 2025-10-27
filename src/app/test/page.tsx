@@ -71,10 +71,10 @@ function GoodForm() {
   };
 
   return (
-    <div className="border-border space-y-4 rounded-lg border-2 bg-green-50 p-6">
+    <div className="border-border space-y-4 rounded-lg border-2 bg-success-bg p-6">
       <div className="flex items-center justify-between">
-        <h3 className="font-bold text-green-700">✅ Solution: RHF Only (Recommended)</h3>
-        <span className="rounded bg-green-700 px-3 py-1 font-mono text-sm text-white">
+        <h3 className="font-bold text-success-dark">✅ Solution: RHF Only (Recommended)</h3>
+        <span className="rounded bg-success-dark px-3 py-1 font-mono text-sm text-white">
           Renders: {renderCount.current}
         </span>
       </div>
@@ -93,7 +93,7 @@ function GoodForm() {
         )}
       />
 
-      <div className="rounded bg-green-100 p-3 text-xs text-green-800">
+      <div className="rounded bg-success-light p-3 text-xs text-success-dark">
         <p className="font-semibold">What happens on each keystroke:</p>
         <p>1. field.onChange() → RHF state updates → Re-render #1</p>
         <p className="mt-2 font-bold">Result: 1 render per keystroke! ⚡</p>
@@ -103,5 +103,5 @@ function GoodForm() {
 }
 
 export default function TestPage() {
-  return <div className="h-100 w-100 bg-amber-300"> </div>;
+  return <div className="h-100 w-100 bg-warning-light"> </div>;
 }

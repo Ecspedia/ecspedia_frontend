@@ -4,10 +4,12 @@ import {
   setEndDate,
   setLocation,
   setStartDate,
+  setAdults,
   searchHotels,
   selectLocation,
   selectStartDate,
   selectEndDate,
+  selectAdults,
 } from '../store/hotelSearchSlice';
 
 export const useHotelSearch = () => {
@@ -16,6 +18,7 @@ export const useHotelSearch = () => {
   const location = useAppSelector(selectLocation);
   const startDate = useAppSelector(selectStartDate);
   const endDate = useAppSelector(selectEndDate);
+  const adults = useAppSelector(selectAdults);
 
   const [isSearching, setIsSearching] = useState(false);
 
@@ -26,20 +29,24 @@ export const useHotelSearch = () => {
     [dispatch]
   );
 
-  const handleStartDateChange = useCallback(
-    (date: Date, field: { onChange: (value: string) => void }) => {
-      const isoDate = date.toISOString();
-      field.onChange(isoDate);
-      dispatch(setStartDate(isoDate));
+  const handleDateRangeChange = useCallback(
+    (startDate: Date, endDate: Date, startField: { onChange: (value: string) => void }, endField: { onChange: (value: string) => void }) => {
+      const startIsoDate = startDate.toISOString();
+      const endIsoDate = endDate.toISOString();
+
+      startField.onChange(startIsoDate);
+      endField.onChange(endIsoDate);
+
+      dispatch(setStartDate(startIsoDate));
+      dispatch(setEndDate(endIsoDate));
     },
     [dispatch]
   );
 
-  const handleEndDateChange = useCallback(
-    (date: Date, field: { onChange: (value: string) => void }) => {
-      const isoDate = date.toISOString();
-      field.onChange(isoDate);
-      dispatch(setEndDate(isoDate));
+  const handleAdultsChange = useCallback(
+    (adults: number, field: { onChange: (value: number) => void }) => {
+      field.onChange(adults);
+      dispatch(setAdults(adults));
     },
     [dispatch]
   );
@@ -60,10 +67,11 @@ export const useHotelSearch = () => {
     location,
     startDate,
     endDate,
+    adults,
     isSearching,
     handleLocationChange,
-    handleStartDateChange,
-    handleEndDateChange,
+    handleDateRangeChange,
+    handleAdultsChange,
     onSubmit,
   };
 };

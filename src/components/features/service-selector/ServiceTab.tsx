@@ -2,6 +2,8 @@ import { UI_DIMENSIONS } from '@/constants';
 import { cn } from '@/lib/utils';
 import { ServiceTab as ServiceTabType } from '@/types';
 import Image from 'next/image';
+import { useAppSelector } from '@/hooks/hooks';
+import { selectIsDarkMode } from '@/components/features/dark-mode';
 
 interface TabButtonProps {
   tab: ServiceTabType;
@@ -29,7 +31,7 @@ export default function ServiceTab(tabButtonProps: TabButtonProps) {
         )}
       >
         <div className="relative inline-block">
-          <ServiceImage tab={tab}></ServiceImage>
+          <ServiceImage tab={tab} isSelected={isSelected}></ServiceImage>
           <CommingSoonBadge comingSoon={tab.comingSoon} />
         </div>
         <ServiceText isSelected={isSelected} tab={tab} />
@@ -38,15 +40,34 @@ export default function ServiceTab(tabButtonProps: TabButtonProps) {
   );
 }
 
-const ServiceImage = function ServiceImage({ tab }: { tab: ServiceTabType }) {
-  return <Image src={tab.icon} alt={tab.name} width={48} height={48} className={`mb-2`} />;
+const ServiceImage = function ServiceImage({ tab, isSelected }: { tab: ServiceTabType; isSelected: boolean }) {
+  const isDarkMode = useAppSelector(selectIsDarkMode);
+
+  let iconSrc: string;
+
+  if (isSelected) {
+    // Use theme-specific selected icons if available, fallback to generic selected icon
+    if (isDarkMode && tab.iconSelectedDark) {
+      iconSrc = tab.iconSelectedDark;
+    } else if (!isDarkMode && tab.iconSelectedLight) {
+      iconSrc = tab.iconSelectedLight;
+    } else if (tab.iconSelected) {
+      iconSrc = tab.iconSelected;
+    } else {
+      iconSrc = isDarkMode ? tab.iconDark : tab.icon;
+    }
+  } else {
+    iconSrc = isDarkMode ? tab.iconDark : tab.icon;
+  }
+
+  return <Image src={iconSrc} alt={tab.name} width={48} height={48} className={`mb-2`} />;
 };
 
 const CommingSoonBadge = ({ comingSoon }: { comingSoon: boolean | undefined }) => {
   if (!comingSoon) return null;
 
   return (
-    <div className="absolute -top-1 -right-1 flex items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-red-500 px-1.5 py-1 shadow-md ring-1 ring-white">
+    <div className="absolute -top-1 -right-1 flex items-center justify-center rounded-full bg-linear-to-r from-(--accent-gradient-start) to-(--accent-gradient-end) px-1.5 py-1 shadow-md">
       <span className="text-[7px] leading-none font-bold tracking-tight text-white uppercase">
         Soon
       </span>
@@ -63,7 +84,10 @@ const ServiceText = function ServiceText({
 }) {
   return (
     <div
-      className={cn('mt-1 text-center font-medium', isSelected ? 'text-secondary' : 'text-primary')}
+      className={cn(
+        'mt-1 text-center font-medium',
+        isSelected ? 'text-brand-secondary' : 'text-primary'
+      )}
     >
       {tab.name}
     </div>

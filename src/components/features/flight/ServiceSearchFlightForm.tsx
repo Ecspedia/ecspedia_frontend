@@ -72,7 +72,7 @@ export default function ServiceFlightForm() {
         onDateSelect={handleDepartureDate}
         onCalendarClose={closeField}
       />
-      <Button className="bg-secondary w-24" text="Search"></Button>
+      <Button className="w-24" variant="secondary" text="Search"></Button>
     </div>
   );
 }
@@ -87,7 +87,7 @@ const LocationSwapButton = () => {
     <div className="relative h-10 w-3">
       <button
         onClick={() => dispatch(swapLocations())}
-        className="text-secondary border-border absolute top-1/2 z-5 -mx-2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full border bg-white p-1"
+        className="border-border absolute top-1/2 z-5 -mx-3 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full bg-white border p-1 text-brand-secondary"
       >
         <ArrowRightLeftIcon />
       </button>

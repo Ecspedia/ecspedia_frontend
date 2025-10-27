@@ -1,11 +1,11 @@
 import { RefObject, useEffect, useRef } from 'react';
 
-interface UseClickOutSideProps {
-  containerRef: RefObject<HTMLElement | HTMLDivElement | null>;
+interface UseClickOutSideProps<E extends HTMLElement> {
+  containerRef: RefObject<E>;
   callback: () => void;
 }
 
-export default function useClickOutSide(useClickOutSideProps: UseClickOutSideProps) {
+export default function useClickOutSide<E extends HTMLElement>(useClickOutSideProps: UseClickOutSideProps<E>) {
   const { containerRef, callback } = useClickOutSideProps;
   const callbackRef = useRef(callback);
 

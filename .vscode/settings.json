@@ -20,5 +20,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   // Show ESLint errors in problems panel
-  "eslint.alwaysShowStatus": true
+  "eslint.alwaysShowStatus": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }
