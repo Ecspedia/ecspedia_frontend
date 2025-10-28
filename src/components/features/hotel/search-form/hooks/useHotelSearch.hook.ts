@@ -64,14 +64,18 @@ export const useHotelSearch = () => {
   }, [dispatch, location]);
 
   return {
-    location,
-    startDate,
-    endDate,
-    adults,
-    isSearching,
-    handleLocationChange,
-    handleDateRangeChange,
-    handleAdultsChange,
-    onSubmit,
+    state: {
+      location,
+      startDate,
+      endDate,
+      adults,
+      isSearching,
+    },
+    actions: {
+      handleLocationChange,
+      handleDateRangeChange,
+      handleAdultsChange,
+      onSubmit,
+    },
   };
 };

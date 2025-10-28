@@ -7,17 +7,9 @@ import FormWrapper from './FormWrapper';
 import { useHotelSearch, useHotelFormValidation } from './hooks';
 
 export default function SearchHotelForm() {
-  const {
-    location,
-    startDate,
-    endDate,
-    adults,
-    isSearching,
-    handleLocationChange,
-    handleDateRangeChange,
-    handleAdultsChange,
-    onSubmit,
-  } = useHotelSearch();
+  const { state, actions } = useHotelSearch();
+  const { location, startDate, endDate, adults, isSearching } = state;
+  const { handleLocationChange, handleDateRangeChange, handleAdultsChange, onSubmit } = actions;
 
   const { control, handleSubmit, errors, validationRules } = useHotelFormValidation({
     defaultLocation: location,
