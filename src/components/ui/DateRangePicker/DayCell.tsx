@@ -27,6 +27,8 @@ export default function DayCell({ day, date, currentYear, currentMonth, isDarkMo
   const isDisabled = currentDate < today;
   const isStartDate = DateHelper.isDateEqual(state.startDate, currentDate);
   const isEndDate = DateHelper.isDateEqual(state.endDate, currentDate);
+  const isBoundaryDate = isStartDate || isEndDate;
+  const isTodayWithoutSelection = isToday && !isStartDate;
   const isInRange = DateHelper.isInRange(currentDate, state.startDate, state.endDate);
 
   const dayBackgroundOnRange = isDarkMode ? 'bg-brand-secondary/30' : 'bg-brand-secondary/15';
@@ -36,7 +38,7 @@ export default function DayCell({ day, date, currentYear, currentMonth, isDarkMo
     if (!isStartDate && !isEndDate && !isInRange) {
       return 'bg-transparent';
     }
-    if (state.startDate != null && state.endDate === null) {
+    if (state.startDate !== null && state.endDate === null) {
       return 'bg-transparent';
     }
     if (isLastDayOfMonth && isEndDate) {
@@ -75,11 +77,11 @@ export default function DayCell({ day, date, currentYear, currentMonth, isDarkMo
           'relative z-10 flex w-full h-10 mx-auto items-center justify-center hover:border-2 rounded-full',
           hoverBorder,
           {
-            'bg-brand-secondary text-primary font-bold': isStartDate || isEndDate,
-            'text-white': !isDarkMode && (isStartDate || isEndDate),
+            'bg-brand-secondary text-primary font-bold': isBoundaryDate,
+            'text-white': !isDarkMode && isBoundaryDate,
             'opacity-40 cursor-not-allowed': isDisabled,
             'cursor-pointer': !isDisabled,
-            'scale-75 bg-brand-secondary text-white': isToday && !isStartDate,
+            'scale-75 bg-brand-secondary text-white': isTodayWithoutSelection,
           }
         )}
         onClick={() => {

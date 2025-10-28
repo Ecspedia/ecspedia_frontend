@@ -11,9 +11,6 @@ interface HotelDetailCardProps {
 export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps) {
   const router = useRouter();
 
-  const handleViewDetails = () => {
-    router.push('/map');
-  };
 
   return (
     <div className="border-border bg-background text-primary fixed right-0 bottom-0 left-0 z-1000 mx-auto w-2/5 min-w-[500px] rounded-lg border shadow-2xl">

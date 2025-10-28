@@ -116,7 +116,7 @@ export function useCalendarState(props?: UseCalendarStateProps) {
       return;
     }
   };
-
+  const isValid = startDate !== null && endDate !== null;
   const leftMonthName = DateHelper.getMonthName(leftDate);
   const rightMonthName = DateHelper.getMonthName(rightDate);
 
@@ -134,15 +134,11 @@ export function useCalendarState(props?: UseCalendarStateProps) {
       handlePrevLeft,
       handleNextRight,
       handleDone,
+      isValid,
     },
   };
 
-  const isValid = startDate !== null && endDate !== null;
-
   return {
     contextValue,
-    startDate,
-    endDate,
-    isValid,
   };
 }

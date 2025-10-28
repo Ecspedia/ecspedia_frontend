@@ -14,6 +14,7 @@ export type CalendarActions = {
   handlePrevLeft: () => void;
   handleNextRight: () => void;
   handleDone: () => void;
+  isValid: boolean;
 };
 
 export type CalendarContextType = {

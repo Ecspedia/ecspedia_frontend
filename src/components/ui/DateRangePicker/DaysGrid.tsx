@@ -3,11 +3,11 @@ import { useAppSelector } from '@/hooks';
 import { DateHelper } from './utils/dateHelpers';
 import DayCell from './DayCell';
 
-interface CalendarDayProps {
+interface DaysGridProps {
   date: Date;
 }
 
-export default function CalendarDay({ date }: CalendarDayProps) {
+export default function DaysGrid({ date }: DaysGridProps) {
   const currentYear = date.getFullYear();
   const currentMonth = date.getMonth();
   const isDarkMode = useAppSelector(selectIsDarkMode);
