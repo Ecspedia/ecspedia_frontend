@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { emailService } from '@/services/emailServices';
 import { AppError } from '@/lib/errors';
+import { cn } from '@/lib/utils';
 
 interface ResetPasswordFormProps {
   token: string;
@@ -64,7 +65,7 @@ export default function ResetPasswordForm({ token, email }: ResetPasswordFormPro
 
     try {
       const response = await emailService.resetPassword(emailField, token, password);
-      
+
       if (response.success) {
         setSuccessMessage('Password reset successfully! You can now sign in with your new password.');
       } else {
@@ -87,10 +88,10 @@ export default function ResetPasswordForm({ token, email }: ResetPasswordFormPro
     <div className="flex justify-center">
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-sm rounded-xl bg-white p-6 shadow-md"
+        className={cn("relative w-full max-w-sm rounded-xl p-6 shadow-md bg-overlay")}
       >
         <h2 className="mb-6 text-center text-xl font-semibold">Reset Password</h2>
-        
+
         <p className="mb-6 text-center text-sm text-gray-600">
           Enter your email and new password below.
         </p>
@@ -100,9 +101,8 @@ export default function ResetPasswordForm({ token, email }: ResetPasswordFormPro
           <label className="mb-1 block text-sm font-medium">Email</label>
           <input
             type="email"
-            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${
-              emailError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
-            }`}
+            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${emailError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
+              }`}
             value={emailField}
             onChange={(e) => setEmailField(e.target.value)}
             placeholder="youremail@example.com"
@@ -120,9 +120,8 @@ export default function ResetPasswordForm({ token, email }: ResetPasswordFormPro
           <label className="mb-1 block text-sm font-medium">New Password</label>
           <input
             type="password"
-            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${
-              passwordError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
-            }`}
+            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${passwordError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
+              }`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
@@ -140,9 +139,8 @@ export default function ResetPasswordForm({ token, email }: ResetPasswordFormPro
           <label className="mb-1 block text-sm font-medium">Confirm Password</label>
           <input
             type="password"
-            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${
-              confirmPasswordError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
-            }`}
+            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${confirmPasswordError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
+              }`}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="••••••••"

@@ -37,7 +37,7 @@ export default function ForgotPasswordForm() {
 
     try {
       const response = await emailService.sendPasswordReset(email);
-      
+
       if (response.success) {
         setSuccessMessage('Password reset email sent! Check your inbox.');
       } else {
@@ -60,11 +60,11 @@ export default function ForgotPasswordForm() {
     <div className="flex justify-center">
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-sm rounded-xl bg-white p-6 shadow-md"
+        className="relative w-full max-w-sm rounded-xl bg-overlay p-6 shadow-md"
       >
-        <h2 className="mb-6 text-center text-xl font-semibold">Forgot Password</h2>
-        
-        <p className="mb-6 text-center text-sm text-gray-600">
+        <h2 className="mb-6 text-center text-xl text-primary font-semibold">Forgot Password</h2>
+
+        <p className="mb-6 text-center text-sm text-secondary">
           Enter your email address and we&apos;ll send you a link to reset your password.
         </p>
 
@@ -73,16 +73,15 @@ export default function ForgotPasswordForm() {
           <label className="mb-1 block text-sm font-medium">Email</label>
           <input
             type="email"
-            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${
-              emailError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
-            }`}
+            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${emailError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
+              }`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="youremail@example.com"
             disabled={loading}
           />
           {emailError && (
-            <span className="absolute top-full right-0 mt-1 rounded-lg bg-primary px-2 py-1 text-xs text-white shadow-lg">
+            <span className="absolute top-full right-0 mt-1 rounded-lg bg-background px-2 py-1 text-xs text-primary  shadow-lg">
               {emailError}
             </span>
           )}
@@ -109,7 +108,7 @@ export default function ForgotPasswordForm() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-secondary w-full rounded-full py-2 text-white transition hover:bg-primary disabled:opacity-50"
+          className="bg-brand-secondary w-full rounded-full py-2 text-white transition hover:bg-brand-secondary-hover disabled:opacity-50"
         >
           {loading ? 'Sending...' : 'Send Reset Link'}
         </button>

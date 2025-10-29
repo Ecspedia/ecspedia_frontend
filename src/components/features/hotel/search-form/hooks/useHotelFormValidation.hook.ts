@@ -5,12 +5,14 @@ interface UseHotelFormValidationProps {
   defaultLocation: string;
   defaultStartDate: string | null;
   defaultEndDate: string | null;
+  defaultAdults?: number;
 }
 
 export const useHotelFormValidation = ({
   defaultLocation,
   defaultStartDate,
   defaultEndDate,
+  defaultAdults = 1,
 }: UseHotelFormValidationProps) => {
   const {
     control,
@@ -22,11 +24,13 @@ export const useHotelFormValidation = ({
       location: defaultLocation,
       startDate: defaultStartDate,
       endDate: defaultEndDate,
+      adults: defaultAdults,
     },
     values: {
       location: defaultLocation,
       startDate: defaultStartDate,
       endDate: defaultEndDate,
+      adults: defaultAdults,
     },
   });
 

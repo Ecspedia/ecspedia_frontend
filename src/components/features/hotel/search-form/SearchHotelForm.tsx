@@ -15,6 +15,7 @@ export default function SearchHotelForm() {
     defaultLocation: location,
     defaultStartDate: startDate,
     defaultEndDate: endDate,
+    defaultAdults: adults,
   });
 
   const { getFieldRef, handleFieldClick, closeField, isFieldExpanded } = useExpandableFields<
