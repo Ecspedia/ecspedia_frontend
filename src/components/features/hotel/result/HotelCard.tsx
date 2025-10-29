@@ -53,7 +53,7 @@ HotelCard.image = function HotelCardImage({
       />
       {variant === 'default' && (
         <button className="absolute top-3 right-3 rounded-full bg-white p-2 transition-transform hover:scale-110">
-          <Heart className="text-primary/60 h-5 w-5" />
+          <Heart className="text-secondary h-5 w-5" />
         </button>
       )}
     </div>
@@ -74,7 +74,7 @@ HotelCard.info = function HotelCardInfo({
         <h3 className="text-primary cursor-pointer text-lg font-semibold hover:underline">
           {hotel.name}
         </h3>
-        <p className="text-primary/60 mt-1 text-sm">{hotel.location}</p>
+        <p className="text-secondary mt-1 text-sm">{hotel.location}</p>
       </div>
       {withClose && onClose && <HotelCard.closeButton onClose={onClose} />}
     </div>
@@ -94,15 +94,15 @@ HotelCard.pricing = function HotelCardPricing({
       <div className="text-right">
         <div className={cn('text-primary mt-1 font-semibold', textPriceFontSize)}>
           ${hotel.pricePerNight}{' '}
-          <span className={cn('text-primary/60 text-sm font-normal', textLabelFontSize)}>
+          <span className={cn('text-secondary text-sm font-normal', textLabelFontSize)}>
             Per night
           </span>
         </div>
       </div>
 
       {hotel.includesTaxesAndFees && (
-        <div className="text-primary/60 flex items-center gap-1 text-sm">
-          <Check className="h-4 w-4 text-green-600" />
+        <div className="text-secondary flex items-center gap-1 text-sm">
+          <Check className="text-success h-4 w-4" />
           <span>Total includes taxes and fees</span>
         </div>
       )}
@@ -121,7 +121,7 @@ HotelCard.rating = function HotelCardRating({ children }: { children: ReactNode 
 HotelCard.ratingNumber = function HotelCardRatingNumber() {
   const { hotel } = useHotelCardContext();
   return (
-    <div className="rounded bg-green-700 px-2 py-1 text-sm font-bold text-white">
+    <div className="bg-success rounded px-2 py-1 text-sm font-bold text-white">
       {hotel.rating?.toFixed(1) || 'N/A'}
     </div>
   );
@@ -139,7 +139,7 @@ HotelCard.ratingLabel = function HotelCardRatingLabel() {
 HotelCard.reviewCount = function HotelCardReviewCount() {
   const { hotel } = useHotelCardContext();
   return (
-    <span className="text-primary/60 text-xs">
+    <span className="text-secondary text-xs">
       {hotel.reviewCount?.toLocaleString() || 0} reviews
     </span>
   );
@@ -158,7 +158,7 @@ HotelCard.closeButton = function HotelCardCloseButton({ onClose }: { onClose: ()
   return (
     <button
       onClick={onClose}
-      className="text-primary/60 hover:text-primary shrink-0 rounded-full p-1 transition-colors"
+      className="text-secondary hover:text-primary shrink-0 rounded-full p-1 transition-colors"
     >
       <X className="h-7 w-7" />
     </button>

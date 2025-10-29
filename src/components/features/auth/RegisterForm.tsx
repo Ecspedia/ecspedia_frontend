@@ -70,24 +70,23 @@ export default function Register() {
     <div className="flex justify-center">
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-sm rounded-xl bg-white p-6 shadow-md"
+        className="relative w-full max-w-sm rounded-xl bg-background border border-border p-6 shadow-md bg-overlay"
       >
-        <h2 className="mb-6 text-center text-xl font-semibold">Register</h2>
+        <h2 className="mb-6 text-center text-xl font-semibold text-primary">Register</h2>
 
         {/* Username */}
         <div className="relative mb-4">
-          <label className="mb-1 block text-sm font-medium">Name</label>
+          <label className="mb-1 block text-sm font-medium text-primary">Name</label>
           <input
             type="text"
-            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${
-              usernameError ? 'border-red-500 focus:ring-red-300' : 'focus:ring-blue-300'
-            }`}
+            className={`w-full rounded-lg border border-border bg-background text-primary px-3 py-2 focus:ring focus:outline-none placeholder:text-tertiary ${usernameError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'
+              }`}
             value={username}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Jorge Bejarano"
           />
           {usernameError && (
-            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-background shadow-lg">
+            <span className="absolute top-full right-0 mt-1 rounded-lg bg-error px-2 py-1 text-xs text-white shadow-lg">
               {usernameError}
             </span>
           )}
@@ -95,18 +94,17 @@ export default function Register() {
 
         {/* Email */}
         <div className="relative mb-4">
-          <label className="mb-1 block text-sm font-medium">Email</label>
+          <label className="mb-1 block text-sm font-medium text-primary">Email</label>
           <input
             type="email"
-            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${
-              emailError ? 'border-red-500 focus:ring-red-300' : 'focus:ring-blue-300'
-            }`}
+            className={`w-full rounded-lg border border-border bg-background text-primary px-3 py-2 focus:ring focus:outline-none placeholder:text-tertiary ${emailError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'
+              }`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="e.g. tuemailbakan@gmail.com"
           />
           {emailError && (
-            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-background shadow-lg">
+            <span className="absolute top-full right-0 mt-1 rounded-lg bg-error px-2 py-1 text-xs text-white shadow-lg">
               {emailError}
             </span>
           )}
@@ -114,18 +112,17 @@ export default function Register() {
 
         {/* Password */}
         <div className="relative mb-6">
-          <label className="mb-1 block text-sm font-medium">Password</label>
+          <label className="mb-1 block text-sm font-medium text-primary">Password</label>
           <input
             type="password"
-            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${
-              passwordError ? 'border-red-500 focus:ring-red-300' : 'focus:ring-blue-300'
-            }`}
+            className={`w-full rounded-lg border border-border bg-background text-primary px-3 py-2 focus:ring focus:outline-none placeholder:text-tertiary ${passwordError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'
+              }`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
           />
           {passwordError && (
-            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-background shadow-lg">
+            <span className="absolute top-full right-0 mt-1 rounded-lg bg-error px-2 py-1 text-xs text-white shadow-lg">
               {passwordError}
             </span>
           )}
@@ -134,7 +131,7 @@ export default function Register() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-secondary w-full rounded-full py-2 text-white transition hover:bg-blue-700"
+          className="bg-brand-secondary w-full rounded-full py-2 text-white transition hover:bg-info-dark disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Creating user...' : 'Continue'}
         </button>

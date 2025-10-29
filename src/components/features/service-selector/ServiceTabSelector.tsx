@@ -33,7 +33,7 @@ export default function ServiceTabSelector() {
 const TabUnderline = ({ animate, selectedIndex }: { animate: boolean; selectedIndex: number }) => {
   return (
     <span
-      className={`bg-secondary absolute bottom-0 transition-all duration-300 ease-in-out ${
+      className={`bg-brand-secondary absolute bottom-0 transition-all duration-300 ease-in-out ${
         animate ? 'h-1' : 'h-0.5'
       }`}
       style={{
