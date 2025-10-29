@@ -12,7 +12,34 @@
  * <div className="bg-primary text-secondary" />
  */
 
-const ALLOWED_THEME_COLORS = ['background', 'foreground', 'primary', 'secondary', 'border'];
+const ALLOWED_THEME_COLORS = [
+  'background',
+  'foreground',
+  'primary',
+  'secondary',
+  'border',
+  'error',
+  'error-light',
+  'error-dark',
+  'success',
+  'success-light',
+  'success-dark',
+  'success-bg',
+  'warning',
+  'warning-light',
+  'warning-dark',
+  'info',
+  'info-light',
+  'info-dark',
+  'muted',
+  'muted-foreground',
+  'muted-dark',
+  'muted-border',
+  'accent',
+  'accent-dark',
+  'accent-gradient-start',
+  'accent-gradient-end',
+];
 
 // black and white are allowed
 const DEFAULT_TAILWIND_COLORS = [
@@ -85,6 +112,74 @@ function isInvalidColor(colorName) {
   return DEFAULT_TAILWIND_COLORS.includes(colorName);
 }
 
+/**
+ * Validates color classes and reports errors
+ * @param {Array} colorClasses - Array of color class objects
+ * @param {Object} node - The AST node
+ * @param {Array} allAllowedColors - All allowed color names
+ * @param {Object} context - ESLint context
+ */
+function validateColorClasses(colorClasses, node, allAllowedColors, context) {
+  for (const { fullMatch, colorName, utility } of colorClasses) {
+    if (isInvalidColor(colorName)) {
+      // Suggest a theme color based on the utility type
+      let suggestion = 'primary';
+      if (utility === 'bg') suggestion = 'primary or secondary';
+      if (utility === 'text') suggestion = 'foreground or primary';
+      if (utility === 'border') suggestion = 'border';
+
+      context.report({
+        node,
+        messageId: 'invalidColor',
+        data: {
+          className: fullMatch,
+          suggestion,
+          allowed: allAllowedColors.join(', '),
+        },
+      });
+    }
+  }
+}
+
+/**
+ * Recursively extracts and validates string literals from expressions
+ * @param {Object} expr - The expression AST node
+ * @param {Object} node - The original JSXAttribute node
+ * @param {Array} allAllowedColors - All allowed color names
+ * @param {Object} context - ESLint context
+ */
+function extractAndValidateFromExpression(expr, node, allAllowedColors, context) {
+  if (!expr) return;
+
+  // Handle string literals: 'bg-red-500'
+  if (expr.type === 'Literal' && typeof expr.value === 'string') {
+    const colorClasses = extractColorClasses(expr.value);
+    validateColorClasses(colorClasses, node, allAllowedColors, context);
+  }
+  // Handle ConditionalExpression: condition ? 'bg-red-500' : 'bg-blue-500'
+  else if (expr.type === 'ConditionalExpression') {
+    extractAndValidateFromExpression(expr.consequent, node, allAllowedColors, context);
+    extractAndValidateFromExpression(expr.alternate, node, allAllowedColors, context);
+  }
+  // Handle LogicalExpression: condition && 'bg-red-500'
+  else if (expr.type === 'LogicalExpression') {
+    extractAndValidateFromExpression(expr.left, node, allAllowedColors, context);
+    extractAndValidateFromExpression(expr.right, node, allAllowedColors, context);
+  }
+  // Handle TemplateLiteral nested in expressions
+  else if (expr.type === 'TemplateLiteral') {
+    expr.quasis.forEach((quasi) => {
+      if (quasi.value.raw) {
+        const colorClasses = extractColorClasses(quasi.value.raw);
+        validateColorClasses(colorClasses, node, allAllowedColors, context);
+      }
+    });
+    expr.expressions.forEach((nestedExpr) => {
+      extractAndValidateFromExpression(nestedExpr, node, allAllowedColors, context);
+    });
+  }
+}
+
 const themeColorsRule = {
   meta: {
     type: 'problem',
@@ -131,36 +226,45 @@ const themeColorsRule = {
         if (node.value?.type === 'Literal') {
           classValue = node.value.value || '';
         }
-        // Skip dynamic expressions: className={cn(...)} or className={`dynamic-${var}`}
-        // Hard to analize
+        // Handle dynamic expressions: className={`dynamic-${var}`} or className={condition ? 'a' : 'b'}
         else if (node.value?.type === 'JSXExpressionContainer') {
+          const expression = node.value.expression;
+
+          // Handle TemplateLiteral: className={`bg-${color}-500`}
+          if (expression?.type === 'TemplateLiteral') {
+            const template = expression;
+
+            // Check static parts (quasis)
+            template.quasis.forEach((quasi) => {
+              if (quasi.value.raw) {
+                const colorClasses = extractColorClasses(quasi.value.raw);
+                validateColorClasses(colorClasses, node, allAllowedColors, context);
+              }
+            });
+
+            // Check dynamic ${...} expressions for string literals
+            template.expressions.forEach((expr) => {
+              extractAndValidateFromExpression(expr, node, allAllowedColors, context);
+            });
+          }
+          // Handle ConditionalExpression: className={condition ? 'bg-red-500' : 'bg-blue-500'}
+          else if (expression?.type === 'ConditionalExpression') {
+            extractAndValidateFromExpression(expression, node, allAllowedColors, context);
+          }
+          // Handle LogicalExpression: className={condition && 'bg-red-500'}
+          else if (expression?.type === 'LogicalExpression') {
+            extractAndValidateFromExpression(expression.left, node, allAllowedColors, context);
+            extractAndValidateFromExpression(expression.right, node, allAllowedColors, context);
+          }
+
           return;
         }
 
         if (!classValue) return;
 
-        // Extract and validate color classes
+        // Extract and validate color classes for string literals
         const colorClasses = extractColorClasses(classValue);
-
-        for (const { fullMatch, colorName, utility } of colorClasses) {
-          if (isInvalidColor(colorName)) {
-            // Suggest a theme color based on the utility type
-            let suggestion = 'primary';
-            if (utility === 'bg') suggestion = 'primary or secondary';
-            if (utility === 'text') suggestion = 'foreground or primary';
-            if (utility === 'border') suggestion = 'border';
-
-            context.report({
-              node,
-              messageId: 'invalidColor',
-              data: {
-                className: fullMatch,
-                suggestion,
-                allowed: allAllowedColors.join(', '),
-              },
-            });
-          }
-        }
+        validateColorClasses(colorClasses, node, allAllowedColors, context);
       },
     };
   },

@@ -4,6 +4,9 @@ import { Hotel } from '@/types/hotel';
 import HotelDetailCard from './HotelDetailCard';
 import { useRouter } from 'next/navigation';
 import { Maximize2 } from 'lucide-react';
+import { useAppSelector } from '@/hooks/hooks';
+import { selectIsDarkMode } from '../../dark-mode/store/darkModeSlice';
+import { cn } from '@/lib/utils';
 
 interface HotelMapProps {
   hotels?: Hotel[];
@@ -15,6 +18,7 @@ const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
 export default function HotelMap({ hotels = [], isFullScreen = false }: HotelMapProps) {
   const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null);
   const router = useRouter();
+  const isDarkMode = useAppSelector(selectIsDarkMode);
 
   // Filter hotels that have valid coordinates
   const hotelsWithCoordinates = useMemo(
@@ -51,15 +55,18 @@ export default function HotelMap({ hotels = [], isFullScreen = false }: HotelMap
 
   return (
     <div className={`relative ${!isFullScreen ? 'overflow-hidden rounded-xl' : ''}`}>
-      {/* Show expand button only when NOT in fullscreen mode */}
+      {/* Special bg color only for adjust google map theme */}
       {!isFullScreen && (
         <button
           onClick={handleExpandMap}
-          className="flex- absolute top-4 right-4 z-50 rounded-lg bg-white p-2 shadow-md transition-all hover:bg-gray-50 hover:shadow-lg"
+          className={cn(
+            'text-primary absolute top-4 right-4 z-10 rounded-lg p-2 shadow-md transition-all hover:shadow-lg',
+            isDarkMode ? 'bg-[rgb(68,68,68)]' : 'bg-background'
+          )}
           title="Expand map to full screen"
         >
-          <div className="flex items-center justify-center gap-1">
-            <Maximize2 className="h-5 w-5 text-gray-700" />
+          <div className="b flex items-center justify-center gap-1">
+            <Maximize2 className="text-primary h-5 w-5" />
             Expand map to full screen
           </div>
         </button>
@@ -75,6 +82,7 @@ export default function HotelMap({ hotels = [], isFullScreen = false }: HotelMap
           streetViewControl={false}
           mapTypeControl={false}
           clickableIcons={false}
+          colorScheme={isDarkMode ? 'DARK' : 'LIGHT'}
         >
           {hotelsWithCoordinates.map((hotel) => (
             <AdvancedMarker
@@ -84,7 +92,9 @@ export default function HotelMap({ hotels = [], isFullScreen = false }: HotelMap
             >
               <div
                 className={`cursor-pointer rounded px-3 py-1 text-sm font-medium shadow-md ${
-                  selectedHotelId === hotel.id ? 'bg-primary text-white' : 'bg-secondary text-white'
+                  selectedHotelId === hotel.id
+                    ? 'bg-brand-primary text-white'
+                    : 'bg-brand-secondary text-white'
                 }`}
               >
                 ${hotel.pricePerNight}

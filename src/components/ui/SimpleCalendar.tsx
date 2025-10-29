@@ -86,9 +86,9 @@ export default function SimpleCalendar(simpleCalendarProps: SimpleCalendarProps)
           isToday(day)
             ? isSelected(day)
               ? 'border-secondary border-8 bg-white text-black!'
-              : 'bg-secondary scale-75 text-white hover:border-2 hover:border-black'
+              : 'bg-brand-secondary scale-75 text-white hover:border-2 hover:border-black'
             : ''
-        } ${isSelected(day) ? 'bg-secondary text-white hover:border hover:border-black' : ''} `}
+        } ${isSelected(day) ? 'bg-brand-secondary text-white hover:border hover:border-black' : ''} `}
         onClick={() => handleDateClick(new Date(currentYear, currentMonth, day))}
       >
         {day}
@@ -97,7 +97,7 @@ export default function SimpleCalendar(simpleCalendarProps: SimpleCalendarProps)
   };
 
   return (
-    <div className="absolute top-0 z-9999 w-90 bg-white p-3 shadow-lg">
+    <div className="bg-overlay absolute top-0 z-9999 w-90 rounded-lg p-3 shadow-lg">
       <div className="flex flex-col">
         <MonthNavigation
           monthName={currentMonthToString}
@@ -110,7 +110,7 @@ export default function SimpleCalendar(simpleCalendarProps: SimpleCalendarProps)
           {getDaysInMonth().map((day, index) => renderDay(day, index))}
         </div>
         <div className="mt-3 flex h-10 justify-end">
-          <Button className="bg-secondary w-24" onClick={onClose} text="Done"></Button>
+          <Button className="w-24" onClick={onClose} variant="secondary" text="Done"></Button>
         </div>
       </div>
     </div>
@@ -130,13 +130,13 @@ function MonthNavigation({
 }) {
   return (
     <div className="flex w-full items-center justify-between">
-      <button className="w-8 cursor-pointer rounded p-2 hover:bg-gray-100" onClick={onPrev}>
+      <button className="hover:bg-muted w-8 cursor-pointer rounded p-2" onClick={onPrev}>
         <ChevronLeftIcon />
       </button>
       <div className="text-lg font-semibold">
         {monthName} {year}
       </div>
-      <button className="w-8 cursor-pointer rounded p-2 hover:bg-gray-100" onClick={onNext}>
+      <button className="hover:bg-muted w-8 cursor-pointer rounded p-2" onClick={onNext}>
         <ChevronRightIcon />
       </button>
     </div>

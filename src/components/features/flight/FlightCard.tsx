@@ -59,21 +59,21 @@ FlightCard.times = function FlightCardTimes() {
     <div className="flex">
       <div className="flex flex-col justify-center">
         <div className="text-primary text-3xl font-bold">{flight.departureTime}</div>
-        <div className="text-primary/50">{flight.departureLocation}</div>
+        <div className="text-tertiary">{flight.departureLocation}</div>
       </div>
 
       <div className="flex flex-col items-center justify-center px-8 pb-4">
-        <div className="mb-1 text-xs text-gray-400">{flight.totalTime}</div>
+        <div className="mb-1 text-xs text-muted-dark">{flight.totalTime}</div>
         <div className="flex items-center gap-2">
-          <div className="h-px w-16 bg-gray-300"></div>
-          <div className="text-xs font-semibold text-amber-500">1 Stop</div>
-          <div className="h-px w-16 bg-gray-300"></div>
+          <div className="h-px w-16 bg-muted-border"></div>
+          <div className="text-xs font-semibold text-warning">1 Stop</div>
+          <div className="h-px w-16 bg-muted-border"></div>
         </div>
       </div>
 
       <div className="flex flex-col justify-center">
         <div className="text-primary text-3xl font-bold">{flight.arrivalTime}</div>
-        <div className="text-primary/50">{flight.arrivalLocation}</div>
+        <div className="text-tertiary">{flight.arrivalLocation}</div>
       </div>
     </div>
   );
@@ -83,7 +83,7 @@ FlightCard.pricing = function FlightCardPricing() {
   const { flight } = useFlightCardContext();
   return (
     <div className="flex flex-col items-end gap-2">
-      <div className="text-primary/50 text-xs">FROM</div>
+      <div className="text-tertiary text-xs">FROM</div>
       <div className="text-primary text-3xl font-bold">${flight.price}</div>
       <Button
         className="px-6 py-3 font-medium text-white"

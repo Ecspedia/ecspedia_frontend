@@ -1,6 +1,7 @@
 export interface ServiceTab {
   name: string;
   icon: string;
+  iconDark: string;
   index: number;
   comingSoon?: boolean;
 }
