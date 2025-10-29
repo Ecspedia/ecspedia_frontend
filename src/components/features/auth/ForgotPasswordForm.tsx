@@ -37,7 +37,7 @@ export default function ForgotPasswordForm() {
 
     try {
       const response = await emailService.sendPasswordReset(email);
-      
+
       if (response.success) {
         setSuccessMessage('Password reset email sent! Check your inbox.');
       } else {

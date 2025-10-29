@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { emailService } from '@/services/emailServices';
 import { AppError } from '@/lib/errors';
+import { cn } from '@/lib/utils';
 
 interface ResetPasswordFormProps {
   token: string;
@@ -64,7 +65,7 @@ export default function ResetPasswordForm({ token, email }: ResetPasswordFormPro
 
     try {
       const response = await emailService.resetPassword(emailField, token, password);
-      
+
       if (response.success) {
         setSuccessMessage('Password reset successfully! You can now sign in with your new password.');
       } else {
