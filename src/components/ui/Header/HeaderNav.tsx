@@ -21,7 +21,7 @@ export default function HeaderNav() {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center gap-3">
-              <div className="text-primary from-accent to-accent flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br">
+              <div className="text-black bg-accent flex h-6 w-6 items-center justify-center rounded-md">
                 <MoveUpLeft size={35} strokeWidth={2} />
               </div>
               <span className="text-primary text-2xl font-semibold transition-colors duration-300">
