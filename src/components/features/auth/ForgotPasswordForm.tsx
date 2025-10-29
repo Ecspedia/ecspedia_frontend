@@ -1,30 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { emailService } from '@/services/emailServices';
+import { AppError } from '@/lib/errors';
 
-export default function LoginForm() {
-  const router = useRouter();
+export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // Errores por campo
   const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [generalError, setGeneralError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Reset errores
+    // Reset errors and messages
     setEmailError('');
-    setPasswordError('');
+    setSuccessMessage('');
     setGeneralError('');
 
     let hasError = false;
 
-    // Validación
+    // Validation
     if (!email) {
       setEmailError('Email is required.');
       hasError = true;
@@ -33,32 +31,22 @@ export default function LoginForm() {
       hasError = true;
     }
 
-    if (!password) {
-      setPasswordError('Password is required.');
-      hasError = true;
-    } else if (password.length < 8) {
-      setPasswordError('Password must be at least 8 characters.');
-      hasError = true;
-    }
-
     if (hasError) return;
 
     setLoading(true);
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Invalid credentials');
+      const response = await emailService.sendPasswordReset(email);
+      
+      if (response.success) {
+        setSuccessMessage('Password reset email sent! Check your inbox.');
+      } else {
+        setGeneralError(response.message || 'Failed to send reset email');
       }
-
-      router.push('/dashboard');
     } catch (err: unknown) {
-      if (err instanceof Error) {
+      if (AppError.isAppError(err)) {
+        setGeneralError(err.message);
+      } else if (err instanceof Error) {
         setGeneralError(err.message);
       } else {
         setGeneralError('An unexpected error occurred.');
@@ -74,7 +62,11 @@ export default function LoginForm() {
         onSubmit={handleSubmit}
         className="relative w-full max-w-sm rounded-xl bg-white p-6 shadow-md"
       >
-        <h2 className="mb-6 text-center text-xl font-semibold">Sign in</h2>
+        <h2 className="mb-6 text-center text-xl font-semibold">Forgot Password</h2>
+        
+        <p className="mb-6 text-center text-sm text-gray-600">
+          Enter your email address and we&apos;ll send you a link to reset your password.
+        </p>
 
         {/* Email */}
         <div className="relative mb-4">
@@ -87,6 +79,7 @@ export default function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="youremail@example.com"
+            disabled={loading}
           />
           {emailError && (
             <span className="absolute top-full right-0 mt-1 rounded-lg bg-primary px-2 py-1 text-xs text-white shadow-lg">
@@ -95,31 +88,14 @@ export default function LoginForm() {
           )}
         </div>
 
-        {/* Password */}
-        <div className="relative mb-0">
-          <label className="mb-1 block text-sm font-medium">Password</label>
-          <input
-            type="password"
-            className={`w-full rounded-lg border px-3 py-2 focus:ring focus:outline-none ${
-              passwordError ? 'border-primary focus:ring-primary' : 'focus:ring-primary'
-            }`}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-          />
-          {passwordError && (
-            <span className="absolute top-full right-0 mt-1 rounded-lg bg-primary px-2 py-1 text-xs text-white shadow-lg">
-              {passwordError}
+        {/* Success message */}
+        {successMessage && (
+          <div className="mb-4 flex justify-center">
+            <span className="rounded-lg bg-green-500 px-3 py-1 text-sm text-white shadow-lg">
+              {successMessage}
             </span>
-          )}
-        </div>
-
-        {/* Forgot Password Link */}
-        <div className="mb-6 text-right">
-          <a href="/forgot-password" className="text-sm text-secondary hover:underline">
-            Forgot your password?
-          </a>
-        </div>
+          </div>
+        )}
 
         {/* Error general (backend) */}
         {generalError && (
@@ -133,17 +109,17 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-secondary w-full rounded-full py-2 text-white transition hover:bg-primary"
+          className="bg-secondary w-full rounded-full py-2 text-white transition hover:bg-primary disabled:opacity-50"
         >
-          {loading ? 'Signing in...' : 'Continue'}
+          {loading ? 'Sending...' : 'Send Reset Link'}
         </button>
 
-        {/* Enlace para registrarse */}
+        {/* Back to login link */}
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{' '}
-          <a href="/register" className="font-medium text-secondary hover:underline">
-            Register
-          </a>
+          Remember your password?{' '}
+          <Link href="/login" className="font-medium text-secondary hover:underline">
+            Sign in
+          </Link>
         </div>
       </form>
     </div>

@@ -59,7 +59,7 @@ export default function Register() {
     try {
       const user: User = { username, email, password };
       await userService.createUser(user);
-      router.push('/Login');
+      router.push('/login');
     } catch (error) {
       throw error;
     }
@@ -87,7 +87,7 @@ export default function Register() {
             placeholder="e.g. Jorge Bejarano"
           />
           {usernameError && (
-            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-white shadow-lg">
+            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-background shadow-lg">
               {usernameError}
             </span>
           )}
@@ -106,7 +106,7 @@ export default function Register() {
             placeholder="e.g. tuemailbakan@gmail.com"
           />
           {emailError && (
-            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-white shadow-lg">
+            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-background shadow-lg">
               {emailError}
             </span>
           )}
@@ -125,7 +125,7 @@ export default function Register() {
             placeholder="••••••••"
           />
           {passwordError && (
-            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-white shadow-lg">
+            <span className="absolute top-full right-0 mt-1 rounded-lg bg-red-500 px-2 py-1 text-xs text-background shadow-lg">
               {passwordError}
             </span>
           )}
