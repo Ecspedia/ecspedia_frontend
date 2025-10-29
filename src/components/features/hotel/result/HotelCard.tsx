@@ -100,10 +100,10 @@ HotelCard.pricing = function HotelCardPricing({
         </div>
       </div>
 
-      {hotel.includesTaxesAndFees && (
+      {hotel.isAvailable && (
         <div className="text-secondary flex items-center gap-1 text-sm">
           <Check className="text-success h-4 w-4" />
-          <span>Total includes taxes and fees</span>
+          <span>Available</span>
         </div>
       )}
     </div>
