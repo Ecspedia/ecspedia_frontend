@@ -72,7 +72,7 @@ export default function LoginForm() {
     <div className="flex justify-center ">
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-sm rounded-xl  border border-border p-6 shadow-md bg-overlay"
+        className="relative w-full max-w-sm rounded-xl border border-border p-6 shadow-md bg-overlay"
       >
         <h2 className="mb-6 text-center text-xl font-semibold text-primary">Sign in</h2>
 
@@ -95,7 +95,7 @@ export default function LoginForm() {
         </div>
 
         {/* Password */}
-        <div className="relative mb-6">
+        <div className="relative mb-1">
           <label className="mb-1 block text-sm font-medium text-primary">Password</label>
           <input
             type="password"
@@ -114,7 +114,7 @@ export default function LoginForm() {
 
         {/* Forgot Password Link */}
         <div className="mb-6 text-right">
-          <a href="/forgot-password" className="text-sm text-secondary hover:underline">
+          <a href="/forgot-password" className="text-sm text-brand-secondary hover:underline">
             Forgot your password?
           </a>
         </div>
