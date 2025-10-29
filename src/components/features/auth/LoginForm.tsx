@@ -112,6 +112,13 @@ export default function LoginForm() {
           )}
         </div>
 
+        {/* Forgot Password Link */}
+        <div className="mb-6 text-right">
+          <a href="/forgot-password" className="text-sm text-secondary hover:underline">
+            Forgot your password?
+          </a>
+        </div>
+
         {/* Error general (backend) */}
         {generalError && (
           <div className="mb-4 flex justify-center">

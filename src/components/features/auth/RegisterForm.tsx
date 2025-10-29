@@ -59,7 +59,7 @@ export default function Register() {
     try {
       const user: User = { username, email, password };
       await userService.createUser(user);
-      router.push('/Login');
+      router.push('/login');
     } catch (error) {
       throw error;
     }
