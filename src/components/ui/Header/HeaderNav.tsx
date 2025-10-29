@@ -25,7 +25,7 @@ export default function HeaderNav() {
                 <MoveUpLeft size={35} strokeWidth={2} />
               </div>
               <span className="text-primary text-2xl font-semibold transition-colors duration-300">
-                Ecspedia
+                Ecspedia Dev
               </span>
             </Link>
           </div>
