@@ -1,0 +1,32 @@
+export const flights = [
+  {
+    id: 1,
+    departureLocation: "Santiago",
+    arrivalLocation: "Miami",
+    departureTime: "1:24 AM",
+    arrivalTime: "9:10 AM",
+    company: "LATAM",
+    price: 450,
+    totalTime: "7h 46m",
+  },
+  {
+    id: 2,
+    departureLocation: "Santiago",
+    arrivalLocation: "Miami",
+    departureTime: "8:15 AM",
+    arrivalTime: "4:30 PM",
+    company: "LATAM",
+    price: 520,
+    totalTime: "8h 15m",
+  },
+  {
+    id: 3,
+    departureLocation: "Santiago",
+    arrivalLocation: "Miami",
+    departureTime: "11:45 PM",
+    arrivalTime: "7:20 AM",
+    company: "LATAM",
+    price: 395,
+    totalTime: "7h 35m",
+  },
+];
