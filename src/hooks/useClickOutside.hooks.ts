@@ -1,3 +1,4 @@
+'use client';
 import { RefObject, useEffect, useRef } from 'react';
 
 interface UseClickOutSideProps<E extends HTMLElement | null> {
@@ -5,7 +6,9 @@ interface UseClickOutSideProps<E extends HTMLElement | null> {
   callback: () => void;
 }
 
-export default function useClickOutSide<E extends HTMLElement | null>(useClickOutSideProps: UseClickOutSideProps<E>) {
+export default function useClickOutSide<E extends HTMLElement | null>(
+  useClickOutSideProps: UseClickOutSideProps<E>
+) {
   const { containerRef, callback } = useClickOutSideProps;
   const callbackRef = useRef(callback);
 

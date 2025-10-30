@@ -6,6 +6,7 @@ import { User } from '@/types/user';
 import { userService } from '@/services/userService';
 
 export default function Register() {
+  console.log('RegisterForm component loaded');
   const router = useRouter();
   const [username, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -70,7 +71,7 @@ export default function Register() {
     <div className="flex justify-center">
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-sm rounded-xl bg-background border border-border p-6 shadow-md bg-overlay"
+        className="relative w-full max-w-sm rounded-xl border border-border p-6 shadow-md bg-overlay"
       >
         <h2 className="mb-6 text-center text-xl font-semibold text-primary">Register</h2>
 

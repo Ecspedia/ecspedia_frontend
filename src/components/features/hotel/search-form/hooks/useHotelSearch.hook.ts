@@ -30,7 +30,12 @@ export const useHotelSearch = () => {
   );
 
   const handleDateRangeChange = useCallback(
-    (startDate: Date, endDate: Date, startField: { onChange: (value: string) => void }, endField: { onChange: (value: string) => void }) => {
+    (
+      startDate: Date,
+      endDate: Date,
+      startField: { onChange: (value: string) => void },
+      endField: { onChange: (value: string) => void }
+    ) => {
       const startIsoDate = startDate.toISOString();
       const endIsoDate = endDate.toISOString();
 
@@ -51,7 +56,8 @@ export const useHotelSearch = () => {
     [dispatch]
   );
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = async () => {
+    console.log('onSubmit', location);
     setIsSearching(true);
     try {
       await dispatch(searchHotels(location)).unwrap();
@@ -61,7 +67,7 @@ export const useHotelSearch = () => {
     } finally {
       setIsSearching(false);
     }
-  }, [dispatch, location]);
+  };
 
   return {
     state: {

@@ -31,7 +31,7 @@ export default function DateRangeTextField(dateRangeTextFieldProps: DateRangeTex
   return (
     <div className="relative">
       {isCalendarOpen && (
-        <div className="absolute top-0 left-0 z-50">
+        <div className="absolute -top-1 left-0 z-50">
           <Calendar
             initialStartDate={startDate}
             initialEndDate={endDate}

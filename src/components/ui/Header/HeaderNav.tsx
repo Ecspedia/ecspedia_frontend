@@ -1,36 +1,17 @@
-'use client';
 
-import Link from 'next/link';
-import { MoveUpLeft } from 'lucide-react';
 import { BotonBell, BotonHeader } from './index';
-import { DarkModeToggle, selectIsDarkMode } from '@/components/features/dark-mode';
-import { useAppSelector } from '@/hooks';
-import { cn } from '@/lib/utils';
+import { DarkModeToggle } from '@/components/features/dark-mode';
+import HeaderComponent from './HeaderComponent';
+import Logo from './Logo';
+
 
 export default function HeaderNav() {
-  const isDarkMode = useAppSelector(selectIsDarkMode);
+
   return (
-    <header
-      className={cn(
-        'bg-background sticky top-0 z-100 shadow-md transition-colors duration-300',
-        isDarkMode ? 'border-border border-b' : ''
-      )}
-    >
+    <HeaderComponent>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="text-black bg-accent flex h-6 w-6 items-center justify-center rounded-md">
-                <MoveUpLeft size={35} strokeWidth={2} />
-              </div>
-              <span className="text-primary text-2xl font-semibold transition-colors duration-300">
-                Ecspedia Dev
-              </span>
-            </Link>
-          </div>
-
-          {/* Botones */}
+          <Logo />
           <div className="flex items-center gap-3">
             <DarkModeToggle />
             <BotonBell />
@@ -40,6 +21,6 @@ export default function HeaderNav() {
           </div>
         </div>
       </div>
-    </header>
+    </HeaderComponent>
   );
 }

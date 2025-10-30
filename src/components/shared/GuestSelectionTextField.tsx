@@ -4,11 +4,11 @@ import { User } from 'lucide-react';
 
 interface GuestSelectionTextFieldProps {
   isOpen: boolean;
-  onOpen: () => void;
   adults: number;
+  placeholder?: string;
+  onOpen: () => void;
   onAdultsSelect: (adults: number) => void;
   onClose: () => void;
-  placeholder?: string;
 }
 
 export default function GuestSelectionTextField({
@@ -27,7 +27,7 @@ export default function GuestSelectionTextField({
   return (
     <div className="relative">
       {isOpen && (
-        <div className="absolute top-0 left-0 z-50">
+        <div className="absolute -top-1 left-0 z-50">
           <GuestSelector
             initialAdults={adults}
             onApply={onAdultsSelect}

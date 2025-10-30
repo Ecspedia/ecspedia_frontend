@@ -4,8 +4,8 @@ import { Building2, MapIcon, MapPin, MapPinCheck } from 'lucide-react';
 import { useState } from 'react';
 
 interface ExpandedLocationFieldProps {
-  onLocationSelect: (location: string) => void;
   placeholder: string;
+  onLocationSelect: (location: string) => void;
   onClose: () => void;
 }
 
@@ -26,12 +26,12 @@ export default function ExpandedLocationTextField(
     setText(value);
     const filtered = value
       ? suggestion
-          .filter(
-            (item) =>
-              item.city.toLowerCase().includes(value.toLowerCase()) ||
-              item.country.toLowerCase().includes(value.toLowerCase())
-          )
-          .slice(0, maxSuggestionList)
+        .filter(
+          (item) =>
+            item.city.toLowerCase().includes(value.toLowerCase()) ||
+            item.country.toLowerCase().includes(value.toLowerCase())
+        )
+        .slice(0, maxSuggestionList)
       : suggestion.slice(0, maxSuggestionList);
     setFilteredSuggestions(filtered);
   };

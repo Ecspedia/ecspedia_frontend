@@ -21,6 +21,8 @@ interface ApiErrorResponse {
 
 /**
  * Create and configure the axios instance
+ * @deprecated Use Apollo Client (@/lib/apollo-client) for GraphQL queries instead.
+ * This API client is maintained only for legacy REST endpoints (auth, email).
  */
 const createApiClient = (): AxiosInstance => {
   const client = axios.create({
@@ -125,45 +127,73 @@ const apiClient = createApiClient();
 
 /**
  * Export the configured API client
+ * @deprecated Use Apollo Client (@/lib/apollo-client) for GraphQL queries instead.
+ * This is maintained only for legacy REST endpoints (auth, email).
  */
 export default apiClient;
 
 /**
  * Export helper methods for common HTTP operations
+ * @deprecated Use Apollo Client (@/lib/apollo-client) for GraphQL queries instead.
+ * These methods are maintained only for legacy REST endpoints (auth, email).
  */
 export const api = {
   /**
    * GET request
+   * @deprecated Use Apollo Client with GraphQL queries instead
    */
   get: <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[DEPRECATED] api.get is deprecated. Use Apollo Client for GraphQL queries.');
+    }
     return apiClient.get<T>(url, config).then((response) => response.data);
   },
 
   /**
    * POST request
+   * @deprecated Use Apollo Client with GraphQL mutations instead (except for auth/email endpoints)
    */
   post: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
+    if (process.env.NODE_ENV === 'development' && !url.includes('/auth/')) {
+      console.warn('[DEPRECATED] api.post is deprecated. Use Apollo Client for GraphQL mutations.');
+    }
     return apiClient.post<T>(url, data, config).then((response) => response.data);
   },
 
   /**
    * PUT request
+   * @deprecated Use Apollo Client with GraphQL mutations instead
    */
   put: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[DEPRECATED] api.put is deprecated. Use Apollo Client for GraphQL mutations.');
+    }
     return apiClient.put<T>(url, data, config).then((response) => response.data);
   },
 
   /**
    * PATCH request
+   * @deprecated Use Apollo Client with GraphQL mutations instead
    */
   patch: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(
+        '[DEPRECATED] api.patch is deprecated. Use Apollo Client for GraphQL mutations.'
+      );
+    }
     return apiClient.patch<T>(url, data, config).then((response) => response.data);
   },
 
   /**
    * DELETE request
+   * @deprecated Use Apollo Client with GraphQL mutations instead
    */
   delete: <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(
+        '[DEPRECATED] api.delete is deprecated. Use Apollo Client for GraphQL mutations.'
+      );
+    }
     return apiClient.delete<T>(url, config).then((response) => response.data);
   },
 };

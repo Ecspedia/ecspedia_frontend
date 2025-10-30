@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -114,9 +115,9 @@ export default function LoginForm() {
 
         {/* Forgot Password Link */}
         <div className="mb-6 text-right">
-          <a href="/forgot-password" className="text-sm text-brand-secondary hover:underline">
+          <Link href="/forgot-password" className="text-sm text-brand-secondary hover:underline">
             Forgot your password?
-          </a>
+          </Link>
         </div>
 
         {/* Error general (backend) */}
@@ -139,9 +140,9 @@ export default function LoginForm() {
         {/* Enlace para registrarse */}
         <div className="mt-4 text-center text-sm text-primary">
           Don&apos;t have an account?{' '}
-          <a href="/register" className="font-medium text-brand-secondary hover:underline">
+          <Link href="/register" className="font-medium text-brand-secondary hover:underline">
             Register
-          </a>
+          </Link>
         </div>
       </form>
     </div>

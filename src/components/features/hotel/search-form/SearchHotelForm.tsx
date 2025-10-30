@@ -23,6 +23,7 @@ export default function SearchHotelForm() {
     HTMLDivElement
   >();
 
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -40,7 +41,10 @@ export default function SearchHotelForm() {
               onOpen={() => handleFieldClick(LocationFieldType.LOCATION)}
               isOpen={isFieldExpanded(LocationFieldType.LOCATION)}
               onClose={closeField}
-              onChange={(location: string) => handleLocationChange(location)}
+              onChange={(location: string) => {
+                field.onChange(location);
+                handleLocationChange(location);
+              }}
             />
           )}
         />

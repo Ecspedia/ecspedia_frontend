@@ -43,6 +43,7 @@ export const hotelService = {
       const { data } = await client.query<GetHotelsByLocationResponse>({
         query: GET_HOTELS_BY_LOCATION,
         variables: { location },
+        fetchPolicy: 'network-only',
       });
       return data?.hotelsByLocation || [];
     } catch (error) {
