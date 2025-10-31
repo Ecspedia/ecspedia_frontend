@@ -4,7 +4,7 @@ export default function ExpediaHeader() {
 
   return (
     <>
-      <HeaderNav />
+
       <div className="mx-auto max-w-7xl px-4 py-8">
         <h1 className="text-primary mb-4 text-3xl font-bold">Support</h1>
         <div className="bg-secondary/5 mb-6 rounded-lg p-6 shadow">

@@ -12,7 +12,7 @@ export default function ExpediaHeader() {
   console.log('Register page');
   return (
     <>
-      <HeaderNav />
+
       <div className="mx-auto max-w-7xl px-4 py-8">
         <Register />
       </div>

@@ -19,7 +19,7 @@ export default function ResetPasswordPage({ searchParams }: ResetPasswordPagePro
   if (!token) {
     return (
       <>
-        <HeaderNav />
+
         <div className="mx-auto max-w-7xl px-4 py-8">
           <div className="flex justify-center">
             <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-md text-center">
@@ -27,8 +27,8 @@ export default function ResetPasswordPage({ searchParams }: ResetPasswordPagePro
               <p className="mb-4 text-sm text-gray-600">
                 This password reset link is invalid or has expired.
               </p>
-              <a 
-                href="/forgot-password" 
+              <a
+                href="/forgot-password"
                 className="font-medium text-secondary hover:underline"
               >
                 Request a new reset link
@@ -42,9 +42,9 @@ export default function ResetPasswordPage({ searchParams }: ResetPasswordPagePro
 
   return (
     <>
-      <HeaderNav />
+
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <ResetPasswordForm token={token}  />
+        <ResetPasswordForm token={token} />
       </div>
     </>
   );
