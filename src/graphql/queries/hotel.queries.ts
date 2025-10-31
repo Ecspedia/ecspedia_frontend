@@ -11,6 +11,7 @@ export const GET_HOTELS = gql`
 `;
 
 export const GET_HOTELS_BY_LOCATION = gql`
+  ${HOTEL_CORE_FIELDS}
   query GetHotelsByLocation($location: String!) {
     hotelsByLocation(location: $location) {
       ...HotelCoreFields

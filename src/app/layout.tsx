@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import '@/app/globals.css';
 import StoreProvider from './storeProvider';
 import ApolloProvider from './apolloProvider';
+import ConditionalHeader from './ConditionalHeader';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -37,7 +38,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ApolloProvider>
-          <StoreProvider>{children}</StoreProvider>
+          <StoreProvider>
+            <ConditionalHeader>{children}</ConditionalHeader>
+          </StoreProvider>
         </ApolloProvider>
       </body>
     </html>
