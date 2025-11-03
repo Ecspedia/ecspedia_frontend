@@ -11,19 +11,18 @@ interface UseCalendarStateProps {
 
 export function useCalendarState(props?: UseCalendarStateProps) {
   const {
-    initialStartDate = new Date(),
-    initialEndDate = DateHelper.addOneDay(DateHelper.addOneDay(new Date())),
+    initialStartDate = DateHelper.getToday(),
+    initialEndDate = DateHelper.pastTomorrow(),
     onDateRangeSelect,
     onClose,
   } = props || {};
 
   const [startDate, setStartDate] = useState<Date | null>(initialStartDate);
   const [endDate, setEndDate] = useState<Date | null>(initialEndDate);
-  const [leftDate, setLeftDate] = useState(initialStartDate || new Date());
+  const [leftDate, setLeftDate] = useState(initialStartDate || DateHelper.getToday());
+
   const [rightDate, setRightDate] = useState(() => {
-    const date = new Date(initialStartDate || new Date());
-    date.setMonth(date.getMonth() + 1);
-    return date;
+    return DateHelper.addOneMonth(initialEndDate || DateHelper.getToday());
   });
 
   const handleDone = () => {

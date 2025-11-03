@@ -1,16 +1,3 @@
-/**
- * Apollo-based Hotel Search Hook
- *
- * This hook replaces the Redux-based useHotelSearch hook with Apollo Client's
- * useLazyQuery. It maintains the same interface for backward compatibility.
- *
- * Key improvements:
- * - Uses Apollo cache as single source of truth
- * - Eliminates Redux boilerplate for hotel data
- * - Leverages intelligent caching and request deduplication
- * - Reactive variables for search parameters
- */
-
 'use client';
 
 import { useState, useCallback } from 'react';

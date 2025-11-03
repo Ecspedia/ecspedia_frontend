@@ -23,9 +23,18 @@ export class DateHelper {
   }
 
   static addOneDay(date: Date): Date {
-    const newDate = new Date(date);
-    newDate.setDate(newDate.getDate() + 1);
+    const newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0, 0);
     return newDate;
+  }
+  static addOneMonth(date: Date): Date {
+    const newDate = new Date(date.getFullYear(), date.getMonth() + 1, date.getDate(), 0, 0, 0, 0);
+    return newDate;
+  }
+
+  static pastTomorrow(): Date {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
   }
 
   static getDaysDifference(date1: Date, date2: Date): number {
@@ -66,6 +75,15 @@ export class DateHelper {
     today.setHours(0, 0, 0, 0);
     date.setHours(0, 0, 0, 0);
     return date.toDateString() === today.toDateString();
+  }
+  static getToday(): Date {
+    const today = new Date();
+    return this.normalizeDate(today);
+  }
+  static isLessThanToday(dateToCheck: Date): boolean {
+    const today = this.getToday();
+    dateToCheck = this.normalizeDate(dateToCheck);
+    return dateToCheck < today;
   }
 
   static isDateEqual(date1: Date | null, date2: Date): boolean {

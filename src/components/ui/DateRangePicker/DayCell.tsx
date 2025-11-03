@@ -16,15 +16,16 @@ export default function DayCell({ day, date, currentYear, currentMonth, isDarkMo
 
   const currentDate = new Date(currentYear, currentMonth, day);
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  currentDate.setHours(0, 0, 0, 0);
+
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const isLastDayOfMonth = day === daysInMonth;
   const isFirstDayOfMonth = day === 1;
 
   const isToday = DateHelper.isToday(currentDate);
-  const isDisabled = currentDate < today;
+  console.log('isToday', currentDate, DateHelper.getToday());
+  const isDisabled = DateHelper.isLessThanToday(currentDate);
+
   const isStartDate = DateHelper.isDateEqual(state.startDate, currentDate);
   const isEndDate = DateHelper.isDateEqual(state.endDate, currentDate);
   const isBoundaryDate = isStartDate || isEndDate;

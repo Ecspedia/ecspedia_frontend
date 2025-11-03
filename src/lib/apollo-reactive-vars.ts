@@ -5,6 +5,7 @@
  * without prop drilling. They're an Apollo-native alternative to Redux for simple state.
  */
 
+import { DateHelper } from '@/components/ui/DateRangePicker';
 import { makeVar } from '@apollo/client';
 
 /**
@@ -23,8 +24,8 @@ export interface HotelSearchParams {
  */
 export const hotelSearchParamsVar = makeVar<HotelSearchParams>({
   location: '',
-  startDate: new Date().toISOString().split('T')[0],
-  endDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+  startDate: DateHelper.getToday().toString(),
+  endDate: DateHelper.pastTomorrow().toString(),
   adults: 2,
 });
 
