@@ -4,10 +4,11 @@ import { Controller } from 'react-hook-form';
 import useExpandableFields from '@/hooks/useExpandableFields.hook';
 import { LocationFieldType } from './utils';
 import FormWrapper from './FormWrapper';
-import { useHotelSearch, useHotelFormValidation } from './hooks';
+import { useHotelFormValidation } from './hooks';
+import { useHotelSearchApollo } from './hooks/useHotelSearchApollo.hook';
 
 export default function SearchHotelForm() {
-  const { state, actions } = useHotelSearch();
+  const { state, actions } = useHotelSearchApollo();
   const { location, startDate, endDate, adults, isSearching } = state;
   const { handleLocationChange, handleDateRangeChange, handleAdultsChange, onSubmit } = actions;
 

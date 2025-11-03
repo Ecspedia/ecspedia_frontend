@@ -9,7 +9,49 @@ const createApolloClient = () => {
     link: new HttpLink({
       uri: process.env.NEXT_PUBLIC_GRAPHQL_URI || 'http://localhost:8080/graphql',
     }),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            // Hotel search results - merge strategy
+            hotelsByLocation: {
+              // Always replace with fresh results (don't merge with previous searches)
+              merge(_existing, incoming) {
+                return incoming;
+              },
+              // Read function for cache-only queries
+              read(existing) {
+                return existing;
+              },
+            },
+            // Single hotel by ID - cache by ID for normalization
+            hotelById: {
+              read(existing) {
+                return existing;
+              },
+            },
+          },
+        },
+        Hotel: {
+          // Normalize hotels by ID for efficient cache updates
+          keyFields: ['id'],
+        },
+      },
+    }),
+    // Default options for queries
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'cache-and-network', // Use cache, but fetch fresh data
+        errorPolicy: 'all',
+      },
+      query: {
+        fetchPolicy: 'cache-first', // Prefer cache for one-time queries
+        errorPolicy: 'all',
+      },
+      mutate: {
+        errorPolicy: 'all',
+      },
+    },
   });
 };
 

@@ -5,16 +5,19 @@ import { ServiceTabSelector, ServiceSearchForm } from '@/components/features/ser
 import { HotelCardList, GoogleHotelMap } from '@/components/features/hotel';
 import { useAppSelector } from '@/hooks/hooks';
 import { ServiceType } from '@/types';
-import {
-  selectHotelResults,
-  selectHotelLoading,
-  selectHotelError,
-} from '@/components/features/hotel/search-form/store/hotelSearchSlice';
 import { useEffect, useMemo, useState } from 'react';
 import { selectService } from '@/components/features/service-selector/store/serviceSelectorSlice';
 import dynamic from 'next/dynamic';
 import HotelSearchResult from '../features/hotel/result/HotelSearchResult';
 import { Hotel } from '@/types/hotel';
+import { useQuery, useReactiveVar } from '@apollo/client/react';
+import { GET_HOTELS_BY_LOCATION } from '@/graphql/queries/hotel.queries';
+import { hotelSearchParamsVar } from '@/lib/apollo-reactive-vars';
+
+// GraphQL response type for hotel search
+interface GetHotelsByLocationResponse {
+  hotelsByLocation: Hotel[];
+}
 
 const DynamicGoogleHotelMap = dynamic(
   () => import('@/components/features/hotel').then((mod) => ({ default: mod.GoogleHotelMap })),
@@ -25,22 +28,33 @@ const DynamicGoogleHotelMap = dynamic(
 );
 
 export default function ClientHomeLayout() {
+
   const currentServiceTabSelected = useAppSelector(selectService);
-  const hotels = useAppSelector(selectHotelResults);
-  const hotelsLoading = useAppSelector(selectHotelLoading);
-  const error = useAppSelector(selectHotelError);
+
+  // Read search params from Apollo reactive variable
+  const searchParams = useReactiveVar(hotelSearchParamsVar);
+
+  // Read hotel data from Apollo cache only (no automatic fetching)
+  const { data, loading, error } = useQuery<GetHotelsByLocationResponse>(GET_HOTELS_BY_LOCATION, {
+    variables: { location: searchParams.location },
+    skip: !searchParams.location, // Don't query if no location set
+    fetchPolicy: 'cache-only', // Only read from cache, never fetch automatically
+  });
+
+  const hotels = data?.hotelsByLocation || [];
+  const hotelsLoading = loading;
+  const errorMessage = error?.message;
 
   const currentServiceContent = useMemo(() => {
-
     switch (currentServiceTabSelected) {
       case ServiceType.FLIGHTS:
         return <FlightCardList />;
       case ServiceType.STAYS:
-        return <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={error} />;
+        return <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={errorMessage} />;
       default:
         return null;
     }
-  }, [currentServiceTabSelected, hotels, hotelsLoading, error]);
+  }, [currentServiceTabSelected, hotels, hotelsLoading, errorMessage]);
 
 
   return (

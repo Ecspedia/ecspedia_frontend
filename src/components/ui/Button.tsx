@@ -1,4 +1,5 @@
 import { variants, type ButtonVariant } from "@/constants";
+import { cn } from "@/lib/utils";
 
 interface ButtonProps {
   onClick?: () => void;
@@ -26,7 +27,8 @@ export default function Button(buttonProps: ButtonProps) {
       onClick={onClick}
       type={type}
       disabled={disabled}
-      className={`rounded-full font-bold text-white ${variants[buttonVariant]} ${disabled ? "" : "cursor-pointer"} ${className}`}
+      className={cn("rounded-full font-bold text-white", variants[buttonVariant],
+        disabled ? "" : "cursor-pointer", className)}
     >
       {text}
     </button>

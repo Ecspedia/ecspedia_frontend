@@ -12,8 +12,8 @@ interface HotelCardProps {
 }
 
 // Main HotelCard Component
-export default function HotelCard(hotelCardProps: HotelCardProps) {
-  const { hotel } = hotelCardProps;
+export default function HotelCard(hotelCardProps: HotelCardProps & { onBookClick?: () => void }) {
+  const { hotel, onBookClick } = hotelCardProps;
   return (
     <HotelCardContext.Provider value={{ hotel }}>
       <HotelCard.card>
@@ -28,7 +28,10 @@ export default function HotelCard(hotelCardProps: HotelCardProps) {
             </HotelCard.group>
           </HotelCard.rating>
         </HotelCard.content>
-        <HotelCard.pricing />
+        <div className="flex flex-col items-end justify-between">
+          <HotelCard.pricing />
+          {onBookClick && <HotelCard.BookButton onBook={onBookClick} />}
+        </div>
       </HotelCard.card>
     </HotelCardContext.Provider>
   );
@@ -99,7 +102,7 @@ HotelCard.pricing = function HotelCardPricing({
           </span>
         </div>
       </div>
-
+      <HotelCard.availability />
     </div>
   );
 };
@@ -176,4 +179,18 @@ HotelCard.closeButton = function HotelCardCloseButton({ onClose }: { onClose: ()
 
 HotelCard.DetailsButton = function HotelCardDetailsButton() {
   return <Button variant="primary" text={'View Details'} className="p-2"></Button>;
+};
+
+HotelCard.BookButton = function HotelCardBookButton({ onBook }: { onBook: () => void }) {
+  const { hotel } = useHotelCardContext();
+
+  return (
+    <Button
+      variant="secondary"
+      text={hotel.isAvailable ? 'Book Now' : 'Not Available'}
+      onClick={onBook}
+      disabled={!hotel.isAvailable}
+      className="w-full p-2"
+    />
+  );
 };
