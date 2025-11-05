@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { emailService } from '@/services/emailServices';
-import { AppError } from '@/lib/errors';
+import { useMutation } from '@apollo/client/react';
+import { FORGOT_PASSWORD_MUTATION } from '@/graphql/mutations';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
@@ -11,6 +11,8 @@ export default function ForgotPasswordForm() {
   const [emailError, setEmailError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [generalError, setGeneralError] = useState('');
+
+  const [forgotPasswordMutation] = useMutation(FORGOT_PASSWORD_MUTATION);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,18 +38,31 @@ export default function ForgotPasswordForm() {
     setLoading(true);
 
     try {
-      const response = await emailService.sendPasswordReset(email);
+      const result = await forgotPasswordMutation({
+        variables: {
+          email,
+        },
+      });
 
-      if (response.success) {
-        setSuccessMessage('Password reset email sent! Check your inbox.');
+      if (result.data && typeof result.data === 'object' && 'forgotPassword' in result.data) {
+        const response = result.data.forgotPassword as { success: boolean; message: string };
+        if (response.success) {
+          setSuccessMessage('Password reset email sent! Check your inbox.');
+        } else {
+          setGeneralError(response.message || 'Failed to send reset email');
+        }
       } else {
-        setGeneralError(response.message || 'Failed to send reset email');
+        throw new Error('Failed to send reset email');
       }
     } catch (err: unknown) {
-      if (AppError.isAppError(err)) {
-        setGeneralError(err.message);
+      // Handle GraphQL errors
+      if (err && typeof err === 'object' && 'graphQLErrors' in err) {
+        const graphQLError = err as { graphQLErrors: Array<{ message: string }> };
+        const errorMessage =
+          graphQLError.graphQLErrors?.[0]?.message || 'Failed to send reset email';
+        setGeneralError(errorMessage);
       } else if (err instanceof Error) {
-        setGeneralError(err.message);
+        setGeneralError(err.message || 'Failed to send reset email');
       } else {
         setGeneralError('An unexpected error occurred.');
       }

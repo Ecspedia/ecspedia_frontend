@@ -24,7 +24,7 @@ export default function ResetPasswordPage({ searchParams }: ResetPasswordPagePro
           <div className="flex justify-center">
             <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-md text-center">
               <h2 className="mb-4 text-xl font-semibold text-primary">Invalid Reset Link</h2>
-              <p className="mb-4 text-sm text-gray-600">
+              <p className="mb-4 text-sm text-overlay-secondary">
                 This password reset link is invalid or has expired.
               </p>
               <a
