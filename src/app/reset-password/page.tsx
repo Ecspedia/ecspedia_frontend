@@ -1,6 +1,6 @@
-import { HeaderNav } from '@/components/ui/Header';
-import { ResetPasswordForm } from '@/components/features/auth';
+import { ResetPasswordForm } from '@/features/auth';
 import type { Metadata } from 'next';
+import { paths } from '@/config/paths';
 
 export const metadata: Metadata = {
   title: 'Reset Password',
@@ -24,11 +24,11 @@ export default function ResetPasswordPage({ searchParams }: ResetPasswordPagePro
           <div className="flex justify-center">
             <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-md text-center">
               <h2 className="mb-4 text-xl font-semibold text-primary">Invalid Reset Link</h2>
-              <p className="mb-4 text-sm text-gray-600">
+              <p className="mb-4 text-sm text-secondary">
                 This password reset link is invalid or has expired.
               </p>
               <a
-                href="/forgot-password"
+                href={paths.forgotPassword.getHref()}
                 className="font-medium text-secondary hover:underline"
               >
                 Request a new reset link

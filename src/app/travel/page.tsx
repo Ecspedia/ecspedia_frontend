@@ -1,5 +1,5 @@
-import { HeaderNav } from '@/components/ui/Header';
 import Link from 'next/link';
+import { paths } from '@/config/paths';
 
 export default function ExpediaHeader() {
   return (
@@ -19,7 +19,7 @@ export default function ExpediaHeader() {
             <li>Plan and share trip details with your travel group</li>
           </ul>
           <Link
-            href="/login"
+            href={paths.login.getHref()}
             className="bg-brand-secondary hover:bg-brand-secondary/90 mt-4 inline-block rounded-lg px-4 py-2 text-white transition"
           >
             Sign In or Register

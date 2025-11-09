@@ -1,1 +1,0 @@
-export { useHotelCardContext } from './useHotelCardContext';

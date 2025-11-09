@@ -14,6 +14,39 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'static.cupid.travel',
+        port: '',
+        pathname: '/**',
+      },
+      // Allow all S3 buckets (pattern: bucket.s3.region.amazonaws.com)
+      {
+        protocol: 'https',
+        hostname: '*.s3.*.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.s3.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+      // Allow CloudFront CDNs
+      {
+        protocol: 'https',
+        hostname: '*.cloudfront.net',
+        port: '',
+        pathname: '/**',
+      },
+      // Allow other AWS services
+      {
+        protocol: 'https',
+        hostname: '*.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

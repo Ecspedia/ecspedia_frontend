@@ -1,6 +1,4 @@
-
-import { HeaderNav } from '@/components/ui/Header';
-import Register from '@/components/features/auth/RegisterForm';
+import { RegisterForm } from '@/features/auth';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -9,12 +7,11 @@ export const metadata: Metadata = {
 };
 
 export default function ExpediaHeader() {
-  console.log('Register page');
   return (
     <>
 
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <Register />
+        <RegisterForm />
       </div>
     </>
   );

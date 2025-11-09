@@ -1,6 +1,8 @@
-import TextField from '@/components/ui/TextField';
-import { Calendar } from '@/components/ui/DateRangePicker';
-import { DateHelper } from '@/components/ui/DateRangePicker/utils/dateHelpers';
+import { Calendar } from '@/components/ui';
+import { DateHelper } from '@/utils/dateHelpers';
+import { ExpandableTextField } from './ExpandableTextField';
+import { CalendarIcon } from 'lucide-react';
+
 
 interface DateRangeTextFieldProps {
   isCalendarOpen: boolean;
@@ -29,27 +31,23 @@ export default function DateRangeTextField(dateRangeTextFieldProps: DateRangeTex
   };
 
   return (
-    <div className="relative">
-      {isCalendarOpen && (
-        <div className="absolute -top-1 left-0 z-50">
-          <Calendar
-            initialStartDate={startDate}
-            initialEndDate={endDate}
-            onDateRangeSelect={onDateRangeSelect}
-            onClose={onCalendarClose}
-          />
-        </div>
-      )}
-      <TextField
-        value={formatDateRange()}
-        placeholder={placeholder}
-        onClick={onOpenCalendar}
-        readOnly={false}
-      />
-    </div>
+    <ExpandableTextField
+      value={formatDateRange()}
+      placeholder={placeholder}
+      isOpen={isCalendarOpen}
+      onOpen={onOpenCalendar}
+      readOnly={false}
+      icon={CalendarIcon}
+      popup={
+        <Calendar
+          initialStartDate={startDate}
+          initialEndDate={endDate}
+          onDateRangeSelect={onDateRangeSelect}
+          onClose={onCalendarClose}
+          variant="default"
+        />
+      }
+    />
   );
 }
 
-/* <SimpleCalendar value={selectedDate} onChange={onDateSelect} onClose={onCalendarClose} /> */
-
-/* <SimpleCalendar value={selectedDate} onChange={onDateSelect} onClose={onCalendarClose} /> */

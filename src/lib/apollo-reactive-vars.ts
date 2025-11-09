@@ -5,7 +5,7 @@
  * without prop drilling. They're an Apollo-native alternative to Redux for simple state.
  */
 
-import { DateHelper } from '@/components/ui/DateRangePicker';
+import { DateHelper } from '@/utils/dateHelpers';
 import { makeVar } from '@apollo/client';
 
 /**
@@ -23,10 +23,10 @@ export interface HotelSearchParams {
  * Updated when user submits search form
  */
 export const hotelSearchParamsVar = makeVar<HotelSearchParams>({
-  location: '',
+  location: 'Santiago',
   startDate: DateHelper.getToday().toString(),
   endDate: DateHelper.pastTomorrow().toString(),
-  adults: 2,
+  adults: 1,
 });
 
 /**
@@ -45,8 +45,26 @@ export const updateHotelSearchParams = (params: Partial<HotelSearchParams>) => {
 export const resetHotelSearchParams = () => {
   hotelSearchParamsVar({
     location: '',
-    startDate: new Date().toISOString().split('T')[0],
-    endDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    startDate: DateHelper.getToday().toString(),
+    endDate: DateHelper.pastTomorrow().toString(),
     adults: 2,
   });
+};
+
+/**
+ * Reactive variable to track if hotel search has been submitted
+ * Used to control when useQuery should run in page.tsx
+ */
+export const hotelSearchSubmittedVar = makeVar<boolean>(false);
+
+/**
+ * Helper to set hotel search as submitted
+ */
+export const hotelSearchSubmittedParamsVar = makeVar<HotelSearchParams | null>(null);
+
+export const setHotelSearchSubmitted = (submitted: boolean, params?: HotelSearchParams) => {
+  hotelSearchSubmittedVar(submitted);
+  if (submitted && params) {
+    hotelSearchSubmittedParamsVar(params);
+  }
 };
