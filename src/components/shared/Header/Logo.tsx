@@ -8,7 +8,7 @@ export default function Logo() {
     return (
         <div className="flex items-center space-x-4">
             <Link href={paths.home.getHref()} className="flex items-center gap-3">
-                <div className="text-primay bg-accent flex h-6 w-6 items-center justify-center rounded-md"
+                <div className="text-black bg-accent flex h-6 w-6 items-center justify-center rounded-md"
                 >
                     <MoveUpLeft size={35} strokeWidth={2} />
                 </div>

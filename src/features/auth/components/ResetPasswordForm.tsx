@@ -1,19 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { paths } from '@/config/paths';
 // TODO: Restore emailService - File was moved/deleted
 // import { emailService } from '../api/emailServices';
 // TODO: Restore AppError - File was moved/deleted
 // import { AppError } from '@/lib/errors';
+import { useMutation } from '@apollo/client/react';
+import { RESET_PASSWORD_MUTATION } from '@/graphql/mutations';
 
 interface ResetPasswordFormProps {
   token: string;
   email?: string;
 }
 
-export default function ResetPasswordForm({ token: _token, email }: ResetPasswordFormProps) {
+export default function ResetPasswordForm({ token, email }: ResetPasswordFormProps) {
+  const router = useRouter();
   const [emailField, setEmailField] = useState(email || '');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,6 +27,8 @@ export default function ResetPasswordForm({ token: _token, email }: ResetPasswor
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [generalError, setGeneralError] = useState('');
+
+  const [resetPasswordMutation] = useMutation(RESET_PASSWORD_MUTATION);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,21 +72,37 @@ export default function ResetPasswordForm({ token: _token, email }: ResetPasswor
     setLoading(true);
 
     try {
-      // TODO: Restore emailService.resetPassword when emailService is restored
-      // const response = await emailService.resetPassword(emailField, token, password);
-      // if (response.success) {
-      //   setSuccessMessage('Password reset successfully! You can now sign in with your new password.');
-      // } else {
-      //   setGeneralError(response.message || 'Failed to reset password');
-      // }
-      throw new Error('emailService not available - service file was moved/deleted');
+      const result = await resetPasswordMutation({
+        variables: {
+          email: emailField,
+          token,
+          newPassword: password,
+        },
+      });
+
+      if (result.data && typeof result.data === 'object' && 'resetPassword' in result.data) {
+        const response = result.data.resetPassword as { success: boolean; message: string };
+        if (response.success) {
+          setSuccessMessage('Password reset successfully! Redirecting to login...');
+          // Redirect to login after a short delay to show success message
+          setTimeout(() => {
+            router.push('/login');
+          }, 1500);
+        } else {
+          setGeneralError(response.message || 'Failed to reset password');
+        }
+      } else {
+        throw new Error('Failed to reset password');
+      }
     } catch (err: unknown) {
-      // TODO: Restore AppError.isAppError check when AppError is restored
-      // if (AppError.isAppError(err)) {
-      //   setGeneralError(err.message);
-      // } else
-      if (err instanceof Error) {
-        setGeneralError(err.message);
+      // Handle GraphQL errors
+      if (err && typeof err === 'object' && 'graphQLErrors' in err) {
+        const graphQLError = err as { graphQLErrors: Array<{ message: string }> };
+        const errorMessage =
+          graphQLError.graphQLErrors?.[0]?.message || 'Failed to reset password';
+        setGeneralError(errorMessage);
+      } else if (err instanceof Error) {
+        setGeneralError(err.message || 'Failed to reset password');
       } else {
         setGeneralError('An unexpected error occurred.');
       }
@@ -127,7 +149,7 @@ export default function ResetPasswordForm({ token: _token, email }: ResetPasswor
           <input
             type="password"
             className={`w-full rounded-lg border border-border bg-background text-primary px-3 py-2 focus:ring focus:outline-none placeholder:text-tertiary 
-              ${emailError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'
+              ${passwordError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'
               }`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -147,7 +169,7 @@ export default function ResetPasswordForm({ token: _token, email }: ResetPasswor
           <input
             type="password"
             className={`w-full rounded-lg border border-border bg-background text-primary px-3 py-2 focus:ring focus:outline-none placeholder:text-tertiary 
-              ${emailError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'
+              ${confirmPasswordError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'
               }`}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}

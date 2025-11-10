@@ -2,13 +2,11 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// TODO: Restore User import when userService is restored
-// import { User } from '@/types';
-// TODO: Restore userService - File was moved/deleted
-// import { userService } from '../api/userService';
+import { useMutation } from '@apollo/client/react';
+import { REGISTER_USER_MUTATION } from '@/graphql/mutations';
 
 export default function Register() {
-  const _router = useRouter();
+  const router = useRouter();
   const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,6 +16,9 @@ export default function Register() {
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [generalError, setGeneralError] = useState('');
+
+  const [registerMutation] = useMutation(REGISTER_USER_MUTATION);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +27,7 @@ export default function Register() {
     setUsernameError('');
     setEmailError('');
     setPasswordError('');
+    setGeneralError('');
 
     // Validación
     let hasError = false;
@@ -59,15 +61,37 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // TODO: Restore userService.createUser when userService is restored
-      // const user: User = { username, email, password };
-      // await userService.createUser(user);
-      // router.push('/login');
-      throw new Error('userService not available - service file was moved/deleted');
-    } catch (error) {
-      throw error;
+      const result = await registerMutation({
+        variables: {
+          userRegistrationDto: {
+            username,
+            email,
+            password,
+          },
+        },
+      });
+
+      if (result.data && typeof result.data === 'object' && 'registerUser' in result.data) {
+        // Registration successful, redirect to login
+        router.push('/login');
+      } else {
+        throw new Error('Registration failed');
+      }
+    } catch (err: unknown) {
+      // Handle GraphQL errors
+      if (err && typeof err === 'object' && 'graphQLErrors' in err) {
+        const graphQLError = err as { graphQLErrors: Array<{ message: string }> };
+        const errorMessage =
+          graphQLError.graphQLErrors?.[0]?.message || 'Registration failed';
+        setGeneralError(errorMessage);
+      } else if (err instanceof Error) {
+        setGeneralError(err.message || 'Registration failed');
+      } else {
+        setGeneralError('An unexpected error occurred.');
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -131,6 +155,15 @@ export default function Register() {
             </span>
           )}
         </div>
+
+        {/* Error general (backend) */}
+        {generalError && (
+          <div className="mb-4 flex justify-center">
+            <span className="rounded-lg bg-error px-3 py-1 text-sm text-white shadow-lg">
+              {generalError}
+            </span>
+          </div>
+        )}
 
         <button
           type="submit"
