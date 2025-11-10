@@ -22,7 +22,7 @@ interface CurrentUserQueryData {
   } | null;
 }
 
-export default function HeaderNav({ children }: { children: React.ReactNode }) {
+export default function HeaderNav() {
   const { data, refetch } = useQuery<CurrentUserQueryData>(CURRENT_USER_QUERY, {
     fetchPolicy: 'cache-first',
     nextFetchPolicy: 'cache-first',
@@ -126,7 +126,7 @@ export default function HeaderNav({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </HeaderComponent>
-      {children}
+
     </>
   );
 }

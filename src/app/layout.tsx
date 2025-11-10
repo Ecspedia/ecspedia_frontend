@@ -46,9 +46,8 @@ export default function RootLayout({
               <ErrorBoundaryWrapper>
                 <ConditionalHeader>
                   <HeaderNav />
-                  {children}
-
                 </ConditionalHeader>
+                {children}
               </ErrorBoundaryWrapper>
             </DarkModeProvider>
           </StoreProvider>

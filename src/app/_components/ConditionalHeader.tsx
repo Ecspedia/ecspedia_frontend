@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { HeaderNav } from '@/components/shared/Header';
 
 interface ConditionalHeaderProps {
   children: React.ReactNode;
@@ -15,9 +14,9 @@ export default function ConditionalHeader(conditionalHeaderProps: ConditionalHea
   const noHeaderPages = ['/map', '/booking'];
 
   if (noHeaderPages.includes(pathname)) {
-    return <>{children}</>;
+    return <></>;
   }
 
-  return <HeaderNav>{children}</HeaderNav>;
+  return <>{children}</>;
 }
 
