@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useMutation } from '@apollo/client/react';
+import { LOGIN_MUTATION } from '@/graphql/mutations';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -14,6 +16,8 @@ export default function LoginForm() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [generalError, setGeneralError] = useState('');
+
+  const [loginMutation] = useMutation(LOGIN_MUTATION);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,23 +51,31 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const result = await loginMutation({
+        variables: {
+          authRequest: {
+            username: email, // Send email as username (backend supports both)
+            password,
+          },
+        },
       });
 
-      if (!res.ok) {
+      if (result.data && typeof result.data === 'object' && 'login' in result.data) {
+        const loginData = result.data.login as { token: string };
+        if (loginData?.token) {
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new Event('auth-token-changed'));
+          }
+          router.push('/');
+        } else {
+          throw new Error('Invalid credentials');
+        }
+      } else {
         throw new Error('Invalid credentials');
       }
-
-      router.push('/dashboard');
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setGeneralError(err.message);
-      } else {
-        setGeneralError('An unexpected error occurred.');
-      }
+    } catch (_err: unknown) {
+      // Show invalid credentials for all authentication failures
+      setGeneralError('The email or password is incorrect.');
     } finally {
       setLoading(false);
     }

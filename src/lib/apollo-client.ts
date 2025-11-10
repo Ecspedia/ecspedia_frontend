@@ -5,10 +5,13 @@ let apolloClient: ApolloClient | null = null;
 
 // Create Apollo Client
 const createApolloClient = () => {
+  const httpLink = new HttpLink({
+    uri: process.env.NEXT_PUBLIC_GRAPHQL_URI || 'http://localhost:8080/graphql',
+    credentials: 'include',
+  });
+
   return new ApolloClient({
-    link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_GRAPHQL_URI || 'http://localhost:8080/graphql',
-    }),
+    link: httpLink,
     cache: new InMemoryCache(),
   });
 };

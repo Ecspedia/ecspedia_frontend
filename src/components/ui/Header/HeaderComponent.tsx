@@ -8,7 +8,7 @@ export default function HeaderComponent({ children }: { children: React.ReactNod
     return (
         <header
             className={cn(
-                'bg-background sticky top-0 z-100 shadow-md transition-colors duration-300',
+                'bg-background sticky top-0 z-100 shadow-md',
                 isDarkMode ? 'border-border border-b' : ''
             )}
         >
