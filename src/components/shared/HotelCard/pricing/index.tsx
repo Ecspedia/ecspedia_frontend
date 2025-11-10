@@ -1,6 +1,7 @@
+import { useHotelCardContext } from '@/features/hotel/hooks';
 import { cn } from '@/utils/utils';
 import { Check } from 'lucide-react';
-import { useHotelCardContext } from '../../../hooks';
+
 
 // HotelCardAvailability - Shows availability status
 export function HotelCardAvailability() {
@@ -21,7 +22,7 @@ export function HotelCardAvailability() {
 
 // HotelCardPricing - Displays price with currency
 interface HotelCardPricingProps {
-    variant?: 'default' | 'larger';
+    variant?: 'default' | 'larger' | 'right';
 }
 
 export function HotelCardPricing({ variant = 'default' }: HotelCardPricingProps) {
@@ -32,6 +33,22 @@ export function HotelCardPricing({ variant = 'default' }: HotelCardPricingProps)
     // Use pricePerNight with currency
     const price = hotel.pricePerNight || 0;
     const currencySymbol = '$';
+
+    // If variant is 'right', position on the right side
+    if (variant === 'right') {
+        return (
+            <div className="flex flex-col items-end justify-start">
+                <div className="text-right">
+                    <div className={cn('text-primary mt-1 font-semibold', textPriceFontSize)}>
+                        {currencySymbol}{price.toFixed(2)}{' '}
+                        <span className={cn('text-secondary text-sm font-normal', textLabelFontSize)}>
+                            Per night
+                        </span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col items-end justify-between">
@@ -47,4 +64,3 @@ export function HotelCardPricing({ variant = 'default' }: HotelCardPricingProps)
         </div>
     );
 }
-

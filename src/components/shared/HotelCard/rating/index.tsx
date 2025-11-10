@@ -1,6 +1,7 @@
+import { useHotelCardContext } from '@/features/hotel/hooks';
+import { getRatingLabel } from '@/features/hotel/utils';
 import { ReactNode } from 'react';
-import { useHotelCardContext } from '../../../hooks';
-import { getRatingLabel } from '../../../utils';
+
 
 // HotelCardRating - Container for rating components
 interface HotelCardRatingProps {
@@ -64,4 +65,3 @@ export function HotelCardReviewCount() {
     </span>
   );
 }
-

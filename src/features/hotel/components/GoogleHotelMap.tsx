@@ -1,7 +1,7 @@
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 import { useState, useMemo, useCallback } from 'react';
 import { Hotel } from '@/types/api';
-import HotelDetailCard from './HotelCard/HotelDetailCard';
+import HotelDetailCard from './HotelDetailCard';
 import { useRouter } from 'next/navigation';
 import { Maximize2 } from 'lucide-react';
 import { useAppSelector } from '@/hooks/hooks';
@@ -84,36 +84,36 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
 
 
   return (
-    <div className={`relative ${!isFullScreen ? 'overflow-hidden rounded-xl' : ''}`}>
+    <div className={`relative h-full w-full ${!isFullScreen ? 'overflow-hidden rounded-xl' : ''}`}>
       {/* Special bg color only for adjust google map theme */}
       {!isFullScreen && (
         <Button
           onClick={handleExpandMap}
           variant="blank"
           className={cn(
-            'absolute top-2 right-2 z-50 text-primary p-3 rounded-lg font-medium',
+            'absolute top-2 right-2 z-20 text-primary p-3 rounded-lg font-medium',
             isDarkMode ? 'bg-[rgb(68,68,68)]' : 'bg-background'
           )}
           title="Expand map to full screen"
         >
           <Button.Icon icon={Maximize2} />
-          Expand map to full screen
+
         </Button>
       )}
       <APIProvider apiKey={apiKey}>
         <Map
-          style={{ width: '100%', height: isFullScreen ? '100vh' : '300px' }}
+          style={{ width: '100%', height: isFullScreen ? '100vh' : '100%' }}
           defaultCenter={defaultCenter}
           defaultZoom={13}
           mapId="hotel-map"
-          disableDefaultUI={false}
+          disableDefaultUI={true}
           zoomControl={true}
           streetViewControl={false}
           mapTypeControl={false}
           clickableIcons={false}
           colorScheme={isDarkMode ? 'DARK' : 'LIGHT'}
         >
-          {hotelsWithCoordinates.map((hotel) => {
+          {isFullScreen && hotelsWithCoordinates.map((hotel) => {
             // Coordinates are already numbers
             const lat = Number(hotel.latitude);
             const lng = Number(hotel.longitude);

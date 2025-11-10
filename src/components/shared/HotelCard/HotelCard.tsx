@@ -1,5 +1,5 @@
 import { Hotel } from '@/types/api';
-import { HotelCardContext } from '../../utils';
+import { HotelCardContext } from '@/features/hotel/utils';
 import HotelCardImage from './image';
 import HotelCardInfo from './info';
 import { HotelCardContent, HotelCardCard } from './layout';

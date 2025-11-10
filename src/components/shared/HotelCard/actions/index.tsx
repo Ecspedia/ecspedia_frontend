@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui';
-import { useHotelCardContext } from '../../../hooks';
+import { useRouter } from 'next/navigation';
+import { useHotelCardContext } from '@/features/hotel/hooks';
 
 // HotelCardBookButton - Book now button
 interface HotelCardBookButtonProps {
@@ -8,13 +9,25 @@ interface HotelCardBookButtonProps {
 
 export function HotelCardBookButton({ onBook }: HotelCardBookButtonProps) {
   const { hotel } = useHotelCardContext();
+  const router = useRouter();
   const isAvailable = hotel.isAvailable ?? true;
+
+  const handleBookClick = () => {
+    if (onBook) {
+      onBook();
+    } else {
+      // Save hotel data to localStorage
+      localStorage.setItem('selectedHotel', JSON.stringify(hotel));
+      // Navigate to booking page
+      router.push(`/booking?hotelId=${hotel.id}`);
+    }
+  };
 
   return (
     <Button
       variant="secondary"
       text={isAvailable ? 'Book Now' : 'Not Available'}
-      onClick={onBook ? onBook : () => { }}
+      onClick={handleBookClick}
       disabled={!isAvailable}
       className="w-full p-2"
     />

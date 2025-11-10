@@ -3,7 +3,7 @@
 import { Spinner } from "@/components/ui/Spinner";
 import { Hotel } from "@/types";
 import HotelCardList from "./HotelCardList";
-import HotelVerticalCard from "./HotelCard/HotelVerticalCard";
+import HotelVerticalCard from '@/features/hotel/components/HotelVerticalCard';
 
 interface HotelPopularProps {
     hotels: Hotel[];

@@ -1,6 +1,7 @@
 import { Hotel } from '@/types/api';
-import { HotelCardContext } from '../../utils';
-import HotelCard from '.';
+import { HotelCardContext } from '../utils';
+import HotelCard from '@/components/shared/HotelCard';
+
 
 interface HotelVerticalCardProps {
     hotel: Hotel;

@@ -1,20 +1,19 @@
 'use client';
 
-import { Suspense, useEffect, useRef } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
 import { useHotelSearchQuery } from '@/features/hotel/hooks';
 import { GoogleMapContent } from '@/app/_components';
 import { Spinner } from '@/components/ui';
-import { hotelSearchSubmittedParamsVar, updateHotelSearchParams, hotelSearchParamsVar } from '@/lib/apollo-reactive-vars';
+import { hotelSearchSubmittedParamsVar, updateHotelSearchParams } from '@/lib/apollo-reactive-vars';
 import { DateHelper } from '@/utils/dateHelpers';
-import { useReactiveVar } from '@apollo/client/react';
 
-export default function SearchHotelsPage() {
+// Match the height of HotelCard image (w-64 = 256px with aspect-[4/3] = 192px height) + 2xpadding =16
+const MAP_SIZE = 225;
+
+function SearchHotelsContent() {
     const searchParams = useSearchParams();
-    const router = useRouter();
-    const formParams = useReactiveVar(hotelSearchParamsVar);
-    const isInitialMount = useRef(true);
 
     // Get URL parameters
     const location = searchParams.get('location') || '';
@@ -40,41 +39,11 @@ export default function SearchHotelsPage() {
         }
     }, [location, startDate, endDate, adults]);
 
-    // Listen for form submission and update URL (sync State → URL)
-    // Skip on initial mount to avoid loop
-    useEffect(() => {
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-            return;
-        }
 
-        const currentLocation = searchParams.get('location');
-        const currentStartDate = searchParams.get('startDate');
-        const currentEndDate = searchParams.get('endDate');
-        const currentAdults = searchParams.get('adults');
 
-        // Only update URL if form params have changed and differ from current URL
-        const hasChanged =
-            formParams.location !== currentLocation ||
-            formParams.startDate !== currentStartDate ||
-            formParams.endDate !== currentEndDate ||
-            formParams.adults.toString() !== currentAdults;
-
-        if (formParams.location && hasChanged) {
-            const params = new URLSearchParams();
-            params.set('location', formParams.location);
-            params.set('startDate', formParams.startDate);
-            params.set('endDate', formParams.endDate);
-            params.set('adults', formParams.adults.toString());
-
-            router.push(`/search-hotels?${params.toString()}`);
-        }
-    }, [formParams.location, formParams.startDate, formParams.endDate, formParams.adults, router, searchParams]);
-
-    // Use the hotel search query hook
     const { hotels, loading: hotelsLoading, error: errorMessage } = useHotelSearchQuery();
 
-    // Show message if no location provided
+
     if (!location) {
         return (
             <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44 py-6">
@@ -91,17 +60,32 @@ export default function SearchHotelsPage() {
 
     return (
         <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44 py-6">
-            <SearchHotelForm />
-
-            {!hotelsLoading && hotels.length > 0 && (
-                <GoogleMapContent location={location} hotels={hotels} isHidden={false} />
-            )}
-
-            <Suspense fallback={<Spinner size="lg" />}>
-                <div className="mt-6">
+            <SearchHotelForm variant='extended' />
+            <div className='flex gap-4 mt-2'>
+                {!hotelsLoading && hotels.length > 0 && (
+                    <div
+                        className="shrink-0 self-start"
+                        style={{ width: `${MAP_SIZE}px`, height: `${MAP_SIZE}px` }}
+                    >
+                        <GoogleMapContent location={location} hotels={hotels} isHidden={false} />
+                    </div>
+                )}
+                <div className="flex-1 min-w-0">
                     <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={errorMessage} hasSearched={true} />
                 </div>
-            </Suspense>
+            </div>
         </div>
+    );
+}
+
+export default function SearchHotelsPage() {
+    return (
+        <Suspense fallback={
+            <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44 py-6">
+                <Spinner size="lg" />
+            </div>
+        }>
+            <SearchHotelsContent />
+        </Suspense>
     );
 }

@@ -1,5 +1,7 @@
-import { MapPin, Accessibility, X } from 'lucide-react';
-import { useHotelCardContext } from '../../../hooks';
+import { useHotelCardContext } from '@/features/hotel/hooks';
+import { MapPin, X } from 'lucide-react';
+import { cn } from '@/utils/utils';
+
 
 // HotelCardTitle - Displays hotel name and chain
 export function HotelCardTitle() {
@@ -38,14 +40,23 @@ export function HotelCardLocation() {
 }
 
 // HotelCardDescription - Displays hotel description with HTML support
-export function HotelCardDescription() {
+interface HotelCardDescriptionProps {
+  expanded?: boolean;
+}
+
+export function HotelCardDescription({ expanded = false }: HotelCardDescriptionProps) {
   const { hotel } = useHotelCardContext();
 
   if (!hotel.hotelDescription) return null;
 
   return (
     <div
-      className="text-secondary mt-1 text-xs line-clamp-2 [&>p]:mb-1 [&>p:last-child]:mb-0 [&>p>strong]:font-semibold [&>p>strong]:text-primary"
+      className={cn(
+        'text-secondary mt-1 text-xs',
+        '[&>p]:mb-1 [&>p:last-child]:mb-0',
+        '[&>p>strong]:font-semibold [&>p>strong]:text-primary',
+        !expanded && 'line-clamp-2'
+      )}
       dangerouslySetInnerHTML={{ __html: hotel.hotelDescription }}
     />
   );
@@ -91,7 +102,7 @@ function HotelCardInfo({ withClose, onClose }: HotelCardInfoProps = {}) {
         <HotelCardInfo.Title />
         <HotelCardInfo.Location />
         <HotelCardInfo.Description />
-        <HotelCardInfo.Accessibility />
+
       </div>
       {withClose && onClose && <HotelCardInfo.CloseButton onClose={onClose} />}
     </div>

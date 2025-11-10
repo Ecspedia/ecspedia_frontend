@@ -3,6 +3,7 @@ import { Hotel } from '@/types/api';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
 import HotelCardList from './HotelCardList';
 import { memo } from 'react';
+import HotelCard from '@/components/shared/HotelCard';
 
 interface HotelSearchResultProps {
   hotels: Hotel[];
@@ -25,7 +26,9 @@ function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
   if (hotels.length === 0) {
     return <HotelSearchResult.Welcome />;
   }
-  return <HotelCardList hotels={hotels} />;
+  return <HotelCardList hotels={hotels}
+    direction="vertical"
+    renderItem={(hotel) => <HotelCard key={hotel.id} hotel={hotel} />} />;
 }
 
 HotelSearchResult.NotFound = function HotelNotFound() {

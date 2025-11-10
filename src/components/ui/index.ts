@@ -4,4 +4,4 @@ export { Spinner } from './Spinner';
 
 export { Calendar } from './Calendar';
 export { Link } from './Link';
-export { Input } from './Input';
+export { Input, FormField } from './Input';

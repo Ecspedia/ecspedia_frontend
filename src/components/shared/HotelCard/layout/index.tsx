@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { cn } from '@/utils/utils';
 
 // HotelCardCard - Main card container
 interface HotelCardCardProps {
@@ -12,9 +13,9 @@ export function HotelCardCard({ children }: HotelCardCardProps) {
 // HotelCardContent - Content wrapper
 interface HotelCardContentProps {
   children: ReactNode;
+  className?: string;
 }
 
-export function HotelCardContent({ children }: HotelCardContentProps) {
-  return <div className="flex-1 flex-col">{children}</div>;
+export function HotelCardContent({ children, className }: HotelCardContentProps) {
+  return <div className={cn('flex-1 flex flex-col', className)}>{children}</div>;
 }
-

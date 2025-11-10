@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useReactiveVar } from '@apollo/client/react';
 import {
   hotelSearchParamsVar,
@@ -10,6 +11,8 @@ import {
 import { useHotelSearchQuery } from './useHotelSearchQuery.hook';
 
 export const useHotelSearchApollo = () => {
+  const router = useRouter();
+
   // Read from reactive variables (similar to Redux selectors)
   const searchParams = useReactiveVar(hotelSearchParamsVar);
 
@@ -61,7 +64,17 @@ export const useHotelSearchApollo = () => {
 
     // Mark search as submitted and store the submitted params
     setHotelSearchSubmitted(true, searchParams);
-  }, [searchParams]);
+
+    // Navigate to search-hotels page with query parameters
+    const params = new URLSearchParams({
+      location: searchParams.location,
+      startDate: searchParams.startDate,
+      endDate: searchParams.endDate,
+      adults: searchParams.adults.toString(),
+    });
+
+    router.push(`/search-hotels?${params.toString()}`);
+  }, [searchParams, router]);
 
   return {
     state: {

@@ -1,8 +1,7 @@
 import { Hotel } from '@/types/api';
 import { useRouter } from 'next/navigation';
-
-import HotelCard from './HotelCard';
-import { HotelCardContext } from '../../utils/hotelCardContext';
+import { HotelCardContext } from '../utils/hotelCardContext';
+import HotelCard from '@/components/shared/HotelCard';
 
 interface HotelDetailCardProps {
   hotel: Hotel;
@@ -22,7 +21,7 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
               <div className="flex flex-col">
                 <HotelCard.Info.Title />
                 <HotelCard.Info.Location />
-                <HotelCard.Info.Accessibility />
+
               </div>
               <HotelCard.Info.CloseButton onClose={onClose} />
             </div>
