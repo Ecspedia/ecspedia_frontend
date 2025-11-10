@@ -18,7 +18,7 @@ interface GetLocationsResponse {
 }
 
 interface GetTopDestinationsResponse {
-  topDestinations: Location[];
+  topLocations: Location[];
 }
 
 export default function LocationSelector(
@@ -47,7 +47,7 @@ export default function LocationSelector(
   const allLocations = locationsData?.locations || DEFAULT_CITY_SUGGESTION;
 
   // Popular destinations from API or fallback to local data
-  const popularDestinations = topDestinationsData?.topDestinations || POPULAR_DESTINATIONS;
+  const popularDestinations = topDestinationsData?.topLocations || POPULAR_DESTINATIONS;
 
   // Debounce the search text
   useEffect(() => {

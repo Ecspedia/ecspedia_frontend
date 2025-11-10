@@ -5,8 +5,8 @@ import { HOTEL_FULL_FIELDS } from '../fragments/hotel.fragment';
 
 export const SEARCH_HOTELS_BY_LOCATION = gql`
   ${HOTEL_FULL_FIELDS}
-  query SearchHotelsByLocation($location: String!) {
-    searchHotelsByLocation(location: $location) {
+  query searchHotelsByLocation($location: String!) {
+    hotelsByLocation(location: $location) {
       ...HotelFullFields
     }
   }
@@ -15,7 +15,7 @@ export const SEARCH_HOTELS_BY_LOCATION = gql`
 export const TOP_HOTELS = gql`
   ${HOTEL_FULL_FIELDS}
   query TopHotels {
-    topPopularHotels {
+    popularHotels {
       ...HotelFullFields
     }
   }

@@ -31,8 +31,8 @@ export default function FullScreenMapPage() {
 
   // Get hotels directly from the response (now it's an array)
   const hotels = useMemo<Hotel[]>(() => {
-    return data?.searchHotelsByLocation || [];
-  }, [data?.searchHotelsByLocation]);
+    return data?.hotelsByLocation || [];
+  }, [data?.hotelsByLocation]);
 
   const isDarkMode = useAppSelector(selectIsDarkMode);
 

@@ -27,8 +27,8 @@ export const useHotelSearchQuery = () => {
 
   // Process hotels array from response
   const hotels = useMemo<Hotel[]>(() => {
-    return data?.searchHotelsByLocation || [];
-  }, [data?.searchHotelsByLocation]);
+    return data?.hotelsByLocation || [];
+  }, [data?.hotelsByLocation]);
 
   return {
     hotels,

@@ -15,25 +15,11 @@ export default function HotelPopular(hotelPopularProps: HotelPopularProps) {
     const { hotels, loading, error } = hotelPopularProps;
 
     if (loading) {
-        return (
-            <section className="py-12">
-                <div className="flex items-center justify-center gap-4">
-                    <Spinner size="lg" />
-                    <p className="text-secondary">Loading popular hotels...</p>
-                </div>
-            </section>
-        );
+        return <Loading />;
     }
 
     if (error) {
-        return (
-            <section className="py-12">
-                <div className="bg-destructive/10 text-destructive rounded-lg p-6 text-center">
-                    <p className="font-medium">Failed to load popular hotels</p>
-                    <p className="text-sm mt-2">{error}</p>
-                </div>
-            </section>
-        );
+        return <Error error={error} />;
     }
 
     if (hotels.length === 0) {
@@ -64,3 +50,22 @@ export default function HotelPopular(hotelPopularProps: HotelPopularProps) {
         </section >
     );
 }
+
+
+const Loading = () => (
+    <section className="py-12">
+        <div className="flex items-center justify-center gap-4">
+            <Spinner size="lg" />
+            <p className="text-secondary">Loading popular hotels...</p>
+        </div>
+    </section>
+);
+
+const Error = ({ error }: { error: string }) => (
+    <section className="py-12">
+        <div className="bg-destructive/10 text-destructive rounded-lg p-6 text-center">
+            <p className="font-medium">Failed to load popular hotels</p>
+            <p className="text-sm mt-2">{error}</p>
+        </div>
+    </section>
+);

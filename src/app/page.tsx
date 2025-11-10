@@ -32,7 +32,7 @@ export default function Home() {
   // }, [currentServiceTabSelected, hotels, hotelsLoading, errorMessage]);
 
   const { data, loading, error } = useQuery<TopHotelsData>(TOP_HOTELS);
-  const hotels = data?.topPopularHotels || [];
+  const hotels = data?.popularHotels || [];
 
   return (
     <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44">
@@ -41,10 +41,7 @@ export default function Home() {
       <PromoBanner />
 
       <HotelPopular hotels={hotels} loading={loading} error={error?.message || ''} />
-      {/* <GoogleMapContent location={location} hotels={hotels} isHidden={currentServiceTabSelected !== ServiceType.STAYS} />
-      <Suspense fallback={<Spinner size="lg" />}>
-        {currentServiceContent && <div className="mt-3">{currentServiceContent}</div>}
-      </Suspense> */}
+
     </div>
   );
 }

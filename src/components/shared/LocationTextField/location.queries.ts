@@ -15,8 +15,8 @@ export const GET_LOCATIONS = gql`
 `;
 
 export const GET_TOP_DESTINATIONS = gql`
-  query GetTopDestinations {
-    topDestinations {
+  query topLocations {
+    topLocations {
       id
       code
       city

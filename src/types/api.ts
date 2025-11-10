@@ -46,7 +46,7 @@ export interface Hotel {
   id: string;
   name: string;
   hotelDescription?: string | null;
-  hotelTypeId?: string | null;
+  hotelTypeId?: number | null;
   chain?: string | null;
   currency?: string | null;
   location: string;
@@ -64,15 +64,15 @@ export interface Hotel {
   mainPhoto?: string | null;
   thumbnail?: string | null;
   stars?: number | null;
-  facilityIds?: string[] | null;
+  facilityIds?: number[] | null;
   accessibilityAttributes?: AccessibilityAttributes | null;
   deletedAt?: string | null;
 }
 
 export interface SearchHotelsByLocationData {
-  searchHotelsByLocation: Hotel[];
+  hotelsByLocation: Hotel[];
 }
 
 export interface TopHotelsData {
-  topPopularHotels: Hotel[];
+  popularHotels: Hotel[];
 }
