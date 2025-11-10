@@ -8,33 +8,28 @@ export default function DarkModeProvider({ children }: { children: React.ReactNo
     const dispatch = useAppDispatch();
     const isDarkMode = useAppSelector(selectIsDarkMode);
 
-    // Initialize dark mode from localStorage or system preference
+    // Sync Redux state with the already-applied theme from the blocking script
     useEffect(() => {
         const savedMode = localStorage.getItem('darkMode');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = savedMode === 'dark' || (savedMode === null && prefersDark);
 
-        if (savedMode === 'dark') {
-            dispatch(setDarkMode(true));
-        } else if (savedMode === 'light') {
-            dispatch(setDarkMode(false));
-        } else {
-            // Default to user's system color scheme preference
-            const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            dispatch(setDarkMode(prefersDarkMode));
-            localStorage.setItem('darkMode', prefersDarkMode ? 'dark' : 'light');
+        // Initialize Redux store to match the theme that's already applied
+        dispatch(setDarkMode(isDark));
+
+        // If no saved preference, save the system preference
+        if (savedMode === null) {
+            localStorage.setItem('darkMode', isDark ? 'dark' : 'light');
         }
     }, [dispatch]);
 
-    // Apply dark mode class to document
+    // Apply dark mode class and save to localStorage when toggled
     useEffect(() => {
         if (isDarkMode) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
-    }, [isDarkMode]);
-
-    // Save preference to localStorage when it changes
-    useEffect(() => {
         localStorage.setItem('darkMode', isDarkMode ? 'dark' : 'light');
     }, [isDarkMode]);
 
