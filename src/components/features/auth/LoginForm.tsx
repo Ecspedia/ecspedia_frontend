@@ -63,9 +63,10 @@ export default function LoginForm() {
       if (result.data && typeof result.data === 'object' && 'login' in result.data) {
         const loginData = result.data.login as { token: string };
         if (loginData?.token) {
-          // Store token in localStorage
-          localStorage.setItem('auth_token', loginData.token);
-          router.push('/dashboard');
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new Event('auth-token-changed'));
+          }
+          router.push('/');
         } else {
           throw new Error('Invalid credentials');
         }

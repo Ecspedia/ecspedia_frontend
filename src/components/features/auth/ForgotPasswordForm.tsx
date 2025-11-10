@@ -115,7 +115,7 @@ export default function ForgotPasswordForm() {
         {/* Error general (backend) */}
         {generalError && (
           <div className="mb-4 flex justify-center">
-            <span className="rounded-lg bg-primary px-3 py-1 text-sm text-white shadow-lg">
+            <span className="rounded-lg bg-error px-3 py-1 text-sm text-white shadow-lg">
               {generalError}
             </span>
           </div>
