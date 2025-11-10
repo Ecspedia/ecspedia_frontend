@@ -13,11 +13,11 @@ export default function ConditionalHeader(conditionalHeaderProps: ConditionalHea
 
   // Pages that should not show the header
   const noHeaderPages = ['/map', '/booking'];
-  
+
   if (noHeaderPages.includes(pathname)) {
     return <>{children}</>;
   }
-  
+
   return <HeaderNav>{children}</HeaderNav>;
 }
 
