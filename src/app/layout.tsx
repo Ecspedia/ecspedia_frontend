@@ -5,7 +5,6 @@ import StoreProvider from './storeProvider';
 import ApolloProvider from './apolloProvider';
 import DarkModeProvider from './darkModeProvider';
 import ConditionalHeader from './_components/ConditionalHeader';
-import { HeaderNav } from '@/components/shared';
 import ErrorBoundaryWrapper from './_components/ErrorBoundaryWrapper';
 
 const geistSans = Geist({
@@ -45,9 +44,8 @@ export default function RootLayout({
             <DarkModeProvider>
               <ErrorBoundaryWrapper>
                 <ConditionalHeader>
-                  <HeaderNav />
+                  {children}
                 </ConditionalHeader>
-                {children}
               </ErrorBoundaryWrapper>
             </DarkModeProvider>
           </StoreProvider>

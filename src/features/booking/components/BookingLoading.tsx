@@ -1,7 +1,6 @@
 'use client';
 
-import { Spinner, Button } from '@/components/ui';
-import { useRouter } from 'next/navigation';
+import { Spinner } from '@/components/ui';
 
 export default function BookingLoading() {
     return (

@@ -8,7 +8,7 @@ import darkModeReducer, {
   toggleDarkMode,
 } from '@/stores/darkModeSlice';
 import { RootState } from '@/stores/store';
-import DarkModeToggle from '@/components/ui/Header/DarkModeToggle';
+import DarkModeToggle from '@/components/shared/Header/DarkModeToggle';
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};

@@ -54,7 +54,7 @@ export default function HeaderNav({ children }: { children: React.ReactNode }) {
   }, [refetch]);
 
   const username = data?.me?.username ?? null;
-  console.log('username', username);
+
   const handleLogout = async () => {
     try {
       await logoutMutation();

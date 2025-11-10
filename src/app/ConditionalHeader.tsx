@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { HeaderNav } from '@/components/ui/Header';
+import { HeaderNav } from '@/components/shared/Header';
 
 export default function ConditionalHeader({
   children,
