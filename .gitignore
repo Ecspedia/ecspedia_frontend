@@ -9,6 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.npm/
 
 # testing
 /coverage
@@ -45,3 +46,12 @@ next-env.d.ts
 
 # Claude Code
 .claude
+
+# Cursor AI
+.cursorrules
+
+# Markdown files
+*.md
+
+# Local config
+.config/

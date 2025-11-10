@@ -1,5 +1,4 @@
-import { HeaderNav } from '@/components/ui/Header';
-import { ForgotPasswordForm } from '@/components/features/auth';
+import { ForgotPasswordForm } from '@/features/auth';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

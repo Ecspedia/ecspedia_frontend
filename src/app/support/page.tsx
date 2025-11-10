@@ -1,5 +1,3 @@
-import { HeaderNav } from '@/components/ui/Header';
-
 export default function ExpediaHeader() {
 
   return (

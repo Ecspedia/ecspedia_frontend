@@ -1,0 +1,2 @@
+export { MainErrorFallback } from './MainErrorFallback';
+

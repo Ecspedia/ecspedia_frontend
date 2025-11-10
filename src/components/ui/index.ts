@@ -1,4 +1,7 @@
-export { default as Button } from "./Button";
-export { default as SimpleCalendar } from "./SimpleCalendar";
-export { default as TextField } from "./TextField";
-export { default as Spinner } from "./Spinner";
+export { Button } from './Button';
+export { TextField } from './TextField';
+export { Spinner } from './Spinner';
+
+export { Calendar } from './Calendar';
+export { Link } from './Link';
+export { Input, FormField } from './Input';

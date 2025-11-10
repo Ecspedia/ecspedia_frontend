@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { HOTEL_CORE_FIELDS } from '@/graphql/fragments';
+import { HOTEL_CORE_FIELDS } from '@/features/hotel/api/graphql/fragments';
 
 export const GET_HOTELS = gql`
   ${HOTEL_CORE_FIELDS}
