@@ -1,35 +1,19 @@
 
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client/react';
-import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
 
-import { LOGOUT_MUTATION } from '@/graphql/mutations';
 import useClickOutSide from '@/hooks/useClickOutside.hooks';
+import { useCurrentUser, useLogout } from '@/hooks';
 import HeaderComponent from '@/components/shared/Header/HeaderComponent';
 import { BotonBell } from '@/components/shared/Header/BotonBell';
 import { BotonHeader } from '@/components/shared/Header/BotonHeader';
 import DarkModeToggle from '@/components/shared/Header/DarkModeToggle';
 import Logo from '@/components/shared/Header/Logo';
-import { CURRENT_USER_QUERY } from '@/features/auth/api/queries/user.queries';
-
-interface CurrentUserQueryData {
-  me?: {
-    id: string;
-    username: string;
-    email: string;
-  } | null;
-}
 
 export default function HeaderNav() {
-  const { data, refetch } = useQuery<CurrentUserQueryData>(CURRENT_USER_QUERY, {
-    fetchPolicy: 'cache-first',
-    nextFetchPolicy: 'cache-first',
-    errorPolicy: 'ignore',
-  });
-  const [logoutMutation, { loading: logoutLoading }] = useMutation(LOGOUT_MUTATION);
-  const router = useRouter();
+  const { username } = useCurrentUser();
+  const { logout, isLoading: logoutLoading } = useLogout();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -38,36 +22,9 @@ export default function HeaderNav() {
     callback: () => setMenuOpen(false),
   });
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const handleAuthChange = () => {
-      refetch();
-      setMenuOpen(false);
-    };
-
-    window.addEventListener('auth-token-changed', handleAuthChange);
-
-    return () => {
-      window.removeEventListener('auth-token-changed', handleAuthChange);
-    };
-  }, [refetch]);
-
-  const username = data?.me?.username ?? null;
-
   const handleLogout = async () => {
-    try {
-      await logoutMutation();
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new Event('auth-token-changed'));
-      }
-      await refetch();
-      router.push('/');
-    } catch {
-      // ignore for now
-    } finally {
-      setMenuOpen(false);
-    }
+    await logout();
+    setMenuOpen(false);
   };
 
   return (
@@ -98,15 +55,23 @@ export default function HeaderNav() {
                         className="block w-full px-4 py-2 text-left text-sm text-primary hover:text-secondary"
                         disabled
                       >
-                        Profile (placeholder)
+                        Profile
                       </button>
                       <button
                         type="button"
                         className="block w-full px-4 py-2 text-left text-sm text-primary hover:text-secondary"
                         disabled
                       >
-                        Settings (placeholder)
+                        Settings
                       </button>
+                      <button
+                        type="button"
+                        className="block w-full px-4 py-2 text-left text-sm text-primary hover:text-secondary"
+                        disabled
+                      >
+                        My Bookings
+                      </button>
+
                       <div className="my-2 border-t border-border" />
                       <button
                         type="button"

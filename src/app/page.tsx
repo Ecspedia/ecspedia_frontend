@@ -6,6 +6,7 @@ import { ServiceTabSelector } from '@/features/service-selector';
 import { useQuery } from '@apollo/client/react';
 import HotelPopular from '@/features/hotel/components/HotelPopular';
 import { PromoBanner } from '@/features/hotel/components';
+import { Container } from '@/components/ui';
 import { TOP_HOTELS } from '@/features/hotel/api/graphql/queries';
 
 
@@ -35,13 +36,10 @@ export default function Home() {
   const hotels = data?.popularHotels || [];
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44">
+    <Container>
       <MultipleServicesForm serviceSelector={<ServiceTabSelector />} serviceForm={<ServiceSearchForm />} />
-
       <PromoBanner />
-
       <HotelPopular hotels={hotels} loading={loading} error={error?.message || ''} />
-
-    </div>
+    </Container>
   );
 }

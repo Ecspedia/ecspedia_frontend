@@ -29,6 +29,16 @@ export type User = {
   password: string;
 };
 
+export interface CurrentUser {
+  id: string;
+  username: string;
+  email: string;
+}
+
+export interface CurrentUserQueryData {
+  me?: CurrentUser | null;
+}
+
 // Hotel API Types
 export interface AccessibilityAttributes {
   attributes?: string | null;

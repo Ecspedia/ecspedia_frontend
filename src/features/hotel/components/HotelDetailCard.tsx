@@ -12,7 +12,7 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
   const _router = useRouter();
 
   return (
-    <div className="border-border bg-background text-primary fixed right-0 bottom-0 left-0 z-1000 mx-auto w-2/5 min-w-[500px] rounded-lg border shadow-2xl">
+    <div className="border-border bg-background text-primary fixed right-0 bottom-0 left-0 z-1000 mx-auto w-11/12 sm:w-4/5 lg:w-3/5 xl:w-1/2 2xl:w-2/5 max-w-[700px] min-w-[320px] rounded-lg border shadow-2xl">
       <HotelCardContext.Provider value={{ hotel }}>
         <HotelCard.Card>
           <HotelCard.Image variant="compact" />
@@ -21,7 +21,6 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
               <div className="flex flex-col">
                 <HotelCard.Info.Title />
                 <HotelCard.Info.Location />
-
               </div>
               <HotelCard.Info.CloseButton onClose={onClose} />
             </div>
