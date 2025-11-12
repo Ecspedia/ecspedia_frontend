@@ -1,32 +1,45 @@
 import { gql } from '@apollo/client';
 
-/**
- * GraphQL Mutations for Booking Operations
- */
-
-export const CREATE_BOOKING = gql`
-  mutation CreateBooking($input: BookingInput!) {
-    createBooking(input: $input) {
+export const CREATE_BOOKING_MUTATION = gql`
+  mutation CreateBooking(
+    $hotelId: ID!
+    $userId: ID!
+    $firstNameGuest: String!
+    $lastNameGuest: String!
+    $emailGuest: String!
+    $phoneNumberGuest: String!
+    $startTime: String!
+    $endTime: String!
+    $price: Float!
+    $currency: String!
+  ) {
+    createBooking(
+      hotelId: $hotelId
+      userId: $userId
+      firstNameGuest: $firstNameGuest
+      lastNameGuest: $lastNameGuest
+      emailGuest: $emailGuest
+      phoneNumberGuest: $phoneNumberGuest
+      startTime: $startTime
+      endTime: $endTime
+      price: $price
+      currency: $currency
+    ) {
       id
+      userId
       hotelId
-      hotelName
-      guestDetails {
-        firstName
-        lastName
-        email
-        phone
-        specialRequests
-      }
-      bookingDates {
-        checkIn
-        checkOut
-        nights
-      }
-      totalAmount
+      firstNameGuest
+      lastNameGuest
+      emailGuest
+      phoneNumberGuest
+      startTime
+      endTime
       status
-      paymentStatus
-      confirmationCode
+      price
+      currency
       createdAt
+      confirmedAt
+      canceledAt
     }
   }
 `;

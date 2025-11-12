@@ -5,9 +5,6 @@ import { CURRENT_USER_QUERY } from '@/config/queries';
 
 interface UseCurrentUserReturn {
   user: CurrentUser | null;
-  username: string | null;
-  email: string | null;
-  userId: string | null;
   isLoading: boolean;
   refetch: () => Promise<void>;
   isAuthenticated: boolean;
@@ -25,9 +22,6 @@ export const useCurrentUser = (): UseCurrentUserReturn => {
   });
 
   const user = data?.me ?? null;
-  const username = user?.username ?? null;
-  const email = user?.email ?? null;
-  const userId = user?.id ?? null;
   const isAuthenticated = !!user;
 
   const refetch = async () => {
@@ -50,9 +44,6 @@ export const useCurrentUser = (): UseCurrentUserReturn => {
 
   return {
     user,
-    username,
-    email,
-    userId,
     isLoading: loading,
     refetch,
     isAuthenticated,

@@ -2,18 +2,22 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import useClickOutSide from '@/hooks/useClickOutside.hooks';
 import { useCurrentUser, useLogout } from '@/hooks';
+import { capitalizeUsername } from '@/utils/utils';
 import HeaderComponent from '@/components/shared/Header/HeaderComponent';
 import { BotonBell } from '@/components/shared/Header/BotonBell';
 import { BotonHeader } from '@/components/shared/Header/BotonHeader';
 import DarkModeToggle from '@/components/shared/Header/DarkModeToggle';
 import Logo from '@/components/shared/Header/Logo';
+import { MainContainer } from '@/components/ui';
 
 export default function HeaderNav() {
-  const { username } = useCurrentUser();
+  const { user } = useCurrentUser();
   const { logout, isLoading: logoutLoading } = useLogout();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -27,10 +31,15 @@ export default function HeaderNav() {
     setMenuOpen(false);
   };
 
+  const handleMyBookings = () => {
+    router.push('/my-bookings');
+    setMenuOpen(false);
+  };
+
   return (
     <>
       <HeaderComponent>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <MainContainer>
           <div className="flex h-16 items-center justify-between">
             <Logo />
             <div className="flex items-center gap-3">
@@ -38,15 +47,14 @@ export default function HeaderNav() {
               <BotonBell />
               <BotonHeader texto="Support" ruta="/support" />
               <BotonHeader texto="Trips" ruta="/travel" />
-              {username ? (
+              {user?.username ? (
                 <div className="relative" ref={menuRef}>
                   <button
                     type="button"
                     onClick={() => setMenuOpen((prev) => !prev)}
                     className="inline-flex items-center px-3 py-2 rounded-md text-sm font-bold text-primary hover:text-secondary transition"
                   >
-                    {username}
-
+                    {capitalizeUsername(user.username)}
                   </button>
                   {menuOpen && (
                     <div className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-overlay shadow-lg py-2">
@@ -66,8 +74,8 @@ export default function HeaderNav() {
                       </button>
                       <button
                         type="button"
+                        onClick={handleMyBookings}
                         className="block w-full px-4 py-2 text-left text-sm text-primary hover:text-secondary"
-                        disabled
                       >
                         My Bookings
                       </button>
@@ -89,7 +97,7 @@ export default function HeaderNav() {
               )}
             </div>
           </div>
-        </div>
+        </MainContainer>
       </HeaderComponent>
 
     </>

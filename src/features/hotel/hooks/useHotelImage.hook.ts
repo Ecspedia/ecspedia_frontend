@@ -36,7 +36,7 @@ export const useHotelImage = (hotel: Hotel): UseHotelImageReturn => {
       setIsLoading(false);
       setHasError(true);
     }
-  }, [hotel.id, hotel.image]);
+  }, [hotel.id, hotel.image, fallbackImage]);
 
   useEffect(() => {
     if (hasError || !hotel.image) {

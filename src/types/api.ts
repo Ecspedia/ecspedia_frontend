@@ -41,10 +41,10 @@ export interface CurrentUserQueryData {
 
 // Hotel API Types
 export interface AccessibilityAttributes {
-  attributes?: string | null;
+  attributes?: string[] | null;
   showerChair?: boolean | null;
   entranceType?: string | null;
-  petFriendly?: boolean | null;
+  petFriendly?: string | null;
   rampAngle?: number | null;
   rampLength?: number | null;
   entranceDoorWidth?: number | null;
@@ -85,4 +85,65 @@ export interface SearchHotelsByLocationData {
 
 export interface TopHotelsData {
   popularHotels: Hotel[];
+}
+
+export interface Booking {
+  id: string;
+  userId: string;
+  hotelId: string;
+  firstNameGuest: string;
+  lastNameGuest: string;
+  emailGuest: string;
+  phoneNumberGuest: string | null;
+  startTime: string;
+  endTime: string;
+  status: string;
+  price: number | null;
+  currency: string | null;
+  createdAt: string;
+  confirmedAt?: string | null;
+  canceledAt?: string | null;
+}
+
+export interface CreateBookingMutationData {
+  createBooking: Booking;
+}
+
+export interface BookingsByUserEmailData {
+  bookingsByUserEmail: Booking[];
+}
+
+export interface HotelByIdData {
+  hotelById: Hotel;
+}
+
+export interface HotelCreateDtoInput {
+  id?: string | null;
+  name: string;
+  location: string;
+  image?: string | null;
+  isAvailable?: boolean | null;
+  rating?: number | null;
+  reviewCount?: number | null;
+  pricePerNight: number;
+  latitude?: number | null;
+  longitude?: number | null;
+  hotelDescription?: string | null;
+  hotelTypeId?: number | null;
+  chain?: string | null;
+  currency?: string | null;
+  country?: string | null;
+  city?: string | null;
+  address?: string | null;
+  zip?: string | null;
+  mainPhoto?: string | null;
+  thumbnail?: string | null;
+  stars?: number | null;
+  facilityIds?: number[] | null;
+  accessibilityAttributes?: AccessibilityAttributes | null;
+  deletedAt?: string | null;
+}
+
+export interface CreateHotelMutationData {
+  createHotel: Hotel;
 }
