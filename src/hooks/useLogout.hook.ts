@@ -1,0 +1,34 @@
+import { useCallback } from 'react';
+import { useMutation } from '@apollo/client/react';
+import { useRouter } from 'next/navigation';
+import { LOGOUT_MUTATION } from '@/graphql/mutations';
+import { useCurrentUser } from './useCurrentUser.hook';
+
+interface UseLogoutReturn {
+  logout: () => Promise<void>;
+  isLoading: boolean;
+}
+
+export const useLogout = (): UseLogoutReturn => {
+  const [logoutMutation, { loading }] = useMutation(LOGOUT_MUTATION);
+  const router = useRouter();
+  const { refetch } = useCurrentUser();
+
+  const logout = useCallback(async () => {
+    try {
+      await logoutMutation();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('auth-token-changed'));
+      }
+      await refetch();
+      router.push('/');
+    } catch {
+      // ignore for now
+    }
+  }, [logoutMutation, refetch, router]);
+
+  return {
+    logout,
+    isLoading: loading,
+  };
+};

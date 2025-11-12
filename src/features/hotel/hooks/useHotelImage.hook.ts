@@ -1,46 +1,65 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Hotel } from '@/types/api';
+import { useAppSelector } from '@/hooks';
+import { selectIsDarkMode } from '@/stores/darkModeSlice';
 
 interface UseHotelImageReturn {
   imageSrc: string;
   isExternalImage: boolean;
   isLoading: boolean;
+  hasError: boolean;
   handleImageLoad: () => void;
   handleImageError: () => void;
 }
 
-/**
- * Hook for managing hotel image loading state and source selection
- * @param hotel - Hotel object containing image properties
- * @returns Image source, loading state, and handlers
- */
+const FALLBACK_IMAGE_LIGHT = '/images/home/hotel_fallback_light.svg';
+const FALLBACK_IMAGE_DARK = '/images/home/hotel_fallback_dark.svg';
+
 export const useHotelImage = (hotel: Hotel): UseHotelImageReturn => {
-  const [isLoading, setIsLoading] = useState(true);
+  const isDarkMode = useAppSelector(selectIsDarkMode);
+  const fallbackImage = isDarkMode ? FALLBACK_IMAGE_DARK : FALLBACK_IMAGE_LIGHT;
 
-  // Use image, mainPhoto, or thumbnail in order of preference, fallback to mock
-  const imageSrc =
-    hotel.image || hotel.mainPhoto || hotel.thumbnail || '/images/home/hotel_mock.avif';
+  const [isLoading, setIsLoading] = useState(!!hotel.image);
+  const [hasError, setHasError] = useState(!hotel.image);
+  const [currentImageSrc, setCurrentImageSrc] = useState(hotel.image || fallbackImage);
 
-  // Check if image is external (starts with http:// or https://)
-  const isExternalImage = imageSrc.startsWith('http://') || imageSrc.startsWith('https://');
+  const isExternalImage =
+    currentImageSrc.startsWith('http://') || currentImageSrc.startsWith('https://');
 
-  // Reset loading state when hotel changes
   useEffect(() => {
-    setIsLoading(true);
-  }, [hotel.id, imageSrc]);
+    if (hotel.image) {
+      setCurrentImageSrc(hotel.image);
+      setIsLoading(true);
+      setHasError(false);
+    } else {
+      setCurrentImageSrc(fallbackImage);
+      setIsLoading(false);
+      setHasError(true);
+    }
+  }, [hotel.id, hotel.image, fallbackImage]);
+
+  useEffect(() => {
+    if (hasError || !hotel.image) {
+      setCurrentImageSrc(fallbackImage);
+    }
+  }, [isDarkMode, hasError, hotel.image, fallbackImage]);
 
   const handleImageLoad = useCallback(() => {
     setIsLoading(false);
+    setHasError(false);
   }, []);
 
   const handleImageError = useCallback(() => {
     setIsLoading(false);
-  }, []);
+    setHasError(true);
+    setCurrentImageSrc(fallbackImage);
+  }, [fallbackImage]);
 
   return {
-    imageSrc,
+    imageSrc: currentImageSrc,
     isExternalImage,
     isLoading,
+    hasError,
     handleImageLoad,
     handleImageError,
   };

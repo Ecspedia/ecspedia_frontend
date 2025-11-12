@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
 import { useHotelSearchQuery } from '@/features/hotel/hooks';
 import { GoogleMapContent } from '@/app/_components';
-import { Spinner } from '@/components/ui';
+import { Spinner, MainContainer } from '@/components/ui';
 import { hotelSearchSubmittedParamsVar, updateHotelSearchParams } from '@/lib/apollo-reactive-vars';
 import { DateHelper } from '@/utils/dateHelpers';
 
@@ -46,7 +46,7 @@ function SearchHotelsContent() {
 
     if (!location) {
         return (
-            <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44 py-6">
+            <MainContainer className="py-6">
                 <SearchHotelForm />
                 <div className="flex flex-col items-center justify-center min-h-[400px] mt-8">
                     <h1 className="text-2xl font-bold text-primary mb-4">Start Your Hotel Search</h1>
@@ -54,12 +54,12 @@ function SearchHotelsContent() {
                         Enter your destination and travel dates above to find hotels
                     </p>
                 </div>
-            </div>
+            </MainContainer>
         );
     }
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44 py-6">
+        <MainContainer>
             <SearchHotelForm variant='extended' />
             <div className='flex gap-4 mt-2'>
                 {!hotelsLoading && hotels.length > 0 && (
@@ -74,16 +74,16 @@ function SearchHotelsContent() {
                     <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={errorMessage} hasSearched={true} />
                 </div>
             </div>
-        </div>
+        </MainContainer>
     );
 }
 
 export default function SearchHotelsPage() {
     return (
         <Suspense fallback={
-            <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 xl:px-44 py-6">
+            <MainContainer className="py-6">
                 <Spinner size="lg" />
-            </div>
+            </MainContainer>
         }>
             <SearchHotelsContent />
         </Suspense>

@@ -36,7 +36,7 @@ function BookingContent() {
     };
 
     const handleConfirmBooking = () => {
-        // TODO: Process booking
+
         void hotel;
     };
 
