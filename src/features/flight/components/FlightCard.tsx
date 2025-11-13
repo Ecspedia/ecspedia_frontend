@@ -2,10 +2,11 @@ import { Flight } from '@/types/api';
 
 import { ReactNode } from 'react';
 import Image from 'next/image';
-import { UI_DIMENSIONS } from './constants';
+import { FlightCardContext } from '../utils';
+import { useFlightCardContext } from '../hooks';
+import { UI_DIMENSIONS } from '@/config';
 import { Button } from '@/components/ui';
-import { useFlightCardContext } from './hooks';
-import { FlightCardContext } from './utils';
+
 
 interface FlightCardProps {
   flight: Flight;
@@ -85,11 +86,9 @@ FlightCard.pricing = function FlightCardPricing() {
     <div className="flex flex-col items-end gap-2">
       <div className="text-tertiary text-xs">FROM</div>
       <div className="text-primary text-3xl font-bold">${flight.price}</div>
-      <Button
-        className="px-6 py-3 font-medium text-white"
-        text="Select Flight"
-        variant="secondary"
-      />
+      <Button variant="secondary" className="px-6 py-3 font-medium">
+        Select Flight
+      </Button>
     </div>
   );
 };

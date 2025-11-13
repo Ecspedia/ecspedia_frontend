@@ -1,6 +1,6 @@
 import { Hotel } from '@/types/api';
 import { useRouter } from 'next/navigation';
-import { HotelCardContext } from '../utils/hotelCardContext';
+import { HotelCardContext } from '../../../components/shared/HotelCard/hotelCardContext';
 import HotelCard from '@/components/shared/HotelCard';
 
 interface HotelDetailCardProps {

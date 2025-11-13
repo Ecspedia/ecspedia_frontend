@@ -1,45 +1,50 @@
 'use client';
 
-import { TopHotelsData } from '@/types';
+import { ServiceType, TopHotelsData } from '@/types';
 import { MultipleServicesForm, ServiceSearchForm } from '@/app/_components';
 import { ServiceTabSelector } from '@/features/service-selector';
 import { useQuery } from '@apollo/client/react';
 import HotelPopular from '@/features/hotel/components/HotelPopular';
 import { PromoBanner } from '@/features/hotel/components';
 import { MainContainer } from '@/components/ui';
-import { TOP_HOTELS } from '@/features/hotel/api/graphql/queries';
+import { TOP_HOTELS } from '@/features/hotel/api/hotel.queries';
+import { useAppSelector } from '@/hooks';
+import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';
+import { useMemo } from 'react';
+import { PopularFlights } from '@/features/flight';
+import { flights } from '@/features/flight/__mocks__/mockFlights';
+
+
+
 
 
 export default function Home() {
-  // const currentServiceTabSelected = useAppSelector(selectService);
+  const currentServiceTabSelected = useAppSelector(selectService);
 
-  // // Use the hotel search query hook
-  // const { hotels, loading: hotelsLoading, error: errorMessage } = useHotelSearchQuery();
-  // const location = useReactiveVar(hotelSearchSubmittedParamsVar)?.location || '';
-
-
-  // const currentServiceContent = useMemo(() => {
-  //   switch (currentServiceTabSelected) {
-  //     case ServiceType.FLIGHTS:
-  //       return <FlightCardList />;
-  //     case ServiceType.STAYS:
-  //       return (
-
-  //         <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={errorMessage} />
-  //       );
-  //     default:
-  //       return null;
-  //   }
-  // }, [currentServiceTabSelected, hotels, hotelsLoading, errorMessage]);
 
   const { data, loading, error } = useQuery<TopHotelsData>(TOP_HOTELS);
-  const hotels = data?.popularHotels || [];
+
+  const currentServiceContent = useMemo(() => {
+    const hotels = data?.popularHotels || [];
+
+    switch (currentServiceTabSelected) {
+      case ServiceType.FLIGHTS:
+        return <PopularFlights flights={flights} />;
+      case ServiceType.STAYS:
+        return (
+          <HotelPopular hotels={hotels} loading={loading} error={error?.message || ''} />
+        );
+      default:
+        return null;
+    }
+  }, [currentServiceTabSelected, data, loading, error]);
+
 
   return (
     <MainContainer>
       <MultipleServicesForm serviceSelector={<ServiceTabSelector />} serviceForm={<ServiceSearchForm />} />
       <PromoBanner />
-      <HotelPopular hotels={hotels} loading={loading} error={error?.message || ''} />
+      {currentServiceContent}
     </MainContainer>
   );
 }

@@ -1,5 +1,5 @@
-import { useHotelCardContext } from '@/features/hotel/hooks';
-import { getRatingLabel } from '@/features/hotel/utils';
+import { useHotelCardContext } from '../hooks/useHotelCardContext';
+import { getRatingLabel } from '../utils/getRatingLabel';
 import { ReactNode } from 'react';
 
 

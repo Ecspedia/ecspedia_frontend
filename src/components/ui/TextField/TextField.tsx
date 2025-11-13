@@ -2,7 +2,7 @@
 
 import { ReactNode, useId } from 'react';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
-import { useAppSelector } from '@/hooks';
+import { useAppSelector, useDarkMode } from '@/hooks';
 import { cn } from '@/utils/utils';
 import { TextFieldContext } from './context/TextFieldContext';
 import TextFieldIcon from './components/TextFieldIcon';
@@ -28,7 +28,7 @@ function TextField({
     children,
 }: TextFieldProps) {
     const hasValue = Boolean(value && value.length > 0);
-    const isDarkMode = useAppSelector(selectIsDarkMode);
+    const isDarkMode = useDarkMode();
     const inputId = useId();
 
     const contextValue = {

@@ -16,6 +16,10 @@ export const UI_DIMENSIONS = {
   // Hotel card dimensions
   HOTEL_IMAGE_HEIGHT: 192, // h-48 in Tailwind
   HOTEL_IMAGE_WIDTH: 256, // w-64 in Tailwind
+
+  // Flight card dimensions
+  AIRLINE_ICON_SIZE: 40,
+  FLIGHT_CARD_COMPANY_LOGO_BORDER: 2
 } as const;
 
 // Animation Timings (milliseconds)

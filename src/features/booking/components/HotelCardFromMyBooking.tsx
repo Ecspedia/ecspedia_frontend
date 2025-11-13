@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { MapPin, Star } from 'lucide-react';
 import { Hotel } from '@/types/api';
-import { useHotelImage } from '@/features/hotel/hooks/useHotelImage.hook';
+import { useHotelImage } from '@/components/shared/HotelCard/hooks/useHotelImage.hook';
 import { cn } from '@/utils/utils';
 
 interface HotelCardFromMyBookingProps {

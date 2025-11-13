@@ -7,12 +7,13 @@ import { cn } from '@/utils/utils';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
 import { useAppSelector } from '@/hooks/hooks';
 import { useQuery, useReactiveVar } from '@apollo/client/react';
-import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/graphql/queries/hotel.queries';
+
 import { hotelSearchParamsVar } from '@/lib/apollo-reactive-vars';
 import { Hotel } from '@/types/api';
 import { Button } from '@/components/ui';
 import { SearchHotelsByLocationData } from '@/types';
 import { useMemo } from 'react';
+import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
 
 export default function FullScreenMapPage() {
   const router = useRouter();

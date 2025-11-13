@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { HotelCardContext } from '../utils';
+import { HotelCardContext } from '../hotelCardContext';
 
 export function useHotelCardContext() {
   const context = useContext(HotelCardContext);

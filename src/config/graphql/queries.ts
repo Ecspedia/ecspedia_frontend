@@ -9,3 +9,7 @@ export const CURRENT_USER_QUERY = gql`
     }
   }
 `;
+
+export const userQueries = {
+  CURRENT_USER: CURRENT_USER_QUERY,
+};
