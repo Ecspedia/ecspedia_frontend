@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useQuery } from '@apollo/client/react';
 import { CurrentUser, CurrentUserQueryData } from '@/types/api';
-import { CURRENT_USER_QUERY } from '@/config/queries';
+import { CURRENT_USER_QUERY } from '@/config/graphql/queries';
 
 interface UseCurrentUserReturn {
   user: CurrentUser | null;

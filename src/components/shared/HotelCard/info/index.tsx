@@ -1,4 +1,4 @@
-import { useHotelCardContext } from '@/features/hotel/hooks';
+import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { MapPin, X } from 'lucide-react';
 import { cn } from '@/utils/utils';
 

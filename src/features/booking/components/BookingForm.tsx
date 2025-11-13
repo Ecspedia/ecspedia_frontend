@@ -10,12 +10,16 @@ import PaymentSummary from './PaymentSummary';
 import GuestForm, { GuestFormData } from './GuestForm';
 import { ArrowLeft } from 'lucide-react';
 import { useCurrentUser } from '@/hooks';
-import { CREATE_BOOKING_MUTATION } from '@/features/hotel/api/graphql/mutations/booking.mutations';
-import { CREATE_HOTEL_MUTATION } from '@/features/hotel/api/graphql/mutations/hotel.mutations';
+
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
 import { DateHelper } from '@/utils/dateHelpers';
 import { hotelSearchSubmittedParamsVar } from '@/lib/apollo-reactive-vars';
-import { hotelToHotelCreateDtoInput } from '@/utils/utils';
+
+
+import { CREATE_BOOKING_MUTATION, CREATE_HOTEL_MUTATION } from '../api/bookings.mutations';
+import { hotelToHotelCreateDtoInput } from '@/utils/mapper';
+
+
 
 interface BookingFormProps {
     hotel: Hotel;

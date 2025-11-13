@@ -4,12 +4,16 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useMutation } from '@apollo/client/react';
-import { LOGIN_MUTATION } from '@/graphql/mutations';
+import { LOGIN_MUTATION } from '@/config/graphql/mutations';
 import { paths } from '@/config/paths';
 
-export default function LoginForm() {
+interface LoginFormProps {
+  email?: string;
+}
+
+export default function LoginForm({ email: initialEmail = '' }: LoginFormProps) {
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 

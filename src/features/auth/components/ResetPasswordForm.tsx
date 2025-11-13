@@ -9,16 +9,16 @@ import { paths } from '@/config/paths';
 // TODO: Restore AppError - File was moved/deleted
 // import { AppError } from '@/lib/errors';
 import { useMutation } from '@apollo/client/react';
-import { RESET_PASSWORD_MUTATION } from '@/graphql/mutations';
+import { RESET_PASSWORD_MUTATION } from '@/config/graphql/mutations';
 
 interface ResetPasswordFormProps {
   token: string;
   email?: string;
 }
 
-export default function ResetPasswordForm({ token, email }: ResetPasswordFormProps) {
+export default function ResetPasswordForm({ token, email = '' }: ResetPasswordFormProps) {
   const router = useRouter();
-  const [emailField, setEmailField] = useState(email || '');
+  const [emailField, setEmailField] = useState(email);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -86,7 +86,7 @@ export default function ResetPasswordForm({ token, email }: ResetPasswordFormPro
           setSuccessMessage('Password reset successfully! Redirecting to login...');
           // Redirect to login after a short delay to show success message
           setTimeout(() => {
-            router.push('/login');
+            router.push(`/login?email=${encodeURIComponent(emailField)}`);
           }, 1500);
         } else {
           setGeneralError(response.message || 'Failed to reset password');
@@ -129,12 +129,13 @@ export default function ResetPasswordForm({ token, email }: ResetPasswordFormPro
           <input
             type="email"
             className={`w-full rounded-lg border border-border bg-background text-primary px-3 py-2 focus:ring focus:outline-none placeholder:text-tertiary 
-              ${emailError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'
-              }`}
+              ${emailError ? 'border-error focus:ring-error-light' : 'focus:ring-info-light'}
+              ${email ? 'opacity-60 cursor-not-allowed' : ''}`}
             value={emailField}
             onChange={(e) => setEmailField(e.target.value)}
             placeholder="youremail@example.com"
             disabled={loading || !!email}
+            readOnly={!!email}
           />
           {emailError && (
             <span className="absolute top-full right-0 mt-1 rounded-lg bg-error px-2 py-1 text-xs text-white shadow-lg">

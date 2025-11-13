@@ -42,3 +42,5 @@ export const LOGOUT_MUTATION = gql`
   }
 `;
 
+// Global mutations that can be used across multiple features
+// Add additional global mutations here as needed

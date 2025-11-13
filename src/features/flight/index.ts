@@ -1,4 +1,4 @@
 // Export all flight-related components
-export { default as FlightCard } from './FlightCard';
-export { default as FlightCardList } from './FlightCardList';
-export { default as SearchFlightForm } from './SearchFlightForm';
+export { default as SearchFlightForm } from './components/SearchFlightForm';
+export { default as PopularFlights } from './components/PopularFlights';
+export { default as FlightVerticalCard } from './components/FlightVerticalCard';

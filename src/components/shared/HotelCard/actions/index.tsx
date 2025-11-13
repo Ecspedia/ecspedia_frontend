@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui';
 import { useRouter } from 'next/navigation';
-import { useHotelCardContext } from '@/features/hotel/hooks';
+import { useHotelCardContext } from '../hooks/useHotelCardContext';
 
 // HotelCardBookButton - Book now button
 interface HotelCardBookButtonProps {

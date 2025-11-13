@@ -47,7 +47,7 @@ export default function RootLayout({
                 try {
                   const savedMode = localStorage.getItem('darkMode');
                   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  const isDark = savedMode === 'dark' || (savedMode === null && prefersDark);
+                  const isDark = savedMode === 'true' || (savedMode === null && prefersDark);
                   
                   if (isDark) {
                     document.documentElement.classList.add('dark');

@@ -10,11 +10,12 @@ export const metadata: Metadata = {
 interface ResetPasswordPageProps {
   searchParams: {
     token?: string;
+    email?: string;
   };
 }
 
 export default function ResetPasswordPage({ searchParams }: ResetPasswordPageProps) {
-  const { token } = searchParams;
+  const { token, email } = searchParams;
 
   if (!token) {
     return (
@@ -44,7 +45,7 @@ export default function ResetPasswordPage({ searchParams }: ResetPasswordPagePro
     <>
 
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <ResetPasswordForm token={token} />
+        <ResetPasswordForm token={token} email={email} />
       </div>
     </>
   );

@@ -2,8 +2,7 @@ import { UI_DIMENSIONS } from './constants';
 import { cn } from '@/utils/utils';
 import { ServiceTab as ServiceTabType } from '@/types';
 import Image from 'next/image';
-import { useAppSelector } from '@/hooks/hooks';
-import { selectIsDarkMode } from '@/stores/darkModeSlice';
+import { useDarkMode } from '@/hooks';
 
 interface TabButtonProps {
   tab: ServiceTabType;
@@ -43,7 +42,7 @@ export default function ServiceTab(tabButtonProps: TabButtonProps) {
 }
 
 const ServiceImage = function ServiceImage({ tab }: { tab: ServiceTabType; isSelected: boolean }) {
-  const isDarkMode = useAppSelector(selectIsDarkMode);
+  const isDarkMode = useDarkMode();
   const iconSrc = isDarkMode ? tab.iconDark : tab.icon;
 
   return <Image src={iconSrc} alt='' width={48} height={48} className={`mb-2`} />;

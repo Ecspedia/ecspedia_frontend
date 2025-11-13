@@ -3,6 +3,7 @@
 // with the backend instead of manually writing them out
 
 export type Flight = {
+  id: number;
   departureLocation: string;
   arrivalLocation: string;
   departureTime: string;
@@ -10,6 +11,7 @@ export type Flight = {
   company: string;
   price: number;
   totalTime: string;
+  image?: string;
 };
 
 export type Location = {

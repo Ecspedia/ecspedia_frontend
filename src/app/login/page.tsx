@@ -6,12 +6,19 @@ export const metadata: Metadata = {
   description: 'Sign in to your Ecspedia account to manage bookings and access exclusive deals.',
 };
 
-export default function LoginPage() {
+interface LoginPageProps {
+  searchParams: {
+    email?: string;
+  };
+}
+
+export default function LoginPage({ searchParams }: LoginPageProps) {
+  const { email } = searchParams;
 
   return (
     <>
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <LoginForm />
+        <LoginForm email={email} />
       </div>
     </>
   );

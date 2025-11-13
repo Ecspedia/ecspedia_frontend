@@ -1,7 +1,7 @@
 import { Spinner } from '@/components/ui';
 import { Hotel } from '@/types/api';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
-import HotelCardList from './HotelCardList';
+import { ScrollableList } from '@/components/shared';
 import { memo } from 'react';
 import HotelCard from '@/components/shared/HotelCard';
 
@@ -26,9 +26,13 @@ function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
   if (hotels.length === 0) {
     return <HotelSearchResult.Welcome />;
   }
-  return <HotelCardList hotels={hotels}
-    direction="vertical"
-    renderItem={(hotel) => <HotelCard key={hotel.id} hotel={hotel} />} />;
+  return (
+    <ScrollableList
+      items={hotels}
+      direction="vertical"
+      renderItem={(hotel) => <HotelCard key={hotel.id} hotel={hotel} />}
+    />
+  );
 }
 
 HotelSearchResult.NotFound = function HotelNotFound() {

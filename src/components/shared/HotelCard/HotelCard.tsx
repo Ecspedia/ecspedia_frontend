@@ -1,5 +1,5 @@
 import { Hotel } from '@/types/api';
-import { HotelCardContext } from '@/features/hotel/utils';
+
 import HotelCardImage from './image';
 import HotelCardInfo from './info';
 import { HotelCardContent, HotelCardCard } from './layout';
@@ -12,6 +12,7 @@ import {
 } from './rating';
 import { HotelCardPricing, HotelCardAvailability } from './pricing';
 import { HotelCardBookButton, HotelCardDetailsButton } from './actions';
+import { HotelCardContext } from './hotelCardContext';
 
 interface HotelCardProps {
     hotel: Hotel;

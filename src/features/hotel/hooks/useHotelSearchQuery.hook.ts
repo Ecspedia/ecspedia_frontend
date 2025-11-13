@@ -2,10 +2,11 @@
 
 import { useMemo } from 'react';
 import { useQuery, useReactiveVar } from '@apollo/client/react';
-import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/graphql/queries/hotel.queries';
+
 import { hotelSearchSubmittedParamsVar } from '@/lib/apollo-reactive-vars';
 import { SearchHotelsByLocationData } from '@/types';
 import { Hotel } from '@/types/api';
+import { SEARCH_HOTELS_BY_LOCATION } from '../api/hotel.queries';
 
 /**
  * Hook for fetching hotel search results using Apollo useQuery

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Heart } from 'lucide-react';
-import { useHotelCardContext } from '@/features/hotel/hooks';
-import { useHotelImage } from '@/features/hotel/hooks/useHotelImage.hook';
+import { useHotelCardContext } from '../hooks/useHotelCardContext';
+import { useHotelImage } from '../hooks/useHotelImage.hook';
 import { cn } from '@/utils/utils';
 
 interface HotelCardImageProps {

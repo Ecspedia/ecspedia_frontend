@@ -1,8 +1,9 @@
 import { Hotel } from '@/types/api';
-import { HotelCardContext } from '@/features/hotel/utils';
+
 import HotelCardImage from '@/components/shared/HotelCard/image';
 import HotelCardInfo from '@/components/shared/HotelCard/info';
 import { HotelCardRating, HotelCardRatingNumber, HotelCardGroup, HotelCardRatingLabel } from '@/components/shared/HotelCard/rating';
+import { HotelCardContext } from '@/components/shared/HotelCard/hotelCardContext';
 
 interface BookingHotelCardProps {
     hotel: Hotel;
