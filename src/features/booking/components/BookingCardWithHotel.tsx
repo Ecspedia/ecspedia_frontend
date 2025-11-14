@@ -1,16 +1,19 @@
 'use client';
 
 import { useQuery } from '@apollo/client/react';
+import { useState } from 'react';
 import { Booking, HotelByIdData } from '@/types/api';
 import { HOTEL_BY_ID_QUERY } from '@/features/booking/api/bookings.queries';
 import BookingHotelCard from '@/features/booking/components/BookingHotelCard';
-import { Spinner } from '@/components/ui';
+import { Button, Spinner } from '@/components/ui';
 
 interface BookingCardWithHotelProps {
     booking: Booking;
+    isPaid?: boolean;
 }
 
-function BookingCardWithHotel({ booking }: BookingCardWithHotelProps) {
+function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelProps) {
+    const [isPaying, setIsPaying] = useState(false);
     const { data: hotelData, loading: hotelLoading } = useQuery<HotelByIdData>(
         HOTEL_BY_ID_QUERY,
         {
@@ -18,6 +21,31 @@ function BookingCardWithHotel({ booking }: BookingCardWithHotelProps) {
             skip: !booking.hotelId,
         }
     );
+
+    const paymentStatus = (booking as any).paymentStatus || (booking as any).payment_status || 'pending';
+
+    async function handlePay() {
+        try {
+            setIsPaying(true);
+            const amountCents = Math.round((booking.price || 0) * 100);
+            const resp = await fetch('/api/stripe/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bookingId: booking.id, amount: amountCents, currency: booking.currency || 'USD' }),
+            });
+
+            const json = await resp.json();
+            if (json.url) {
+                window.location.href = json.url;
+            } else {
+                console.error('No url from checkout session', json);
+                setIsPaying(false);
+            }
+        } catch (err) {
+            console.error(err);
+            setIsPaying(false);
+        }
+    }
 
     return (
         <div className="bg-surface rounded-lg border border-border p-6 hover:bg-surface-raised/80 transition-colors">
@@ -36,14 +64,14 @@ function BookingCardWithHotel({ booking }: BookingCardWithHotelProps) {
                 </div>
                 <div className="text-right">
                     <span
-                        className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${booking.status === 'CONFIRMED'
-                            ? 'bg-green-500/20 text-green-500'
+                        className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${isPaid
+                            ? 'bg-success/20 text-success'
                             : booking.status === 'CANCELED'
-                                ? 'bg-red-500/20 text-red-500'
-                                : 'bg-yellow-500/20 text-yellow-500'
+                                ? 'bg-alert/20 text-alert'
+                                : 'bg-warning/20 text-warning'
                             }`}
                     >
-                        {booking.status}
+                        {isPaid ? "PAID" : "PENDING"}
                     </span>
                 </div>
             </div>
@@ -87,10 +115,26 @@ function BookingCardWithHotel({ booking }: BookingCardWithHotelProps) {
 
             {booking.price && (
                 <div className="flex justify-between items-center pt-4 border-t border-border">
-                    <span className="text-secondary">Total Price</span>
-                    <span className="text-xl font-bold text-primary">
-                        {booking.currency || 'USD'} {booking.price.toLocaleString()}
-                    </span>
+                    <div>
+                        <span className="text-secondary">Total Price</span>
+                        <div className="text-xl font-bold text-primary">
+                            {booking.currency || 'USD'} {booking.price.toLocaleString()}
+                        </div>
+                    </div>
+
+                    <div>
+                        {paymentStatus === 'paid' || isPaid ? (
+                            <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-success/20 text-success">Paid</span>
+                        ) : (
+                            <Button
+                                onClick={handlePay}
+                                variant="success"
+                                className="inline-flex items-center px-4 py-2 rounded"
+                            >
+                                {isPaying ? 'Redirecting...' : 'Pay'}
+                            </Button>
+                        )}
+                    </div>
                 </div>
             )}
 
@@ -108,4 +152,3 @@ function BookingCardWithHotel({ booking }: BookingCardWithHotelProps) {
 }
 
 export default BookingCardWithHotel;
-
