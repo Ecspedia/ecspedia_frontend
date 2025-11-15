@@ -44,7 +44,7 @@ export default function HotelPopular(hotelPopularProps: HotelPopularProps) {
                     items={hotels}
                     direction="horizontal"
                     initialBatchSize={6}
-                    renderItem={(hotel) => <HotelVerticalCard key={hotel.id} hotel={hotel} />}
+                    renderItem={(item) => <HotelVerticalCard key={item.id} hotel={item} />}
                 />
             </div>
         </section >
