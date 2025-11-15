@@ -10,7 +10,8 @@
     "lint:fix": "eslint --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "test": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@apollo/client": "^4.0.8",
@@ -49,6 +50,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
     "eslint-plugin-tailwindcss": "^4.0.0-beta.0",
+    "husky": "^8.0.0",
     "jsdom": "^27.1.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
