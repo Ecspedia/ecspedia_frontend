@@ -1,9 +1,9 @@
 'use client';
 
-import { InputHTMLAttributes } from 'react';
+import React from 'react';
 import { cn } from '@/utils/utils';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
     className?: string;
 }
 
