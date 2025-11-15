@@ -1,5 +1,5 @@
 import { cn } from "@/utils/utils";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ReactNode } from "react";
 
 const variants = {
   primary: 'bg-brand-primary hover:bg-brand-primary-hover text-white',
@@ -11,10 +11,8 @@ const variants = {
 };
 type ButtonVariant = keyof typeof variants;
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   text?: string;
-  children?: ReactNode;
-  className?: string;
   variant?: ButtonVariant;
 }
 
