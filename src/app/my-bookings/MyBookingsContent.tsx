@@ -6,12 +6,12 @@ import { MainContainer, Spinner } from '@/components/ui';
 import { useCurrentUser } from '@/hooks';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
-import { BookingsByUserEmailData } from '@/types/api';
+import type { BookingsByUserEmailQuery } from '@/types/graphql';
 import BookingCardWithHotel from '@/features/booking/components/BookingCardWithHotel';
 
 export default function MyBookingsContent() {
   const { user, isLoading: isLoadingUser } = useCurrentUser();
-  const { data, loading, error } = useQuery<BookingsByUserEmailData>(
+  const { data, loading, error } = useQuery<BookingsByUserEmailQuery>(
     BOOKINGS_BY_USER_EMAIL_QUERY,
     {
       variables: { email: user?.email || '' },

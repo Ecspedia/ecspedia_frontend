@@ -1,4 +1,4 @@
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 
 interface PaymentSummaryProps {
     hotel: Hotel;

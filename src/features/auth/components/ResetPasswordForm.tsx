@@ -9,7 +9,7 @@ import { paths } from '@/config/paths';
 // TODO: Restore AppError - File was moved/deleted
 // import { AppError } from '@/lib/errors';
 import { useMutation } from '@apollo/client/react';
-import { RESET_PASSWORD_MUTATION } from '@/config/graphql/mutations';
+import { RESET_PASSWORD_MUTATION } from '@/config/graphql/global.mutations';
 
 interface ResetPasswordFormProps {
   token: string;

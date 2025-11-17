@@ -2,7 +2,7 @@
 
 import { useQuery } from '@apollo/client/react';
 import { useState } from 'react';
-import { Booking, HotelByIdData } from '@/types/api';
+import type { Booking, HotelByIdQuery } from '@/types/graphql';
 import { HOTEL_BY_ID_QUERY } from '@/features/booking/api/bookings.queries';
 import BookingHotelCard from '@/features/booking/components/BookingHotelCard';
 import { Button, Spinner } from '@/components/ui';
@@ -14,7 +14,7 @@ interface BookingCardWithHotelProps {
 
 function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelProps) {
     const [isPaying, setIsPaying] = useState(false);
-    const { data: hotelData, loading: hotelLoading } = useQuery<HotelByIdData>(
+    const { data: hotelData, loading: hotelLoading } = useQuery<HotelByIdQuery>(
         HOTEL_BY_ID_QUERY,
         {
             variables: { id: booking.hotelId },

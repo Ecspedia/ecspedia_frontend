@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client/react';
-import { REGISTER_USER_MUTATION } from '@/config/graphql/mutations';
+import { REGISTER_USER_MUTATION } from '@/config/graphql/global.mutations';
 
 export default function Register() {
   const router = useRouter();

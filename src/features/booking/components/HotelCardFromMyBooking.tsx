@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { MapPin, Star } from 'lucide-react';
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 import { useHotelImage } from '@/components/shared/HotelCard/hooks/useHotelImage.hook';
 import { cn } from '@/utils/utils';
 

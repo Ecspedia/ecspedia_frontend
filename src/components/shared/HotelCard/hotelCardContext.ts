@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 
 export type HotelCardContextType = {
   hotel: Hotel;

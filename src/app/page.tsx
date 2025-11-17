@@ -1,6 +1,6 @@
 'use client';
 
-import { ServiceType, TopHotelsData } from '@/types';
+import { ServiceType } from '@/types/services';
 import { MultipleServicesForm, ServiceSearchForm } from '@/app/_components';
 import { ServiceTabSelector } from '@/features/service-selector';
 import { useQuery } from '@apollo/client/react';
@@ -14,6 +14,8 @@ import { useMemo } from 'react';
 import { PopularFlights } from '@/features/flight';
 import { flights } from '@/features/flight/__mocks__/mockFlights';
 
+import type { TopHotelsQuery } from '@/types/graphql';
+
 
 
 
@@ -21,8 +23,7 @@ import { flights } from '@/features/flight/__mocks__/mockFlights';
 export default function Home() {
   const currentServiceTabSelected = useAppSelector(selectService);
 
-
-  const { data, loading, error } = useQuery<TopHotelsData>(TOP_HOTELS);
+  const { data, loading, error } = useQuery<TopHotelsQuery>(TOP_HOTELS);
 
   const currentServiceContent = useMemo(() => {
     const hotels = data?.popularHotels || [];

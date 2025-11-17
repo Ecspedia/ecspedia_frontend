@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 import { useDarkMode } from '@/hooks';
 
 interface UseHotelImageReturn {

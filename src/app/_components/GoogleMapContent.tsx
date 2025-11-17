@@ -1,4 +1,4 @@
-import { Hotel } from "@/types/api";
+import type { Hotel } from '@/types/graphql';
 import dynamic from "next/dynamic";
 
 const DynamicGoogleHotelMap = dynamic(

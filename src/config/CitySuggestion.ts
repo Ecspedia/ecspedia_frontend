@@ -1,4 +1,4 @@
-import { Location } from '@/types';
+import type { Location } from '@/types/graphql';
 
 export const DEFAULT_CITY_SUGGESTION: Location[] = [
   { id: '1', code: 'NYC', city: 'New York', country: 'USA' },
