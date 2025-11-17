@@ -1,5 +1,5 @@
 import { Spinner } from '@/components/ui';
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
 import { ScrollableList } from '@/components/shared';
 import { memo } from 'react';

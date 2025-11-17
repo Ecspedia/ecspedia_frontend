@@ -2,7 +2,7 @@ import { RootState } from '@/stores/store';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 // TODO: Restore hotelService - File was moved/deleted
 // import { hotelService } from '../api/hotelService';
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 
 interface HotelSearchState {
   location: string;

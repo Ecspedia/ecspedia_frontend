@@ -1,4 +1,5 @@
-import { ServiceTab, ServiceType } from '@/types';
+import type { ServiceTab } from '@/types/services';
+import { ServiceType } from '@/types/services';
 import lightBedIcon from './assets/light__bed.svg';
 import darkBedIcon from './assets/dark__bed.svg';
 import lightFlightIcon from './assets/light__flight.svg';

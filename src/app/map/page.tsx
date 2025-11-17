@@ -9,9 +9,8 @@ import { useAppSelector } from '@/hooks/hooks';
 import { useQuery, useReactiveVar } from '@apollo/client/react';
 
 import { hotelSearchParamsVar } from '@/lib/apollo-reactive-vars';
-import { Hotel } from '@/types/api';
+import type { Hotel, SearchHotelsByLocationQuery } from '@/types/graphql';
 import { Button } from '@/components/ui';
-import { SearchHotelsByLocationData } from '@/types';
 import { useMemo } from 'react';
 import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
 
@@ -22,7 +21,7 @@ export default function FullScreenMapPage() {
   const searchParams = useReactiveVar(hotelSearchParamsVar);
 
   // Read hotel data from Apollo cache
-  const { data, loading } = useQuery<SearchHotelsByLocationData>(SEARCH_HOTELS_BY_LOCATION, {
+  const { data, loading } = useQuery<SearchHotelsByLocationQuery>(SEARCH_HOTELS_BY_LOCATION, {
     variables: {
       location: searchParams.location,
     },

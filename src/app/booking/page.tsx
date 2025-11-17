@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 import { BookingForm, BookingLoading, BookingNotFound, GuestFormData } from '@/features/booking/components';
 
 function BookingContent() {

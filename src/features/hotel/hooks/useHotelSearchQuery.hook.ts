@@ -4,8 +4,7 @@ import { useMemo } from 'react';
 import { useQuery, useReactiveVar } from '@apollo/client/react';
 
 import { hotelSearchSubmittedParamsVar } from '@/lib/apollo-reactive-vars';
-import { SearchHotelsByLocationData } from '@/types';
-import { Hotel } from '@/types/api';
+import type { SearchHotelsByLocationQuery, Hotel } from '@/types/graphql';
 import { SEARCH_HOTELS_BY_LOCATION } from '../api/hotel.queries';
 
 /**
@@ -17,7 +16,7 @@ export const useHotelSearchQuery = () => {
   const submittedParams = useReactiveVar(hotelSearchSubmittedParamsVar);
 
   // Query hotel data (only when search is submitted and we have submitted params)
-  const { data, loading, error } = useQuery<SearchHotelsByLocationData>(SEARCH_HOTELS_BY_LOCATION, {
+  const { data, loading, error } = useQuery<SearchHotelsByLocationQuery>(SEARCH_HOTELS_BY_LOCATION, {
     variables: {
       location: submittedParams?.location || '',
     },

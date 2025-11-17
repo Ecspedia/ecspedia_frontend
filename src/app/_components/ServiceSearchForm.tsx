@@ -1,6 +1,6 @@
 
 import { useAppSelector } from '@/hooks/hooks';
-import { ServiceType } from '@/types';
+import { ServiceType } from '@/types/services';
 import { SearchHotelForm } from '@/features/hotel';
 import { SearchFlightForm } from '@/features/flight';
 import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';

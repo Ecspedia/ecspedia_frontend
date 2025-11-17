@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMutation, useReactiveVar } from '@apollo/client/react';
 import { Button, MainContainer } from '@/components/ui';
-import { Hotel, CreateBookingMutationData, CreateHotelMutationData } from '@/types/api';
+import type { Hotel, CreateBookingMutation, CreateHotelMutation } from '@/types/graphql';
 import BookingDetails from './BookingDetails';
 import PaymentSummary from './PaymentSummary';
 import GuestForm, { GuestFormData } from './GuestForm';
@@ -34,8 +34,8 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
     const [guestFormData, setGuestFormData] = useState<GuestFormData | null>(null);
     const [isFormValid, setIsFormValid] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [createHotel, { loading: isCreatingHotel }] = useMutation<CreateHotelMutationData>(CREATE_HOTEL_MUTATION);
-    const [createBooking, { loading: isCreatingBooking }] = useMutation<CreateBookingMutationData>(CREATE_BOOKING_MUTATION);
+    const [createHotel, { loading: isCreatingHotel }] = useMutation<CreateHotelMutation>(CREATE_HOTEL_MUTATION);
+    const [createBooking, { loading: isCreatingBooking }] = useMutation<CreateBookingMutation>(CREATE_BOOKING_MUTATION);
 
     const submittedParams = useReactiveVar(hotelSearchSubmittedParamsVar);
     const startDate = searchParams.get('startDate') || submittedParams?.startDate || DateHelper.getToday().toString();

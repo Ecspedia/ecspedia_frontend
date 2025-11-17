@@ -44,27 +44,6 @@ export const CREATE_BOOKING_MUTATION = gql`
   }
 `;
 
-export const CANCEL_BOOKING = gql`
-  mutation CancelBooking($bookingId: ID!) {
-    cancelBooking(bookingId: $bookingId) {
-      id
-      status
-      paymentStatus
-    }
-  }
-`;
-
-export const PROCESS_PAYMENT = gql`
-  mutation ProcessPayment($input: PaymentInput!) {
-    processPayment(input: $input) {
-      success
-      transactionId
-      message
-      timestamp
-    }
-  }
-`;
-
 export const CREATE_HOTEL_MUTATION = gql`
   mutation CreateHotel($hotelCreateDto: HotelCreateInput!) {
     createHotel(hotelCreateDto: $hotelCreateDto) {

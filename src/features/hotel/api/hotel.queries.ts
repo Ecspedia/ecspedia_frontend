@@ -1,39 +1,141 @@
-import { HOTEL_CORE_FIELDS, HOTEL_FULL_FIELDS } from '@/config/graphql/fragments';
-import { gql } from '@apollo/client';
+import { graphql } from '@/types/gql';
 
 // Hotel Queries
-export const GET_HOTELS = gql`
-  ${HOTEL_CORE_FIELDS}
-  query GetHotels {
+export const GET_HOTELS = graphql(`
+  query GET_HOTELS {
     hotels {
-      ...HotelCoreFields
+      id
+      name
+      location
+      image
+      isAvailable
+      rating
+      reviewCount
+      pricePerNight
+      latitude
+      longitude
+      hotelDescription
+      hotelTypeId
+      chain
+      currency
+      country
+      city
+      address
+      zip
+      mainPhoto
+      thumbnail
+      stars
+      facilityIds
+      accessibilityAttributes {
+        attributes
+        showerChair
+        entranceType
+        petFriendly
+        rampAngle
+        rampLength
+        entranceDoorWidth
+        roomMaxGuestsNumber
+        distanceFromTheElevatorToTheAccessibleRoom
+      }
     }
   }
-`;
+`);
 
-export const GET_HOTELS_BY_LOCATION = gql`
-  ${HOTEL_CORE_FIELDS}
+export const GET_HOTELS_BY_LOCATION = graphql(`
   query GetHotelsByLocation($location: String!) {
     hotelsByLocation(location: $location) {
-      ...HotelCoreFields
+      id
+      name
+      location
+      image
+      isAvailable
+      rating
+      reviewCount
+      pricePerNight
+      latitude
+      longitude
     }
   }
-`;
+`);
 
-export const SEARCH_HOTELS_BY_LOCATION = gql`
-  ${HOTEL_FULL_FIELDS}
+export const SEARCH_HOTELS_BY_LOCATION = graphql(`
   query searchHotelsByLocation($location: String!) {
     hotelsByLocation(location: $location) {
-      ...HotelFullFields
+      id
+      name
+      hotelDescription
+      hotelTypeId
+      chain
+      currency
+      location
+      country
+      city
+      address
+      zip
+      latitude
+      longitude
+      pricePerNight
+      rating
+      reviewCount
+      isAvailable
+      image
+      mainPhoto
+      thumbnail
+      stars
+      facilityIds
+      accessibilityAttributes {
+        attributes
+        showerChair
+        entranceType
+        petFriendly
+        rampAngle
+        rampLength
+        entranceDoorWidth
+        roomMaxGuestsNumber
+        distanceFromTheElevatorToTheAccessibleRoom
+      }
+      deletedAt
     }
   }
-`;
+`);
 
-export const TOP_HOTELS = gql`
-  ${HOTEL_FULL_FIELDS}
+export const TOP_HOTELS = graphql(`
   query TopHotels {
     popularHotels {
-      ...HotelFullFields
+      id
+      name
+      hotelDescription
+      hotelTypeId
+      chain
+      currency
+      location
+      country
+      city
+      address
+      zip
+      latitude
+      longitude
+      pricePerNight
+      rating
+      reviewCount
+      isAvailable
+      image
+      mainPhoto
+      thumbnail
+      stars
+      facilityIds
+      accessibilityAttributes {
+        attributes
+        showerChair
+        entranceType
+        petFriendly
+        rampAngle
+        rampLength
+        entranceDoorWidth
+        roomMaxGuestsNumber
+        distanceFromTheElevatorToTheAccessibleRoom
+      }
+      deletedAt
     }
   }
-`;
+`);

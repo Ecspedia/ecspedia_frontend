@@ -1,4 +1,4 @@
-import { Hotel } from '@/types/api';
+
 
 import HotelCardImage from './image';
 import HotelCardInfo from './info';
@@ -13,6 +13,7 @@ import {
 import { HotelCardPricing, HotelCardAvailability } from './pricing';
 import { HotelCardBookButton, HotelCardDetailsButton } from './actions';
 import { HotelCardContext } from './hotelCardContext';
+import { Hotel } from '@/types/graphql';
 
 interface HotelCardProps {
     hotel: Hotel;

@@ -1,4 +1,4 @@
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 import HotelCard, { HotelCardInfo } from '@/components/shared/HotelCard';
 import { HotelCardContext } from '@/components/shared/HotelCard/hotelCardContext';
 

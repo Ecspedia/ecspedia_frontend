@@ -1,9 +1,10 @@
 'use client';
 
 import { Spinner } from "@/components/ui/Spinner";
-import { Hotel } from "@/types";
+
 import { ScrollableList } from "@/components/shared";
 import HotelVerticalCard from '@/features/hotel/components/HotelVerticalCard';
+import { Hotel } from "@/types/graphql";
 
 interface HotelPopularProps {
     hotels: Hotel[];

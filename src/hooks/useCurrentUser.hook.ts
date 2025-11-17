@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useQuery } from '@apollo/client/react';
-import { CurrentUser, CurrentUserQueryData } from '@/types/api';
-import { CURRENT_USER_QUERY } from '@/config/graphql/queries';
+import type { CurrentUserQuery } from '@/types/graphql';
+import { CURRENT_USER_QUERY } from '@/config/graphql/global.queries';
+
+type CurrentUser = CurrentUserQuery['me'];
 
 interface UseCurrentUserReturn {
-  user: CurrentUser | null;
+  user: CurrentUser;
   isLoading: boolean;
   refetch: () => Promise<void>;
   isAuthenticated: boolean;
@@ -15,7 +17,7 @@ export const useCurrentUser = (): UseCurrentUserReturn => {
     data,
     loading,
     refetch: refetchQuery,
-  } = useQuery<CurrentUserQueryData>(CURRENT_USER_QUERY, {
+  } = useQuery<CurrentUserQuery>(CURRENT_USER_QUERY, {
     fetchPolicy: 'cache-first',
     nextFetchPolicy: 'cache-first',
     errorPolicy: 'ignore',

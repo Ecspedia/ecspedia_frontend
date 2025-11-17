@@ -1,6 +1,6 @@
 import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 import { useState, useMemo, useCallback } from 'react';
-import { Hotel } from '@/types/api';
+import type { Hotel } from '@/types/graphql';
 import HotelDetailCard from './HotelDetailCard';
 import { useRouter } from 'next/navigation';
 import { Maximize2 } from 'lucide-react';

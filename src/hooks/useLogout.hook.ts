@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useMutation } from '@apollo/client/react';
 import { useRouter } from 'next/navigation';
-import { LOGOUT_MUTATION } from '@/config/graphql/mutations';
+import { LOGOUT_MUTATION } from '@/config/graphql/global.mutations';
 import { useCurrentUser } from './useCurrentUser.hook';
 
 interface UseLogoutReturn {

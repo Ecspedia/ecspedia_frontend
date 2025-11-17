@@ -1,7 +1,7 @@
 'use client';
 import { Input } from '@/components/ui';
 import { DEFAULT_CITY_SUGGESTION, POPULAR_DESTINATIONS } from '@/config';
-import { Location } from '@/types';
+import type { Location } from '@/types/graphql';
 import { MapPin } from 'lucide-react';
 import { useId, useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client/react';

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useMutation } from '@apollo/client/react';
-import { LOGIN_MUTATION } from '@/config/graphql/mutations';
+import { LOGIN_MUTATION } from '@/config/graphql/global.mutations';
 import { paths } from '@/config/paths';
 
 interface LoginFormProps {

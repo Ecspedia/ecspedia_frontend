@@ -1,6 +1,6 @@
 import { UI_DIMENSIONS } from './constants';
 import { cn } from '@/utils/utils';
-import { ServiceTab as ServiceTabType } from '@/types';
+import type { ServiceTab as ServiceTabType } from '@/types/services';
 import Image from 'next/image';
 import { useDarkMode } from '@/hooks';
 

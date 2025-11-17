@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useMutation } from '@apollo/client/react';
-import { FORGOT_PASSWORD_MUTATION } from '@/config/graphql/mutations';
+import { FORGOT_PASSWORD_MUTATION } from '@/config/graphql/global.mutations';
 import { paths } from '@/config/paths';
 
 export default function ForgotPasswordForm() {

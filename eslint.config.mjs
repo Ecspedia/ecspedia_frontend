@@ -138,6 +138,12 @@ const eslintConfig = [
       'import/no-unresolved': 'off',
     },
   },
+  {
+    files: ['src/types/**/*'],
+    rules: {
+      'import/no-duplicates': 'off',
+    },
+  },
 ];
 
 export default eslintConfig;
