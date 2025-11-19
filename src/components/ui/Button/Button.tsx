@@ -1,5 +1,4 @@
 import { cn } from "@/utils/utils";
-import { ReactNode } from "react";
 
 const variants = {
   primary: 'bg-brand-primary hover:bg-brand-primary-hover text-white',

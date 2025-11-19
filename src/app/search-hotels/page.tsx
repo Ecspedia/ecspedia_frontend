@@ -1,53 +1,65 @@
 'use client';
 
-import { Suspense, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
-import { useHotelSearchQuery } from '@/features/hotel/hooks';
 import { GoogleMapContent } from '@/app/_components';
-import { Spinner, MainContainer } from '@/components/ui';
-import { hotelSearchSubmittedParamsVar, updateHotelSearchParams } from '@/lib/apollo-reactive-vars';
+import { MainContainer, Spinner } from '@/components/ui';
+import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
+import { HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
+import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
+
 import { DateHelper } from '@/utils/dateHelpers';
+import { useLazyQuery } from '@apollo/client/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
 
 // Match the height of HotelCard image (w-64 = 256px with aspect-[4/3] = 192px height) + 2xpadding =16
 const MAP_SIZE = 225;
 
 function SearchHotelsContent() {
     const searchParams = useSearchParams();
-
+    const router = useRouter();
     // Get URL parameters
     const location = searchParams.get('location') || '';
+    // theses variables are not used yet to fetch hotels, but we keep them for future use
     const startDate = searchParams.get('startDate') || DateHelper.getToday().toString();
     const endDate = searchParams.get('endDate') || DateHelper.pastTomorrow().toString();
     const adults = searchParams.get('adults') || searchParams.get('guests') || '1';
 
-    // Update the reactive variable with URL params when they change (sync URL → State)
+    const [fetchHotels, { data, loading, error }] = useLazyQuery(SEARCH_HOTELS_BY_LOCATION,
+        { fetchPolicy: 'network-only' });
+
     useEffect(() => {
-        if (location) {
-            updateHotelSearchParams({
-                location,
-                startDate,
-                endDate,
-                adults: parseInt(adults),
-            });
-            hotelSearchSubmittedParamsVar({
-                location,
-                startDate,
-                endDate,
-                adults: parseInt(adults),
-            });
+        if (!location) return;
+        fetchHotels({ variables: { location } });
+    }, [location, fetchHotels]);
+
+
+    const currentQs = searchParams.toString();
+
+    const handleSubmit = (data: HotelSearchParams) => {
+        const params = new URLSearchParams({
+            location: data.location,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            adults: data.adults.toString(),
+        });
+        const nextQs = params.toString();
+
+        if (nextQs === currentQs) {
+            fetchHotels({ variables: { location: data.location } });
+        } else {
+            router.push(`?${nextQs}`);
         }
-    }, [location, startDate, endDate, adults]);
+    };
 
 
-
-    const { hotels, loading: hotelsLoading, error: errorMessage } = useHotelSearchQuery();
-
+    const hotels = data?.hotelsByLocation || [];
+    const hotelsLoading = loading;
+    const errorMessage = error?.message;
 
     if (!location) {
         return (
             <MainContainer className="py-6">
-                <SearchHotelForm />
+                <SearchHotelForm onSubmit={handleSubmit} isSearching={loading} />
                 <div className="flex flex-col items-center justify-center min-h-[400px] mt-8">
                     <h1 className="text-2xl font-bold text-primary mb-4">Start Your Hotel Search</h1>
                     <p className="text-secondary">
@@ -58,9 +70,11 @@ function SearchHotelsContent() {
         );
     }
 
+
     return (
+
         <MainContainer>
-            <SearchHotelForm variant='extended' />
+            <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={hotelsLoading} />
             <div className='flex gap-4 mt-2'>
                 {!hotelsLoading && hotels.length > 0 && (
                     <div
@@ -75,16 +89,19 @@ function SearchHotelsContent() {
                 </div>
             </div>
         </MainContainer>
+
     );
 }
 
 export default function SearchHotelsPage() {
     return (
+
         <Suspense fallback={
             <MainContainer className="py-6">
                 <Spinner size="lg" />
             </MainContainer>
         }>
+
             <SearchHotelsContent />
         </Suspense>
     );

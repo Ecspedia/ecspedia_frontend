@@ -9,7 +9,7 @@ export function HotelCardTitle() {
 
   return (
     <div className="flex items-center gap-2">
-      <h3 className="text-primary cursor-pointer text-lg font-semibold hover:underline">
+      <h3 className="text-primary cursor-pointer text-lg font-semibold hover:underline line-clamp-2">
         {hotel.name}
       </h3>
 

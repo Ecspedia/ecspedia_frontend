@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
-import type { Hotel } from '@/types/graphql';
 import { useDarkMode } from '@/hooks';
+import type { Hotel } from '@/types/graphql';
+import { useCallback, useEffect, useState } from 'react';
 
 interface UseHotelImageReturn {
   imageSrc: string;
@@ -23,7 +23,7 @@ export const useHotelImage = (hotel: Hotel): UseHotelImageReturn => {
   const [isLoading, setIsLoading] = useState(!!hotel.image);
   const [hasError, setHasError] = useState(!hotel.image);
   const [currentImageSrc, setCurrentImageSrc] = useState(
-    hotel.image || getFallbackImage(isDarkMode)
+    hotel.image || getFallbackImage(isDarkMode ?? false)
   );
 
   const isExternalImage =
@@ -36,7 +36,7 @@ export const useHotelImage = (hotel: Hotel): UseHotelImageReturn => {
       setIsLoading(true);
       setHasError(false);
     } else {
-      setCurrentImageSrc(getFallbackImage(isDarkMode));
+      setCurrentImageSrc(getFallbackImage(isDarkMode ?? false));
       setIsLoading(false);
       setHasError(true);
     }
@@ -48,7 +48,7 @@ export const useHotelImage = (hotel: Hotel): UseHotelImageReturn => {
   useEffect(() => {
     // Only update if currently showing fallback (not actual hotel image)
     if (hasError || !hotel.image) {
-      setCurrentImageSrc(getFallbackImage(isDarkMode));
+      setCurrentImageSrc(getFallbackImage(isDarkMode ?? false));
     }
     // Intentionally minimal dependencies - we only want to react to theme changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,7 +62,7 @@ export const useHotelImage = (hotel: Hotel): UseHotelImageReturn => {
   const handleImageError = useCallback(() => {
     setIsLoading(false);
     setHasError(true);
-    setCurrentImageSrc(getFallbackImage(isDarkMode));
+    setCurrentImageSrc(getFallbackImage(isDarkMode ?? false));
   }, [isDarkMode]);
 
   return {

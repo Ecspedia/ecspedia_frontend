@@ -1,4 +1,4 @@
-import { Flight } from '@/types/api';
+import { Flight } from '@/types';
 import { FlightCardContext } from '../utils';
 import { useFlightCardContext } from '../hooks';
 import Image from 'next/image';

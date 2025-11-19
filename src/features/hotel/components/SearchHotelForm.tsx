@@ -1,23 +1,32 @@
+'use client';
+import { DateRangeTextField, FormWrapper, GuestSelectionTextField, LocationTextField } from '@/components/shared';
 import { Button } from '@/components/ui';
-import { DateRangeTextField, LocationTextField, GuestSelectionTextField, FormWrapper } from '@/components/shared';
-import { Controller } from 'react-hook-form';
 import useExpandableFields from '@/hooks/useExpandableFields.hook';
-import { LocationFieldType } from '../types';
-import { useHotelFormValidation, useHotelSearchApollo } from '../hooks';
 import { cn } from '@/utils/utils';
+import { useRouter } from 'next/navigation';
+import { Controller, SubmitHandler } from 'react-hook-form';
+
+import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
+import { useHotelFormValidation, useHotelSearchApollo } from '../hooks';
+import { HotelFormInput, LocationFieldType } from '../types';
 
 interface SearchHotelFormProps {
   variant?: 'extended' | 'default';
+  onSubmit?: (data: HotelSearchParams) => void;
+  isSearching?: boolean;
 }
 
 export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormProps) {
-  const { variant = 'default' } = searchHotelFormProps;
+  const { variant = 'default', isSearching = false, onSubmit } = searchHotelFormProps;
+
   const isExtended = variant === 'extended';
-
-
   const { state, actions } = useHotelSearchApollo();
-  const { location, startDate, endDate, adults, isSearching } = state;
-  const { handleLocationChange, handleDateRangeChange, handleAdultsChange, onSubmit } = actions;
+
+  const router = useRouter();
+  const { location, startDate, endDate, adults } = state;
+  const { handleLocationChange, handleDateRangeChange, handleAdultsChange } = actions;
+
+
 
   const { control, handleSubmit, errors, validationRules } = useHotelFormValidation({
     defaultLocation: location,
@@ -31,10 +40,31 @@ export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormPro
     HTMLDivElement
   >();
 
+  const handleSubmitForm: SubmitHandler<HotelFormInput> = (formData) => {
+    const payload: HotelSearchParams = {
+      location: formData.location,
+      startDate: formData.startDate ?? '',
+      endDate: formData.endDate ?? '',
+      adults: formData.adults,
+    };
+
+
+    if (onSubmit) {
+      onSubmit(payload);
+    } else {
+      const params = new URLSearchParams({
+        location: payload.location,
+        startDate: payload.startDate,
+        endDate: payload.endDate,
+        adults: String(payload.adults),
+      });
+      router.push(`/search-hotels?${params.toString()}`);
+    }
+  };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(handleSubmitForm)}
       className={cn("flex items-start justify-center gap-4", isExtended ? 'py-4' : 'p-8')}
     >
       <div className={cn("form-fields flex", isExtended ? 'flex-1 gap-7' : 'gap-4')}>

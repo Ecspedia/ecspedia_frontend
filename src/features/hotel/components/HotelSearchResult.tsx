@@ -1,9 +1,9 @@
+import { ScrollableList } from '@/components/shared';
+import HotelCard from '@/components/shared/HotelCard';
 import { Spinner } from '@/components/ui';
 import type { Hotel } from '@/types/graphql';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
-import { ScrollableList } from '@/components/shared';
 import { memo } from 'react';
-import HotelCard from '@/components/shared/HotelCard';
 
 interface HotelSearchResultProps {
   hotels: Hotel[];
@@ -29,7 +29,7 @@ function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
   return (
     <ScrollableList
       items={hotels}
-      direction="vertical"
+      direction='vertical'
       renderItem={(hotel) => <HotelCard key={hotel.id} hotel={hotel} />}
     />
   );

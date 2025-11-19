@@ -1,4 +1,4 @@
-import { Flight } from '@/types/api';
+import { Flight } from '@/types';
 
 import { ReactNode } from 'react';
 import Image from 'next/image';

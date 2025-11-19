@@ -1,6 +1,6 @@
-import { SERVICE_TABS } from '../constants';
+import { SERVICE_TABS } from '../types/constants';
 import { ANIMATION_DURATION } from '@/config';
-import { ServiceType } from '@/types/services';
+import { ServiceType } from '@/types';
 import { useEffect, useState } from 'react';
 
 interface UseServiceSelectorProps {

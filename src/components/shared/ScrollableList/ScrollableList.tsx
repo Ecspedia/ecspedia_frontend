@@ -1,17 +1,18 @@
 'use client';
 
-import { memo } from 'react';
-import useLazyList from '@/hooks/useLazyList.hook';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { useHorizontalScroll } from '@/hooks';
+import useLazyList from '@/hooks/useLazyList.hook';
+import { Axis } from '@/types';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { memo } from 'react';
 
 interface ScrollableListProps<T> {
     items: T[];
     initialBatchSize?: number;
     batchSize?: number;
     renderItem: (item: T) => React.ReactNode;
-    direction?: 'vertical' | 'horizontal';
+    direction?: Axis;
     className?: string;
     showNavigation?: boolean;
 }
@@ -21,7 +22,7 @@ function ScrollableList<T>({
     initialBatchSize = 10,
     batchSize = 5,
     renderItem,
-    direction = 'vertical',
+    direction = 'horizontal',
     className = '',
     showNavigation = true,
 }: ScrollableListProps<T>) {

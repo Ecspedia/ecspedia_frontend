@@ -1,17 +1,17 @@
-import type { ServiceTab } from '@/types/services';
-import { ServiceType } from '@/types/services';
-import lightBedIcon from './assets/light__bed.svg';
-import darkBedIcon from './assets/dark__bed.svg';
-import lightFlightIcon from './assets/light__flight.svg';
-import darkFlightIcon from './assets/dark__flight.svg';
-import lightCarIcon from './assets/light__car.svg';
-import darkCarIcon from './assets/dark__car.svg';
-import lightPackageIcon from './assets/light__package.svg';
-import darkPackageIcon from './assets/dark__package.svg';
-import lightTicketIcon from './assets/light__ticket.svg';
-import darkTicketIcon from './assets/dark__ticket.svg';
-import lightCruiseIcon from './assets/light__cruise.svg';
-import darkCruiseIcon from './assets/dark__cruise.svg';
+import type { ServiceTab } from '@/types';
+import { ServiceType } from '@/types';
+import darkBedIcon from '../assets/dark__bed.svg';
+import darkCarIcon from '../assets/dark__car.svg';
+import darkCruiseIcon from '../assets/dark__cruise.svg';
+import darkFlightIcon from '../assets/dark__flight.svg';
+import darkPackageIcon from '../assets/dark__package.svg';
+import darkTicketIcon from '../assets/dark__ticket.svg';
+import lightBedIcon from '../assets/light__bed.svg';
+import lightCarIcon from '../assets/light__car.svg';
+import lightCruiseIcon from '../assets/light__cruise.svg';
+import lightFlightIcon from '../assets/light__flight.svg';
+import lightPackageIcon from '../assets/light__package.svg';
+import lightTicketIcon from '../assets/light__ticket.svg';
 
 export const SERVICE_TABS: ServiceTab[] = [
   {
