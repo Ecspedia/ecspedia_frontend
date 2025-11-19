@@ -1,9 +1,12 @@
 'use client';
 
-import { hotelSearchParamsVar, updateHotelSearchParams } from '@/lib/apollo-reactive-vars';
+import { hotelSearchParamsVar, HotelSearchParams, updateHotelSearchParams } from '@/lib/apollo-reactive-vars';
 import { useReactiveVar } from '@apollo/client/react';
+import { useRouter } from 'next/navigation';
+import { HotelFormInput } from '../types';
 
-export const useHotelSearchApollo = () => {
+export const useHotelState = () => {
+  const router = useRouter();
   const searchParams = useReactiveVar(hotelSearchParamsVar);
 
   const handleLocationChange = (selectedLocation: string) => {
@@ -32,6 +35,28 @@ export const useHotelSearchApollo = () => {
     updateHotelSearchParams({ adults });
   };
 
+  const submitSearch = (formData: HotelFormInput, override?: (payload: HotelSearchParams) => void) => {
+    const payload: HotelSearchParams = {
+      location: formData.location,
+      startDate: formData.startDate ?? '',
+      endDate: formData.endDate ?? '',
+      adults: formData.adults,
+    };
+
+    if (override) {
+      override(payload);
+      return;
+    }
+
+    const params = new URLSearchParams({
+      location: payload.location,
+      startDate: payload.startDate,
+      endDate: payload.endDate,
+      adults: String(payload.adults),
+    });
+    router.push(`/search-hotels?${params.toString()}`);
+  };
+
   return {
     state: {
       location: searchParams.location,
@@ -43,6 +68,7 @@ export const useHotelSearchApollo = () => {
       handleLocationChange,
       handleDateRangeChange,
       handleAdultsChange,
+      submitSearch,
     },
   };
 };

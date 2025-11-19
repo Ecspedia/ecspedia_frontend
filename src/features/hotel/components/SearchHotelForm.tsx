@@ -3,11 +3,10 @@ import { DateRangeTextField, FormWrapper, GuestSelectionTextField, LocationTextF
 import { Button } from '@/components/ui';
 import useExpandableFields from '@/hooks/useExpandableFields.hook';
 import { cn } from '@/utils/utils';
-import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler } from 'react-hook-form';
 
 import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
-import { useHotelFormValidation, useHotelSearchApollo } from '../hooks';
+import { useHotelFormValidation, useHotelState } from '../hooks';
 import { HotelFormInput, LocationFieldType } from '../types';
 
 interface SearchHotelFormProps {
@@ -18,15 +17,12 @@ interface SearchHotelFormProps {
 
 export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormProps) {
   const { variant = 'default', isSearching = false, onSubmit } = searchHotelFormProps;
-
   const isExtended = variant === 'extended';
-  const { state, actions } = useHotelSearchApollo();
 
-  const router = useRouter();
+
+  const { state, actions } = useHotelState();
   const { location, startDate, endDate, adults } = state;
-  const { handleLocationChange, handleDateRangeChange, handleAdultsChange } = actions;
-
-
+  const { handleLocationChange, handleDateRangeChange, handleAdultsChange, submitSearch } = actions;
 
   const { control, handleSubmit, errors, validationRules } = useHotelFormValidation({
     defaultLocation: location,
@@ -41,25 +37,7 @@ export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormPro
   >();
 
   const handleSubmitForm: SubmitHandler<HotelFormInput> = (formData) => {
-    const payload: HotelSearchParams = {
-      location: formData.location,
-      startDate: formData.startDate ?? '',
-      endDate: formData.endDate ?? '',
-      adults: formData.adults,
-    };
-
-
-    if (onSubmit) {
-      onSubmit(payload);
-    } else {
-      const params = new URLSearchParams({
-        location: payload.location,
-        startDate: payload.startDate,
-        endDate: payload.endDate,
-        adults: String(payload.adults),
-      });
-      router.push(`/search-hotels?${params.toString()}`);
-    }
+    submitSearch(formData, onSubmit);
   };
 
   return (
