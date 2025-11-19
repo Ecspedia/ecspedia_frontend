@@ -1,5 +1,5 @@
 import { RootState } from '@/stores/store';
-import { ServiceType } from '@/types/services';
+import { ServiceType } from '@/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface ServiceTabState {

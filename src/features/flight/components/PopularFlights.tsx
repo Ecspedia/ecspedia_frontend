@@ -3,7 +3,7 @@
 import { Spinner } from "@/components/ui/Spinner";
 import { ScrollableList } from "@/components/shared";
 import FlightVerticalCard from './FlightVerticalCard';
-import { Flight } from '@/types/api';
+import { Flight } from '@/types';
 
 interface PopularFlightsProps {
     flights: Flight[];

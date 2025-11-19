@@ -1,11 +1,13 @@
 'use client';
 
+import { DarkModeState } from '@/types';
 import { createContext, useContext } from 'react';
+
 
 export type TextFieldContextType = {
     value?: string;
     onChange?: (value: string) => void;
-    isDarkMode: boolean;
+    isDarkMode: DarkModeState;
     hasValue: boolean;
     readOnly: boolean;
     onClick?: () => void;

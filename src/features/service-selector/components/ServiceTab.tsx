@@ -1,8 +1,9 @@
-import { UI_DIMENSIONS } from './constants';
-import { cn } from '@/utils/utils';
-import type { ServiceTab as ServiceTabType } from '@/types/services';
-import Image from 'next/image';
+import Spinner from '@/components/ui/Spinner/Spinner';
 import { useDarkMode } from '@/hooks';
+import type { ServiceTab as ServiceTabType } from '@/types';
+import { cn } from '@/utils/utils';
+import Image from 'next/image';
+import { UI_DIMENSIONS } from '../types/constants';
 
 interface TabButtonProps {
   tab: ServiceTabType;
@@ -32,7 +33,7 @@ export default function ServiceTab(tabButtonProps: TabButtonProps) {
         )}
       >
         <div className="relative inline-block">
-          <ServiceImage tab={tab} isSelected={isSelected}></ServiceImage>
+          <ServiceImage tab={tab} />
           <CommingSoonBadge comingSoon={tab.comingSoon} />
         </div>
         <ServiceText isSelected={isSelected} tab={tab} />
@@ -41,11 +42,19 @@ export default function ServiceTab(tabButtonProps: TabButtonProps) {
   );
 }
 
-const ServiceImage = function ServiceImage({ tab }: { tab: ServiceTabType; isSelected: boolean }) {
+const ServiceImage = function ServiceImage({ tab }: { tab: ServiceTabType }) {
   const isDarkMode = useDarkMode();
-  const iconSrc = isDarkMode ? tab.iconDark : tab.icon;
 
-  return <Image src={iconSrc} alt='' width={48} height={48} className={`mb-2`} />;
+  if (isDarkMode === undefined) {
+    return (
+      <div className="mb-2 flex h-12 w-12 items-center justify-center">
+        <Spinner size="md" />
+      </div>
+    );
+  }
+
+  const iconSrc = isDarkMode ? tab.iconDark : tab.icon;
+  return <Image src={iconSrc} alt={`${tab.name} service`} width={48} height={48} className="mb-2" />;
 };
 
 const CommingSoonBadge = ({ comingSoon }: { comingSoon: boolean | undefined }) => {

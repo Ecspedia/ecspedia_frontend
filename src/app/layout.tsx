@@ -1,12 +1,12 @@
+import '@/app/globals.css';
+import { HeaderNav } from '@/components/shared';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import '@/app/globals.css';
-import StoreProvider from './storeProvider';
-import ApolloProvider from './apolloProvider';
-import DarkModeProvider from './darkModeProvider';
 import ConditionalHeader from './_components/ConditionalHeader';
 import ErrorBoundaryWrapper from './_components/ErrorBoundaryWrapper';
-import { HeaderNav } from '@/components/shared';
+import ApolloProvider from './apolloProvider';
+import DarkModeProvider from './darkModeProvider';
+import StoreProvider from './storeProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -47,8 +47,10 @@ export default function RootLayout({
                 try {
                   const savedMode = localStorage.getItem('darkMode');
                   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  console.log('prefersDark', prefersDark);
+                  console.log('savedMode', savedMode);
                   const isDark = savedMode === 'true' || (savedMode === null && prefersDark);
-                  
+                  console.log('isDark', isDark);
                   if (isDark) {
                     document.documentElement.classList.add('dark');
                   }

@@ -1,14 +1,13 @@
 'use client';
 
-import { ReactNode, useId } from 'react';
-import { selectIsDarkMode } from '@/stores/darkModeSlice';
-import { useAppSelector, useDarkMode } from '@/hooks';
+import { useDarkMode } from '@/hooks';
 import { cn } from '@/utils/utils';
-import { TextFieldContext } from './context/TextFieldContext';
+import { ReactNode, useId } from 'react';
 import TextFieldIcon from './components/TextFieldIcon';
-import TextFieldLabel from './components/TextFieldLabel';
 import TextFieldInput from './components/TextFieldInput';
 import TextFieldInputWrapper from './components/TextFieldInputWrapper';
+import TextFieldLabel from './components/TextFieldLabel';
+import { TextFieldContext } from './context/TextFieldContext';
 
 interface TextFieldProps {
     onClick?: () => void;
@@ -40,6 +39,13 @@ function TextField({
         onClick,
         inputId,
     };
+    if (isDarkMode === undefined) {
+        return (
+            <div className="mb-2 flex h-12 w-12 items-center justify-center">
+
+            </div>
+        );
+    }
 
     return (
         <TextFieldContext.Provider value={contextValue}>

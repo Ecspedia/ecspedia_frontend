@@ -1,8 +1,7 @@
 'use client';
 
-import { Spinner } from "@/components/ui/Spinner";
-
 import { ScrollableList } from "@/components/shared";
+import { Spinner } from "@/components/ui/Spinner";
 import HotelVerticalCard from '@/features/hotel/components/HotelVerticalCard';
 import { Hotel } from "@/types/graphql";
 
@@ -43,7 +42,7 @@ export default function HotelPopular(hotelPopularProps: HotelPopularProps) {
             <div className="">
                 <ScrollableList
                     items={hotels}
-                    direction="horizontal"
+                    direction='horizontal'
                     initialBatchSize={6}
                     renderItem={(item) => <HotelVerticalCard key={item.id} hotel={item} />}
                 />

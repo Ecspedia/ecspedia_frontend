@@ -7,13 +7,13 @@ export const metadata: Metadata = {
 };
 
 interface LoginPageProps {
-  searchParams: {
+  searchParams: Promise<{
     email?: string;
-  };
+  }>;
 }
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
-  const { email } = searchParams;
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const { email } = await searchParams;
 
   return (
     <>

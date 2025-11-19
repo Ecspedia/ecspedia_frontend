@@ -1,31 +1,33 @@
 'use client';
 
-import { useMemo } from 'react';
-import { useQuery, useReactiveVar } from '@apollo/client/react';
+import { useLazyQuery } from '@apollo/client/react';
+import { useCallback, useMemo } from 'react';
 
-import { hotelSearchSubmittedParamsVar } from '@/lib/apollo-reactive-vars';
-import type { SearchHotelsByLocationQuery, Hotel } from '@/types/graphql';
+import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
+import type { Hotel, SearchHotelsByLocationQuery } from '@/types/graphql';
 import { SEARCH_HOTELS_BY_LOCATION } from '../api/hotel.queries';
 
-/**
- * Hook for fetching hotel search results using Apollo useQuery
- * Only runs when search has been submitted via reactive variable
- */
 export const useHotelSearchQuery = () => {
-  // Read the submitted search params (not the current form values)
-  const submittedParams = useReactiveVar(hotelSearchSubmittedParamsVar);
+  // Only fetch new data when button is clicked (useLazyQuery)
+  const [fetchHotels, { data, loading, error }] = useLazyQuery<SearchHotelsByLocationQuery>(
+    SEARCH_HOTELS_BY_LOCATION,
+    {
+      fetchPolicy: 'network-only',
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
-  // Query hotel data (only when search is submitted and we have submitted params)
-  const { data, loading, error } = useQuery<SearchHotelsByLocationQuery>(SEARCH_HOTELS_BY_LOCATION, {
-    variables: {
-      location: submittedParams?.location || '',
+  const runQuery = useCallback(
+    (params?: HotelSearchParams) => {
+      fetchHotels({
+        variables: {
+          location: params?.location,
+        },
+      });
     },
-    skip: !submittedParams?.location,
-    fetchPolicy: 'cache-first',
-    notifyOnNetworkStatusChange: true,
-  });
+    [fetchHotels]
+  );
 
-  // Process hotels array from response
   const hotels = useMemo<Hotel[]>(() => {
     return data?.hotelsByLocation || [];
   }, [data?.hotelsByLocation]);
@@ -34,6 +36,6 @@ export const useHotelSearchQuery = () => {
     hotels,
     loading,
     error: error?.message,
-    data,
+    runQuery,
   };
 };

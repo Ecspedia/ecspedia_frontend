@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { useDarkMode } from '@/hooks';
 import { useAppDispatch } from '@/hooks/hooks';
 import { toggleDarkMode } from '@/stores/darkModeSlice';
-import { useDarkMode } from '@/hooks';
 import { cn } from '@/utils/utils';
+import { Moon, Sun } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function DarkModeToggle() {
     const dispatch = useAppDispatch();

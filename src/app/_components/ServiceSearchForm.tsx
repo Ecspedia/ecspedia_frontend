@@ -1,9 +1,9 @@
 
-import { useAppSelector } from '@/hooks/hooks';
-import { ServiceType } from '@/types/services';
-import { SearchHotelForm } from '@/features/hotel';
 import { SearchFlightForm } from '@/features/flight';
+import { SearchHotelForm } from '@/features/hotel';
 import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';
+import { useAppSelector } from '@/hooks/hooks';
+import { ServiceType } from '@/types';
 
 export default function ServiceSearchForm() {
   const currentServiceTabSelected = useAppSelector(selectService);

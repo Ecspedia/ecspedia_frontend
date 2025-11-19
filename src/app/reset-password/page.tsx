@@ -1,6 +1,6 @@
+import { paths } from '@/config/paths';
 import { ResetPasswordForm } from '@/features/auth';
 import type { Metadata } from 'next';
-import { paths } from '@/config/paths';
 
 export const metadata: Metadata = {
   title: 'Reset Password',
@@ -8,14 +8,14 @@ export const metadata: Metadata = {
 };
 
 interface ResetPasswordPageProps {
-  searchParams: {
+  searchParams: Promise<{
     token?: string;
     email?: string;
-  };
+  }>;
 }
 
-export default function ResetPasswordPage({ searchParams }: ResetPasswordPageProps) {
-  const { token, email } = searchParams;
+export default async function ResetPasswordPage({ searchParams }: ResetPasswordPageProps) {
+  const { token, email } = await searchParams;
 
   if (!token) {
     return (

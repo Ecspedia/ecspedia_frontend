@@ -4,4 +4,3 @@ export const UI_DIMENSIONS = {
   FLIGHT_CARD_COMPANY_LOGO_BORDER: 8,
   AIRLINE_ICON_SIZE: 48,
 } as const;
-

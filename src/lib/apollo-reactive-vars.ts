@@ -28,6 +28,7 @@ export const hotelSearchParamsVar = makeVar<HotelSearchParams>({
   endDate: DateHelper.pastTomorrow().toString(),
   adults: 1,
 });
+export const hotelSearchSubmittedParamsVar = makeVar<HotelSearchParams | null>(null);
 
 /**
  * Helper to update hotel search params
@@ -51,20 +52,6 @@ export const resetHotelSearchParams = () => {
   });
 };
 
-/**
- * Reactive variable to track if hotel search has been submitted
- * Used to control when useQuery should run in page.tsx
- */
-export const hotelSearchSubmittedVar = makeVar<boolean>(false);
-
-/**
- * Helper to set hotel search as submitted
- */
-export const hotelSearchSubmittedParamsVar = makeVar<HotelSearchParams | null>(null);
-
-export const setHotelSearchSubmitted = (submitted: boolean, params?: HotelSearchParams) => {
-  hotelSearchSubmittedVar(submitted);
-  if (submitted && params) {
-    hotelSearchSubmittedParamsVar(params);
-  }
+export const syncSubmittedValues = () => {
+  hotelSearchSubmittedParamsVar(hotelSearchParamsVar());
 };

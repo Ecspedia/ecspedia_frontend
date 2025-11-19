@@ -1,7 +1,7 @@
 'use client';
 
-import { Sparkles, Gift, Tag } from 'lucide-react';
 import { Button } from '@/components/ui';
+import { Gift, Sparkles, Tag } from 'lucide-react';
 
 interface PromoBannerProps {
     title?: string;
@@ -59,4 +59,3 @@ export default function PromoBanner({
         </section>
     );
 }
-

@@ -1,4 +1,4 @@
-import type { Flight } from '@/types/api';
+import type { Flight } from '@/types';
 import { createContext } from 'react';
 
 export type FlightCardContext = {

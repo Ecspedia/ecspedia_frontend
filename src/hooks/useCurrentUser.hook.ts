@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useQuery } from '@apollo/client/react';
-import type { CurrentUserQuery } from '@/types/graphql';
 import { CURRENT_USER_QUERY } from '@/config/graphql/global.queries';
+import type { CurrentUserQuery } from '@/types/graphql';
+import { useQuery } from '@apollo/client/react';
+import { useEffect } from 'react';
 
 type CurrentUser = CurrentUserQuery['me'];
 
@@ -17,7 +17,7 @@ export const useCurrentUser = (): UseCurrentUserReturn => {
     data,
     loading,
     refetch: refetchQuery,
-  } = useQuery<CurrentUserQuery>(CURRENT_USER_QUERY, {
+  } = useQuery(CURRENT_USER_QUERY, {
     fetchPolicy: 'cache-first',
     nextFetchPolicy: 'cache-first',
     errorPolicy: 'ignore',
