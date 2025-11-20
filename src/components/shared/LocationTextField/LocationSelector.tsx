@@ -164,7 +164,7 @@ const PopularDestinationsSection = ({
 const PopularDestinationsLoading = () => {
   return (
     <div className="flex w-full gap-1">
-      <Skeleton className="h-20 w-10 rounded-full" />
+      <Skeleton className="h-10 w-10 rounded-full" />
       <div className="flex-col flex gap-2 flex-1">
         <Skeleton className="h-4" />
         <Skeleton className="h-4 w-1/2" />

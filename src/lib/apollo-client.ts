@@ -47,7 +47,7 @@ const createApolloClient = () => {
     credentials: 'include',
   });
 
-  // Chain: minimumDelayLink -> httpLink
+  // Chain: minimumDelayLink -> httpLink (delay only in development)
   const link = createMinimumDelayLink(400).concat(httpLink);
 
   return new ApolloClient({
