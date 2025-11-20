@@ -1,35 +1,11 @@
 import { DEFAULT_CITY_SUGGESTION } from '@/config';
 import type { Location } from '@/types/graphql';
-import { useCallback, useEffect, useState, type ChangeEvent } from 'react';
+import { useCallback, type ChangeEvent } from 'react';
+import { useFilter, useInput, useUniqueValues } from '@/hooks/useInput';
 
 interface UseLocationStateProps {
   maxSuggestionList?: number;
 }
-
-export const useDebouncedText = (text: string) => {
-  const [debouncedText, setDebouncedText] = useState('');
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedText(text);
-    }, 200);
-    return () => clearTimeout(timer);
-  }, [text]);
-  return debouncedText;
-};
-
-export const useFilter = <T>(items: T[], key: keyof T, query: string) => {
-  return items.filter((item: T) => {
-    const value = item[key];
-    return typeof value === 'string' && value.toLowerCase().includes(query.toLowerCase());
-  });
-};
-
-export const useUniqueValues = <T>(first: T[], second: T[]) => {
-  const unique = new Set<T>();
-  first.forEach((item) => unique.add(item));
-  second.forEach((item) => unique.add(item));
-  return Array.from(unique);
-};
 
 export const useFilterLocations = (query: string, allLocations: Location[]) => {
   const filteredLocations = useFilter(allLocations, 'city', query);
@@ -42,15 +18,6 @@ export const useFilterLocations = (query: string, allLocations: Location[]) => {
   return Array.from(uniqueLocations);
 };
 
-export const useInput = () => {
-  const [text, setText] = useState('');
-  const debouncedText = useDebouncedText(text);
-  return {
-    text,
-    debouncedText,
-    setText,
-  };
-};
 export const useInputLocation = (allLocations: Location[]) => {
   const { text, debouncedText, setText } = useInput();
   const filteredSuggestions = useFilterLocations(debouncedText, allLocations);

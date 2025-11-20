@@ -1,6 +1,6 @@
 import { ScrollableList } from '@/components/shared';
 import HotelCard from '@/components/shared/HotelCard';
-import { Spinner } from '@/components/ui';
+import { Skeleton } from '@/components/ui/skeleton';
 import type { Hotel } from '@/types/graphql';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
 import { memo } from 'react';
@@ -26,13 +26,11 @@ function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
   if (hotels.length === 0) {
     return <HotelSearchResult.Welcome />;
   }
-  return (
-    <ScrollableList
-      items={hotels}
-      direction='vertical'
-      renderItem={(hotel) => <HotelCard key={hotel.id} hotel={hotel} />}
-    />
-  );
+  return <ScrollableList items={hotels} direction='vertical'
+    renderItem={(hotel) => <HotelCard key={hotel.id} hotel={hotel} />}
+    initialBatchSize={6}
+    batchSize={6}
+  />;
 }
 
 HotelSearchResult.NotFound = function HotelNotFound() {
@@ -45,9 +43,45 @@ HotelSearchResult.NotFound = function HotelNotFound() {
 
 HotelSearchResult.loading = function HotelLoading() {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 p-8">
-      <Spinner size="lg" />
-      <p className="text-secondary">Loading hotels...</p>
+    <div className="flex flex-col gap-4">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <HotelSearchResult.loadingItem key={index} />
+      ))}
+    </div>
+  );
+};
+
+HotelSearchResult.loadingItem = function HotelLoadingItem() {
+  return (
+    <div className="flex w-full gap-4 rounded-lg border border-border bg-background p-4">
+      <Skeleton className="h-48 w-48 flex-shrink-0 rounded-lg" />
+      <div className="flex flex-1 flex-col justify-between">
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-6 w-3/4" />
+          <Skeleton className="h-4 w-1/2" />
+          <div className="flex gap-1 mt-2">
+            <Skeleton className="h-4 w-4" />
+            <Skeleton className="h-4 w-4" />
+            <Skeleton className="h-4 w-4" />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 mt-4">
+          <Skeleton className="h-10 w-10 rounded" />
+          <div className="flex flex-col gap-1">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-3 w-20" />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col items-end justify-between">
+        <div className="flex flex-col items-end gap-1">
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-3 w-16" />
+        </div>
+        <Skeleton className="h-10 w-24 rounded-lg" />
+      </div>
     </div>
   );
 };

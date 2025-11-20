@@ -1,7 +1,5 @@
 import HotelCard from '@/components/shared/HotelCard';
 import type { Hotel } from '@/types/graphql';
-import { HotelCardContext } from '../utils';
-
 
 interface HotelVerticalCardProps {
     hotel: Hotel;
@@ -9,7 +7,7 @@ interface HotelVerticalCardProps {
 
 export default function HotelVerticalCard({ hotel }: HotelVerticalCardProps) {
     return (
-        <HotelCardContext.Provider value={{ hotel }}>
+        <HotelCard.Root hotel={hotel}>
             <div className="border-border flex flex-col gap-2 rounded-lg border p-4 max-w-sm min-h-100">
                 <HotelCard.Image />
                 <HotelCard.Content>
@@ -29,6 +27,6 @@ export default function HotelVerticalCard({ hotel }: HotelVerticalCardProps) {
                     <HotelCard.Pricing />
                 </div>
             </div>
-        </HotelCardContext.Provider>
+        </HotelCard.Root>
     );
 }

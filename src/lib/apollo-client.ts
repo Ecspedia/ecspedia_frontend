@@ -1,7 +1,44 @@
-import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, Observable } from '@apollo/client';
 
 // Singleton Apollo Client instance
-let apolloClient: ApolloClient | null = null;
+let apolloClient: InstanceType<typeof ApolloClient> | null = null;
+
+// Minimum delay link - ensures responses take at least the specified time
+const createMinimumDelayLink = (minDelay: number = 400) => {
+  return new ApolloLink((operation, forward) => {
+    const startTime = Date.now();
+
+    return new Observable((observer) => {
+      const subscription = forward(operation).subscribe({
+        next: (response) => {
+          const elapsed = Date.now() - startTime;
+          const remaining = minDelay - elapsed;
+
+          if (remaining > 0) {
+            setTimeout(() => {
+              observer.next(response);
+            }, remaining);
+          } else {
+            observer.next(response);
+          }
+        },
+        error: (error) => observer.error(error),
+        complete: () => {
+          const elapsed = Date.now() - startTime;
+          const remaining = minDelay - elapsed;
+
+          if (remaining > 0) {
+            setTimeout(() => observer.complete(), remaining);
+          } else {
+            observer.complete();
+          }
+        },
+      });
+
+      return () => subscription.unsubscribe();
+    });
+  });
+};
 
 // Create Apollo Client
 const createApolloClient = () => {
@@ -10,8 +47,11 @@ const createApolloClient = () => {
     credentials: 'include',
   });
 
+  // Chain: minimumDelayLink -> httpLink
+  const link = createMinimumDelayLink(400).concat(httpLink);
+
   return new ApolloClient({
-    link: httpLink,
+    link,
     cache: new InMemoryCache(),
   });
 };
