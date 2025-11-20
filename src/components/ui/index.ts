@@ -1,5 +1,5 @@
 export { Button } from './Button';
-export { TextField } from './TextField';
+export { TextField, TextFieldRoot } from './TextField';
 export { Spinner } from './Spinner';
 
 export { Calendar } from './Calendar';

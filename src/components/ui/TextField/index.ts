@@ -1,4 +1,5 @@
 export { default as TextField } from './TextField';
+export { default as TextFieldRoot } from './components/TextFieldRoot';
 
 // Export compound component sub-components
 export { default as TextFieldIcon } from './components/TextFieldIcon';
