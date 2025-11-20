@@ -45,13 +45,15 @@ yarn-error.log*
 next-env.d.ts
 
 # Claude Code
-.claude
+!.claude/
+!.claude/**
 
 # Cursor AI
 .cursorrules
 
 # Markdown files
 *.md
+!.claude/**/*.md
 
 # Local config
 .config/
