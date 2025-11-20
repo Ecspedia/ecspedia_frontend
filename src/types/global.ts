@@ -1,4 +1,4 @@
-export type DarkModeState = boolean | undefined;
+export type Theme = boolean | undefined;
 
 export type Axis = 'horizontal' | 'vertical';
 

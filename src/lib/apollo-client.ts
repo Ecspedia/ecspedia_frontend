@@ -40,7 +40,7 @@ const createMinimumDelayLink = (minDelay: number = 400) => {
   });
 };
 
-// Create Apollo Client
+// Create Apollo Clientgit
 const createApolloClient = () => {
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_GRAPHQL_URI || 'http://localhost:8080/graphql',

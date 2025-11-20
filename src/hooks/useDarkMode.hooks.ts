@@ -1,24 +1,26 @@
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
-import { DarkModeState } from '@/types';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from './hooks';
 
 /**
  * Custom hook for dark mode that handles SSR/hydration safely
  *
- * Returns the dark mode state, but always returns false during SSR/hydration
- * to prevent flash and hydration mismatches.
+ * Returns the dark mode state and hydration status to prevent flash
+ * and hydration mismatches.
  *
- * @returns {DarkModeState} isDarkMode - Current dark mode state (false during SSR)
+ * @returns {object} { isDarkMode, isHydrated }
  */
-export function useDarkMode(): DarkModeState {
+
+export function useDarkMode() {
   const isDarkModeFromStore = useAppSelector(selectIsDarkMode);
-  const [mounted, setMounted] = useState<DarkModeState>(undefined);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    setIsHydrated(true);
   }, []);
 
-  // Return false during SSR/hydration, actual value after mount
-  return mounted ? isDarkModeFromStore : undefined;
+  return {
+    isDarkMode: isHydrated ? isDarkModeFromStore : undefined,
+    isHydrated,
+  };
 }

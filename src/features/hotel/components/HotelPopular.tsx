@@ -1,7 +1,7 @@
 'use client';
 
 import { ScrollableList } from "@/components/shared";
-import { Spinner } from "@/components/ui/Spinner";
+import { Skeleton } from "@/components/ui/Skeleton/skeleton";
 import HotelVerticalCard from '@/features/hotel/components/HotelVerticalCard';
 import { Hotel } from "@/types/graphql";
 
@@ -53,12 +53,42 @@ export default function HotelPopular(hotelPopularProps: HotelPopularProps) {
 
 
 const Loading = () => (
-    <section className="py-12">
-        <div className="flex items-center justify-center gap-4">
-            <Spinner size="lg" />
-            <p className="text-secondary">Loading popular hotels...</p>
+    <section className="mt-3 bg-surface-raised rounded-lg">
+        <div className="mb-3">
+            <div className="flex items-baseline gap-3">
+                <Skeleton className="h-7 w-40" />
+                <Skeleton className="h-4 w-52" />
+            </div>
+        </div>
+        <div className="flex gap-4 overflow-hidden">
+            {Array.from({ length: 4 }).map((_, index) => (
+                <LoadingItem key={index} />
+            ))}
         </div>
     </section>
+);
+
+const LoadingItem = () => (
+    <div className="border-border flex flex-col gap-2 rounded-lg border p-4 max-w-sm min-h-100 min-w-[280px]">
+        <Skeleton className="h-40 w-full rounded-lg" />
+        <div className="flex items-center gap-2">
+            <Skeleton className="h-10 w-10 rounded" />
+            <div className="flex flex-col gap-1">
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-3 w-20" />
+            </div>
+        </div>
+        <div className="flex-1 min-h-0 flex flex-col gap-2">
+            <Skeleton className="h-5 w-3/4" />
+            <Skeleton className="h-4 w-1/2" />
+        </div>
+        <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-1">
+                <Skeleton className="h-6 w-20" />
+                <Skeleton className="h-3 w-16" />
+            </div>
+        </div>
+    </div>
 );
 
 const Error = ({ error }: { error: string }) => (

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/stores/store';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface DarkModeState {
   isDarkMode: boolean;
@@ -7,14 +7,10 @@ interface DarkModeState {
 
 const getInitialDarkMode = (): boolean => {
   if (typeof window === 'undefined') return false;
+  //Instead of using localStorage, check document.documentElement.classList.contains('dark'),
+  //Because we added a loaded script to performn the dark mode sync at the start
 
-  const stored = localStorage.getItem('darkMode');
-  if (stored !== null) {
-    return stored === 'true';
-  }
-
-  // Check system preference
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return document.documentElement.classList.contains('dark');
 };
 
 const initialState: DarkModeState = {

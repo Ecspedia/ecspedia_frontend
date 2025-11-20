@@ -2,7 +2,7 @@
 
 import { GoogleMapContent } from '@/app/_components';
 import { MainContainer, Spinner } from '@/components/ui';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/Skeleton/skeleton';
 import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
 import { HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
 import { HotelSearchParams } from '@/lib/apollo-reactive-vars';

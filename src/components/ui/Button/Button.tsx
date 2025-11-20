@@ -33,7 +33,7 @@ function Button(buttonProps: ButtonProps) {
       type={type}
       disabled={disabled}
       className={cn(
-        "rounded-full font-bold text-white flex items-center justify-center gap-2",
+        variant === "blank" ? "" : "rounded-full font-bold text-white flex items-center justify-center gap-2",
         variants[buttonVariant],
         disabled ? "" : "cursor-pointer",
         className
