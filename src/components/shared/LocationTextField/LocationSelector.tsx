@@ -1,11 +1,14 @@
 'use client';
 import { Input } from '@/components/ui';
-import { DEFAULT_CITY_SUGGESTION, POPULAR_DESTINATIONS } from '@/config';
-import type { Location } from '@/types/graphql';
+import { Skeleton } from '@/components/ui/skeleton';
+import { DEFAULT_CITY_SUGGESTION } from '@/config';
+import { type Location } from '@/types/graphql';
+import { useQuery, useSuspenseQuery } from '@apollo/client/react';
 import { MapPin } from 'lucide-react';
-import { useId, useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client/react';
+import { Suspense, useId } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { GET_LOCATIONS, GET_TOP_DESTINATIONS } from './location.queries';
+import { useLocationState } from './useLocationState.hook';
 
 interface LocationSelectorProps {
   placeholder: string;
@@ -13,129 +16,62 @@ interface LocationSelectorProps {
   onClose: () => void;
 }
 
-interface GetLocationsResponse {
-  locations: Location[];
-}
-
-interface GetTopDestinationsResponse {
-  topLocations: Location[];
-}
 
 export default function LocationSelector(
   locationSelectorProps: LocationSelectorProps
 ) {
   const { onLocationSelect, placeholder, onClose: _onClose } = locationSelectorProps;
-  const [text, setText] = useState('');
-  const [debouncedText, setDebouncedText] = useState('');
+
   const inputId = useId();
-  const maxSuggestionList = 5;
 
-  // Fetch all locations from API
-  const { data: locationsData, error: locationsError } = useQuery<GetLocationsResponse>(GET_LOCATIONS, {
-    fetchPolicy: 'cache-first', // Use cache if available, otherwise fetch
+  const { data } = useQuery(GET_LOCATIONS, {
+    fetchPolicy: 'network-only',
   });
+  const locations = data?.locations || DEFAULT_CITY_SUGGESTION;
 
-  // Fetch popular destinations from API
-  const { data: topDestinationsData, error: topDestinationsError } = useQuery<GetTopDestinationsResponse>(
-    GET_TOP_DESTINATIONS,
-    {
-      fetchPolicy: 'cache-first',
-    }
-  );
+  const {
+    text,
+    filteredSuggestions,
+    isSearchingAndHasText,
+    isThereSuggestions,
+    isNoSuggestions,
+    isInputEmpty,
+    onChangeTextInput,
+  } = useLocationState(locations, { maxSuggestionList: 5 });
 
-  // All available locations from API or fallback to local data
-  const allLocations = locationsData?.locations || DEFAULT_CITY_SUGGESTION;
 
-  // Popular destinations from API or fallback to local data
-  const popularDestinations = topDestinationsData?.topLocations || POPULAR_DESTINATIONS;
 
-  // Debounce the search text
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedText(text);
-    }, 200);
-
-    return () => clearTimeout(timer);
-  }, [text]);
-
-  // Filter locations based on debounced search text
-  const filteredSuggestions = debouncedText
-    ? allLocations
-      .filter(
-        (item) =>
-          item.city.toLowerCase().includes(debouncedText.toLowerCase()) ||
-          item.country.toLowerCase().includes(debouncedText.toLowerCase()) ||
-          (item.state && item.state.toLowerCase().includes(debouncedText.toLowerCase()))
-      )
-      .slice(0, maxSuggestionList)
-    : [];
-
-  // Show loading indicator while debouncing
-  const isSearching = text !== debouncedText && text.length > 0;
-
-  // Log error if API fails (will use fallback data)
-  useEffect(() => {
-    if (locationsError) {
-      console.error('Error fetching locations from API, using fallback data:', locationsError);
-    }
-    if (topDestinationsError) {
-      console.error('Error fetching top destinations from API, using fallback data:', topDestinationsError);
-    }
-  }, [locationsError, topDestinationsError]);
-
-  const onChangeTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setText(value);
-  };
-
-  const onClickSuggestion = (value: string) => {
-    onLocationSelect(value);
-  };
 
   return (
     <div className="bg-overlay absolute top-0 flex w-full origin-top-left animate-[expandDown_130ms_ease-out] flex-col gap-2 rounded-lg p-4 shadow-lg">
       <label htmlFor={inputId} className="sr-only">{placeholder || 'Location'}</label>
-
-      <Input
-        value={text}
-        onChange={onChangeTextInput}
-        placeholder={placeholder}
-        className="border-muted-border text-primary w-full rounded-md py-2 text-2xl font-bold focus:border-transparent focus:outline-none"
-        autoFocus
-        autoComplete="off"
-        id={inputId}
-        aria-label={placeholder}
-      />
-
-      {isSearching && text.length > 0 && (
-        <>
-          <Separator />
+      <>
+        <Input
+          value={text}
+          onChange={onChangeTextInput}
+          placeholder={placeholder}
+          className="border-muted-border text-primary w-full rounded-md py-2 text-2xl font-bold focus:border-transparent focus:outline-none"
+          autoFocus
+          autoComplete="off"
+          id={inputId}
+          aria-label={placeholder}
+        />
+        <Separator />
+        {isSearchingAndHasText && (
           <div className="text-secondary py-4 text-center">Searching locations...</div>
-        </>
-      )}
+        )}
+        {isThereSuggestions && (
+          <SuggestionList suggestions={filteredSuggestions} onLocationSelect={onLocationSelect} />
+        )}
 
-      {!isSearching && filteredSuggestions.length > 0 && text.length > 0 && (
-        <>
-          <Separator />
-          <SuggestionList suggestions={filteredSuggestions} onLocationSelect={onClickSuggestion} />
-        </>
-      )}
-
-      {!isSearching && filteredSuggestions.length === 0 && text.length > 0 && (
-        <>
-          <Separator />
+        {isNoSuggestions && (
           <div className="text-secondary py-4 text-center">No locations found</div>
-        </>
-      )}
-
-      {text.length === 0 && (
+        )}
+      </>
+      {isInputEmpty && (
         <>
-          <Separator />
           <PopularDestinationsTitle />
-          <PopularDestinations
-            destinations={popularDestinations}
-            onLocationSelect={onLocationSelect}
-          />
+          <PopularDestinationsSection onLocationSelect={onLocationSelect} />
         </>
       )}
     </div>
@@ -145,6 +81,7 @@ export default function LocationSelector(
 const Separator = () => {
   return <div className="bg-border-strong -mx-4 h-px" />;
 };
+
 
 const TileCity = ({ city, country }: Location) => {
   return (
@@ -160,7 +97,7 @@ const TileCity = ({ city, country }: Location) => {
 
 const PopularDestinationsTitle = () => {
   return (
-    <h3 className="text-color-primary-dark mb-2 text-lg font-semibold">Popular destinations</h3>
+    <h3 className="text-primary text-lg font-semibold">Popular destinations</h3>
   );
 };
 
@@ -201,4 +138,48 @@ const PopularDestinations = ({
       ))}
     </ul>
   );
+};
+
+const PopularDestinationsError = () => {
+  return (
+    <div className="text-error text-sm ">Error loading popular destinations</div>
+  );
+};
+
+const PopularDestinationsSection = ({
+  onLocationSelect,
+}: {
+  onLocationSelect: (city: string) => void;
+}) => {
+
+  return (
+    <ErrorBoundary fallback={<PopularDestinationsError />}>
+      <Suspense fallback={<PopularDestinationsLoading />}>
+        <PopularDestinationsContent onLocationSelect={onLocationSelect} />
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
+
+const PopularDestinationsLoading = () => {
+  return (
+    <div className="flex w-full gap-1">
+      <Skeleton className="h-10 w-10 rounded-full" />
+      <div className="flex-col flex gap-2 flex-1">
+        <Skeleton className="h-4" />
+        <Skeleton className="h-4 w-1/2" />
+      </div>
+    </div>
+  );
+};
+const PopularDestinationsContent = ({
+  onLocationSelect,
+}: {
+  onLocationSelect: (city: string) => void;
+}) => {
+  const { data } = useSuspenseQuery(GET_TOP_DESTINATIONS, {
+    fetchPolicy: 'network-only',
+  });
+  const destinations = data.topLocations || [];
+  return <PopularDestinations destinations={destinations} onLocationSelect={onLocationSelect} />;
 };
