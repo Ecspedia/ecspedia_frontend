@@ -1,6 +1,7 @@
 export { default } from './HotelCard';
 
 // Export sub-components grouped by category
+export { default as HotelCardRoot } from './root';
 export { default as HotelCardImage } from './image';
 export { default as HotelCardInfo } from './info';
 export { HotelCardPricing, HotelCardAvailability } from './pricing';

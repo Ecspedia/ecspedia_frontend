@@ -1,6 +1,5 @@
 import type { Hotel } from '@/types/graphql';
 import HotelCard, { HotelCardInfo } from '@/components/shared/HotelCard';
-import { HotelCardContext } from '@/components/shared/HotelCard/hotelCardContext';
 
 interface BookingDetailsProps {
     hotel: Hotel;
@@ -8,7 +7,7 @@ interface BookingDetailsProps {
 
 export default function BookingDetails({ hotel }: BookingDetailsProps) {
     return (
-        <HotelCardContext.Provider value={{ hotel }}>
+        <HotelCard.Root hotel={hotel}>
             <div className="bg-surface rounded-lg border border-border p-6 mb-6">
                 <h2 className="text-xl font-semibold text-primary mb-4">Booking Summary</h2>
                 <div className="relative">
@@ -34,7 +33,7 @@ export default function BookingDetails({ hotel }: BookingDetailsProps) {
                     </HotelCard.Content>
                 </div>
             </div >
-        </HotelCardContext.Provider>
+        </HotelCard.Root>
 
     );
 }

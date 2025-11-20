@@ -7,8 +7,8 @@ import { useQuery, useSuspenseQuery } from '@apollo/client/react';
 import { MapPin } from 'lucide-react';
 import { Suspense, useId } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useLocationState } from './hooks/useLocationState.hook';
 import { GET_LOCATIONS, GET_TOP_DESTINATIONS } from './location.queries';
-import { useLocationState } from './useLocationState.hook';
 
 interface LocationSelectorProps {
   placeholder: string;
@@ -25,7 +25,7 @@ export default function LocationSelector(
   const inputId = useId();
 
   const { data } = useQuery(GET_LOCATIONS, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-first',
   });
   const locations = data?.locations || DEFAULT_CITY_SUGGESTION;
 
@@ -164,7 +164,7 @@ const PopularDestinationsSection = ({
 const PopularDestinationsLoading = () => {
   return (
     <div className="flex w-full gap-1">
-      <Skeleton className="h-10 w-10 rounded-full" />
+      <Skeleton className="h-20 w-10 rounded-full" />
       <div className="flex-col flex gap-2 flex-1">
         <Skeleton className="h-4" />
         <Skeleton className="h-4 w-1/2" />
@@ -178,7 +178,7 @@ const PopularDestinationsContent = ({
   onLocationSelect: (city: string) => void;
 }) => {
   const { data } = useSuspenseQuery(GET_TOP_DESTINATIONS, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-first',
   });
   const destinations = data.topLocations || [];
   return <PopularDestinations destinations={destinations} onLocationSelect={onLocationSelect} />;

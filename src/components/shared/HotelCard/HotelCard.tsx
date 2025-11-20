@@ -1,19 +1,19 @@
 
 
+import { Hotel } from '@/types/graphql';
+import { HotelCardBookButton, HotelCardDetailsButton } from './actions';
 import HotelCardImage from './image';
 import HotelCardInfo from './info';
-import { HotelCardContent, HotelCardCard } from './layout';
+import { HotelCardCard, HotelCardContent } from './layout';
+import { HotelCardAvailability, HotelCardPricing } from './pricing';
 import {
-    HotelCardRating,
-    HotelCardRatingNumber,
     HotelCardGroup,
+    HotelCardRating,
     HotelCardRatingLabel,
+    HotelCardRatingNumber,
     HotelCardReviewCount,
 } from './rating';
-import { HotelCardPricing, HotelCardAvailability } from './pricing';
-import { HotelCardBookButton, HotelCardDetailsButton } from './actions';
-import { HotelCardContext } from './hotelCardContext';
-import { Hotel } from '@/types/graphql';
+import HotelCardRoot from './root';
 
 interface HotelCardProps {
     hotel: Hotel;
@@ -23,7 +23,7 @@ interface HotelCardProps {
 // Main HotelCard Component
 function HotelCard({ hotel, onBookClick }: HotelCardProps) {
     return (
-        <HotelCardContext.Provider value={{ hotel }}>
+        <HotelCard.Root hotel={hotel}>
             <HotelCard.Card>
                 <HotelCard.Image />
                 <HotelCard.Content>
@@ -41,14 +41,15 @@ function HotelCard({ hotel, onBookClick }: HotelCardProps) {
                     <HotelCard.BookButton onBook={onBookClick} />
                 </div>
             </HotelCard.Card>
-        </HotelCardContext.Provider>
+        </HotelCard.Root>
     );
 }
 
-// Attach all sub-components for dot notation access
+
+HotelCard.Root = HotelCardRoot;
 HotelCard.Image = HotelCardImage;
 HotelCard.Info = HotelCardInfo;
-// Info sub-components are already attached to HotelCardInfo, accessible via HotelCard.Info.Title, etc.
+
 HotelCard.Rating = HotelCardRating;
 HotelCard.RatingNumber = HotelCardRatingNumber;
 HotelCard.Group = HotelCardGroup;

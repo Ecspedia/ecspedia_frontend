@@ -2,6 +2,7 @@
 
 import { GoogleMapContent } from '@/app/_components';
 import { MainContainer, Spinner } from '@/components/ui';
+import { Skeleton } from '@/components/ui/skeleton';
 import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
 import { HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
 import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
@@ -76,6 +77,7 @@ function SearchHotelsContent() {
         <MainContainer>
             <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={hotelsLoading} />
             <div className='flex gap-4 mt-2'>
+                {hotelsLoading && <MapSkeleton />}
                 {!hotelsLoading && hotels.length > 0 && (
                     <div
                         className="shrink-0 self-start"
@@ -93,6 +95,14 @@ function SearchHotelsContent() {
     );
 }
 
+
+const MapSkeleton = () => {
+    return (
+        <div className="shrink-0 self-start" style={{ width: `${MAP_SIZE}px`, height: `${MAP_SIZE}px` }}>
+            <Skeleton className="h-full w-full rounded-lg" />
+        </div>
+    );
+};
 export default function SearchHotelsPage() {
     return (
 
