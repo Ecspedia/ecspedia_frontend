@@ -26,7 +26,7 @@ interface ExpandableTextFieldProps {
 /**
  * Generic ExpandableTextField component that provides a consistent pattern
  * for TextField components with expandable content (dropdown, calendar, etc.)
- * 
+ *
  * Used by: DateRangeTextField, GuestTextField, LocationTextField
  */
 export default function ExpandableTextField({
@@ -47,7 +47,7 @@ export default function ExpandableTextField({
                     {popup}
                 </div>
             )}
-            <TextField
+            <TextField.Root
                 value={value}
                 onChange={() => { }}
                 onClick={onOpen}
@@ -58,7 +58,7 @@ export default function ExpandableTextField({
                     <TextField.Label>{placeholder}</TextField.Label>
                     <TextField.Input />
                 </TextField.InputWrapper>
-            </TextField>
+            </TextField.Root>
         </div>
     );
 }
