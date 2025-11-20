@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
+import { graphql } from '@/types';
 
-export const GET_LOCATIONS = gql`
+export const GET_LOCATIONS = graphql(`
   query GetLocations {
     locations {
       id
@@ -12,9 +12,9 @@ export const GET_LOCATIONS = gql`
       longitude
     }
   }
-`;
+`);
 
-export const GET_TOP_DESTINATIONS = gql`
+export const GET_TOP_DESTINATIONS = graphql(`
   query topLocations {
     topLocations {
       id
@@ -27,4 +27,4 @@ export const GET_TOP_DESTINATIONS = gql`
       isPopular
     }
   }
-`;
+`);
