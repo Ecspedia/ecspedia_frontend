@@ -1,10 +1,9 @@
 'use client';
-import { selectIsDarkMode } from "@/stores/darkModeSlice";
-import { useAppSelector, useDarkMode } from "@/hooks";
+import { useDarkMode } from "@/hooks";
 import { cn } from "@/utils/utils";
 
 export default function HeaderComponent({ children }: { children: React.ReactNode }) {
-    const isDarkMode = useDarkMode();
+    const { isDarkMode } = useDarkMode();
     return (
         <header
             className={cn(

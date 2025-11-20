@@ -1,4 +1,3 @@
-import Spinner from '@/components/ui/Spinner/Spinner';
 import { useDarkMode } from '@/hooks';
 import type { ServiceTab as ServiceTabType } from '@/types';
 import { cn } from '@/utils/utils';
@@ -43,18 +42,16 @@ export default function ServiceTab(tabButtonProps: TabButtonProps) {
 }
 
 const ServiceImage = function ServiceImage({ tab }: { tab: ServiceTabType }) {
-  const isDarkMode = useDarkMode();
-
-  if (isDarkMode === undefined) {
-    return (
-      <div className="mb-2 flex h-12 w-12 items-center justify-center">
-        <Spinner size="md" />
-      </div>
-    );
-  }
+  const { isDarkMode, isHydrated } = useDarkMode();
 
   const iconSrc = isDarkMode ? tab.iconDark : tab.icon;
-  return <Image src={iconSrc} alt={`${tab.name} service`} width={48} height={48} className="mb-2" />;
+  return <Image
+    src={iconSrc}
+    alt={`${tab.name} service`}
+    width={48}
+    height={48}
+    className={cn("mb-2 transition-opacity", isHydrated ? "opacity-100" : "opacity-0")}
+  />;
 };
 
 const CommingSoonBadge = ({ comingSoon }: { comingSoon: boolean | undefined }) => {

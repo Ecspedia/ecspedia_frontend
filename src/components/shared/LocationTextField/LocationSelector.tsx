@@ -1,6 +1,6 @@
 'use client';
 import { Input } from '@/components/ui';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/Skeleton/skeleton';
 import { DEFAULT_CITY_SUGGESTION } from '@/config';
 import { type Location } from '@/types/graphql';
 import { useQuery, useSuspenseQuery } from '@apollo/client/react';

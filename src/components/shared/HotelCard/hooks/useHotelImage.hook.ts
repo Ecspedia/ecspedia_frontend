@@ -18,58 +18,29 @@ const getFallbackImage = (isDarkMode: boolean) =>
   isDarkMode ? FALLBACK_IMAGE_DARK : FALLBACK_IMAGE_LIGHT;
 
 export const useHotelImage = (hotel: Hotel): UseHotelImageReturn => {
-  const isDarkMode = useDarkMode();
+  const { isDarkMode } = useDarkMode();
 
-  const [isLoading, setIsLoading] = useState(!!hotel.image);
-  const [hasError, setHasError] = useState(!hotel.image);
-  const [currentImageSrc, setCurrentImageSrc] = useState(
-    hotel.image || getFallbackImage(isDarkMode ?? false)
+  const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>(
+    hotel.image ? 'loading' : 'error'
   );
 
-  const isExternalImage =
-    currentImageSrc.startsWith('http://') || currentImageSrc.startsWith('https://');
-
-  // Handle hotel image changes (only when hotel changes, NOT when dark mode changes)
   useEffect(() => {
-    if (hotel.image) {
-      setCurrentImageSrc(hotel.image);
-      setIsLoading(true);
-      setHasError(false);
-    } else {
-      setCurrentImageSrc(getFallbackImage(isDarkMode ?? false));
-      setIsLoading(false);
-      setHasError(true);
-    }
-    // Intentionally NOT including isDarkMode - we don't want to reload hotel images when theme changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setStatus(hotel.image ? 'loading' : 'error');
   }, [hotel.id, hotel.image]);
 
-  // Update ONLY fallback image when dark mode changes (don't trigger loading state)
-  useEffect(() => {
-    // Only update if currently showing fallback (not actual hotel image)
-    if (hasError || !hotel.image) {
-      setCurrentImageSrc(getFallbackImage(isDarkMode ?? false));
-    }
-    // Intentionally minimal dependencies - we only want to react to theme changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDarkMode]);
+  const imageSrc =
+    status === 'error' || !hotel.image ? getFallbackImage(isDarkMode ?? false) : hotel.image;
 
-  const handleImageLoad = useCallback(() => {
-    setIsLoading(false);
-    setHasError(false);
-  }, []);
+  const isExternalImage = imageSrc.startsWith('http://') || imageSrc.startsWith('https://');
 
-  const handleImageError = useCallback(() => {
-    setIsLoading(false);
-    setHasError(true);
-    setCurrentImageSrc(getFallbackImage(isDarkMode ?? false));
-  }, [isDarkMode]);
+  const handleImageLoad = useCallback(() => setStatus('loaded'), []);
+  const handleImageError = useCallback(() => setStatus('error'), []);
 
   return {
-    imageSrc: currentImageSrc,
+    imageSrc,
     isExternalImage,
-    isLoading,
-    hasError,
+    isLoading: status === 'loading',
+    hasError: status === 'error',
     handleImageLoad,
     handleImageError,
   };

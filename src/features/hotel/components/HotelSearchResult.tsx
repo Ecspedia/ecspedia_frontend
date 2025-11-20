@@ -1,6 +1,6 @@
 import { ScrollableList } from '@/components/shared';
 import HotelCard from '@/components/shared/HotelCard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/Skeleton/skeleton';
 import type { Hotel } from '@/types/graphql';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
 import { memo } from 'react';
@@ -54,7 +54,7 @@ HotelSearchResult.loading = function HotelLoading() {
 HotelSearchResult.loadingItem = function HotelLoadingItem() {
   return (
     <div className="flex w-full gap-4 rounded-lg border border-border bg-background p-4">
-      <Skeleton className="h-48 w-48 flex-shrink-0 rounded-lg" />
+      <Skeleton className="h-48 w-64 flex-shrink-0 rounded-lg" />
       <div className="flex flex-1 flex-col justify-between">
         <div className="flex flex-col gap-2">
           <Skeleton className="h-6 w-3/4" />
