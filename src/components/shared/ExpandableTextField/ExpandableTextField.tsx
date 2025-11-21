@@ -1,8 +1,9 @@
 'use client';
 
-import { ReactNode } from 'react';
 import { TextField } from '@/components/ui';
+import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
+import { ReactNode } from 'react';
 
 interface ExpandableTextFieldProps {
     // TextField props
@@ -38,12 +39,12 @@ export default function ExpandableTextField({
     onOpen,
     popup,
     wrapperClassName = '',
-    popupClassName = 'absolute -top-1 left-0 z-50',
+    popupClassName,
 }: ExpandableTextFieldProps) {
     return (
         <div className={`relative ${wrapperClassName}`}>
             {isOpen && (
-                <div className={popupClassName}>
+                <div className={cn('absolute -top-1 left-0 z-50 min-w-full', popupClassName)}>
                     {popup}
                 </div>
             )}

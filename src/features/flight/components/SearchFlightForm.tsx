@@ -11,10 +11,10 @@ import {
 } from '@/features/flight/store/flightSearchSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 
+import { DateRangeTextField, FormWrapper, LocationTextField } from '@/components/shared';
 import { Button } from '@/components/ui';
-import { DateRangeTextField, LocationTextField, FormWrapper } from '@/components/shared';
-import { ArrowRightLeftIcon } from 'lucide-react';
 import { useExpandableFields } from '@/hooks';
+import { ArrowRightLeftIcon } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 
 enum LocationFieldType {
@@ -51,7 +51,7 @@ export default function ServiceFlightForm() {
   };
 
   return (
-    <div className="flex justify-center gap-4 p-8">
+    <div className="flex flex-col lg:flex-row justify-center gap-4 p-8">
       <LocationFieldsContainer>
         <FormWrapper ref={getFieldRef(LocationFieldType.DEPARTURE)}>
           <LocationTextField
@@ -86,7 +86,14 @@ export default function ServiceFlightForm() {
           placeholder="Departure - Return"
         />
       </FormWrapper>
-      <Button className="w-24 mb-1" variant="secondary" text="Search"></Button>
+      <Button
+
+        className={`w-full p-4 lg:w-24 lg:p-4}`}
+
+        type="submit"
+      >
+        Search
+      </Button>
     </div>
   );
 }

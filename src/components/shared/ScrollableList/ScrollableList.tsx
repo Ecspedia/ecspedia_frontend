@@ -68,7 +68,7 @@ function ScrollableList<T>({
                 <div
                     ref={scrollContainerRef}
                     onScroll={checkScrollButtons}
-                    className="flex gap-4 overflow-x-hidden pb-4"
+                    className="flex gap-4 overflow-x-auto lg:overflow-x-hidden pb-4"
                 >
                     {visibleItems.map((item, index) => (
                         <div key={index}>{renderItem(item)}</div>

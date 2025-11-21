@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
-import { Minus, Plus, Users, LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui';
+import { LucideIcon, Minus, Plus, Users } from 'lucide-react';
+import { ReactNode } from 'react';
+import { useGuestSelector, useGuestSelectorContext } from './hooks';
 import { GuestSelectorContext } from './utils';
-import { useGuestSelectorContext, useGuestSelector } from './hooks';
 
 // ============= Types =============
 interface GuestSelectorProps {
@@ -30,7 +30,7 @@ export default function GuestSelector(guestSelectorProps: GuestSelectorProps) {
 // ============= Compound Components =============
 GuestSelector.container = function GuestSelectorContainer({ children }: { children: ReactNode }) {
   return (
-    <div className="bg-overlay shadow-lg flex w-80 flex-col rounded-lg p-6 gap-6 animate-[expandDown_130ms_ease-out] origin-top-left">
+    <div className="bg-overlay shadow-lg flex w-full flex-col rounded-lg p-6 gap-6 animate-[expandDown_130ms_ease-out] origin-top-left">
       {children}
     </div>
   );

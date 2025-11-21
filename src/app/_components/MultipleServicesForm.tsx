@@ -4,8 +4,8 @@ import ServiceSearchForm from "./ServiceSearchForm";
 
 const MultipleServicesForm = () => {
     return (
-        <div className="border-border mt-5 flex flex-col rounded-lg border">
-            <div className="mx-auto">
+        <div className="border-0 lg:border lg:border-border mt-3 lg:mt-5 flex flex-col rounded-lg  ">
+            <div className="w-full overflow-x-auto no-scrollbar">
                 <ServiceTabSelector />
             </div>
             <hr className="border-border w-full border-t" />
