@@ -76,7 +76,7 @@ function SearchHotelsContent() {
 
         <MainContainer>
             <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={hotelsLoading} />
-            <div className='flex gap-4 mt-2'>
+            <div className='flex-col lg:flex lg:flex-row lg:gap-4 lg:mt-2'>
                 {hotelsLoading && <MapSkeleton />}
                 {!hotelsLoading && hotels.length > 0 && (
                     <div

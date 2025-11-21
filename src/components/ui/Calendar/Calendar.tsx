@@ -1,11 +1,11 @@
 'use client';
-import CalendarHeader from './CalendarHeader';
-import MonthNavigator from './MonthNavigator';
-import WeekdayHeader from './WeekdayHeader';
-import DaysGrid from './DaysGrid';
 import Button from '../Button/Button';
-import { CalendarContext } from './utils/calendarContext';
+import CalendarHeader from './CalendarHeader';
+import DaysGrid from './DaysGrid';
 import { useCalendarState } from './hooks';
+import MonthNavigator from './MonthNavigator';
+import { CalendarContext } from './utils/calendarContext';
+import WeekdayHeader from './WeekdayHeader';
 
 interface CalendarProps {
   initialStartDate?: Date | null;
@@ -25,18 +25,18 @@ function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose
   if (variant === 'compact') {
     return (
       <CalendarContext.Provider value={contextValue}>
-        <div className="bg-overlay shadow-lg flex w-fit flex-col rounded-lg p-4 animate-[expandDown_130ms_ease-out] origin-top-left">
-          <div className="flex justify-between gap-10">
-            <div className="flex flex-col gap-4">
-              <MonthNavigator>
-                <MonthNavigator.PrevButton />
-                <MonthNavigator.MonthText monthName={contextValue.state.leftMonthName} />
-                <MonthNavigator.NextButton />
-              </MonthNavigator>
-              <WeekdayHeader />
-              <DaysGrid date={contextValue.state.leftDate} />
-            </div>
+        <div className="bg-overlay shadow-lg flex min-w-[max(100%,300px)] flex-col rounded-lg p-2 lg:p-4 animate-[expandDown_130ms_ease-out] origin-top-left">
+          <CalendarHeader />
+          <div className="flex flex-col gap-4">
+            <MonthNavigator>
+              <MonthNavigator.PrevButton />
+              <MonthNavigator.MonthText monthName={contextValue.state.leftMonthName} />
+              <MonthNavigator.NextButton />
+            </MonthNavigator>
+            <WeekdayHeader />
+            <DaysGrid date={contextValue.state.leftDate} />
           </div>
+
           <Button text={'Done'} variant="secondary" className="mt-5 w-20 self-end p-3" onClick={contextValue.actions.handleDone} disabled={!contextValue.actions.isValid}></Button>
         </div>
       </CalendarContext.Provider>
@@ -46,10 +46,10 @@ function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose
 
   return (
     <CalendarContext.Provider value={contextValue}>
-      <div className="bg-overlay shadow-lg flex w-fit flex-col rounded-lg p-2 animate-[expandDown_130ms_ease-out] origin-top-left">
+      <div className="bg-overlay shadow-lg flex min-w-[max(100%,600px)]  flex-col rounded-lg p-2 animate-[expandDown_130ms_ease-out] origin-top-left">
         <CalendarHeader />
-        <div className="flex justify-between gap-10">
-          <div className="flex flex-col gap-4">
+        <div className="flex gap-2">
+          <div className="flex flex-col gap-4 flex-1">
             <MonthNavigator>
               <MonthNavigator.PrevButton />
               <MonthNavigator.MonthText monthName={contextValue.state.leftMonthName} />
@@ -57,7 +57,7 @@ function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose
             <WeekdayHeader />
             <DaysGrid date={contextValue.state.leftDate} />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 flex-1">
             <MonthNavigator>
               <MonthNavigator.MonthText monthName={contextValue.state.rightMonthName} />
               <MonthNavigator.NextButton />

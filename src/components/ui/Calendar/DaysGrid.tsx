@@ -1,5 +1,5 @@
-import { selectIsDarkMode } from '@/stores/darkModeSlice';
 import { useAppSelector } from '@/hooks';
+import { selectIsDarkMode } from '@/stores/darkModeSlice';
 import { DateHelper } from '@/utils/dateHelpers';
 import DayCell from './DayCell';
 
@@ -33,7 +33,7 @@ export default function DaysGrid({ date }: DaysGridProps) {
   const days = DateHelper.getDaysInMonth(currentYear, currentMonth);
 
   return (
-    <div className="grid gap-0 gap-y-[1px]" style={{ gridTemplateColumns: 'repeat(7, 40px)' }}>
+    <div className="grid gap-0 gap-y-px w-full grid-cols-7" >
       {days.map((day, index) => renderDay(day, index))}
     </div>
   );

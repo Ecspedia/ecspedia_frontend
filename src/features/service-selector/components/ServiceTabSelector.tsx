@@ -16,7 +16,7 @@ export default function ServiceTabSelector() {
   });
 
   return (
-    <ul className="relative flex pt-3">
+    <ul className="relative flex flex-nowrap pt-3 mx-auto w-fit">
       {SERVICE_TABS.map((tab) => (
         <ServiceNavigationTab
           key={tab.name}

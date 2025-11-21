@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { cn } from '@/utils/utils';
+import { ReactNode } from 'react';
 
 // HotelCardCard - Main card container
 interface HotelCardCardProps {
@@ -17,5 +17,5 @@ interface HotelCardContentProps {
 }
 
 export function HotelCardContent({ children, className }: HotelCardContentProps) {
-  return <div className={cn('flex-1 flex flex-col', className)}>{children}</div>;
+  return <div className={cn('flex-1 flex flex-col px-3 lg:px-2', className)}>{children}</div>;
 }

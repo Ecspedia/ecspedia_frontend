@@ -1,11 +1,11 @@
-import Image from 'next/image';
+import { cn } from '@/utils/utils';
 import { Heart } from 'lucide-react';
+import Image from 'next/image';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { useHotelImage } from '../hooks/useHotelImage.hook';
-import { cn } from '@/utils/utils';
 
 interface HotelCardImageProps {
-  variant?: 'default' | 'compact' | 'expanded';
+  variant?: 'default' | 'compact' | 'expanded' | 'mobile';
 }
 
 export default function HotelCardImage({ variant = 'default' }: HotelCardImageProps) {
@@ -16,7 +16,9 @@ export default function HotelCardImage({ variant = 'default' }: HotelCardImagePr
     variant !== 'expanded' && 'aspect-[4/3]',
     variant === 'compact' && 'w-48',
     variant === 'default' && 'w-64',
-    variant === 'expanded' && 'w-full h-48'
+    variant === 'expanded' && 'w-full h-48',
+    variant === 'mobile' && 'w-ful'
+
   );
 
   return (

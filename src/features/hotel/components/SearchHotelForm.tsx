@@ -43,9 +43,9 @@ export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormPro
   return (
     <form
       onSubmit={handleSubmit(handleSubmitForm)}
-      className={cn("flex items-start justify-center gap-4", isExtended ? 'py-4' : 'p-8')}
+      className={cn("flex flex-col lg:items-start lg:justify-center gap-4 lg:flex-row", isExtended ? 'py-4' : 'p-5 lg:p-8')}
     >
-      <div className={cn("form-fields flex", isExtended ? 'flex-1 gap-7' : 'gap-4')}>
+      <div className={cn("form-fields flex flex-col lg:flex-row", isExtended ? 'flex-1 gap-7' : 'gap-4')}>
         <FormWrapper ref={getFieldRef(LocationFieldType.LOCATION)} errors={errors.location?.message}
           className={cn(isExtended ? 'flex-1' : '')}
         >
@@ -117,12 +117,14 @@ export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormPro
         </FormWrapper>
       </div>
       <Button
-        className={isSearching ? 'w-30 p-4' : 'w-24 p-4'}
-        text={isSearching ? 'Searching...' : 'Search'}
+
+        className={`w-full p-4 lg:w-24 lg:p-4 ${isSearching && 'lg:w-30'}`}
+
         type="submit"
         disabled={isSearching}
-
-      />
+      >
+        {isSearching ? 'Searching...' : 'Search'}
+      </Button>
     </form>
   );
 }

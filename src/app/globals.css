@@ -1,5 +1,6 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
+@import 'tailwind-scrollbar-hide/v4';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,6 +44,7 @@
 
   --yellow-400: oklch(0.85 0.17 95);
   --yellow-500: oklch(0.8 0.17 90);
+  --yellow-popular: oklch(0.9 0.18 95); /* rgb(253, 219, 48) */
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -133,6 +135,9 @@
   --accent-secondary: var(--yellow-500);
   --accent-gradient-start: oklch(0.68 0.2 35);
   --accent-gradient-end: oklch(0.63 0.26 25);
+
+  /* Feature-specific */
+  --surface-popular: var(--yellow-popular);
 }
 
 /* ============================================
@@ -191,6 +196,9 @@
   --accent-secondary: var(--yellow-500);
   --accent-gradient-start: oklch(0.68 0.2 35);
   --accent-gradient-end: oklch(0.63 0.26 25);
+
+  /* Feature-specific */
+  --surface-popular: oklch(0.32 0.04 264); /* Subtle navy tone matching promo banner */
 }
 
 /* ============================================
@@ -247,6 +255,9 @@
   /* Accent */
   --color-accent: var(--accent-primary);
   --color-accent-secondary: var(--accent-secondary);
+
+  /* Feature-specific surfaces */
+  --color-surface-popular: var(--surface-popular);
 
   /* Typography */
   --font-sans:
@@ -391,4 +402,13 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

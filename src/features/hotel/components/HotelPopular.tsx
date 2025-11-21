@@ -27,13 +27,13 @@ export default function HotelPopular(hotelPopularProps: HotelPopularProps) {
     }
 
     return (
-        <section className="mt-3 bg-surface-raised rounded-lg ">
+        <section className="lg:mt-3 bg-surface-popular lg:rounded-lg px-2 py-4 lg:pl-2 lg:pr-0 ">
             <div className="mb-3">
                 <div className="flex items-baseline gap-3">
                     <h2 className="text-xl font-semibold text-primary">
                         Popular Hotels
                     </h2>
-                    <p className="text-tertiary text-xs">
+                    <p className="text-primary text-xs font-medium">
                         Discover our most loved hotels
                     </p>
                 </div>
@@ -53,7 +53,7 @@ export default function HotelPopular(hotelPopularProps: HotelPopularProps) {
 
 
 const Loading = () => (
-    <section className="mt-3 bg-surface-raised rounded-lg">
+    <section className="mt-3 bg-surface-popular rounded-lg">
         <div className="mb-3">
             <div className="flex items-baseline gap-3">
                 <Skeleton className="h-7 w-40" />
@@ -61,7 +61,7 @@ const Loading = () => (
             </div>
         </div>
         <div className="flex gap-4 overflow-hidden">
-            {Array.from({ length: 4 }).map((_, index) => (
+            {Array.from({ length: 5 }).map((_, index) => (
                 <LoadingItem key={index} />
             ))}
         </div>

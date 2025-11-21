@@ -6,3 +6,5 @@ export { useLogout } from './useLogout.hook';
 export { useDarkMode } from './useDarkMode.hooks';
 export { useHorizontalScroll } from './useHorizontalScroll.hook';
 export { useInput, useDebouncedText, useFilter, useUniqueValues } from './useInput';
+export { default as useMediaQuery } from './useMediaQuery.hook';
+export { default as useIsMobile } from './useIsMobile.hook';

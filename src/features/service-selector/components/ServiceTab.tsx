@@ -16,7 +16,7 @@ export default function ServiceTab(tabButtonProps: TabButtonProps) {
     <li
       onClick={() => !tab.comingSoon && onClick(tab.name)}
       className={cn(
-        'box-border flex pb-3  duration-200',
+        'box-border flex shrink-0 pb-3 duration-200',
         isSelected
           ? 'border-b-secondary'
           : '',

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48">
+  <!-- Tag/ticket shape background -->
+  <path fill="#6366F1" d="M8 14a3 3 0 0 1 3-3h26a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3V14Z"/>
+  <!-- Ticket notches -->
+  <circle cx="8" cy="24" r="3" fill="#1a1a2e"/>
+  <circle cx="40" cy="24" r="3" fill="#1a1a2e"/>
+  <!-- Percent symbol -->
+  <circle cx="18" cy="20" r="3" fill="#FFFFFF"/>
+  <circle cx="30" cy="28" r="3" fill="#FFFFFF"/>
+  <path stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" d="M30 18 18 30"/>
+  <!-- Sparkle accents -->
+  <path fill="#A5B4FC" d="M38 10l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2Z"/>
+  <path fill="#A5B4FC" d="M12 36l.75 1.5 1.5.75-1.5.75-.75 1.5-.75-1.5-1.5-.75 1.5-.75.75-1.5Z"/>
+</svg>

@@ -1,7 +1,9 @@
+'use client';
 import { Calendar } from '@/components/ui';
+import { useIsMobile } from '@/hooks';
 import { DateHelper } from '@/utils/dateHelpers';
-import { ExpandableTextField } from './ExpandableTextField';
 import { CalendarIcon } from 'lucide-react';
+import { ExpandableTextField } from './ExpandableTextField';
 
 
 interface DateRangeTextFieldProps {
@@ -29,6 +31,8 @@ export default function DateRangeTextField(dateRangeTextFieldProps: DateRangeTex
     if (!startDate || !endDate) return '';
     return `${DateHelper.formatDateMonthDay(startDate)} - ${DateHelper.formatDateMonthDay(endDate)}`;
   };
+  const isMobile = useIsMobile();
+  const variant = isMobile ? 'compact' : 'default';
 
   return (
     <ExpandableTextField
@@ -44,7 +48,7 @@ export default function DateRangeTextField(dateRangeTextFieldProps: DateRangeTex
           initialEndDate={endDate}
           onDateRangeSelect={onDateRangeSelect}
           onClose={onCalendarClose}
-          variant="default"
+          variant={variant}
         />
       }
     />
