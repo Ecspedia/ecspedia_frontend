@@ -54,13 +54,16 @@ export const MobileNav = ({
             >
               Support
             </a>
-            <a
-              href="/travel"
-              className="px-4 py-2 text-sm font-medium text-primary transition hover:text-primary-inverse"
-              onClick={onClose}
+            <button
+              type="button"
+              onClick={() => {
+                onMyBookings();
+                onClose();
+              }}
+              className="px-4 py-2 text-left text-sm font-medium text-primary transition hover:text-primary-inverse"
             >
-              Trips
-            </a>
+              Bookings
+            </button>
             {username ? (
               <>
                 <div className="my-2 border-t border-border" />

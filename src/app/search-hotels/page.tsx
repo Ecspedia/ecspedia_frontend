@@ -57,6 +57,7 @@ function SearchHotelsContent() {
     const hotelsLoading = loading;
     const errorMessage = error?.message;
 
+    console.log('errorMessage', errorMessage);
     if (!location) {
         return (
             <MainContainer className="py-6">

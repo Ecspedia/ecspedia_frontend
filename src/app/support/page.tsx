@@ -1,5 +1,6 @@
 'use client';
 
+import MainContainer from '@/components/ui/Container/MainContainer';
 import { useState } from 'react';
 
 export default function SupportPage() {
@@ -25,8 +26,7 @@ export default function SupportPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
-
+    <MainContainer className='py-8'>
       <div className="bg-secondary/5 rounded-lg p-6 shadow">
         <h2 className="text-primary mb-4 text-xl font-semibold">Contact Form</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -103,6 +103,6 @@ export default function SupportPage() {
           </button>
         </form>
       </div>
-    </div>
+    </MainContainer>
   );
 }

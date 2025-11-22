@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useMutation } from '@apollo/client/react';
 import { LOGIN_MUTATION } from '@/config/graphql/global.mutations';
 import { paths } from '@/config/paths';
+import { useMutation } from '@apollo/client/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 interface LoginFormProps {
   email?: string;
@@ -65,9 +65,15 @@ export default function LoginForm({ email: initialEmail = '' }: LoginFormProps) 
         },
       });
 
+      console.log('Login result:', result);
+
       if (result.data && typeof result.data === 'object' && 'login' in result.data) {
         const loginData = result.data.login as { token: string };
+        console.log('Login data:', loginData);
         if (loginData?.token) {
+
+
+
           if (typeof window !== 'undefined') {
             window.dispatchEvent(new Event('auth-token-changed'));
           }
