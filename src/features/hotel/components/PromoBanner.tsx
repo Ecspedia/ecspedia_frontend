@@ -12,14 +12,6 @@ interface PromoBannerProps {
     onCtaClick?: () => void;
 }
 
-function BackgroundEffects() {
-    return (
-        <>
-            <div className="absolute top-0 right-0 w-40 h-40 bg-brand-secondary/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-40 h-40 bg-brand-primary/5 rounded-full blur-3xl" />
-        </>
-    );
-}
 
 function PromoIcon({ isDarkMode }: { isDarkMode: boolean }) {
     const iconSrc = isDarkMode ? '/images/home/dark__promo.svg' : '/images/home/light__promo.svg';
@@ -74,19 +66,17 @@ export default function PromoBanner({
     const isMobile = useIsMobile();
     const { isDarkMode } = useDarkMode();
     return (
-        <section className="mt-2 lg:mt-4 relative overflow-hidden">
-            <div className={`rounded-0 lg:rounded-lg border border-border-subtle p-4 lg:p-6 relative ${isDarkMode ? 'bg-linear-to-r from-brand-primary/5 via-brand-secondary/5 to-brand-primary/5' : 'bg-[#191E3B]'}`}>
-                <BackgroundEffects />
-                <div className="relative flex items-center justify-between gap-6">
-                    <div className="flex items-center gap-4">
-                        <PromoIcon isDarkMode={isDarkMode ?? false} />
-                        <PromoContent title={title} description={description} isDarkMode={isDarkMode ?? false} />
-                    </div>
-                    {!isMobile && (
-                        <PromoButton ctaText={ctaText} onCtaClick={onCtaClick} />
-                    )}
+        <div className={`relative overflow-hidden py-4 lg:py-6 }`}>
+
+            <div className="relative flex items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                    <PromoIcon isDarkMode={isDarkMode ?? false} />
+                    <PromoContent title={title} description={description} isDarkMode={isDarkMode ?? false} />
                 </div>
+                {!isMobile && (
+                    <PromoButton ctaText={ctaText} onCtaClick={onCtaClick} />
+                )}
             </div>
-        </section>
+        </div>
     );
 }

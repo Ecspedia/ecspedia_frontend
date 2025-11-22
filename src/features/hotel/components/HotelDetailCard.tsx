@@ -1,6 +1,6 @@
+import HotelCard from '@/components/shared/HotelCard';
 import type { Hotel } from '@/types/graphql';
 import { useRouter } from 'next/navigation';
-import HotelCard from '@/components/shared/HotelCard';
 
 interface HotelDetailCardProps {
   hotel: Hotel;
@@ -14,12 +14,12 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
     <div className="border-border bg-background text-primary fixed right-0 bottom-0 left-0 z-1000 mx-auto w-11/12 sm:w-4/5 lg:w-3/5 xl:w-1/2 2xl:w-2/5 max-w-[700px] min-w-[320px] rounded-lg border shadow-2xl">
       <HotelCard.Root hotel={hotel}>
         <HotelCard.Card>
-          <HotelCard.Image variant="compact" />
+          <HotelCard.Image variant="compact" className='rounded-bl-lg rounded-br-none rounded-tr-none' />
           <HotelCard.Content>
             <div className="flex items-start justify-between gap-2">
               <div className="flex flex-col">
                 <HotelCard.Info.Title />
-                <HotelCard.Info.Location />
+                <HotelCard.Info.Location className='text-ellipsis flex-nowrap' />
               </div>
               <HotelCard.Info.CloseButton onClose={onClose} />
             </div>

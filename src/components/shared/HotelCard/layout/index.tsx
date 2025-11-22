@@ -7,7 +7,7 @@ interface HotelCardCardProps {
 }
 
 export function HotelCardCard({ children }: HotelCardCardProps) {
-  return <div className="border-border flex gap-4 rounded-lg border p-4">{children}</div>;
+  return <div className="border-border flex gap-4 rounded-lg border">{children}</div>;
 }
 
 // HotelCardContent - Content wrapper

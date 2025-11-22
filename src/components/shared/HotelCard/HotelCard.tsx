@@ -25,7 +25,7 @@ function HotelCard({ hotel, onBookClick }: HotelCardProps) {
     return (
         <HotelCard.Root hotel={hotel}>
             <HotelCard.Card>
-                <HotelCard.Image />
+                <HotelCard.Image className="rounded-bl-lg rounded-br-none rounded-tr-none" />
                 <HotelCard.Content>
                     <HotelCard.Info />
                     <HotelCard.Rating>
@@ -36,7 +36,7 @@ function HotelCard({ hotel, onBookClick }: HotelCardProps) {
                         </HotelCard.Group>
                     </HotelCard.Rating>
                 </HotelCard.Content>
-                <div className="flex flex-col items-end justify-between">
+                <div className="flex flex-col items-end justify-between pr-2 pb-2">
                     <HotelCard.Pricing />
                     <HotelCard.BookButton onBook={onBookClick} />
                 </div>

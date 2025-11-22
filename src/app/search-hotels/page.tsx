@@ -4,7 +4,7 @@ import { GoogleMapContent } from '@/app/_components';
 import { MainContainer, Spinner } from '@/components/ui';
 import { Skeleton } from '@/components/ui/Skeleton/skeleton';
 import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
-import { HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
+import { HotelFilter, HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
 import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
 
 import { DateHelper } from '@/utils/dateHelpers';
@@ -77,15 +77,20 @@ function SearchHotelsContent() {
         <MainContainer>
             <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={hotelsLoading} />
             <div className='flex-col lg:flex lg:flex-row lg:gap-4 lg:mt-2'>
-                {hotelsLoading && <MapSkeleton />}
-                {!hotelsLoading && hotels.length > 0 && (
-                    <div
-                        className="shrink-0 self-start"
-                        style={{ width: `${MAP_SIZE}px`, height: `${MAP_SIZE}px` }}
-                    >
-                        <GoogleMapContent location={location} hotels={hotels} isHidden={false} />
-                    </div>
-                )}
+
+                <div className="shrink-0 self-start" style={{ width: `${MAP_SIZE}px` }}>
+                    {hotelsLoading && <MapSkeleton />}
+                    {!hotelsLoading && hotels.length > 0 && (
+                        <div style={{ height: `${MAP_SIZE}px` }}>
+                            <GoogleMapContent location={location} hotels={hotels} isHidden={false} />
+                        </div>
+                    )}
+                    {!hotelsLoading && (
+                        <div className="mt-4 hidden lg:block">
+                            <HotelFilter />
+                        </div>
+                    )}
+                </div>
                 <div className="flex-1 min-w-0">
                     <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={errorMessage} hasSearched={true} />
                 </div>

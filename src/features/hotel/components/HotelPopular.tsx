@@ -1,72 +1,70 @@
 'use client';
 
-import { ScrollableList } from "@/components/shared";
-import { Skeleton } from "@/components/ui/Skeleton/skeleton";
+import { ScrollableList } from '@/components/shared';
+import { Skeleton } from '@/components/ui/Skeleton/skeleton';
 import HotelVerticalCard from '@/features/hotel/components/HotelVerticalCard';
-import { Hotel } from "@/types/graphql";
+import { Hotel } from '@/types/graphql';
 
 interface HotelPopularProps {
-    hotels: Hotel[];
-    loading: boolean;
-    error: string;
+  hotels: Hotel[];
+  loading: boolean;
+  error: string;
 }
 
 export default function HotelPopular(hotelPopularProps: HotelPopularProps) {
-    const { hotels, loading, error } = hotelPopularProps;
+  const { hotels, loading, error } = hotelPopularProps;
 
-    if (loading) {
-        return <Loading />;
-    }
+  if (loading) {
+    return <Loading />;
+  }
 
-    if (error) {
-        return <Error error={error} />;
-    }
+  if (error) {
+    return <Error error={error} />;
+  }
 
-    if (hotels.length === 0) {
-        return null;
-    }
+  if (hotels.length === 0) {
+    return null;
+  }
 
-    return (
-        <section className="lg:mt-3 bg-surface-popular lg:rounded-lg px-2 py-4 lg:pl-2 lg:pr-0 ">
-            <div className="mb-3">
-                <div className="flex items-baseline gap-3">
-                    <h2 className="text-xl font-semibold text-primary">
-                        Popular Hotels
-                    </h2>
-                    <p className="text-primary text-xs font-medium">
-                        Discover our most loved hotels
-                    </p>
-                </div>
-            </div>
+  return (
+    <section className="relative overflow-hidden lg:pr-0">
+      <div className="relative">
+        <div className="mb-3">
+          <div className="flex items-baseline gap-3">
+            <h2 className="text-xl font-semibold text-primary">Popular Hotels</h2>
+            <p className="text-xs font-medium text-primary">Discover our most loved hotels</p>
+          </div>
+        </div>
 
-            <div className="">
-                <ScrollableList
-                    items={hotels}
-                    direction='horizontal'
-                    initialBatchSize={6}
-                    renderItem={(item) => <HotelVerticalCard key={item.id} hotel={item} />}
-                />
-            </div>
-        </section >
-    );
+        <ScrollableList
+          items={hotels}
+          direction="horizontal"
+          initialBatchSize={6}
+          renderItem={(item) => <HotelVerticalCard key={item.id} hotel={item} />}
+        />
+      </div>
+    </section>
+  );
 }
 
 
-const Loading = () => (
-    <section className="mt-3 bg-surface-popular rounded-lg">
-        <div className="mb-3">
-            <div className="flex items-baseline gap-3">
-                <Skeleton className="h-7 w-40" />
-                <Skeleton className="h-4 w-52" />
-            </div>
+const Loading = () => {
+  return (
+    <section>
+      <div className="mb-3">
+        <div className="flex items-baseline gap-3">
+          <Skeleton className="h-7 w-40" />
+          <Skeleton className="h-4 w-52" />
         </div>
-        <div className="flex gap-4 overflow-hidden">
-            {Array.from({ length: 5 }).map((_, index) => (
-                <LoadingItem key={index} />
-            ))}
-        </div>
+      </div>
+      <div className="flex gap-4 overflow-hidden">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <LoadingItem key={index} />
+        ))}
+      </div>
     </section>
-);
+  );
+};
 
 const LoadingItem = () => (
     <div className="border-border flex flex-col gap-2 rounded-lg border p-4 max-w-sm min-h-100 min-w-[280px]">

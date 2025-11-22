@@ -1,8 +1,8 @@
 import { Flight } from '@/types';
-import { FlightCardContext } from '../utils';
-import { useFlightCardContext } from '../hooks';
-import Image from 'next/image';
 import { Plane } from 'lucide-react';
+import Image from 'next/image';
+import { useFlightCardContext } from '../hooks';
+import { FlightCardContext } from '../utils';
 
 interface FlightVerticalCardProps {
     flight: Flight;
@@ -11,15 +11,18 @@ interface FlightVerticalCardProps {
 export default function FlightVerticalCard({ flight }: FlightVerticalCardProps) {
     return (
         <FlightCardContext.Provider value={{ flight }}>
-            <div className="border-border flex flex-col gap-2 rounded-lg border p-4 max-w-sm hover:shadow-lg transition-shadow">
+            <div className="bg-background  border-border flex flex-col gap-2 rounded-lg border max-w-sm ">
                 <FlightVerticalCard.Image />
-                <FlightVerticalCard.Content>
-                    <FlightVerticalCard.Route />
-                    <FlightVerticalCard.Company />
-                    <FlightVerticalCard.Details />
-                </FlightVerticalCard.Content>
-                <div className="flex items-center justify-between mt-2">
-                    <FlightVerticalCard.Pricing />
+                <div className='px-2 pb-1'>
+                    <FlightVerticalCard.Content>
+                        <FlightVerticalCard.Route />
+                        <FlightVerticalCard.Company />
+                        <FlightVerticalCard.Details />
+                    </FlightVerticalCard.Content>
+
+                    <div className="flex items-center justify-between mt-2">
+                        <FlightVerticalCard.Pricing />
+                    </div>
                 </div>
             </div>
         </FlightCardContext.Provider>

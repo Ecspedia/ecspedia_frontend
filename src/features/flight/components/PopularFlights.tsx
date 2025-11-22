@@ -1,9 +1,9 @@
 'use client';
 
-import { Spinner } from "@/components/ui/Spinner";
 import { ScrollableList } from "@/components/shared";
-import FlightVerticalCard from './FlightVerticalCard';
+import { Spinner } from "@/components/ui/Spinner";
 import { Flight } from '@/types';
+import FlightVerticalCard from './FlightVerticalCard';
 
 interface PopularFlightsProps {
     flights: Flight[];
@@ -25,19 +25,19 @@ export default function PopularFlights({ flights, loading = false, error = '' }:
     }
 
     return (
-        <section className="mt-3 bg-surface-raised rounded-lg">
+        <section className="mt-3  rounded-lg">
             <div className="mb-3">
                 <div className="flex items-baseline gap-3">
                     <h2 className="text-xl font-semibold text-primary">
                         Popular Flights
                     </h2>
-                    <p className="text-tertiary text-xs">
+                    <p className="text-xs font-medium text-primary">
                         Explore trending destinations
                     </p>
                 </div>
             </div>
 
-            <div>
+            <div className="rounded-lg">
                 <ScrollableList
                     items={flights}
                     direction="horizontal"
