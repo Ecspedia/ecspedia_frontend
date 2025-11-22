@@ -88,7 +88,7 @@ export default function ServiceFlightForm() {
       </FormWrapper>
       <Button
 
-        className={`w-full p-4 lg:w-24 lg:p-4}`}
+        className={`max-lg:w-full lg:w-24 p-4 lg:p-4}`}
 
         type="submit"
       >

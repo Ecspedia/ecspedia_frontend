@@ -6,9 +6,10 @@ import { useHotelImage } from '../hooks/useHotelImage.hook';
 
 interface HotelCardImageProps {
   variant?: 'default' | 'compact' | 'expanded' | 'mobile';
+  className?: string;
 }
 
-export default function HotelCardImage({ variant = 'default' }: HotelCardImageProps) {
+export default function HotelCardImage({ variant = 'default', className }: HotelCardImageProps) {
   const { hotel } = useHotelCardContext();
   const { imageSrc, isExternalImage, isLoading, hasError: _hasError, handleImageLoad, handleImageError } = useHotelImage(hotel);
 
@@ -17,12 +18,12 @@ export default function HotelCardImage({ variant = 'default' }: HotelCardImagePr
     variant === 'compact' && 'w-48',
     variant === 'default' && 'w-64',
     variant === 'expanded' && 'w-full h-48',
-    variant === 'mobile' && 'w-ful'
+    variant === 'mobile' && 'w-full'
 
   );
 
   return (
-    <div className={cn('group relative shrink-0 overflow-hidden rounded-lg', sizeClasses)}>
+    <div className={cn('group relative shrink-0 overflow-hidden rounded-t-lg rounded-b-none', sizeClasses, className)}>
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted transition-opacity duration-200">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />

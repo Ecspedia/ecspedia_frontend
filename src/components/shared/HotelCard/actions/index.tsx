@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui';
+import { ArrowRight, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 
@@ -26,16 +27,24 @@ export function HotelCardBookButton({ onBook }: HotelCardBookButtonProps) {
   return (
     <Button
       variant="secondary"
-      text={isAvailable ? 'Book Now' : 'Not Available'}
       onClick={handleBookClick}
       disabled={!isAvailable}
       className="w-full p-2"
-    />
+    >
+
+      {isAvailable ? 'Book Now' : 'Not Available'}
+      <Button.Icon icon={ArrowRight} />
+    </Button>
   );
 }
 
 // HotelCardDetailsButton - View details button
 export function HotelCardDetailsButton() {
-  return <Button variant="primary" text={'View Details'} className="p-2"></Button>;
+  return (
+    <Button variant="primary" className="p-2">
+      <Button.Icon icon={Eye} />
+      View Details
+    </Button>
+  );
 }
 

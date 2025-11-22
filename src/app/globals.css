@@ -95,12 +95,13 @@
   --text-tertiary: oklch(0.2 0.06 264 / 0.5); /* 50% opacity - hints, placeholders */
   --text-disabled: oklch(0.2 0.06 264 / 0.38); /* 38% opacity - disabled states */
   --text-inverse: oklch(1 0 0);
+  --text-primary-inverse: oklch(0.55 0.2 254); /* brand-secondary */
 
   /* Brand & Interactive */
   --brand-primary: oklch(0.2 0.06 264);
   --brand-primary-hover: oklch(0.15 0.06 264);
   --brand-secondary: oklch(0.55 0.2 254);
-  --brand-secondary-hover: var(--blue-600);
+  --brand-secondary-hover: oklch(0.48 0.22 254); /* Darker blue for hover */
   --interactive-primary: oklch(0.55 0.2 254);
   --interactive-hover: var(--blue-600);
   --interactive-active: var(--blue-700);
@@ -156,6 +157,7 @@
   --text-tertiary: oklch(0.6 0 0); /* 4.8:1 contrast */
   --text-disabled: oklch(0.48 0 0);
   --text-inverse: oklch(0.19 0 0);
+  --text-primary-inverse: var(--indigo-500); /* brand-secondary for dark */
 
   /* Brand & Interactive */
   --brand-primary: oklch(0.8 0.12 246); /* Softer for dark mode */
@@ -198,7 +200,7 @@
   --accent-gradient-end: oklch(0.63 0.26 25);
 
   /* Feature-specific */
-  --surface-popular: oklch(0.32 0.04 264); /* Subtle navy tone matching promo banner */
+  --surface-popular: oklch(0.22 0.02 264); /* Dark navy matching brand primary */
 }
 
 /* ============================================
@@ -216,6 +218,7 @@
   --color-secondary: var(--text-secondary);
   --color-tertiary: var(--text-tertiary);
   --color-disabled: var(--text-disabled);
+  --color-primary-inverse: var(--text-primary-inverse);
 
   /* Brand & Interactive */
   --color-brand-primary: var(--brand-primary);
@@ -294,6 +297,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Animations */
+  --animate-subtle-pulse: subtlePulse 8s ease-in-out infinite;
 }
 
 /* ============================================
@@ -356,6 +362,24 @@ body {
       opacity: 0;
     }
     to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Subtle pulse animation for backgrounds */
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes subtlePulse {
+    0%, 100% {
       opacity: 1;
     }
   }

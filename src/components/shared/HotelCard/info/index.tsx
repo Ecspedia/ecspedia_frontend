@@ -1,6 +1,7 @@
-import { useHotelCardContext } from '../hooks/useHotelCardContext';
-import { MapPin, X } from 'lucide-react';
 import { cn } from '@/utils/utils';
+import { MapPin, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useHotelCardContext } from '../hooks/useHotelCardContext';
 
 
 // HotelCardTitle - Displays hotel name and chain
@@ -18,8 +19,9 @@ export function HotelCardTitle() {
 }
 
 // HotelCardLocation - Displays hotel location with icon
-export function HotelCardLocation() {
+export function HotelCardLocation({ className }: { className?: string }) {
   const { hotel } = useHotelCardContext();
+  const router = useRouter();
 
   // Build location string with available information
   const locationParts = [
@@ -31,11 +33,26 @@ export function HotelCardLocation() {
     ? locationParts.join(', ')
     : hotel.location;
 
+  const handleOpenMap = () => {
+    const lat = hotel.latitude;
+    const lng = hotel.longitude;
+
+    if (lat && lng) {
+      router.push(`/map?lat=${lat}&lng=${lng}&hotelId=${hotel.id}`);
+    } else if (hotel.city) {
+      router.push(`/map?location=${encodeURIComponent(hotel.city)}`);
+    }
+  };
+
   return (
-    <div className="flex items-center gap-1 mt-1">
-      <MapPin className="text-secondary h-3 w-3" />
-      <p className="text-secondary text-sm">{locationString}</p>
-    </div>
+    <button
+      type="button"
+      onClick={handleOpenMap}
+      className={cn("mt-1 flex cursor-pointer items-center gap-1 transition-colors hover:text-primary", className)}
+    >
+      <MapPin className="h-3 w-3 text-secondary" />
+      <p className="text-sm text-secondary hover:underline">{locationString}</p>
+    </button>
   );
 }
 

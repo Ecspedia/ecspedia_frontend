@@ -1,33 +1,51 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { X } from 'lucide-react';
 import { GoogleHotelMap } from '@/features/hotel/components';
-import { cn } from '@/utils/utils';
-import { selectIsDarkMode } from '@/stores/darkModeSlice';
 import { useAppSelector } from '@/hooks/hooks';
+import { selectIsDarkMode } from '@/stores/darkModeSlice';
+import { cn } from '@/utils/utils';
 import { useQuery, useReactiveVar } from '@apollo/client/react';
+import { X } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
+import { Button } from '@/components/ui';
+import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
 import { hotelSearchParamsVar } from '@/lib/apollo-reactive-vars';
 import type { Hotel, SearchHotelsByLocationQuery } from '@/types/graphql';
-import { Button } from '@/components/ui';
-import { useMemo } from 'react';
-import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
+import { Suspense, useMemo } from 'react';
 
-export default function FullScreenMapPage() {
+function FullScreenMapContent() {
   const router = useRouter();
+  const urlSearchParams = useSearchParams();
+
+  // Get URL parameters for direct hotel location
+  const lat = urlSearchParams.get('lat');
+  const lng = urlSearchParams.get('lng');
+  const hotelId = urlSearchParams.get('hotelId');
+  const locationParam = urlSearchParams.get('location');
 
   // Read search params from Apollo reactive variable
   const searchParams = useReactiveVar(hotelSearchParamsVar);
 
+  // Use URL location param or Apollo reactive variable
+  const searchLocation = locationParam || searchParams.location;
+
   // Read hotel data from Apollo cache
   const { data, loading } = useQuery<SearchHotelsByLocationQuery>(SEARCH_HOTELS_BY_LOCATION, {
     variables: {
-      location: searchParams.location,
+      location: searchLocation,
     },
-    skip: !searchParams.location,
+    skip: !searchLocation,
     fetchPolicy: 'cache-first',
   });
+
+  // Calculate center from URL params or default
+  const center = useMemo(() => {
+    if (lat && lng) {
+      return { lat: parseFloat(lat), lng: parseFloat(lng) };
+    }
+    return undefined;
+  }, [lat, lng]);
 
   // Get hotels directly from the response (now it's an array)
   const hotels = useMemo<Hotel[]>(() => {
@@ -64,8 +82,8 @@ export default function FullScreenMapPage() {
     );
   }
 
-  // Show message if no hotels or no search yet
-  if (!searchParams.location || hotels.length === 0) {
+  // Show message if no hotels or no search yet (but allow direct coordinates)
+  if (!searchLocation && !center) {
     return (
       <div className="relative h-screen w-screen flex items-center justify-center bg-background">
         <Button
@@ -94,7 +112,7 @@ export default function FullScreenMapPage() {
         onClick={handleClose}
         variant="blank"
         className={cn(
-          'absolute top-2 left-2 z-50 text-primary p-3 rounded-lg font-medium',
+          'absolute top-2 left-2 z-50 text-primary p-3 rounded-lg font-medium flex items-center justify-center gap-2',
           isDarkMode ? 'bg-[rgb(68,68,68)]' : 'bg-background'
         )}
         title="Close full screen"
@@ -102,7 +120,31 @@ export default function FullScreenMapPage() {
         <Button.Icon icon={X} />
         Close
       </Button>
-      <GoogleHotelMap hotels={hotels} isFullScreen={true} />
+      <GoogleHotelMap
+        hotels={hotels}
+        isFullScreen={true}
+        initialCenter={center}
+        initialSelectedHotelId={hotelId || undefined}
+      />
     </div>
+  );
+}
+
+function MapLoadingFallback() {
+  return (
+    <div className="h-screen w-screen flex items-center justify-center bg-background">
+      <div className="text-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent mx-auto mb-4" />
+        <p className="text-muted-foreground">Loading map...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function FullScreenMapPage() {
+  return (
+    <Suspense fallback={<MapLoadingFallback />}>
+      <FullScreenMapContent />
+    </Suspense>
   );
 }
