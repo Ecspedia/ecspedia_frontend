@@ -4,10 +4,11 @@ import { ReactNode } from 'react';
 // HotelCardCard - Main card container
 interface HotelCardCardProps {
   children: ReactNode;
+  className?: string;
 }
 
-export function HotelCardCard({ children }: HotelCardCardProps) {
-  return <div className="border-border flex gap-4 rounded-lg border">{children}</div>;
+export function HotelCardCard({ children, className }: HotelCardCardProps) {
+  return <div className={cn("border-border flex gap-4 rounded-lg border", className)}>{children}</div>;
 }
 
 // HotelCardContent - Content wrapper

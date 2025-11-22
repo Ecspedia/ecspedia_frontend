@@ -13,13 +13,13 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
   return (
     <div className="border-border bg-background text-primary fixed right-0 bottom-0 left-0 z-1000 mx-auto w-11/12 sm:w-4/5 lg:w-3/5 xl:w-1/2 2xl:w-2/5 max-w-[700px] min-w-[320px] rounded-lg border shadow-2xl">
       <HotelCard.Root hotel={hotel}>
-        <HotelCard.Card>
+        <HotelCard.Card className="lg:gap-2">
           <HotelCard.Image variant="compact" className='rounded-bl-lg rounded-br-none rounded-tr-none' />
-          <HotelCard.Content>
-            <div className="flex items-start justify-between gap-2">
-              <div className="flex flex-col">
+          <div className="flex-1 flex flex-col px-3 lg:px-0 lg:max-w-80">
+            <div className="flex items-start  gap-2 w-full">
+              <div className="flex flex-col flex-1 min-w-0">
                 <HotelCard.Info.Title />
-                <HotelCard.Info.Location className='text-ellipsis flex-nowrap' />
+                <HotelCard.Info.Location className='' />
               </div>
               <HotelCard.Info.CloseButton onClose={onClose} />
             </div>
@@ -30,7 +30,7 @@ export default function HotelDetailCard({ hotel, onClose }: HotelDetailCardProps
                 <HotelCard.ReviewCount />
               </HotelCard.Group>
             </HotelCard.Rating>
-          </HotelCard.Content>
+          </div>
 
           <div className="bg-primary w-0.5 self-stretch"></div>
           <div>

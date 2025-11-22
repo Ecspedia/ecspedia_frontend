@@ -4,7 +4,7 @@ import { DesktopNav } from '@/components/shared/Header/DesktopNav';
 import HeaderComponent from '@/components/shared/Header/HeaderComponent';
 import Logo from '@/components/shared/Header/Logo';
 import { MobileNav } from '@/components/shared/Header/MobileNav';
-import { useHeaderNav } from '@/components/shared/Header/useHeaderNav.hook';
+import { useHeaderNav } from '@/components/shared/Header/hooks/useHeaderNav.hook';
 import { MainContainer } from '@/components/ui';
 
 export default function HeaderNav() {

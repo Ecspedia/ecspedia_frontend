@@ -8,17 +8,19 @@ interface HotelVerticalCardProps {
 export default function HotelVerticalCard({ hotel }: HotelVerticalCardProps) {
     return (
         <HotelCard.Root hotel={hotel}>
-            <div className="border-border flex flex-col gap-2 rounded-lg border max-w-sm min-h-100 bg-background">
+            <HotelCard.Card className='border-border flex flex-col gap-2 lg:gap-0 rounded-lg border max-w-sm min-h-100 bg-background'>
                 <HotelCard.Image />
-                <HotelCard.Content>
-                    <HotelCard.Rating>
-                        <HotelCard.RatingNumber />
+                <HotelCard.Content className='lg:gap-1'>
+                    <div className='lg:flex lg:gap-2 lg:pt-2 lg:pb-0'>
+                        <div className='self-center'>
+                            <HotelCard.RatingNumber />
+                        </div>
                         <HotelCard.Group>
                             <HotelCard.RatingLabel />
                             <HotelCard.ReviewCount />
                         </HotelCard.Group>
-                    </HotelCard.Rating>
-                    <div className="flex-1 min-h-0">
+                    </div>
+                    <div className="">
                         <HotelCard.Info.Title />
                         <HotelCard.Info.Location />
                     </div>
@@ -26,7 +28,7 @@ export default function HotelVerticalCard({ hotel }: HotelVerticalCardProps) {
                 <div className="flex items-center justify-between px-2 pb-2">
                     <HotelCard.Pricing />
                 </div>
-            </div>
+            </HotelCard.Card>
         </HotelCard.Root>
     );
 }

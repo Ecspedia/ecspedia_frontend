@@ -1,16 +1,18 @@
+import { cn } from '@/utils/utils';
+import { ReactNode } from 'react';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { getRatingLabel } from '../utils/getRatingLabel';
-import { ReactNode } from 'react';
 
 
 // HotelCardRating - Container for rating components
 interface HotelCardRatingProps {
   children: ReactNode;
+  className?: string;
 }
 
-export function HotelCardRating({ children }: HotelCardRatingProps) {
+export function HotelCardRating({ children, className }: HotelCardRatingProps) {
   return (
-    <div className="flex-1">
+    <div className={cn("flex-1", className)}>
       <div className="mt-3 flex items-center gap-2">{children}</div>
     </div>
   );
