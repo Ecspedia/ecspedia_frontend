@@ -11,7 +11,7 @@ export default function HotelVerticalCard({ hotel }: HotelVerticalCardProps) {
             <HotelCard.Card className='border-border flex flex-col gap-2 lg:gap-0 rounded-lg border max-w-sm min-h-100 bg-background'>
                 <HotelCard.Image />
                 <HotelCard.Content className='lg:gap-1'>
-                    <div className='lg:flex lg:gap-2 lg:pt-2 lg:pb-0'>
+                    <div className='flex gap-1 lg:flex lg:gap-2 lg:pt-2 lg:pb-0'>
                         <div className='self-center'>
                             <HotelCard.RatingNumber />
                         </div>
