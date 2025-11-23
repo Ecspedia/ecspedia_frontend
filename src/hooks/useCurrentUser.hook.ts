@@ -18,13 +18,17 @@ export const useCurrentUser = (): UseCurrentUserReturn => {
     loading,
     refetch: refetchQuery,
   } = useQuery(CURRENT_USER_QUERY, {
-    fetchPolicy: 'cache-first',
-    nextFetchPolicy: 'cache-first',
+    fetchPolicy: 'network-only',
     errorPolicy: 'ignore',
   });
 
   const user = data?.me ?? null;
   const isAuthenticated = !!user;
+
+  // Debug logs
+  console.log('useCurrentUser - data:', data);
+  console.log('useCurrentUser - user:', user);
+  console.log('useCurrentUser - loading:', loading);
 
   const refetch = async () => {
     await refetchQuery();

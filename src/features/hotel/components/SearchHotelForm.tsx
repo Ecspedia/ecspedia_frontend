@@ -43,9 +43,9 @@ export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormPro
   return (
     <form
       onSubmit={handleSubmit(handleSubmitForm)}
-      className={cn("flex flex-col lg:items-start lg:justify-center gap-4 lg:flex-row", isExtended ? 'py-4' : 'p-5 lg:p-8')}
+      className={cn("flex flex-col lg:items-start lg:justify-center gap-4 lg:flex-row", isExtended ? 'py-4 lg:py-4' : 'p-5 lg:p-8')}
     >
-      <div className={cn("form-fields flex flex-col lg:flex-row", isExtended ? 'flex-1 gap-7' : 'gap-4')}>
+      <div className={cn("form-fields flex flex-col lg:flex-row", isExtended ? 'flex-1 gap-4 lg:gap-7' : 'gap-4 lg:gap-4')}>
         <FormWrapper ref={getFieldRef(LocationFieldType.LOCATION)} errors={errors.location?.message}
           className={cn(isExtended ? 'flex-1' : '')}
         >

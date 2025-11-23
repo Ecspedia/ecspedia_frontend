@@ -1,9 +1,11 @@
 import { ScrollableList } from '@/components/shared';
 import HotelCard from '@/components/shared/HotelCard';
 import { Skeleton } from '@/components/ui/Skeleton/skeleton';
+import { useIsMobile } from '@/hooks';
 import type { Hotel } from '@/types/graphql';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
 import { memo } from 'react';
+import HotelCardVerticalMobile from './HotelCardVerticalMobile';
 
 interface HotelSearchResultProps {
   hotels: Hotel[];
@@ -14,6 +16,7 @@ interface HotelSearchResultProps {
 
 function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
   const { hotels, loading = false, error, hasSearched = false } = hotelSearchResultProps;
+  const isMobile = useIsMobile();
   if (error && error.length > 0) {
     return <HotelSearchResult.error></HotelSearchResult.error>;
   }
@@ -27,7 +30,9 @@ function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
     return <HotelSearchResult.Welcome />;
   }
   return <ScrollableList items={hotels} direction='vertical'
-    renderItem={(hotel) => <HotelCard key={hotel.id} hotel={hotel} />}
+    renderItem={(hotel) => {
+      return (isMobile ? <HotelCardVerticalMobile key={hotel.id} hotel={hotel} /> : <HotelCard key={hotel.id} hotel={hotel} />)
+    }}
     initialBatchSize={6}
     batchSize={6}
   />;
@@ -42,10 +47,11 @@ HotelSearchResult.NotFound = function HotelNotFound() {
 };
 
 HotelSearchResult.loading = function HotelLoading() {
+  const isMobile = useIsMobile();
   return (
     <div className="flex flex-col gap-4">
       {Array.from({ length: 6 }).map((_, index) => (
-        <HotelSearchResult.loadingItem key={index} />
+        isMobile ? <HotelSearchResult.loadingItemMobile key={index} /> : <HotelSearchResult.loadingItem key={index} />
       ))}
     </div>
   );
@@ -81,6 +87,30 @@ HotelSearchResult.loadingItem = function HotelLoadingItem() {
           <Skeleton className="h-3 w-16" />
         </div>
         <Skeleton className="h-10 w-24 rounded-lg" />
+      </div>
+    </div>
+  );
+};
+
+HotelSearchResult.loadingItemMobile = function HotelLoadingItemMobile() {
+  return (
+    <div className="flex flex-col w-full rounded-lg border border-border bg-background overflow-hidden">
+      <Skeleton className="h-48 w-full" />
+      <div className="flex flex-col gap-2 p-3">
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-8 w-8 rounded" />
+          <div className="flex flex-col gap-1">
+            <Skeleton className="h-3 w-16" />
+            <Skeleton className="h-2 w-20" />
+          </div>
+        </div>
+        <Skeleton className="h-5 w-3/4" />
+        <Skeleton className="h-3 w-1/2" />
+        <Skeleton className="h-3 w-full" />
+        <Skeleton className="h-3 w-2/3" />
+        <div className="flex items-center justify-between mt-2">
+          <Skeleton className="h-5 w-20" />
+        </div>
       </div>
     </div>
   );

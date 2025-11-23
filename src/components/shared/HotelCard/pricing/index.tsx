@@ -1,6 +1,6 @@
-import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { cn } from '@/utils/utils';
 import { Check } from 'lucide-react';
+import { useHotelCardContext } from '../hooks/useHotelCardContext';
 
 
 // HotelCardAvailability - Shows availability status
@@ -27,7 +27,7 @@ interface HotelCardPricingProps {
 
 export function HotelCardPricing({ variant = 'default' }: HotelCardPricingProps) {
     const { hotel } = useHotelCardContext();
-    const textPriceFontSize = cn(variant === 'larger' ? 'text-2xl' : 'text-lg ');
+    const textPriceFontSize = cn(variant === 'larger' ? 'text-xl' : 'text-lg ');
     const textLabelFontSize = cn(variant === 'larger' ? 'text-base' : 'text-sm ');
 
     // Use pricePerNight with currency

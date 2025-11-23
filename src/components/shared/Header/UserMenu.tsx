@@ -44,13 +44,7 @@ export const UserMenu = ({
           >
             Settings
           </button>
-          <button
-            type="button"
-            onClick={onMyBookings}
-            className="block w-full px-4 py-2 text-left text-sm text-primary hover:text-primary-inverse"
-          >
-            My Bookings
-          </button>
+
           <div className="my-2 border-t border-border" />
           <button
             type="button"

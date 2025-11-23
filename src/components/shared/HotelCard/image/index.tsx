@@ -1,6 +1,7 @@
 import { cn } from '@/utils/utils';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { useHotelImage } from '../hooks/useHotelImage.hook';
 
@@ -12,6 +13,7 @@ interface HotelCardImageProps {
 export default function HotelCardImage({ variant = 'default', className }: HotelCardImageProps) {
   const { hotel } = useHotelCardContext();
   const { imageSrc, isExternalImage, isLoading, hasError: _hasError, handleImageLoad, handleImageError } = useHotelImage(hotel);
+  const [isLiked, setIsLiked] = useState(false);
 
   const sizeClasses = cn(
     variant !== 'expanded' && 'aspect-[4/3]',
@@ -40,8 +42,17 @@ export default function HotelCardImage({ variant = 'default', className }: Hotel
         priority={variant === 'default'} // Prioritize loading for default variant
       />
       {variant === 'default' && (
-        <button className="absolute top-3 right-3 rounded-full bg-white p-2 transition-transform hover:scale-110">
-          <Heart className="text-secondary h-5 w-5" />
+        <button
+          type="button"
+          onClick={() => setIsLiked(!isLiked)}
+          className="absolute top-3 right-3 rounded-full bg-white p-2 shadow-md transition-all hover:scale-110 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary"
+        >
+          <Heart
+            className={cn(
+              'h-5 w-5 transition-colors',
+              isLiked ? 'fill-error text-error' : 'text-secondary hover:text-error'
+            )}
+          />
         </button>
       )}
     </div>

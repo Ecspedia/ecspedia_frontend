@@ -5,6 +5,7 @@ import { MainContainer, Spinner } from '@/components/ui';
 import { Skeleton } from '@/components/ui/Skeleton/skeleton';
 import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
 import { HotelFilter, HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
+import { useIsMobile } from '@/hooks';
 import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
 
 import { DateHelper } from '@/utils/dateHelpers';
@@ -18,6 +19,7 @@ const MAP_SIZE = 225;
 function SearchHotelsContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const isMobile = useIsMobile();
     // Get URL parameters
     const location = searchParams.get('location') || '';
     // theses variables are not used yet to fetch hotels, but we keep them for future use
@@ -57,6 +59,7 @@ function SearchHotelsContent() {
     const hotelsLoading = loading;
     const errorMessage = error?.message;
 
+    console.log('errorMessage', errorMessage);
     if (!location) {
         return (
             <MainContainer className="py-6">
@@ -75,10 +78,11 @@ function SearchHotelsContent() {
     return (
 
         <MainContainer>
-            <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={hotelsLoading} />
-            <div className='flex-col lg:flex lg:flex-row lg:gap-4 lg:mt-2'>
-
-                <div className="shrink-0 self-start" style={{ width: `${MAP_SIZE}px` }}>
+            <div className='px-5 lg:px-0'>
+                <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={hotelsLoading} />
+            </div>
+            <div className='flex-col gap-2  lg:flex lg:flex-row lg:gap-4 lg:mt-2'>
+                <div className="px-4 lg:px-0 lg:shrink-0 lg:self-start" style={{ width: isMobile ? '100%' : `${MAP_SIZE}px` }}>
                     {hotelsLoading && <MapSkeleton />}
                     {!hotelsLoading && hotels.length > 0 && (
                         <div style={{ height: `${MAP_SIZE}px` }}>
@@ -91,7 +95,7 @@ function SearchHotelsContent() {
                         </div>
                     )}
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className='mt-4  px-4  lg:mt-0 flex-1 min-w-0'>
                     <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={errorMessage} hasSearched={true} />
                 </div>
             </div>
@@ -102,8 +106,12 @@ function SearchHotelsContent() {
 
 
 const MapSkeleton = () => {
+    const isMobile = useIsMobile();
     return (
-        <div className="shrink-0 self-start" style={{ width: `${MAP_SIZE}px`, height: `${MAP_SIZE}px` }}>
+        <div
+            className="shrink-0 self-start w-full lg:w-auto"
+            style={{ height: `${MAP_SIZE}px`, width: isMobile ? '100%' : `${MAP_SIZE}px` }}
+        >
             <Skeleton className="h-full w-full rounded-lg" />
         </div>
     );

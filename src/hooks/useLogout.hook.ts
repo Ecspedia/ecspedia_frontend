@@ -17,6 +17,8 @@ export const useLogout = (): UseLogoutReturn => {
   const logout = useCallback(async () => {
     try {
       await logoutMutation();
+      // Backend clears the httpOnly auth_token cookie
+
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new Event('auth-token-changed'));
       }

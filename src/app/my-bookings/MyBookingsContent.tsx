@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client/react';
-import { MainContainer, Spinner } from '@/components/ui';
-import { useCurrentUser } from '@/hooks';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { Button, MainContainer, Spinner } from '@/components/ui';
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
-import type { BookingsByUserEmailQuery } from '@/types/graphql';
 import BookingCardWithHotel from '@/features/booking/components/BookingCardWithHotel';
+import { useCurrentUser } from '@/hooks';
+import type { BookingsByUserEmailQuery } from '@/types/graphql';
+import { useQuery } from '@apollo/client/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function MyBookingsContent() {
   const { user, isLoading: isLoadingUser } = useCurrentUser();
@@ -43,9 +43,22 @@ export default function MyBookingsContent() {
 
   if (!user) {
     return (
-      <MainContainer>
+      <MainContainer className='pt-8'>
         <h1 className="text-3xl font-bold text-primary mb-4">My Bookings</h1>
-        <p className="text-secondary">Please log in to view your bookings.</p>
+        <div className="bg-surface rounded-lg border border-border p-8 text-center flex-col justify-center">
+          <p className="text-secondary text-lg">Please log in to view your bookings</p>
+          <div className='flex justify-center pt-2'>
+            <Button
+              type="button"
+              onClick={() => router.push('/login')}
+
+              className="py-2 px-4"
+            >
+              Log In
+            </Button>
+          </div>
+        </div>
+
       </MainContainer>
     );
   }

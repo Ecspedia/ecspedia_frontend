@@ -1,23 +1,23 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useMutation, useReactiveVar } from '@apollo/client/react';
 import { Button, MainContainer } from '@/components/ui';
-import type { Hotel, CreateBookingMutation, CreateHotelMutation } from '@/types/graphql';
-import BookingDetails from './BookingDetails';
-import PaymentSummary from './PaymentSummary';
-import GuestForm, { GuestFormData } from './GuestForm';
-import { ArrowLeft } from 'lucide-react';
 import { useCurrentUser } from '@/hooks';
+import type { CreateBookingMutation, CreateHotelMutation, Hotel } from '@/types/graphql';
+import { useMutation, useReactiveVar } from '@apollo/client/react';
+import { ArrowLeft } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import BookingDetails from './BookingDetails';
+import GuestForm, { GuestFormData } from './GuestForm';
+import PaymentSummary from './PaymentSummary';
 
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
-import { DateHelper } from '@/utils/dateHelpers';
 import { hotelSearchSubmittedParamsVar } from '@/lib/apollo-reactive-vars';
+import { DateHelper } from '@/utils/dateHelpers';
 
 
-import { CREATE_BOOKING_MUTATION, CREATE_HOTEL_MUTATION } from '../api/bookings.mutations';
 import { hotelToHotelCreateDtoInput } from '@/utils/mapper';
+import { CREATE_BOOKING_MUTATION, CREATE_HOTEL_MUTATION } from '../api/bookings.mutations';
 
 
 
@@ -180,7 +180,7 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
                 <Button
                     onClick={() => router.back()}
                     variant="blank"
-                    className="flex-1 bg-surface border border-border text-primary hover:bg-surface-raised/80 px-6 py-3 font-medium"
+                    className="rounded-full flex-1 bg-surface border border-border text-primary hover:bg-surface-raised/80 px-6 py-3 font-medium"
                 >
                     Cancel
                 </Button>

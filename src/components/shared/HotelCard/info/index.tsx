@@ -51,7 +51,7 @@ export function HotelCardLocation({ className }: { className?: string }) {
       className={cn("mt-1 flex cursor-pointer items-center gap-1 transition-colors hover:text-primary", className)}
     >
       <MapPin className="h-3 w-3 text-secondary" />
-      <p className="text-sm text-secondary hover:underline">{locationString}</p>
+      <p className="text-sm text-secondary hover:underline whitespace-nowrap text-ellipsis overflow-hidden">{locationString}</p>
     </button>
   );
 }
@@ -99,7 +99,7 @@ export function HotelCardCloseButton({ onClose }: HotelCardCloseButtonProps) {
   return (
     <button
       onClick={onClose}
-      className="text-secondary hover:text-primary shrink-0 rounded-full p-1 transition-colors"
+      className="text-secondary hover:text-primary rounded-full p-1 transition-colors shrink-0"
     >
       <X className="h-7 w-7" />
     </button>
