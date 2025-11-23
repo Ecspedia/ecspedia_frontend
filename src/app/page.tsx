@@ -52,7 +52,6 @@ export default function Home() {
         </MainContainer>
       )}
 
-
       <div className={`${!isDarkMode ? 'bg-[#191E3B]' : 'bg-linear-to-r from-brand-primary/5 via-brand-secondary/5 to-brand-primary/5'}`}>
         <MainContainer>
           <PromoBanner />
@@ -63,7 +62,6 @@ export default function Home() {
           {currentServiceContent}
         </div>
       </MainContainer >
-
 
     </>
 
