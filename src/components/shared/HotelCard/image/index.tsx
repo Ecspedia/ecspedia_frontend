@@ -44,6 +44,7 @@ export default function HotelCardImage({ variant = 'default', className }: Hotel
       {variant === 'default' && (
         <button
           type="button"
+          aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
           onClick={() => setIsLiked(!isLiked)}
           className="absolute top-3 right-3 rounded-full bg-white p-2 shadow-md transition-all hover:scale-110 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary"
         >

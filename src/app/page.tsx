@@ -9,7 +9,7 @@ import { PromoBanner } from '@/features/hotel/components';
 import HotelPopular from '@/features/hotel/components/HotelPopular';
 
 import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';
-import { useAppSelector, useDarkMode, useIsMobile } from '@/hooks';
+import { useAppSelector, useDarkMode } from '@/hooks';
 import { ServiceType } from '@/types';
 import { useQuery } from '@apollo/client/react';
 import { useMemo } from 'react';
@@ -32,25 +32,25 @@ export default function Home() {
     }
   }, [currentServiceTabSelected, data, loading, error]);
   const { isDarkMode } = useDarkMode();
-  const isMobile = useIsMobile();
+
   return (
 
     <>
-      {!isMobile && (
-        <div className="relative bg-[url('/images/home/main-bg.webp')] bg-cover bg-center py-8">
-          <div className="pointer-events-none absolute inset-0 hidden bg-black/50 dark:block" />
-          <MainContainer className="relative">
-            <TitleH1>Our biggest sale of the year</TitleH1>
-            <MultipleServicesForm />
-          </MainContainer>
-        </div>
-      )}
+      {/* Desktop hero - hidden on mobile via CSS */}
+      <div className="relative hidden lg:block bg-[url('/images/home/main-bg.webp')] bg-cover bg-center py-8">
+        <div className="pointer-events-none absolute inset-0 hidden bg-black/50 dark:block" />
+        <MainContainer className="relative">
+          <TitleH1>Our biggest sale of the year</TitleH1>
+          <MultipleServicesForm />
+        </MainContainer>
+      </div>
 
-      {isMobile && (
+      {/* Mobile form - hidden on desktop via CSS */}
+      <div className="block lg:hidden">
         <MainContainer>
           <MultipleServicesForm />
         </MainContainer>
-      )}
+      </div>
 
       <div className={`${!isDarkMode ? 'bg-[#191E3B]' : 'bg-linear-to-r from-brand-primary/5 via-brand-secondary/5 to-brand-primary/5'}`}>
         <MainContainer>

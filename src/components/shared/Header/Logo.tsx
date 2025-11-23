@@ -9,7 +9,7 @@ export default function Logo() {
   return (
     <div className="flex items-center space-x-4">
       <Link href={paths.home.getHref()} className="flex items-center gap-2">
-        <Image src="/favicon.ico" alt={appName} width={24} height={24} className="h-6 w-6" />
+        <Image src="/favicon.ico" alt="" width={24} height={24} className="h-6 w-6" />
         <span className="text-2xl font-semibold text-primary transition-colors duration-300">
           {appName}
         </span>
