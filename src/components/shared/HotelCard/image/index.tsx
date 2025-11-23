@@ -12,7 +12,7 @@ interface HotelCardImageProps {
 
 export default function HotelCardImage({ variant = 'default', className }: HotelCardImageProps) {
   const { hotel } = useHotelCardContext();
-  const { imageSrc, isExternalImage, isLoading, hasError: _hasError, handleImageLoad, handleImageError } = useHotelImage(hotel);
+  const { imageSrc, isLoading, handleImageLoad, handleImageError } = useHotelImage(hotel);
   const [isLiked, setIsLiked] = useState(false);
 
   const sizeClasses = cn(
@@ -35,15 +35,23 @@ export default function HotelCardImage({ variant = 'default', className }: Hotel
         src={imageSrc}
         alt={hotel.name}
         fill
+        sizes={
+          variant === 'compact'
+            ? '192px'
+            : variant === 'expanded'
+              ? '100vw'
+              : variant === 'mobile'
+                ? '100vw'
+                : '256px'
+        }
         className={`object-cover transition-opacity duration-200 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-        unoptimized={isExternalImage}
         onLoad={handleImageLoad}
         onError={handleImageError}
-        priority={variant === 'default'} // Prioritize loading for default variant
       />
       {variant === 'default' && (
         <button
           type="button"
+          aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
           onClick={() => setIsLiked(!isLiked)}
           className="absolute top-3 right-3 rounded-full bg-white p-2 shadow-md transition-all hover:scale-110 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary"
         >
