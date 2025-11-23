@@ -12,27 +12,14 @@ const createMinimumDelayLink = (minDelay: number = 400) => {
       const subscription = forward(operation).subscribe({
         next: (response) => {
           const elapsed = Date.now() - startTime;
-          const remaining = minDelay - elapsed;
+          const remaining = Math.max(0, minDelay - elapsed);
 
-          if (remaining > 0) {
-            setTimeout(() => {
-              observer.next(response);
-            }, remaining);
-          } else {
+          setTimeout(() => {
             observer.next(response);
-          }
+            observer.complete();
+          }, remaining);
         },
         error: (error) => observer.error(error),
-        complete: () => {
-          const elapsed = Date.now() - startTime;
-          const remaining = minDelay - elapsed;
-
-          if (remaining > 0) {
-            setTimeout(() => observer.complete(), remaining);
-          } else {
-            observer.complete();
-          }
-        },
       });
 
       return () => subscription.unsubscribe();

@@ -10,7 +10,7 @@ function MainContainer({ children, className = "", ...props }: MainContainerProp
     return (
         <div
             className={cn(
-                "container mx-auto sm:px-8 md:px-12 lg:px-24 xl:px-32",
+                "container mx-auto px-3 md:px-12 lg:px-24 xl:px-32",
                 className
             )}
             {...props}

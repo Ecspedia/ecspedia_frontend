@@ -84,16 +84,7 @@ export const MobileNav = ({
                 >
                   Settings
                 </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onMyBookings();
-                    onClose();
-                  }}
-                  className="px-4 py-2 text-left text-sm text-primary hover:text-secondary"
-                >
-                  My Bookings
-                </button>
+
                 <div className="my-2 border-t border-border" />
                 <button
                   type="button"

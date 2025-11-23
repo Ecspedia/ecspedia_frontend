@@ -58,7 +58,7 @@ export default function Home() {
           <PromoBanner />
         </MainContainer>
       </div>
-      <MainContainer className=''>
+      <MainContainer className='px-0'>
         <div className={`px-2 lg:py-4 bg-accent-secondary lg:bg-background ${isDarkMode ? 'bg-background' : 'bg-accent-secondary'}`}>
           {currentServiceContent}
         </div>
