@@ -67,7 +67,7 @@ describe('useCalendarState', () => {
         expect(result.current.contextValue.state.leftDate.getMonth()).toBe(1);
         expect(result.current.contextValue.state.rightDate.getMonth()).toBe(2);
         expect(result.current.contextValue.state.leftDate.getFullYear()).toBe(2025);
-        expect(result.current.contextValue.state.rightDate.getFullYear()).toBe(2026);
+        expect(result.current.contextValue.state.rightDate.getFullYear()).toBe(2025);
       });
 
       it('should handle year transition when navigating to previous month', () => {
