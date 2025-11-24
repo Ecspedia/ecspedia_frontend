@@ -25,11 +25,6 @@ export const useCurrentUser = (): UseCurrentUserReturn => {
   const user = data?.me ?? null;
   const isAuthenticated = !!user;
 
-  // Debug logs
-  console.log('useCurrentUser - data:', data);
-  console.log('useCurrentUser - user:', user);
-  console.log('useCurrentUser - loading:', loading);
-
   const refetch = async () => {
     await refetchQuery();
   };

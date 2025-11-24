@@ -57,3 +57,6 @@ next-env.d.ts
 
 # Local config
 .config/
+# Playwright
+playwright-report/
+test-results/
