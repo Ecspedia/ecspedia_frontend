@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    permissions:
+      statuses: write
+      contents: read
+
     env:
       BACKEND_URL: ${{ github.ref == 'refs/heads/main' && secrets.EC2_PROD_URL || secrets.EC2_DEV_URL }}
 
