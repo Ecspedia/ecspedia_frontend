@@ -65,3 +65,9 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
+
+      - name: Notify Vercel of Check Status
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: vercel/repository-dispatch/actions/status@v1
+        with:
+          name: 'E2E Tests'
