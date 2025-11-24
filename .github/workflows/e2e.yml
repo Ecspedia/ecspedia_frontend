@@ -46,6 +46,12 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps
 
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run unit tests
+        run: npm run test
+
       - name: Run E2E tests (Chromium)
         run: npm run test:e2e:chromium
         env:
