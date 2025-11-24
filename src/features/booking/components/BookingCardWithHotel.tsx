@@ -22,7 +22,8 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
         }
     );
 
-    const paymentStatus = (booking as any).paymentStatus || (booking as any).payment_status || 'pending';
+    const bookingWithPayment = booking as Booking & { paymentStatus?: string; payment_status?: string };
+    const paymentStatus = bookingWithPayment.paymentStatus || bookingWithPayment.payment_status || 'pending';
 
     async function handlePay() {
         try {

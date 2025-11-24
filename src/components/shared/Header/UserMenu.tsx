@@ -16,7 +16,7 @@ export const UserMenu = ({
   isOpen,
   logoutLoading,
   onToggle,
-  onMyBookings,
+  onMyBookings: _onMyBookings,
   onLogout,
 }: UserMenuProps) => {
   return (

@@ -65,11 +65,8 @@ export default function LoginForm({ email: initialEmail = '' }: LoginFormProps) 
         },
       });
 
-      console.log('Login result:', result);
-
       if (result.data && typeof result.data === 'object' && 'login' in result.data) {
         const loginData = result.data.login as { token: string };
-        console.log('Login data:', loginData);
         if (loginData?.token) {
 
 

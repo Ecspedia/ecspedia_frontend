@@ -23,8 +23,11 @@ function SearchHotelsContent() {
     // Get URL parameters
     const location = searchParams.get('location') || '';
     // theses variables are not used yet to fetch hotels, but we keep them for future use
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const startDate = searchParams.get('startDate') || DateHelper.getToday().toString();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const endDate = searchParams.get('endDate') || DateHelper.pastTomorrow().toString();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const adults = searchParams.get('adults') || searchParams.get('guests') || '1';
 
     const [fetchHotels, { data, loading, error }] = useLazyQuery(SEARCH_HOTELS_BY_LOCATION,
@@ -59,7 +62,6 @@ function SearchHotelsContent() {
     const hotelsLoading = loading;
     const errorMessage = error?.message;
 
-    console.log('errorMessage', errorMessage);
     if (!location) {
         return (
             <MainContainer className="py-6">

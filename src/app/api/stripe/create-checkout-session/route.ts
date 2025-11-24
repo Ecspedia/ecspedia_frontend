@@ -38,7 +38,8 @@ export async function POST(req: Request) {
     });
 
     return new Response(JSON.stringify({ url: session.url }), { status: 200 });
-  } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message || String(err) }), { status: 500 });
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    return new Response(JSON.stringify({ error: errorMessage }), { status: 500 });
   }
 }

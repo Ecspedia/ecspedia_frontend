@@ -41,7 +41,7 @@ export default function SupportPage() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="bg-background border-border text-primary w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-background border-border text-primary w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-info"
             />
           </div>
 
@@ -56,7 +56,7 @@ export default function SupportPage() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="bg-background border-border text-primary w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-background border-border text-primary w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-info"
             />
           </div>
 
@@ -70,7 +70,7 @@ export default function SupportPage() {
               value={formData.subject}
               onChange={handleChange}
               required
-              className="bg-background border-border text-primary w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-background border-border text-primary w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-info"
             >
               <option value="">Select a subject</option>
               <option value="booking">Booking Issue</option>
@@ -91,7 +91,7 @@ export default function SupportPage() {
               onChange={handleChange}
               required
               rows={4}
-              className="bg-background border-border text-primary w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-background border-border text-primary w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-info"
             />
           </div>
 

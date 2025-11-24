@@ -40,7 +40,7 @@ export default function HotelCardFromMyBooking({ hotel }: HotelCardFromMyBooking
                 </div>
                 {hotel.rating && (
                     <div className="flex items-center gap-1">
-                        <Star className="text-yellow-500 h-4 w-4 fill-yellow-500" />
+                        <Star className="text-warning h-4 w-4 fill-warning" />
                         <span className="text-sm text-primary font-medium">{hotel.rating.toFixed(1)}</span>
                     </div>
                 )}
