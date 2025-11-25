@@ -4,15 +4,15 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { useHotelImage } from '../hooks/useHotelImage.hook';
-import { VARIANT_CONFIG } from '../utils/variantConfig';
 import type { HotelCardVariant } from '../utils/variantConfig';
+import { VARIANT_CONFIG } from '../utils/variantConfig';
 
 interface HotelCardImageProps {
   className?: string;
 }
 
 export default function HotelCardImage({ className }: HotelCardImageProps) {
-  const { hotel, variant: cardVariant = 'search-result' } = useHotelCardContext();
+  const { hotel, variant: cardVariant = 'search-result', isPriority } = useHotelCardContext();
   const { imageSrc, isLoading, handleImageLoad, handleImageError } = useHotelImage(hotel);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -45,6 +45,9 @@ export default function HotelCardImage({ className }: HotelCardImageProps) {
         className={`object-cover transition-opacity duration-200 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         onLoad={handleImageLoad}
         onError={handleImageError}
+        priority={isPriority}
+        loading={isPriority ? 'eager' : 'lazy'}
+        fetchPriority={isPriority ? 'high' : 'low'}
       />
       {showLikeButton && (
         <button

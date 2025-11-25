@@ -16,9 +16,9 @@ interface PromoBannerProps {
 function PromoIcon({ isDarkMode }: { isDarkMode: boolean }) {
     const iconSrc = isDarkMode ? '/images/home/dark__promo.svg' : '/images/home/light__promo.svg';
     return (
-        <div className="shrink-0 w-12 h-12">
-            <Image src={iconSrc} alt="Promo" width={48} height={48} />
-        </div>
+
+        <Image src={iconSrc} alt="Promo" width={48} height={48} />
+
     );
 }
 

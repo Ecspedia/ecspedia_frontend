@@ -11,7 +11,7 @@ interface ScrollableListProps<T> {
     items: T[];
     initialBatchSize?: number;
     batchSize?: number;
-    renderItem: (item: T) => React.ReactNode;
+    renderItem: (item: T, index: number) => React.ReactNode;
     direction?: Axis;
     className?: string;
     showNavigation?: boolean;
@@ -71,7 +71,7 @@ function ScrollableList<T>({
                     className="flex gap-4 overflow-x-auto lg:overflow-x-hidden pb-4"
                 >
                     {visibleItems.map((item, index) => (
-                        <div key={index}>{renderItem(item)}</div>
+                        <div key={index}>{renderItem(item, index)}</div>
                     ))}
                 </div>
 
@@ -94,7 +94,7 @@ function ScrollableList<T>({
     return (
         <div className={`space-y-4 ${className}`}>
             {visibleItems.map((item, index) => (
-                <div key={index}>{renderItem(item)}</div>
+                <div key={index}>{renderItem(item, index)}</div>
             ))}
 
             {hasMore && <div ref={sentinelRef}>{loadingSpinner}</div>}

@@ -25,6 +25,7 @@ interface HotelCardProps {
     onClose?: () => void;
     className?: string;
     children?: ReactNode;
+    priority?: boolean;
 }
 
 // Internal variant compositions
@@ -159,10 +160,11 @@ function HotelCard({
     onBookClick,
     onClose,
     className,
-    children
+    children,
+    priority
 }: HotelCardProps) {
     return (
-        <HotelCard.Root hotel={hotel} variant={variant} layout={layout}>
+        <HotelCard.Root hotel={hotel} variant={variant} layout={layout} isPriority={priority}>
             {variant === 'search-result' && <SearchResultVariant onBookClick={onBookClick} className={className} />}
             {variant === 'vertical-card' && <VerticalCardVariant className={className} />}
             {variant === 'detail-modal' && <DetailModalVariant onClose={onClose} className={className} />}
