@@ -51,7 +51,7 @@ export default function ServiceFlightForm() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center gap-4 p-8">
+    <div className="flex flex-col lg:flex-row justify-center gap-4 py-4 lg:p-8">
       <LocationFieldsContainer>
         <FormWrapper ref={getFieldRef(LocationFieldType.DEPARTURE)}>
           <LocationTextField

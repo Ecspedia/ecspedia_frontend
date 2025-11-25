@@ -25,19 +25,14 @@ export default function PopularFlights({ flights, loading = false, error = '' }:
     }
 
     return (
-        <section className="mt-3  rounded-lg">
-            <div className="mb-3">
-                <div className="flex items-baseline gap-3">
-                    <h2 className="text-xl font-semibold text-primary">
-                        Popular Flights
-                    </h2>
-                    <p className="text-xs font-medium text-primary">
-                        Explore trending destinations
-                    </p>
+        <section className="relative overflow-hidden lg:pr-0">
+            <div className="relative">
+                <div className="mb-3">
+                    <div className="flex items-baseline mt-2 lg:mt-0 gap-1 lg:gap-3 flex-col lg:flex-row">
+                        <h2 className="text-xl font-semibold text-primary">Popular Flights</h2>
+                        <p className="text-base font-normal text-primary">Explore trending destinations</p>
+                    </div>
                 </div>
-            </div>
-
-            <div className="rounded-lg">
                 <ScrollableList
                     items={flights}
                     direction="horizontal"
@@ -48,6 +43,7 @@ export default function PopularFlights({ flights, loading = false, error = '' }:
         </section>
     );
 }
+
 
 const Loading = () => (
     <section className="py-12">
