@@ -4,7 +4,5 @@ export { default as BookingLoading } from './BookingLoading';
 export { default as BookingNotFound } from './BookingNotFound';
 export { default as GuestForm } from './GuestForm';
 export { default as PaymentSummary } from './PaymentSummary';
-export { default as BookingHotelCard } from './BookingHotelCard';
-export { default as HotelCardFromMyBooking } from './HotelCardFromMyBooking';
-export type { GuestFormData } from './GuestForm';
 
+export type { GuestFormData } from './GuestForm';
