@@ -3,6 +3,14 @@ import { act, renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { useCalendarState } from '../useCalendarState';
 
+// Mock the useFullscreenPopup hook
+vi.mock('@/components/shared/ExpandableTextField/FullscreenPopupContext', () => ({
+  useFullscreenPopup: () => ({
+    popup: null,
+    setPopup: vi.fn(),
+  }),
+}));
+
 describe('useCalendarState', () => {
   describe('Initialization', () => {
     it('should initialize with default dates when no props provided', () => {

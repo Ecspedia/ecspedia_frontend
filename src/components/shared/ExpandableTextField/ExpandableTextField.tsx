@@ -1,9 +1,12 @@
 'use client';
 
 import { TextField } from '@/components/ui';
+import { useIsMobile } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
+import { useFullscreenPopup } from './FullscreenPopupContext';
 
 interface ExpandableTextFieldProps {
     // TextField props
@@ -41,9 +44,22 @@ export default function ExpandableTextField({
     wrapperClassName = '',
     popupClassName,
 }: ExpandableTextFieldProps) {
+    const isMobile = useIsMobile();
+    const router = useRouter();
+    const { setPopup } = useFullscreenPopup();
+
+    const handleClick = () => {
+        if (isMobile) {
+            setPopup(popup);
+            router.push('/fullscreen');
+        } else {
+            onOpen();
+        }
+    };
+
     return (
         <div className={`relative ${wrapperClassName}`}>
-            {isOpen && (
+            {isOpen && !isMobile && (
                 <div className={cn('absolute -top-1 left-0 z-50 min-w-full', popupClassName)}>
                     {popup}
                 </div>
@@ -51,7 +67,7 @@ export default function ExpandableTextField({
             <TextField.Root
                 value={value}
                 onChange={() => { }}
-                onClick={onOpen}
+                onClick={handleClick}
                 readOnly={readOnly}
             >
                 {icon && <TextField.Icon icon={icon} />}

@@ -1,5 +1,7 @@
+'use client';
 import { ExpandableTextField } from '@/components/shared/ExpandableTextField';
 import GuestSelector from '@/components/shared/GuestTextField/GuestSelector';
+import { useIsMobile } from '@/hooks';
 import { User } from 'lucide-react';
 
 interface GuestTextFieldProps {
@@ -19,6 +21,8 @@ export default function GuestTextField({
   onClose,
   placeholder = 'Adults',
 }: GuestTextFieldProps) {
+  const isMobile = useIsMobile();
+
   const formatAdultsInfo = () => {
     const adultText = adults === 1 ? 'adult' : 'adults';
     return `${adults} ${adultText}`;
@@ -37,6 +41,7 @@ export default function GuestTextField({
           initialAdults={adults}
           onApply={onAdultsSelect}
           onClose={onClose}
+          isMobile={isMobile}
         />
       }
     />

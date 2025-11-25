@@ -1,5 +1,6 @@
 import '@/app/globals.css';
 import { HeaderNav } from '@/components/shared';
+import { FullscreenPopupProvider } from '@/components/shared/ExpandableTextField/FullscreenPopupContext';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import ConditionalHeader from './_components/ConditionalHeader';
@@ -63,14 +64,16 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ApolloProvider>
           <StoreProvider>
-            <DarkModeProvider>
-              <ErrorBoundaryWrapper>
-                <ConditionalHeader>
-                  <HeaderNav />
-                </ConditionalHeader>
-                {children}
-              </ErrorBoundaryWrapper>
-            </DarkModeProvider>
+            <FullscreenPopupProvider>
+              <DarkModeProvider>
+                <ErrorBoundaryWrapper>
+                  <ConditionalHeader>
+                    <HeaderNav />
+                  </ConditionalHeader>
+                  {children}
+                </ErrorBoundaryWrapper>
+              </DarkModeProvider>
+            </FullscreenPopupProvider>
           </StoreProvider>
         </ApolloProvider>
       </body>

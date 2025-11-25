@@ -1,18 +1,22 @@
 'use client';
 import { useState } from 'react';
+import { useFullscreenPopup } from '@/components/shared/ExpandableTextField/FullscreenPopupContext';
 
 interface UseGuestSelectorProps {
   initialAdults?: number;
   onApply: (adults: number) => void;
   onClose: () => void;
+  isMobile?: boolean;
 }
 
 export default function useGuestSelector({
   initialAdults = 1,
   onApply,
   onClose,
+  isMobile,
 }: UseGuestSelectorProps) {
   const [adults, setAdults] = useState(initialAdults);
+  const { setPopup } = useFullscreenPopup();
 
   const handleIncrement = () => {
     const newAdults = adults + 1;
@@ -27,6 +31,9 @@ export default function useGuestSelector({
   };
 
   const handleApply = () => {
+    if (isMobile) {
+      setPopup(null);
+    }
     onApply(adults);
     onClose();
   };

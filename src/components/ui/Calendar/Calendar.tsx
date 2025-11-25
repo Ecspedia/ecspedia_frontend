@@ -13,14 +13,16 @@ interface CalendarProps {
   onDateRangeSelect?: (startDate: Date, endDate: Date) => void;
   onClose?: () => void;
   variant?: 'default' | 'compact';
+  isMobile?: boolean;
 }
 
-function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose, variant = 'default' }: CalendarProps) {
+function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose, variant = 'default', isMobile }: CalendarProps) {
   const { contextValue } = useCalendarState({
     initialStartDate,
     initialEndDate,
     onDateRangeSelect,
-    onClose
+    onClose,
+    isMobile
   });
   if (variant === 'compact') {
     return (

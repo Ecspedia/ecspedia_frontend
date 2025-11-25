@@ -1,10 +1,12 @@
 'use client';
+import { useFullscreenPopup } from '@/components/shared/ExpandableTextField/FullscreenPopupContext';
 import { Input } from '@/components/ui';
 import { Skeleton } from '@/components/ui/Skeleton/skeleton';
 import { DEFAULT_CITY_SUGGESTION } from '@/config';
 import { type Location } from '@/types/graphql';
 import { useQuery, useSuspenseQuery } from '@apollo/client/react';
 import { MapPin } from 'lucide-react';
+
 import { Suspense, useId } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useLocationState } from './hooks/useLocationState.hook';
@@ -14,13 +16,14 @@ interface LocationSelectorProps {
   placeholder: string;
   onLocationSelect: (location: string) => void;
   onClose: () => void;
+  isMobile?: boolean;
 }
 
 
 export default function LocationSelector(
   locationSelectorProps: LocationSelectorProps
 ) {
-  const { onLocationSelect, placeholder, onClose: _onClose } = locationSelectorProps;
+  const { onLocationSelect, placeholder, onClose: _onClose, isMobile } = locationSelectorProps;
 
   const inputId = useId();
 
@@ -43,7 +46,7 @@ export default function LocationSelector(
 
 
   return (
-    <div className="bg-overlay absolute top-0 flex w-full origin-top-left animate-[expandDown_130ms_ease-out] flex-col gap-2 rounded-lg p-4 shadow-lg">
+    <div className="bg-overlay absolute top-0 flex w-full origin-top-left animate-[expandDown_130ms_ease-out] flex-col gap-2 rounded-none lg:rounded-lg p-4 shadow-lg">
       <label htmlFor={inputId} className="sr-only">{placeholder || 'Location'}</label>
       <>
         <Input
@@ -61,7 +64,7 @@ export default function LocationSelector(
           <div className="text-secondary py-4 text-center">Searching locations...</div>
         )}
         {isThereSuggestions && (
-          <SuggestionList suggestions={filteredSuggestions} onLocationSelect={onLocationSelect} />
+          <SuggestionList suggestions={filteredSuggestions} onLocationSelect={onLocationSelect} isMobile={isMobile} />
         )}
 
         {isNoSuggestions && (
@@ -71,7 +74,7 @@ export default function LocationSelector(
       {isInputEmpty && (
         <>
           <PopularDestinationsTitle />
-          <PopularDestinationsSection onLocationSelect={onLocationSelect} />
+          <PopularDestinationsSection onLocationSelect={onLocationSelect} isMobile={isMobile} />
         </>
       )}
     </div>
@@ -104,14 +107,25 @@ const PopularDestinationsTitle = () => {
 const SuggestionList = ({
   suggestions,
   onLocationSelect,
+  isMobile,
 }: {
   suggestions: Location[];
   onLocationSelect: (city: string) => void;
+  isMobile?: boolean;
 }) => {
+  const { setPopup } = useFullscreenPopup();
+
+  const handleSelect = (city: string) => {
+    if (isMobile) {
+      setPopup(null);
+    }
+    onLocationSelect(city);
+  };
+
   return (
     <ul className="max-h-80 overflow-y-auto">
       {suggestions.map((item, index) => (
-        <li key={index} onClick={() => onLocationSelect(item.city)}>
+        <li key={index} onClick={() => handleSelect(item.city)}>
           <TileCity {...item} />
         </li>
       ))}
@@ -122,13 +136,21 @@ const SuggestionList = ({
 const PopularDestinations = ({
   destinations,
   onLocationSelect,
+  isMobile,
 }: {
   destinations: Location[];
   onLocationSelect: (city: string) => void;
+  isMobile?: boolean;
 }) => {
+  const { setPopup } = useFullscreenPopup();
+
   const onClick = (city: string) => {
+    if (isMobile) {
+      setPopup(null);
+    }
     onLocationSelect(city);
   };
+
   return (
     <ul>
       {destinations.map((destination, index) => (
@@ -148,14 +170,16 @@ const PopularDestinationsError = () => {
 
 const PopularDestinationsSection = ({
   onLocationSelect,
+  isMobile,
 }: {
   onLocationSelect: (city: string) => void;
+  isMobile?: boolean;
 }) => {
 
   return (
     <ErrorBoundary fallback={<PopularDestinationsError />}>
       <Suspense fallback={<PopularDestinationsLoading />}>
-        <PopularDestinationsContent onLocationSelect={onLocationSelect} />
+        <PopularDestinationsContent onLocationSelect={onLocationSelect} isMobile={isMobile} />
       </Suspense>
     </ErrorBoundary>
   );
@@ -174,12 +198,14 @@ const PopularDestinationsLoading = () => {
 };
 const PopularDestinationsContent = ({
   onLocationSelect,
+  isMobile,
 }: {
   onLocationSelect: (city: string) => void;
+  isMobile?: boolean;
 }) => {
   const { data } = useSuspenseQuery(GET_TOP_DESTINATIONS, {
     fetchPolicy: 'cache-first',
   });
   const destinations = data.topLocations || [];
-  return <PopularDestinations destinations={destinations} onLocationSelect={onLocationSelect} />;
+  return <PopularDestinations destinations={destinations} onLocationSelect={onLocationSelect} isMobile={isMobile} />;
 };
