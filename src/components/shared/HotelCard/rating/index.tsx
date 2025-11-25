@@ -4,7 +4,6 @@ import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { getRatingLabel } from '../utils/getRatingLabel';
 
 
-// HotelCardRating - Container for rating components
 interface HotelCardRatingProps {
   children: ReactNode;
   className?: string;
@@ -18,10 +17,9 @@ export function HotelCardRating({ children, className }: HotelCardRatingProps) {
   );
 }
 
-// HotelCardRatingNumber - Displays the rating number
+
 export function HotelCardRatingNumber() {
   const { hotel } = useHotelCardContext();
-  // Use rating if available, otherwise use stars
   const rating = hotel.rating ?? hotel.stars ?? 0;
 
   return (
@@ -31,19 +29,18 @@ export function HotelCardRatingNumber() {
   );
 }
 
-// HotelCardGroup - Wrapper for rating group
+
 interface HotelCardGroupProps {
   children: ReactNode;
+  className?: string;
 }
 
-export function HotelCardGroup({ children }: HotelCardGroupProps) {
-  return <div className="flex flex-col">{children}</div>;
+export function HotelCardGroup({ children, className }: HotelCardGroupProps) {
+  return <div className={cn("flex flex-col", className)}>{children}</div>;
 }
 
-// HotelCardRatingLabel - Displays rating label (0-10) with descriptive text
 export function HotelCardRatingLabel() {
   const { hotel } = useHotelCardContext();
-  // Use rating value (0-10), fallback to stars if rating not available
   const rating = hotel.rating ?? hotel.stars ?? undefined;
   const label = getRatingLabel(rating);
 
@@ -54,13 +51,9 @@ export function HotelCardRatingLabel() {
   );
 }
 
-// HotelCardReviewCount - Displays review count or location
 export function HotelCardReviewCount() {
   const { hotel } = useHotelCardContext();
-
-  // Show review count if available, otherwise show 0 reviews
   const reviewCount = hotel.reviewCount ?? 0;
-
   return (
     <span className="text-secondary text-xs">
       {reviewCount} {reviewCount === 1 ? 'review' : 'reviews'}

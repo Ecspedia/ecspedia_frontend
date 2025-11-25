@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui';
+import HotelCard from '@/components/shared/HotelCard';
 import { useAppSelector } from '@/hooks/hooks';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
 import type { Hotel } from '@/types/graphql';
@@ -7,7 +8,6 @@ import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
 import { Maximize2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
-import HotelDetailCard from './HotelDetailCard';
 
 interface HotelMapProps {
   hotels?: Hotel[];
@@ -163,7 +163,7 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
       )}
       {/* Show HotelDetailCard only in fullscreen mode */}
       {isFullScreen && selectedHotel && (
-        <HotelDetailCard hotel={selectedHotel} onClose={handleCloseDetailCard} />
+        <HotelCard hotel={selectedHotel} variant="detail-modal" onClose={handleCloseDetailCard} />
       )}
     </div>
   );

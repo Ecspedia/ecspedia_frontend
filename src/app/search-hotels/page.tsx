@@ -80,11 +80,11 @@ function SearchHotelsContent() {
     return (
 
         <MainContainer>
-            <div className='px-5 lg:px-0'>
+            <div className=' lg:px-0'>
                 <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={hotelsLoading} />
             </div>
             <div className='flex-col gap-2  lg:flex lg:flex-row lg:gap-4 lg:mt-2'>
-                <div className="px-4 lg:px-0 lg:shrink-0 lg:self-start" style={{ width: isMobile ? '100%' : `${MAP_SIZE}px` }}>
+                <div className="lg:px-0 lg:shrink-0 lg:self-start" style={{ width: isMobile ? '100%' : `${MAP_SIZE}px` }}>
                     {hotelsLoading && <MapSkeleton />}
                     {!hotelsLoading && hotels.length > 0 && (
                         <div style={{ height: `${MAP_SIZE}px` }}>
@@ -97,7 +97,7 @@ function SearchHotelsContent() {
                         </div>
                     )}
                 </div>
-                <div className='mt-4  px-4  lg:mt-0 flex-1 min-w-0'>
+                <div className='mt-4 lg:mt-0 flex-1 min-w-0'>
                     <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={errorMessage} hasSearched={true} />
                 </div>
             </div>

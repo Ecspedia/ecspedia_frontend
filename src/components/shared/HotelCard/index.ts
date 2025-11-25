@@ -1,16 +1,21 @@
 export { default } from './HotelCard';
 
 // Export sub-components grouped by category
-export { default as HotelCardRoot } from './root';
+export { HotelCardBookButton, HotelCardDetailsButton } from './actions';
 export { default as HotelCardImage } from './image';
-export { default as HotelCardInfo } from './info';
-export { HotelCardPricing, HotelCardAvailability } from './pricing';
 export {
-  HotelCardRating,
-  HotelCardRatingNumber,
+  HotelCardCloseButton,
+  HotelCardDescription,
+  HotelCardLocation,
+  HotelCardTitle,
+} from './info';
+export { HotelCardCard, HotelCardContent } from './layout';
+export { HotelCardPricing } from './pricing';
+export {
   HotelCardGroup,
+  HotelCardRating,
   HotelCardRatingLabel,
+  HotelCardRatingNumber,
   HotelCardReviewCount,
 } from './rating';
-export { HotelCardBookButton, HotelCardDetailsButton } from './actions';
-export { HotelCardCard, HotelCardContent } from './layout';
+export { default as HotelCardRoot } from './root';

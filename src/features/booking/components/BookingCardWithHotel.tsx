@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client/react';
 import { useState } from 'react';
 import type { Booking, HotelByIdQuery } from '@/types/graphql';
 import { HOTEL_BY_ID_QUERY } from '@/features/booking/api/bookings.queries';
-import BookingHotelCard from '@/features/booking/components/BookingHotelCard';
+import HotelCard from '@/components/shared/HotelCard';
 import { Button, Spinner } from '@/components/ui';
 
 interface BookingCardWithHotelProps {
@@ -83,7 +83,7 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
                 </div>
             ) : hotelData?.hotelById ? (
                 <div className="mb-4 pb-4 border-b border-border">
-                    <BookingHotelCard hotel={hotelData.hotelById} />
+                    <HotelCard hotel={hotelData.hotelById} variant="booking-compact" />
 
 
                 </div>
