@@ -11,7 +11,7 @@ export default function ConditionalHeader(conditionalHeaderProps: ConditionalHea
   const pathname = usePathname();
 
   // Pages that should not show the header
-  const noHeaderPages = ['/map', '/booking'];
+  const noHeaderPages = ['/map', '/booking', '/fullscreen'];
 
   if (noHeaderPages.includes(pathname)) {
     return <></>;
