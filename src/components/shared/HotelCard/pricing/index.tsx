@@ -1,66 +1,34 @@
 import { cn } from '@/utils/utils';
-import { Check } from 'lucide-react';
+import { ReactNode } from 'react';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 
 
-// HotelCardAvailability - Shows availability status
-export function HotelCardAvailability() {
+
+interface HotelCardPricingProps {
+    className?: string;
+    children?: ReactNode;
+}
+
+export function HotelCardPricing({ className, children }: HotelCardPricingProps) {
     const { hotel } = useHotelCardContext();
-    const isAvailable = hotel.isAvailable ?? true;
+    const price = hotel.pricePerNight || 0;
+    const currencySymbol = '$';
 
     return (
-        <div className="text-secondary flex items-center gap-1 text-sm">
-            {isAvailable && (
-                <div className="text-success flex items-center gap-1 text-sm">
-                    <Check className="text-success h-4 w-4" />
-                    <span>Available</span>
-                </div>
-            )}
+        <div className={cn("flex flex-col items-end ", className)} >
+            <div className={cn('text-primary mt-1 font-semibold')}>
+                {currencySymbol}{price.toFixed(2)}{' '}
+                {children}
+            </div>
         </div>
     );
 }
 
-// HotelCardPricing - Displays price with currency
-interface HotelCardPricingProps {
-    variant?: 'default' | 'larger' | 'right';
-}
 
-export function HotelCardPricing({ variant = 'default' }: HotelCardPricingProps) {
-    const { hotel } = useHotelCardContext();
-    const textPriceFontSize = cn(variant === 'larger' ? 'text-xl' : 'text-lg ');
-    const textLabelFontSize = cn(variant === 'larger' ? 'text-base' : 'text-sm ');
-
-    // Use pricePerNight with currency
-    const price = hotel.pricePerNight || 0;
-    const currencySymbol = '$';
-
-    // If variant is 'right', position on the right side
-    if (variant === 'right') {
-        return (
-            <div className="flex flex-col items-end justify-start">
-                <div className="text-right">
-                    <div className={cn('text-primary mt-1 font-semibold', textPriceFontSize)}>
-                        {currencySymbol}{price.toFixed(2)}{' '}
-                        <span className={cn('text-secondary text-sm font-normal', textLabelFontSize)}>
-                            Per night
-                        </span>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
+export function HotelCardPricingLabel({ className }: { className?: string }) {
     return (
-        <div className="flex flex-col items-end justify-between">
-            <div className="text-right">
-                <div className={cn('text-primary mt-1 font-semibold', textPriceFontSize)}>
-                    {currencySymbol}{price.toFixed(2)}{' '}
-                    <span className={cn('text-secondary text-sm font-normal', textLabelFontSize)}>
-                        Per night
-                    </span>
-                </div>
-            </div>
-
-        </div>
+        <span className={cn('text-secondary text-sm font-normal', className)}>
+            Per night
+        </span>
     );
 }

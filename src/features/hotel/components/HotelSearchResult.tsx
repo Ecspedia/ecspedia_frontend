@@ -5,7 +5,6 @@ import { useIsMobile } from '@/hooks';
 import type { Hotel } from '@/types/graphql';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
 import { memo } from 'react';
-import HotelCardVerticalMobile from './HotelCardVerticalMobile';
 
 interface HotelSearchResultProps {
   hotels: Hotel[];
@@ -16,7 +15,6 @@ interface HotelSearchResultProps {
 
 function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
   const { hotels, loading = false, error, hasSearched = false } = hotelSearchResultProps;
-  const isMobile = useIsMobile();
   if (error && error.length > 0) {
     return <HotelSearchResult.error></HotelSearchResult.error>;
   }
@@ -30,9 +28,9 @@ function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
     return <HotelSearchResult.Welcome />;
   }
   return <ScrollableList items={hotels} direction='vertical'
-    renderItem={(hotel) => {
-      return (isMobile ? <HotelCardVerticalMobile key={hotel.id} hotel={hotel} /> : <HotelCard key={hotel.id} hotel={hotel} />)
-    }}
+    renderItem={(hotel) => (
+      <HotelCard key={hotel.id} hotel={hotel} variant="search-result" />
+    )}
     initialBatchSize={6}
     batchSize={6}
   />;

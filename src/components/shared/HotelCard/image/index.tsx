@@ -4,28 +4,34 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { useHotelImage } from '../hooks/useHotelImage.hook';
+import { VARIANT_CONFIG } from '../utils/variantConfig';
+import type { HotelCardVariant } from '../utils/variantConfig';
 
 interface HotelCardImageProps {
-  variant?: 'default' | 'compact' | 'expanded' | 'mobile';
   className?: string;
 }
 
-export default function HotelCardImage({ variant = 'default', className }: HotelCardImageProps) {
-  const { hotel } = useHotelCardContext();
+export default function HotelCardImage({ className }: HotelCardImageProps) {
+  const { hotel, variant: cardVariant = 'search-result' } = useHotelCardContext();
   const { imageSrc, isLoading, handleImageLoad, handleImageError } = useHotelImage(hotel);
   const [isLiked, setIsLiked] = useState(false);
 
-  const sizeClasses = cn(
-    variant !== 'expanded' && 'aspect-[4/3]',
-    variant === 'compact' && 'w-48',
-    variant === 'default' && 'w-64',
-    variant === 'expanded' && 'w-full h-48',
-    variant === 'mobile' && 'w-full'
+  const config = VARIANT_CONFIG[cardVariant as HotelCardVariant];
+  const sizeClasses = cn('aspect-[4/3]', config.imageSizeClass);
+  const roundingClasses = config.imageRoundingClass;
+  const showLikeButton = cardVariant === 'search-result';
 
-  );
+  const getSizes = () => {
+    if (cardVariant === 'booking-compact') return '192px';
+    if (cardVariant === 'vertical-card') return '280px';
+    if (cardVariant === 'search-result' || cardVariant === 'detail-modal') {
+      return '(max-width: 1024px) 100vw, 256px';
+    }
+    return '256px';
+  };
 
   return (
-    <div className={cn('group relative shrink-0 overflow-hidden rounded-t-lg rounded-b-none', sizeClasses, className)}>
+    <div className={cn('group relative shrink-0 overflow-hidden', sizeClasses, roundingClasses, className)}>
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted transition-opacity duration-200">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
@@ -35,20 +41,12 @@ export default function HotelCardImage({ variant = 'default', className }: Hotel
         src={imageSrc}
         alt={hotel.name}
         fill
-        sizes={
-          variant === 'compact'
-            ? '192px'
-            : variant === 'expanded'
-              ? '100vw'
-              : variant === 'mobile'
-                ? '100vw'
-                : '256px'
-        }
+        sizes={getSizes()}
         className={`object-cover transition-opacity duration-200 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         onLoad={handleImageLoad}
         onError={handleImageError}
       />
-      {variant === 'default' && (
+      {showLikeButton && (
         <button
           type="button"
           aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
