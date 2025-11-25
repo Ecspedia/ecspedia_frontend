@@ -49,6 +49,7 @@ export default function DateRangeTextField(dateRangeTextFieldProps: DateRangeTex
           onDateRangeSelect={onDateRangeSelect}
           onClose={onCalendarClose}
           variant={variant}
+          isMobile={isMobile}
         />
       }
     />

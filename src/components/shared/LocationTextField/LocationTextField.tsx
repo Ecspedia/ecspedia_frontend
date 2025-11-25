@@ -1,6 +1,7 @@
 'use client';
 
 import { ExpandableTextField } from '@/components/shared/ExpandableTextField';
+import { useIsMobile } from '@/hooks';
 import { MapPinIcon } from 'lucide-react';
 import LocationSelector from './LocationSelector';
 
@@ -20,6 +21,7 @@ export default function LocationTextField(locationTextFieldProps: LocationTextFi
     onChange(location);
     onClose();
   };
+  const isMobile = useIsMobile();
 
   return (
     <ExpandableTextField
@@ -36,6 +38,7 @@ export default function LocationTextField(locationTextFieldProps: LocationTextFi
           onLocationSelect={handleLocationSelect}
           placeholder={placeholder}
           onClose={onClose}
+          isMobile={isMobile}
         />
       }
     />

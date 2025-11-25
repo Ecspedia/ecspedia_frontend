@@ -9,12 +9,13 @@ interface GuestSelectorProps {
   initialAdults?: number;
   onApply: (adults: number) => void;
   onClose: () => void;
+  isMobile?: boolean;
 }
 
 // ============= Main Component =============
 export default function GuestSelector(guestSelectorProps: GuestSelectorProps) {
-  const { initialAdults, onApply, onClose } = guestSelectorProps;
-  const guestSelectorState = useGuestSelector({ initialAdults, onApply, onClose });
+  const { initialAdults, onApply, onClose, isMobile } = guestSelectorProps;
+  const guestSelectorState = useGuestSelector({ initialAdults, onApply, onClose, isMobile });
 
   return (
     <GuestSelectorContext.Provider value={guestSelectorState}>

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { CalendarContextType } from '../utils/calendarContext';
 import { DateHelper } from '@/utils/dateHelpers';
+import { useFullscreenPopup } from '@/components/shared/ExpandableTextField/FullscreenPopupContext';
 
 interface UseCalendarStateProps {
   initialStartDate?: Date | null;
   initialEndDate?: Date | null;
   onDateRangeSelect?: (startDate: Date, endDate: Date) => void;
   onClose?: () => void;
+  isMobile?: boolean;
 }
 
 export function useCalendarState(props?: UseCalendarStateProps) {
@@ -15,7 +17,10 @@ export function useCalendarState(props?: UseCalendarStateProps) {
     initialEndDate = DateHelper.pastTomorrow(),
     onDateRangeSelect,
     onClose,
+    isMobile,
   } = props || {};
+
+  const { setPopup } = useFullscreenPopup();
 
   const [startDate, setStartDate] = useState<Date | null>(initialStartDate);
   const [endDate, setEndDate] = useState<Date | null>(initialEndDate);
@@ -28,6 +33,9 @@ export function useCalendarState(props?: UseCalendarStateProps) {
 
   const handleDone = () => {
     if (isValid && startDate && endDate) {
+      if (isMobile) {
+        setPopup(null);
+      }
       onDateRangeSelect?.(startDate, endDate);
       onClose?.();
     }
