@@ -50,6 +50,9 @@ export default function ExpandableTextField({
 
     const handleClick = () => {
         if (isMobile) {
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
             setPopup(popup);
         } else {
             onOpen();
