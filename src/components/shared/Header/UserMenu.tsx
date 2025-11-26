@@ -28,6 +28,7 @@ export const UserMenu = ({
       >
         {capitalizeUsername(username)}
       </button>
+
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-overlay py-2 shadow-lg">
           <button

@@ -9,7 +9,7 @@ import { Moon, Sun } from 'lucide-react';
 
 export default function DarkModeToggle() {
     const dispatch = useAppDispatch();
-    const { isDarkMode, isHydrated } = useDarkMode();
+    const { isDarkMode } = useDarkMode();
     const handleToggle = () => {
         dispatch(toggleDarkMode());
     };
@@ -19,8 +19,7 @@ export default function DarkModeToggle() {
             onClick={handleToggle}
             className={cn(
                 "bg-overlay relative inline-flex h-8 w-16 transition-transform duration-300 items-center rounded-full animate-in fade-in",
-                isDarkMode ? 'ring-primary/50 bg-[#2e2e2e] ring-2' : 'bg-overlay ring-2 ring-primary/30'
-
+                "bg-overlay ring-2 ring-primary/30 dark:ring-primary/50 dark:bg-[#2e2e2e] dark:ring-2"
             )}
             title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -28,20 +27,12 @@ export default function DarkModeToggle() {
             aria-checked={isDarkMode}
             type="button"
         >
-            {isHydrated && (
-                <span
-                    className={
-                        cn(
-                            'bg-background inline-flex h-6 w-6 transform items-center justify-center rounded-full shadow-md transition-transform duration-300 ',
-                            isDarkMode ? 'translate-x-9' : 'translate-x-1'
-
-                        )}
-                >
-                    {isDarkMode ?
-                        <Moon className="text-primary h-4 w-4" data-testid="moon-icon" /> :
-                        <Sun className="text-warning h-4 w-4" data-testid="sun-icon" />}
-                </span>
-            )}
+            <span
+                className='bg-background inline-flex h-6 w-6 transform items-center justify-center rounded-full shadow-md transition-transform duration-300 translate-x-1 dark:translate-x-9'
+            >
+                <Moon className="text-primary h-4 w-4 hidden dark:block" data-testid="moon-icon" />
+                <Sun className="text-warning h-4 w-4 block dark:hidden" data-testid="sun-icon" />
+            </span>
         </Button>
     );
 }

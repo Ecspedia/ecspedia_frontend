@@ -1,6 +1,5 @@
 'use client';
 
-import { useDarkMode } from '@/hooks';
 import { cn } from '@/utils/utils';
 import { ReactNode, useId } from 'react';
 import { TextFieldContext } from '../context/TextFieldContext';
@@ -23,20 +22,17 @@ export default function TextFieldRoot({
   children,
 }: TextFieldRootProps) {
   const hasValue = Boolean(value && value.length > 0);
-  const { isDarkMode } = useDarkMode();
+
   const inputId = useId();
 
   const contextValue = {
     value,
     onChange,
-    isDarkMode,
     hasValue,
     readOnly,
     onClick,
     inputId,
   };
-  const darkModeClass = isDarkMode === undefined ? "" : !isDarkMode ? "border-primary" : "bg-surface";
-
 
 
   return (
@@ -44,9 +40,8 @@ export default function TextFieldRoot({
       <div
         onClick={onClick}
         className={cn(
-          "border-border relative flex h-14 items-center gap-3 rounded-lg border bg-background px-4 transition focus-within:border-brand-primary",
+          "border-primary dark:bg-surface dark:border-border relative flex h-14 items-center gap-3 rounded-lg border bg-background px-4 transition focus-within:border-brand-primary",
           readOnly && "cursor-default opacity-80",
-          darkModeClass,
           className
         )}
       >

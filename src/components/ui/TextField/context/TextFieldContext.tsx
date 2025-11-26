@@ -1,13 +1,11 @@
 'use client';
 
-import { Theme } from '@/types';
 import { createContext, useContext } from 'react';
 
 
 export type TextFieldContextType = {
     value?: string;
     onChange?: (value: string) => void;
-    isDarkMode: Theme;
     hasValue: boolean;
     readOnly: boolean;
     onClick?: () => void;

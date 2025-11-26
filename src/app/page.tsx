@@ -9,8 +9,9 @@ import { PromoBanner } from '@/features/hotel/components';
 import HotelPopular from '@/features/hotel/components/HotelPopular';
 
 import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';
-import { useAppSelector, useDarkMode } from '@/hooks';
+import { useAppSelector } from '@/hooks';
 import { ServiceType } from '@/types';
+import { cn } from '@/utils/utils';
 import { useQuery } from '@apollo/client/react';
 import { useMemo } from 'react';
 
@@ -31,7 +32,7 @@ export default function Home() {
         return null;
     }
   }, [currentServiceTabSelected, data, loading, error]);
-  const { isDarkMode } = useDarkMode();
+
 
   return (
 
@@ -52,13 +53,16 @@ export default function Home() {
         </MainContainer>
       </div>
 
-      <div className={`${!isDarkMode ? 'bg-[#191E3B]' : 'bg-linear-to-r from-brand-primary/5 via-brand-secondary/5 to-brand-primary/5'}`}>
+      <div className={cn(
+        'dark:bg-linear-to-r dark:from-brand-primary/5 dark:via-brand-secondary/5 dark:to-brand-primary/5',
+        'bg-[#191E3B]'
+      )}>
         <MainContainer>
           <PromoBanner />
         </MainContainer>
       </div>
       <MainContainer className='px-0'>
-        <div className={`px-4 lg:py-4 bg-accent-secondary lg:bg-background ${isDarkMode ? 'bg-background' : 'bg-accent-secondary'}`}>
+        <div className={`px-4 lg:py-4 bg-accent-secondary lg:bg-background dark:bg-background`}>
           {currentServiceContent}
         </div>
       </MainContainer >

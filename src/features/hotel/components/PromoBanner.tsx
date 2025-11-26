@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui';
-import { useDarkMode, useIsMobile } from '@/hooks';
+import { useIsMobile } from '@/hooks';
 import { Tag } from 'lucide-react';
 import Image from 'next/image';
 
@@ -13,12 +13,25 @@ interface PromoBannerProps {
 }
 
 
-function PromoIcon({ isDarkMode }: { isDarkMode: boolean }) {
-    const iconSrc = isDarkMode ? '/images/home/dark__promo.svg' : '/images/home/light__promo.svg';
+function PromoIcon() {
     return (
 
-        <Image src={iconSrc} alt="Promo" width={48} height={48} />
-
+        <>
+            <Image
+                src="/images/home/light__promo.svg"
+                alt="Promo"
+                width={48}
+                height={48}
+                className="block dark:hidden"
+            />
+            <Image
+                src="/images/home/dark__promo.svg"
+                alt="Promo"
+                width={48}
+                height={48}
+                className="hidden dark:block"
+            />
+        </>
     );
 }
 
@@ -27,14 +40,13 @@ interface PromoContentProps {
     description: string;
 }
 
-function PromoContent({ title, description, isDarkMode }: PromoContentProps & { isDarkMode: boolean }) {
+function PromoContent({ title, description }: PromoContentProps) {
     return (
         <div>
             <div className="flex items-center gap-2 mb-1">
-
-                <h3 className={`text-xl font-semibold ${isDarkMode ? 'text-primary' : 'text-white'}`}>{title}</h3>
+                <h3 className={`text-xl font-semibold text-white`}>{title}</h3>
             </div>
-            <p className={`text-sm ${isDarkMode ? 'text-secondary' : 'text-white/80'}`}>{description}</p>
+            <p className={`text-sm text-white/80`}>{description}</p>
         </div>
     );
 }
@@ -64,14 +76,14 @@ export default function PromoBanner({
     onCtaClick,
 }: PromoBannerProps) {
     const isMobile = useIsMobile();
-    const { isDarkMode } = useDarkMode();
+
     return (
         <div className={`relative overflow-hidden py-4 lg:py-6 }`}>
 
             <div className="relative flex items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
-                    <PromoIcon isDarkMode={isDarkMode ?? false} />
-                    <PromoContent title={title} description={description} isDarkMode={isDarkMode ?? false} />
+                    <PromoIcon />
+                    <PromoContent title={title} description={description} />
                 </div>
                 {!isMobile && (
                     <PromoButton ctaText={ctaText} onCtaClick={onCtaClick} />
