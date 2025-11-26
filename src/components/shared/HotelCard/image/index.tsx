@@ -31,7 +31,7 @@ export default function HotelCardImage({ className }: HotelCardImageProps) {
   };
 
   return (
-    <div className={cn('group relative shrink-0 overflow-hidden', sizeClasses, roundingClasses, className)}>
+    <div className={cn('group relative shrink-0 overflow-hidden ', sizeClasses, roundingClasses, className)}>
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted transition-opacity duration-200">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />

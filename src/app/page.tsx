@@ -11,7 +11,6 @@ import HotelPopular from '@/features/hotel/components/HotelPopular';
 import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';
 import { useAppSelector } from '@/hooks';
 import { ServiceType } from '@/types';
-import { cn } from '@/utils/utils';
 import { useQuery } from '@apollo/client/react';
 import { useMemo } from 'react';
 
@@ -53,19 +52,20 @@ export default function Home() {
         </MainContainer>
       </div>
 
-      <div className={cn(
-        'dark:bg-linear-to-r dark:from-brand-primary/5 dark:via-brand-secondary/5 dark:to-brand-primary/5',
-        'bg-[#191E3B]'
-      )}>
+      <div className="
+        bg-[#191E3B] dark:bg-transparent dark:bg-linear-to-r dark:from-brand-primary/5 dark:via-brand-secondary/5 dark:to-brand-primary/5
+      "
+      >
         <MainContainer>
           <PromoBanner />
         </MainContainer>
       </div>
-      <MainContainer className='px-0'>
-        <div className={`px-4 lg:py-4 bg-accent-secondary lg:bg-background dark:bg-background`}>
+
+      <div className={`px-4 lg:py-4 bg-accent-secondary lg:bg-background dark:bg-background`}>
+        <MainContainer className='px-0'>
           {currentServiceContent}
-        </div>
-      </MainContainer >
+        </MainContainer>
+      </div>
 
     </>
 

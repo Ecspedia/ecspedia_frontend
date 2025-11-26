@@ -51,7 +51,6 @@ export default function ExpandableTextField({
     const handleClick = () => {
         if (isMobile) {
             setPopup(popup);
-            router.push('/fullscreen');
         } else {
             onOpen();
         }

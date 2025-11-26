@@ -33,7 +33,7 @@ function SearchHotelsContent() {
 
     console.log('isrendered');
     const [fetchHotels, { data, loading, error }] = useLazyQuery(SEARCH_HOTELS_BY_LOCATION,
-        { fetchPolicy: 'network-only' });
+        { fetchPolicy: 'cache-and-network' });
 
     useEffect(() => {
         if (!location) return;

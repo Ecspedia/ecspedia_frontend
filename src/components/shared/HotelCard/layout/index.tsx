@@ -1,8 +1,8 @@
 import { cn } from '@/utils/utils';
 import { ReactNode } from 'react';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
-import { VARIANT_CONFIG } from '../utils/variantConfig';
 import type { HotelCardVariant } from '../utils/variantConfig';
+import { VARIANT_CONFIG } from '../utils/variantConfig';
 
 // HotelCardCard - Main card container
 interface HotelCardCardProps {
@@ -27,7 +27,7 @@ export function HotelCardCard({ children, className }: HotelCardCardProps) {
 
   const getGapClass = () => {
     if (variant === 'booking-compact') return 'gap-4';
-    if (variant === 'vertical-card') return 'gap-0';
+    if (variant === 'vertical-card') return 'gap-0 border-0 lg:border-1 dark:border-border dark:border-1';
     if (variant === 'search-result' || variant === 'detail-modal') return 'gap-0 lg:gap-4';
     return 'gap-4';
   };
