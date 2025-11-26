@@ -30,6 +30,8 @@ function SearchHotelsContent() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const adults = searchParams.get('adults') || searchParams.get('guests') || '1';
 
+
+    console.log('isrendered');
     const [fetchHotels, { data, loading, error }] = useLazyQuery(SEARCH_HOTELS_BY_LOCATION,
         { fetchPolicy: 'network-only' });
 
@@ -37,7 +39,6 @@ function SearchHotelsContent() {
         if (!location) return;
         fetchHotels({ variables: { location } });
     }, [location, fetchHotels]);
-
 
     const currentQs = searchParams.toString();
 
@@ -49,7 +50,6 @@ function SearchHotelsContent() {
             adults: data.adults.toString(),
         });
         const nextQs = params.toString();
-
         if (nextQs === currentQs) {
             fetchHotels({ variables: { location: data.location } });
         } else {
