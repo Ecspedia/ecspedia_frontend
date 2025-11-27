@@ -24,6 +24,7 @@
     "@apollo/client": "^4.0.8",
     "@hookform/resolvers": "^5.2.2",
     "@next/swc-wasm-nodejs": "^16.0.1",
+    "@perplexity-ai/perplexity_ai": "^0.16.0",
     "@reduxjs/toolkit": "^2.9.0",
     "@types/react-window": "^1.8.8",
     "@vis.gl/react-google-maps": "^1.5.5",
