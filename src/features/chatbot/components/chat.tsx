@@ -66,7 +66,7 @@ export default function Chat({ onClose }: { onClose: () => void }) {
                             <>
                                 {
                                     index === lastMessageSendByUser?.index && (
-                                        <div className="sentinel-top" ref={lastMessageRef}></div>
+                                        <div key="last-message" className="sentinel-top" ref={lastMessageRef}></div>
                                     )
                                 }
                                 <ChatMessage key={index} message={message.message} isBot={message.isBot} />
