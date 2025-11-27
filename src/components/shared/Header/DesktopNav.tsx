@@ -14,6 +14,7 @@ interface DesktopNavProps {
   menuRef: RefObject<HTMLDivElement | null>;
   onToggleMenu: () => void;
   onMyBookings: () => void;
+  onProfile: () => void;
   onLogout: () => void;
 }
 
@@ -24,6 +25,7 @@ export const DesktopNav = ({
   menuRef,
   onToggleMenu,
   onMyBookings,
+  onProfile,
   onLogout,
 }: DesktopNavProps) => {
   return (
@@ -46,6 +48,7 @@ export const DesktopNav = ({
             logoutLoading={logoutLoading}
             onToggle={onToggleMenu}
             onMyBookings={onMyBookings}
+            onProfile={onProfile}
             onLogout={onLogout}
           />
         </div>

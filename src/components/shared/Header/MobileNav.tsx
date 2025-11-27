@@ -14,6 +14,7 @@ interface MobileNavProps {
   onToggle: () => void;
   onClose: () => void;
   onMyBookings: () => void;
+  onProfile: () => void;
   onLogout: () => void;
 }
 
@@ -25,6 +26,7 @@ export const MobileNav = ({
   onToggle,
   onClose,
   onMyBookings,
+  onProfile,
   onLogout,
 }: MobileNavProps) => {
   return (
@@ -72,8 +74,11 @@ export const MobileNav = ({
                 </span>
                 <button
                   type="button"
+                  onClick={() => {
+                    onProfile();
+                    onClose();
+                  }}
                   className="px-4 py-2 text-left text-sm text-primary hover:text-secondary"
-                  disabled
                 >
                   Profile
                 </button>

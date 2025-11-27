@@ -18,6 +18,7 @@ export default function HeaderNav() {
     mobileMenuRef,
     handleLogout,
     handleMyBookings,
+    handleProfile,
     toggleMenu,
     toggleMobileMenu,
     closeMobileMenu,
@@ -37,6 +38,7 @@ export default function HeaderNav() {
               menuRef={menuRef}
               onToggleMenu={toggleMenu}
               onMyBookings={handleMyBookings}
+              onProfile={handleProfile}
               onLogout={handleLogout}
             />
           )}
@@ -50,6 +52,7 @@ export default function HeaderNav() {
               onToggle={toggleMobileMenu}
               onClose={closeMobileMenu}
               onMyBookings={handleMyBookings}
+              onProfile={handleProfile}
               onLogout={handleLogout}
             />
           )}

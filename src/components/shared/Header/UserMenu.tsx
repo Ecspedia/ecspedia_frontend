@@ -8,6 +8,7 @@ interface UserMenuProps {
   logoutLoading: boolean;
   onToggle: () => void;
   onMyBookings: () => void;
+  onProfile: () => void;
   onLogout: () => void;
 }
 
@@ -17,6 +18,7 @@ export const UserMenu = ({
   logoutLoading,
   onToggle,
   onMyBookings: _onMyBookings,
+  onProfile,
   onLogout,
 }: UserMenuProps) => {
   return (
@@ -32,8 +34,10 @@ export const UserMenu = ({
         <div className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-overlay py-2 shadow-lg">
           <button
             type="button"
+            onClick={() => {
+              onProfile();
+            }}
             className="block w-full px-4 py-2 text-left text-sm text-primary hover:text-primary-inverse"
-            disabled
           >
             Profile
           </button>

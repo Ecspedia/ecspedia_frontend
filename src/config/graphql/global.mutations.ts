@@ -42,5 +42,15 @@ export const LOGOUT_MUTATION = gql`
   }
 `;
 
+export const UPDATE_USERNAME_MUTATION = gql`
+  mutation UpdateUsername($updateUsernameDto: UpdateUsernameInput!) {
+    updateUsername(updateUsernameDto: $updateUsernameDto) {
+      id
+      username
+      email
+    }
+  }
+`;
+
 // Global mutations that can be used across multiple features
 // Add additional global mutations here as needed
