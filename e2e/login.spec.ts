@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('Login', () => {
   test('should login successfully', async ({ page }) => {
@@ -10,5 +10,6 @@ test.describe('Login', () => {
     await page.locator('input[type="password"]').fill('password123');
     await page.locator('button[type="submit"]').click();
     await page.waitForURL('/');
+    await expect(page.getByTestId('user-menu-button')).toHaveText('Test_user');
   });
 });

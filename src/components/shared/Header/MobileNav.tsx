@@ -67,7 +67,7 @@ export const MobileNav = ({
             {username ? (
               <>
                 <div className="my-2 border-t border-border" />
-                <span className="px-4 py-2 text-sm font-bold text-primary">
+                <span id="user-menu-username" data-testid="user-menu-username" className="px-4 py-2 text-sm font-bold text-primary">
                   {capitalizeUsername(username)}
                 </span>
                 <button
