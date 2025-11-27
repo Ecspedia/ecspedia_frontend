@@ -1,4 +1,5 @@
 'use client';
+import { ScrollableList } from '@/components/shared';
 import { DateHelper } from '@/utils/dateHelpers';
 import { useMemo } from 'react';
 import Button from '../Button/Button';
@@ -45,15 +46,21 @@ function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose
       <CalendarContext.Provider value={contextValue}>
         <div className="bg-overlay shadow-lg flex min-w-[max(100%,300px)] overflow-y-auto max-h-[80vh] flex-col rounded-lg p-2 lg:p-4 animate-[expandDown_130ms_ease-out] origin-top-left">
           <CalendarHeader />
-          {listOfDates.map((date) => (
-            <div className="flex flex-col gap-4" key={date.date.toISOString()}>
-              <MonthNavigator>
-                <MonthNavigator.MonthText monthName={date.monthName} />
-              </MonthNavigator>
-              <WeekdayHeader />
-              <DaysGrid date={date.date} />
-            </div>
-          ))}
+          <ScrollableList
+            items={listOfDates}
+            direction="vertical"
+            batchSize={4}
+            renderItem={(date) => (
+              <div className="flex flex-col gap-4" key={date.date.toISOString()}>
+                <MonthNavigator>
+                  <MonthNavigator.MonthText monthName={date.monthName} />
+                </MonthNavigator>
+                <WeekdayHeader />
+                <DaysGrid date={date.date} />
+              </div>
+            )}
+          />
+
 
           {/* <Button text={'Done'} variant="secondary" className="mt-5 w-20 self-end p-3" onClick={contextValue.actions.handleDone} disabled={!contextValue.actions.isValid}></Button> */}
         </div>
