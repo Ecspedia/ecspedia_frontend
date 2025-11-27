@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui';
 import HotelCard from '@/components/shared/HotelCard';
+import { Button } from '@/components/ui';
 import { useAppSelector } from '@/hooks/hooks';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
 import type { Hotel } from '@/types/graphql';
@@ -157,11 +157,9 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
         </Map>
       </APIProvider>
       {!isFullScreen && (
-
         <ViewMapButton onClick={handleExpandMap} />
-
       )}
-      {/* Show HotelDetailCard only in fullscreen mode */}
+
       {isFullScreen && selectedHotel && (
         <HotelCard hotel={selectedHotel} variant="detail-modal" onClose={handleCloseDetailCard} />
       )}
@@ -174,7 +172,7 @@ const ViewMapButton = ({ onClick }: { onClick: () => void }) => {
     <button
       type="button"
       onClick={onClick}
-      className="absolute border bottom-0 left-0 right-0 flex h-10 cursor-pointer items-center justify-center rounded-b-xl border-t border-border bg-background text-sm font-medium text-brand-secondary transition hover:bg-hover"
+      className="absolute border bottom-0 left-0 right-0 flex h-10 cursor-pointer items-center justify-center rounded-b-xl border-t border-border bg-background text-xl lg:text-sm py-5 lg:py-1 font-medium text-brand-secondary transition hover:bg-hover"
     >
       View in map
     </button>

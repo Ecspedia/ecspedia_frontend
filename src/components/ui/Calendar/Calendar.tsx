@@ -1,4 +1,6 @@
 'use client';
+import { DateHelper } from '@/utils/dateHelpers';
+import { useMemo } from 'react';
 import Button from '../Button/Button';
 import CalendarHeader from './CalendarHeader';
 import DaysGrid from './DaysGrid';
@@ -24,22 +26,36 @@ function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose
     onClose,
     isMobile
   });
+
+  const listOfDates = useMemo(() => {
+    const dates: { date: Date; monthName: string }[] = [];
+    const currentDate = DateHelper.getToday();
+    for (let i = 0; i < 20; i++) {
+      const monthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, 1);
+      dates.push({
+        date: monthDate,
+        monthName: DateHelper.getMonthName(monthDate)
+      });
+    }
+    return dates;
+  }, []);
+
   if (variant === 'compact') {
     return (
       <CalendarContext.Provider value={contextValue}>
-        <div className="bg-overlay shadow-lg flex min-w-[max(100%,300px)] flex-col rounded-lg p-2 lg:p-4 animate-[expandDown_130ms_ease-out] origin-top-left">
+        <div className="bg-overlay shadow-lg flex min-w-[max(100%,300px)] overflow-y-auto max-h-[80vh] flex-col rounded-lg p-2 lg:p-4 animate-[expandDown_130ms_ease-out] origin-top-left">
           <CalendarHeader />
-          <div className="flex flex-col gap-4">
-            <MonthNavigator>
-              <MonthNavigator.PrevButton />
-              <MonthNavigator.MonthText monthName={contextValue.state.leftMonthName} />
-              <MonthNavigator.NextButton />
-            </MonthNavigator>
-            <WeekdayHeader />
-            <DaysGrid date={contextValue.state.leftDate} />
-          </div>
+          {listOfDates.map((date) => (
+            <div className="flex flex-col gap-4" key={date.date.toISOString()}>
+              <MonthNavigator>
+                <MonthNavigator.MonthText monthName={date.monthName} />
+              </MonthNavigator>
+              <WeekdayHeader />
+              <DaysGrid date={date.date} />
+            </div>
+          ))}
 
-          <Button text={'Done'} variant="secondary" className="mt-5 w-20 self-end p-3" onClick={contextValue.actions.handleDone} disabled={!contextValue.actions.isValid}></Button>
+          {/* <Button text={'Done'} variant="secondary" className="mt-5 w-20 self-end p-3" onClick={contextValue.actions.handleDone} disabled={!contextValue.actions.isValid}></Button> */}
         </div>
       </CalendarContext.Provider>
     );

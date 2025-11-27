@@ -63,7 +63,7 @@ function SearchResultVariant({ onBookClick, className }: { onBookClick?: () => v
                     <HotelCard.Pricing className='text-xl lg:text-xl' >
                         <HotelCard.PricingLabel />
                     </HotelCard.Pricing>}
-                <HotelCard.BookButton className='w-full  lg:w-auto' onBook={onBookClick} />
+                <HotelCard.BookButton className='w-full p-3 lg:w-auto' onBook={onBookClick} />
             </div>
         </HotelCard.Card>
     );

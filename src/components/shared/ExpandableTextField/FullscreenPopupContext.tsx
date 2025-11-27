@@ -1,7 +1,7 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 interface FullscreenPopupContextType {
     popup: ReactNode | null;
@@ -12,6 +12,9 @@ const FullscreenPopupContext = createContext<FullscreenPopupContextType | undefi
 
 export function FullscreenPopupProvider({ children }: { children: ReactNode }) {
     const [popup, setPopup] = useState<ReactNode | null>(null);
+    useEffect(() => {
+        document.body.style.overflow = popup ? 'hidden' : '';
+    }, [popup]);
 
     return (
         <FullscreenPopupContext.Provider value={{ popup, setPopup }}>
