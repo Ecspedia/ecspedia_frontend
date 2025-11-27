@@ -63,7 +63,7 @@ export default function DayCell({ day, date, currentYear, currentMonth, isDarkMo
     <div key={index} className="relative h-10">
       <div
         className={cn('absolute inset-0', getBackgroundClass(), {
-          'left-1/2': isStartDate && !isFirstDayOfMonth,
+          'left-1/2': isStartDate,
           'right-1/2': isEndDate && !isLastDayOfMonth,
         })}
       ></div>

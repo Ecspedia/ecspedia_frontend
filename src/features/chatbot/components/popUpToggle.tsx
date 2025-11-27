@@ -12,7 +12,7 @@ export default function PopUpToggle() {
     }
 
     return (
-        <div className={cn(`fixed bottom-2 right-2  h-fit lg:bottom-4 lg:right-4 z-[1000]`,
+        <div className={cn(`fixed bottom-2 right-2  h-fit lg:bottom-4 lg:right-4 z-[1020]`,
             isOpen ? 'bottom-0 right-0' : ''
         )}>
             {isOpen && (

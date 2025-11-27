@@ -10,19 +10,42 @@ export default function Chat({ onClose }: { onClose: () => void }) {
     const dispatch = useAppDispatch();
     const messages = useAppSelector(selectMessages);
     const loading = useAppSelector(selectLoading);
+    const inputRef = useRef<HTMLTextAreaElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const lastMessageRef = useRef<HTMLDivElement | null>(null);
 
     const onSendMessage = async (message: string) => {
         dispatch(addMessage(message));
+
+        requestAnimationFrame(() => {
+            scrollToBottom();
+        });
         await dispatch(sendChatMessage(message));
+
+        setTimeout(scrollToLastMessage, 0);
+
+        if (!isMobile) {
+            inputRef.current?.focus();
+        } else {
+
+            inputRef.current?.blur();
+        }
     }
     const sentinelRef = useRef<HTMLDivElement>(null);
+
+    const scrollToLastMessage = () => {
+        lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     const scrollToBottom = () => {
         sentinelRef.current?.scrollIntoView({ behavior: "auto" });
     };
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
+    // useEffect(() => {
+    //     scrollToBottom();
+    // }, [messages]);
+
+    const lastMessageSendByUser = messages.findLast((message) => message.isBot === false);
+
     const isMobile = useIsMobile();
     useEffect(() => {
         if (isMobile) {
@@ -35,21 +58,30 @@ export default function Chat({ onClose }: { onClose: () => void }) {
 
     return (
         <div className="lg:mx-0">
-            <div className="flex flex-col w-full h-[96vh] lg:w-100 mx-auto rounded-lg border border-border lg:h-120 bg-background dark:bg-overlay">
+            <div className="flex flex-col w-full h-[96dvh] lg:w-100 mx-auto rounded-lg border border-border lg:h-120 bg-background dark:bg-overlay">
                 <ChatHeader onClose={onClose} />
-                <div className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto">
-                    {messages.map((message, index) => (
-                        <ChatMessage key={index} message={message} isBot={index % 2 === 0} />
-                    ))}
+                <div ref={containerRef} className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto">
+                    {messages.map((message, index) => {
+                        return (
+                            <>
+                                {
+                                    index === lastMessageSendByUser?.index && (
+                                        <div className="sentinel-top" ref={lastMessageRef}></div>
+                                    )
+                                }
+                                <ChatMessage key={index} message={message.message} isBot={message.isBot} />
+                            </>
+                        );
+                    })}
                     <div id="sentinel" ref={sentinelRef}></div>
                 </div>
-                <ChatInput onSendMessage={onSendMessage} loading={loading} />
+                <ChatInput inputRef={inputRef} onSendMessage={onSendMessage} loading={loading} />
             </div>
         </div>
     );
 }
 
-const ChatInput = ({ onSendMessage, loading }: { onSendMessage: (message: string) => Promise<void>, loading: boolean }) => {
+const ChatInput = ({ onSendMessage, loading, inputRef }: { onSendMessage: (message: string) => Promise<void>, loading: boolean, inputRef: React.RefObject<HTMLTextAreaElement | null> }) => {
     const [inputValue, setInputValue] = useState("");
 
     const cleanInput = () => {
@@ -71,6 +103,7 @@ const ChatInput = ({ onSendMessage, loading }: { onSendMessage: (message: string
     return (
         <div className="p-2 border-t border-border flex items-center gap-4">
             <textarea
+                ref={inputRef}
                 value={inputValue}
                 disabled={loading}
                 aria-label="Chat message input"
@@ -90,9 +123,9 @@ const ChatInput = ({ onSendMessage, loading }: { onSendMessage: (message: string
     );
 };
 
-const ChatMessage = ({ message, isBot }: { message: string, isBot: boolean }) => {
+const ChatMessage = ({ message, isBot, ref }: { message: string, isBot: boolean, ref?: React.RefObject<HTMLDivElement | null> | null }) => {
     return (
-        <div className={cn("flex items-start gap-2", isBot ? "flex-row" : "flex-row-reverse")}>
+        <div ref={ref} className={cn("flex items-start gap-2", isBot ? "flex-row" : "flex-row-reverse")}>
             {isBot && <ProfilePicture isProfilePicture={false} />}
             <span className={cn(
                 "p-2 rounded-lg max-w-[80%] wrap-break-words whitespace-pre-wrap",

@@ -2,14 +2,22 @@ import type { RootState } from '@/stores/store';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { sendMessageToGoogleGenAi } from '../api/googleGenAI';
 
+export interface ChatMessage {
+  index: number;
+  message: string;
+  isBot: boolean;
+}
+
 interface ChatbotState {
-  messages: string[];
+  messages: ChatMessage[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: ChatbotState = {
-  messages: ['Hello, I am IA Assistant. How can I help you today?'],
+  messages: [
+    { index: 0, message: 'Hello, I am IA Assistant. How can I help you today?', isBot: true },
+  ],
   loading: false,
   error: null,
 };
@@ -33,7 +41,7 @@ const chatbotSlice = createSlice({
   initialState,
   reducers: {
     addMessage: (state, action: PayloadAction<string>) => {
-      state.messages.push(action.payload);
+      state.messages.push({ index: state.messages.length, message: action.payload, isBot: false });
     },
     clearMessages: (state) => {
       state.messages = initialState.messages;
@@ -46,7 +54,7 @@ const chatbotSlice = createSlice({
         state.error = null;
       })
       .addCase(sendChatMessage.fulfilled, (state, action) => {
-        state.messages.push(action.payload);
+        state.messages.push({ index: state.messages.length, message: action.payload, isBot: true });
         state.loading = false;
       })
       .addCase(sendChatMessage.rejected, (state, action) => {

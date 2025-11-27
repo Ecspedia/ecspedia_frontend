@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui';
 import { X } from 'lucide-react';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
@@ -23,7 +24,6 @@ export function FullscreenPopupProvider({ children }: { children: ReactNode }) {
                 <div className="fixed inset-0 z-[9999] bg-background">
                     <div className="flex h-full flex-col">
                         <div className="flex items-center justify-between border-b p-4">
-                            <h1 className="text-lg font-semibold">Select</h1>
                             <button
                                 onClick={() => setPopup(null)}
                                 className="rounded-full p-2 hover:bg-accent"
@@ -31,6 +31,7 @@ export function FullscreenPopupProvider({ children }: { children: ReactNode }) {
                             >
                                 <X className="h-6 w-6" />
                             </button>
+                            <Button text="OK" className="w-15 h-10" onClick={() => setPopup(null)} />
                         </div>
                         <div className="flex-1 relative">
                             {popup}
