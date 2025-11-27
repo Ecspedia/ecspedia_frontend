@@ -1,6 +1,6 @@
 import type { RootState } from '@/stores/store';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { sendMessageToPerplexity } from '../api/perplexity';
+import { sendMessageToGoogleGenAi } from '../api/googleGenAI';
 
 interface ChatbotState {
   messages: string[];
@@ -18,7 +18,7 @@ export const sendChatMessage = createAsyncThunk(
   'chatbot/sendMessage',
   async (userMessage: string, { rejectWithValue }) => {
     try {
-      const response = await sendMessageToPerplexity(userMessage);
+      const response = await sendMessageToGoogleGenAi(userMessage);
       return response;
     } catch (error) {
       const errorMessage =

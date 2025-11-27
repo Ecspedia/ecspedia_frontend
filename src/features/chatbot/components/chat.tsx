@@ -1,5 +1,6 @@
 'use client';
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import useIsMobile from "@/hooks/useIsMobile.hook";
 import { cn } from "@/utils/utils";
 import { Bot, ChevronDown, Loader2, SendHorizonal } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -22,10 +23,19 @@ export default function Chat({ onClose }: { onClose: () => void }) {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+    const isMobile = useIsMobile();
+    useEffect(() => {
+        if (isMobile) {
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = '';
+            };
+        }
+    }, [isMobile]);
 
     return (
-        <div className="mx-4 lg:mx-0">
-            <div className="flex flex-col w-full lg:w-100 mx-auto rounded-lg border border-border h-[50vh] lg:h-120 bg-background dark:bg-overlay">
+        <div className="lg:mx-0">
+            <div className="flex flex-col w-full h-[96vh] lg:w-100 mx-auto rounded-lg border border-border lg:h-120 bg-background dark:bg-overlay">
                 <ChatHeader onClose={onClose} />
                 <div className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto">
                     {messages.map((message, index) => (

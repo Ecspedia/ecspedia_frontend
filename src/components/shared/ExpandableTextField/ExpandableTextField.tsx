@@ -59,6 +59,8 @@ export default function ExpandableTextField({
         }
     };
 
+
+
     return (
         <div className={`relative ${wrapperClassName}`}>
             {isOpen && !isMobile && (
