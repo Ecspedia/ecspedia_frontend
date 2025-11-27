@@ -4,6 +4,7 @@ import serviceTabReducer from '@/features/service-selector/store/serviceSelector
 import flightSearchReducer from '@/features/flight/store/flightSearchSlice';
 import hotelSearchReducer from '@/features/hotel/stores/hotelSearchSlice';
 import darkModeReducer from './darkModeSlice';
+import chatbotReducer from '@/features/chatbot/stores/chatbotSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -12,6 +13,7 @@ export const makeStore = () => {
       flightSearch: flightSearchReducer,
       hotelSearch: hotelSearchReducer,
       darkMode: darkModeReducer,
+      chatbot: chatbotReducer,
     },
   });
 };

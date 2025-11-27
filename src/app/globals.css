@@ -139,6 +139,8 @@
 
   /* Feature-specific */
   --surface-popular: var(--yellow-popular);
+
+  --surface-message: oklch(0.96 0.01 264);
 }
 
 /* ============================================
@@ -201,6 +203,8 @@
 
   /* Feature-specific */
   --surface-popular: oklch(0.22 0.02 264); /* Dark navy matching brand primary */
+
+  --surface-message: oklch(0.32 0.05 274);
 }
 
 /* ============================================
@@ -300,6 +304,8 @@
 
   /* Animations */
   --animate-subtle-pulse: subtlePulse 8s ease-in-out infinite;
+
+  --color-surface-message: var(--surface-message);
 }
 
 /* ============================================
@@ -369,7 +375,8 @@ body {
 
 /* Subtle pulse animation for backgrounds */
 @keyframes subtlePulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -379,7 +386,8 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   @keyframes subtlePulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
   }
