@@ -9,6 +9,7 @@ import { UserMenu } from '@/components/shared/Header/UserMenu';
 
 interface DesktopNavProps {
   username?: string;
+  profilePhotoUrl?: string;
   menuOpen: boolean;
   logoutLoading: boolean;
   menuRef: RefObject<HTMLDivElement | null>;
@@ -20,6 +21,7 @@ interface DesktopNavProps {
 
 export const DesktopNav = ({
   username,
+  profilePhotoUrl,
   menuOpen,
   logoutLoading,
   menuRef,
@@ -44,6 +46,7 @@ export const DesktopNav = ({
         <div className="relative" ref={menuRef}>
           <UserMenu
             username={username}
+            profilePhotoUrl={profilePhotoUrl}
             isOpen={menuOpen}
             logoutLoading={logoutLoading}
             onToggle={onToggleMenu}

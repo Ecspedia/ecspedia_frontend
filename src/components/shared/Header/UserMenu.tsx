@@ -1,9 +1,12 @@
 'use client';
 
 import { capitalizeUsername } from '@/utils/utils';
+import Image from 'next/image';
+import { User } from 'lucide-react';
 
 interface UserMenuProps {
   username: string;
+  profilePhotoUrl?: string;
   isOpen: boolean;
   logoutLoading: boolean;
   onToggle: () => void;
@@ -14,6 +17,7 @@ interface UserMenuProps {
 
 export const UserMenu = ({
   username,
+  profilePhotoUrl,
   isOpen,
   logoutLoading,
   onToggle,
@@ -26,9 +30,23 @@ export const UserMenu = ({
       <button
         type="button"
         onClick={onToggle}
-        className="inline-flex items-center rounded-md px-3 py-2 text-sm font-bold text-primary transition hover:text-primary-inverse"
+        className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-bold text-primary transition hover:text-primary-inverse"
       >
         {capitalizeUsername(username)}
+        {profilePhotoUrl ? (
+          <Image
+            src={profilePhotoUrl}
+            alt={username}
+            width={32}
+            height={32}
+            className="w-10 h-10 rounded-full object-cover border border-border"
+            unoptimized
+          />
+        ) : (
+          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+            <User className="w-3.5 h-3.5 text-primary" />
+          </div>
+        )}
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-overlay py-2 shadow-lg">

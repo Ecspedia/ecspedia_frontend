@@ -33,6 +33,7 @@ export default function HeaderNav() {
           {!isMobile && (
             <DesktopNav
               username={user?.username}
+              profilePhotoUrl={(user as { profilePhotoUrl?: string })?.profilePhotoUrl}
               menuOpen={menuOpen}
               logoutLoading={logoutLoading}
               menuRef={menuRef}
@@ -46,6 +47,7 @@ export default function HeaderNav() {
           {isMobile && (
             <MobileNav
               username={user?.username}
+              profilePhotoUrl={(user as { profilePhotoUrl?: string })?.profilePhotoUrl}
               isOpen={mobileMenuOpen}
               logoutLoading={logoutLoading}
               mobileMenuRef={mobileMenuRef}

@@ -52,5 +52,16 @@ export const UPDATE_USERNAME_MUTATION = gql`
   }
 `;
 
+export const UPDATE_PROFILE_PHOTO_MUTATION = gql`
+  mutation UpdateProfilePhoto($updateProfilePhotoDto: UpdateProfilePhotoInput!) {
+    updateProfilePhoto(updateProfilePhotoDto: $updateProfilePhotoDto) {
+      id
+      username
+      email
+      profilePhotoUrl
+    }
+  }
+`;
+
 // Global mutations that can be used across multiple features
 // Add additional global mutations here as needed

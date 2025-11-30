@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { capitalizeUsername } from '@/utils/utils';
 import { Edit2, Mail, User, X, Check } from 'lucide-react';
+import ProfilePhotoUpload from './ProfilePhotoUpload';
 
 export default function ProfileContent() {
   const { user, isLoading, refetch } = useCurrentUser();
@@ -111,9 +112,7 @@ export default function ProfileContent() {
         
         <div className="bg-surface rounded-lg border border-border p-6 md:p-8">
           <div className="flex items-center gap-6 mb-8 pb-6 border-b border-border">
-            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-              <User className="w-10 h-10 text-primary" />
-            </div>
+            <ProfilePhotoUpload />
             <div>
               <h2 className="text-2xl font-bold text-primary mb-1">
                 {capitalizeUsername(user.username)}
