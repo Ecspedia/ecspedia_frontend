@@ -16,6 +16,7 @@ export interface VariantConfig {
   showDivider?: boolean;
   imageSizeClass: string;
   imageRoundingClass: string;
+  imageSizes: string;
 }
 
 export const VARIANT_CONFIG: Record<HotelCardVariant, Partial<VariantConfig>> = {
@@ -26,6 +27,7 @@ export const VARIANT_CONFIG: Record<HotelCardVariant, Partial<VariantConfig>> = 
     showDescription: true,
     imageSizeClass: 'w-full lg:w-64',
     imageRoundingClass: 'rounded-t-lg lg:rounded-t-none lg:rounded-l-lg',
+    imageSizes: '(max-width: 1024px) 100vw, 256px',
   },
   'vertical-card': {
     layout: 'vertical',
@@ -34,6 +36,7 @@ export const VARIANT_CONFIG: Record<HotelCardVariant, Partial<VariantConfig>> = 
     showDescription: false,
     imageSizeClass: 'w-full',
     imageRoundingClass: 'rounded-t-lg',
+    imageSizes: '280px',
   },
   'detail-modal': {
     layout: 'responsive',
@@ -44,6 +47,7 @@ export const VARIANT_CONFIG: Record<HotelCardVariant, Partial<VariantConfig>> = 
     showDivider: true,
     imageSizeClass: 'w-full lg:w-64',
     imageRoundingClass: 'rounded-t-lg lg:rounded-t-none lg:rounded-l-lg',
+    imageSizes: '(max-width: 1024px) 100vw, 256px',
   },
   'booking-compact': {
     layout: 'horizontal',
@@ -52,8 +56,9 @@ export const VARIANT_CONFIG: Record<HotelCardVariant, Partial<VariantConfig>> = 
     showDescription: false,
     imageSizeClass: 'w-48 h-36',
     imageRoundingClass: 'rounded-lg',
+    imageSizes: '192px',
   },
-  'custom': {
+  custom: {
     layout: 'responsive',
   },
 };
