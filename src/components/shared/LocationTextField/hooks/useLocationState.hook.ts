@@ -1,7 +1,7 @@
 import { DEFAULT_CITY_SUGGESTION } from '@/config';
+import { useFilter, useInput, useUniqueValues } from '@/hooks/useInput';
 import type { Location } from '@/types/graphql';
 import { useCallback, type ChangeEvent } from 'react';
-import { useFilter, useInput, useUniqueValues } from '@/hooks/useInput';
 
 interface UseLocationStateProps {
   maxSuggestionList?: number;
@@ -19,7 +19,7 @@ export const useFilterLocations = (query: string, allLocations: Location[]) => {
 };
 
 export const useInputLocation = (allLocations: Location[]) => {
-  const { text, debouncedText, setText } = useInput();
+  const { text, debouncedText, setText } = useInput({ initialValue: '' });
   const filteredSuggestions = useFilterLocations(debouncedText, allLocations);
 
   const onChangeTextInput = useCallback(

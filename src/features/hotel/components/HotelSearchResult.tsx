@@ -39,7 +39,7 @@ function HotelSearchResult(hotelSearchResultProps: HotelSearchResultProps) {
 HotelSearchResult.NotFound = function HotelNotFound() {
   return (
     <div className="flex flex-col items-center justify-center p-8">
-      <p className="text-secondary">No hotels found. Try searching for a location.</p>
+      <p className="text-secondary">No hotels found.</p>
     </div>
   );
 };

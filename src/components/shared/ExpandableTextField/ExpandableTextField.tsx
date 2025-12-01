@@ -4,7 +4,6 @@ import { TextField } from '@/components/ui';
 import { useIsMobile } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { useFullscreenPopup } from './FullscreenPopupContext';
 
@@ -25,13 +24,15 @@ interface ExpandableTextFieldProps {
     // Optional wrapper className
     wrapperClassName?: string;
     popupClassName?: string;
+
+    // Optional unselected value
+    unselectedValue?: () => void;
 }
 
 /**
  * Generic ExpandableTextField component that provides a consistent pattern
- * for TextField components with expandable content (dropdown, calendar, etc.)
  *
- * Used by: DateRangeTextField, GuestTextField, LocationTextField
+ * Used by: DateRangeTextField, GuestTextField, LocationTextField, SearchTextField
  */
 export default function ExpandableTextField({
     value,
@@ -43,9 +44,9 @@ export default function ExpandableTextField({
     popup,
     wrapperClassName = '',
     popupClassName,
+    unselectedValue,
 }: ExpandableTextFieldProps) {
     const isMobile = useIsMobile();
-    const router = useRouter();
     const { setPopup } = useFullscreenPopup();
 
     const handleClick = () => {
@@ -75,10 +76,14 @@ export default function ExpandableTextField({
                 readOnly={readOnly}
             >
                 {icon && <TextField.Icon icon={icon} />}
+
                 <TextField.InputWrapper>
                     <TextField.Label>{placeholder}</TextField.Label>
                     <TextField.Input />
                 </TextField.InputWrapper>
+                {unselectedValue && (
+                    <TextField.Unselect onClick={unselectedValue}></TextField.Unselect>
+                )}
             </TextField.Root>
         </div>
     );

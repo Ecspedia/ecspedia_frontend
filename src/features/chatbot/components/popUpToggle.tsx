@@ -22,7 +22,7 @@ export default function PopUpToggle() {
             )}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={cn("flex items-center justify-center w-12 h-12 bg-brand-secondary",
+                className={cn("flex items-center justify-center w-12 h-12 bg-brand-secondary cursor-pointer",
                     "text-white rounded-full shadow-lg hover:bg-brand-secondary/90 transition-colors", isOpen && "rotate-180",
                     isOpen && "hidden"
                 )}

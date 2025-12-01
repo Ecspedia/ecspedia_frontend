@@ -7,21 +7,24 @@ import { flights } from '@/features/flight/__mocks__/mockFlights';
 import { TOP_HOTELS } from '@/features/hotel/api/hotel.queries';
 import { PromoBanner } from '@/features/hotel/components';
 import HotelPopular from '@/features/hotel/components/HotelPopular';
-
 import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';
 import { useAppSelector } from '@/hooks';
 import { ServiceType } from '@/types';
+import { cn } from '@/utils/utils';
 import { useQuery } from '@apollo/client/react';
-import { useMemo } from 'react';
 
 export default function Home() {
   const currentServiceTabSelected = useAppSelector(selectService);
 
-  const { data, loading, error } = useQuery(TOP_HOTELS);
+  const { data, loading, error } = useQuery(TOP_HOTELS,
+    {
+      fetchPolicy: 'cache-first',
+    }
+  );
 
+  const currentServiceContent = () => {
+    const hotels = data?.popularHotels ?? [];
 
-  const currentServiceContent = useMemo(() => {
-    const hotels = data?.popularHotels || [];
     switch (currentServiceTabSelected) {
       case ServiceType.FLIGHTS:
         return <PopularFlights flights={flights} />;
@@ -30,24 +33,16 @@ export default function Home() {
       default:
         return null;
     }
-  }, [currentServiceTabSelected, data, loading, error]);
+  };
+
 
 
   return (
-
     <>
-      {/* Desktop hero - hidden on mobile via CSS */}
-      <div className="relative hidden lg:block bg-[url('/images/home/main-bg.webp')] bg-cover bg-center py-8">
-        <div className="pointer-events-none absolute inset-0 hidden bg-black/50 dark:block" />
+      <div className="lg:relative lg:bg-[url('/images/home/main-bg.webp')] lg:bg-cover lg:bg-center lg:py-8">
+        <div className="pointer-events-none absolute inset-0 hidden bg-black/50 lg:dark:block" />
         <MainContainer className="relative">
-          <TitleH1>Our biggest sale of the year</TitleH1>
-          <MultipleServicesForm />
-        </MainContainer>
-      </div>
-
-      {/* Mobile form - hidden on desktop via CSS */}
-      <div className="block lg:hidden">
-        <MainContainer>
+          <TitleH1 className="hidden lg:block">Our biggest sale of the year</TitleH1>
           <MultipleServicesForm />
         </MainContainer>
       </div>
@@ -63,7 +58,7 @@ export default function Home() {
 
       <div className={`px-4 lg:py-4 bg-accent-secondary lg:bg-background dark:bg-background`}>
         <MainContainer className='px-0'>
-          {currentServiceContent}
+          {currentServiceContent()}
         </MainContainer>
       </div>
 
@@ -74,6 +69,6 @@ export default function Home() {
   );
 }
 
-const TitleH1 = ({ children }: { children: React.ReactNode }) => {
-  return <h1 className="text-4xl font-semibold text-white text-center">{children}</h1>;
+const TitleH1 = ({ children, className }: { children: React.ReactNode, className?: string }) => {
+  return <h1 className={cn("text-4xl font-semibold text-white text-center", className)}>{children}</h1>;
 };

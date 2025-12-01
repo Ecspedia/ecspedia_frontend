@@ -2,65 +2,61 @@
 
 import { GoogleMapContent } from '@/app/_components';
 import { MainContainer, Spinner } from '@/components/ui';
-import { Skeleton } from '@/components/ui/Skeleton/skeleton';
-import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
 import { HotelFilter, HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
+import {
+    resetFilters,
+    selectFilters,
+    updateFormValues,
+    updateSubmittedValues
+} from '@/features/hotel/stores/hotelSearchSlice';
 import { useIsMobile } from '@/hooks';
-import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 
-import { DateHelper } from '@/utils/dateHelpers';
-import { useLazyQuery } from '@apollo/client/react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect } from 'react';
+import { Skeleton } from '@/components/ui/Skeleton/skeleton';
+import ActiveFilter from '@/features/hotel/components/ActiveFilter';
+import { useHotelSearch } from '@/features/hotel/hooks/useHotelSearch';
+import { useHotelSearchParams } from '@/features/hotel/hooks/useHotelSearchParams.hook';
+import { getRatingByFilterLabels } from '@/features/hotel/utils/getRatingByFilterLabels';
+import { Suspense, useEffect, useMemo } from 'react';
 
 // Match the height of HotelCard image (w-64 = 256px with aspect-[4/3] = 192px height) + 2xpadding =16
 const MAP_SIZE = 225;
 
 function SearchHotelsContent() {
-    const searchParams = useSearchParams();
-    const router = useRouter();
+    const dispatch = useAppDispatch();
     const isMobile = useIsMobile();
-    // Get URL parameters
-    const location = searchParams.get('location') || '';
-    // theses variables are not used yet to fetch hotels, but we keep them for future use
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const startDate = searchParams.get('startDate') || DateHelper.getToday().toString();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const endDate = searchParams.get('endDate') || DateHelper.pastTomorrow().toString();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const adults = searchParams.get('adults') || searchParams.get('guests') || '1';
 
+    const { location, startDate, endDate, adults } = useHotelSearchParams();
+    const { hotels, loading, error, handleSubmit, fetchHotels } = useHotelSearch();
+    const filters = useAppSelector(selectFilters);
+    const searchQuery = filters.searchQuery;
+    const rating = filters.rating;
+    const minPrice = filters.minPrice;
+    const maxPrice = filters.maxPrice;
 
-    console.log('isrendered');
-    const [fetchHotels, { data, loading, error }] = useLazyQuery(SEARCH_HOTELS_BY_LOCATION,
-        { fetchPolicy: 'cache-and-network' });
 
     useEffect(() => {
-        if (!location) return;
-        fetchHotels({ variables: { location } });
-    }, [location, fetchHotels]);
+        dispatch(resetFilters());
+    }, [location, startDate, endDate, adults, dispatch]);
 
-    const currentQs = searchParams.toString();
+    const filteredHotels = useMemo(() => {
+        return hotels.filter((hotel) => hotel.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+            (hotel.rating ?? 0) >= getRatingByFilterLabels(rating) &&
+            hotel.pricePerNight >= minPrice &&
+            hotel.pricePerNight <= maxPrice);
+    }, [hotels, searchQuery, rating, minPrice, maxPrice]);
 
-    const handleSubmit = (data: HotelSearchParams) => {
-        const params = new URLSearchParams({
-            location: data.location,
-            startDate: data.startDate,
-            endDate: data.endDate,
-            adults: data.adults.toString(),
-        });
-        const nextQs = params.toString();
-        if (nextQs === currentQs) {
-            fetchHotels({ variables: { location: data.location } });
-        } else {
-            router.push(`?${nextQs}`);
+    useEffect(() => {
+        const params = { location, startDate, endDate, adults };
+        dispatch(updateFormValues(params));
+        dispatch(updateSubmittedValues(params));
+    }, [dispatch, location, startDate, endDate, adults]);
+
+    useEffect(() => {
+        if (location) {
+            fetchHotels({ variables: { location } });
         }
-    };
-
-
-    const hotels = data?.hotelsByLocation || [];
-    const hotelsLoading = loading;
-    const errorMessage = error?.message;
+    }, [location, fetchHotels]);
 
     if (!location) {
         return (
@@ -81,24 +77,27 @@ function SearchHotelsContent() {
 
         <MainContainer>
             <div className=' lg:px-0'>
-                <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={hotelsLoading} />
+                <SearchHotelForm variant='extended' onSubmit={handleSubmit} isSearching={loading} />
             </div>
             <div className='flex-col gap-2  lg:flex lg:flex-row lg:gap-4 lg:mt-2'>
                 <div className="lg:px-0 lg:shrink-0 lg:self-start" style={{ width: isMobile ? '100%' : `${MAP_SIZE}px` }}>
-                    {hotelsLoading && <MapSkeleton />}
-                    {!hotelsLoading && hotels.length > 0 && (
+                    {loading && <MapSkeleton isMobile={isMobile} />}
+                    {!loading && hotels.length > 0 && (
                         <div style={{ height: `${MAP_SIZE}px` }}>
                             <GoogleMapContent location={location} hotels={hotels} isHidden={false} />
                         </div>
                     )}
-                    {!hotelsLoading && (
+                    {!loading && (
                         <div className="mt-4 hidden lg:block">
-                            <HotelFilter />
+                            <HotelFilter hotels={hotels} />
                         </div>
                     )}
                 </div>
                 <div className='mt-4 lg:mt-0 flex-1 min-w-0'>
-                    <HotelSearchResult hotels={hotels} loading={hotelsLoading} error={errorMessage} hasSearched={true} />
+
+                    <ActiveFilter />
+
+                    <HotelSearchResult hotels={filteredHotels} loading={loading} error={error} hasSearched />
                 </div>
             </div>
         </MainContainer>
@@ -106,9 +105,7 @@ function SearchHotelsContent() {
     );
 }
 
-
-const MapSkeleton = () => {
-    const isMobile = useIsMobile();
+const MapSkeleton = ({ isMobile }: { isMobile: boolean }) => {
     return (
         <div
             className="shrink-0 self-start w-full lg:w-auto"
@@ -118,6 +115,7 @@ const MapSkeleton = () => {
         </div>
     );
 };
+
 export default function SearchHotelsPage() {
     return (
 
