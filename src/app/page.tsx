@@ -9,7 +9,8 @@ import { PromoBanner } from '@/features/hotel/components';
 import HotelPopular from '@/features/hotel/components/HotelPopular';
 import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';
 import { useAppSelector } from '@/hooks';
-import { ServiceType } from '@/types';
+import { ServiceType } from '@/types/global';
+
 import { cn } from '@/utils/utils';
 import { useQuery } from '@apollo/client/react';
 

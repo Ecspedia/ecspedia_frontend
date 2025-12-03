@@ -21,16 +21,19 @@ export function useHotelImage(hotel: Hotel): UseHotelImageReturn {
   const { isDarkMode } = useDarkMode();
   const [status, setStatus] = useState<ImageStatus>(() => (hotel.image ? 'loading' : 'error'));
 
-  const prevImageRef = useRef(hotel.image);
+  const hotelImage = hotel.mainPhoto || hotel.image;
+
+  const prevImageRef = useRef(hotelImage);
   useEffect(() => {
-    if (prevImageRef.current !== hotel.image) {
-      prevImageRef.current = hotel.image;
-      setStatus(hotel.image ? 'loading' : 'error');
+    if (prevImageRef.current !== hotelImage) {
+      prevImageRef.current = hotelImage;
+      setStatus(hotelImage ? 'loading' : 'error');
     }
-  }, [hotel.image]);
+  }, [hotelImage]);
 
   const fallbackImage = FALLBACK_IMAGES[isDarkMode === true ? 'dark' : 'light'];
-  const imageSrc = status === 'error' || !hotel.image ? fallbackImage : hotel.image;
+
+  const imageSrc = status === 'error' || !hotelImage ? fallbackImage : hotelImage;
 
   const handleImageLoad = useCallback(() => setStatus('loaded'), []);
   const handleImageError = useCallback(() => setStatus('error'), []);

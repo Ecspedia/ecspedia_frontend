@@ -1,10 +1,14 @@
 'use client';
+import { ScrollableList } from "@/components/shared";
+import HotelCard from "@/components/shared/HotelCard";
+import { Button } from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import useIsMobile from "@/hooks/useIsMobile.hook";
+import { ChatResponseType, Hotel } from "@/types/graphql";
 import { cn } from "@/utils/utils";
-import { Bot, ChevronDown, Loader2, SendHorizonal } from "lucide-react";
+import { Bot, ChevronDown, ExpandIcon, Loader2, SendHorizonal } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { addMessage, selectLoading, selectMessages, sendChatMessage } from "../stores/chatbotSlice";
+import { addMessage, selectIsExpanded, selectLoading, selectMessages, sendChatMessage, toggleIsExpanded } from "../stores/chatbotSlice";
 
 export default function Chat({ onClose }: { onClose: () => void }) {
     const dispatch = useAppDispatch();
@@ -13,6 +17,10 @@ export default function Chat({ onClose }: { onClose: () => void }) {
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement | null>(null);
+    const isExpanded = useAppSelector(selectIsExpanded);
+
+
+
 
     const onSendMessage = async (message: string) => {
         dispatch(addMessage(message));
@@ -23,6 +31,7 @@ export default function Chat({ onClose }: { onClose: () => void }) {
         await dispatch(sendChatMessage(message));
 
         setTimeout(scrollToLastMessage, 0);
+
 
         if (!isMobile) {
             inputRef.current?.focus();
@@ -58,7 +67,10 @@ export default function Chat({ onClose }: { onClose: () => void }) {
 
     return (
         <div className="lg:mx-0">
-            <div className="flex flex-col w-full h-[96dvh] lg:w-100 mx-auto rounded-lg border border-border lg:h-120 bg-background dark:bg-overlay">
+            <div className={cn(
+                "flex flex-col w-full h-[96dvh]  mx-auto rounded-lg border border-border lbg-background dark:bg-overlay",
+                isExpanded ? "lg:w-200 lg:h-160" : "lg:w-100 lg:h-120"
+            )}>
                 <ChatHeader onClose={onClose} />
                 <div ref={containerRef} className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto">
                     {messages.map((message, index) => {
@@ -69,7 +81,11 @@ export default function Chat({ onClose }: { onClose: () => void }) {
                                         <div key="last-message" className="sentinel-top" ref={lastMessageRef}></div>
                                     )
                                 }
-                                <ChatMessage key={index} message={message.message} isBot={message.isBot} />
+                                {message.typeOf === ChatResponseType.Hotels && message.data ? (
+                                    <ChatMessageHotel hotels={message.data as Hotel[]} />
+                                ) : (
+                                    <ChatMessage key={index} message={message.message} isBot={message.isBot} />
+                                )}
                             </>
                         );
                     })}
@@ -123,6 +139,20 @@ const ChatInput = ({ onSendMessage, loading, inputRef }: { onSendMessage: (messa
     );
 };
 
+const ChatMessageHotel = ({ hotels }: { hotels: Hotel[] }) => {
+    return (
+        <ScrollableList
+            items={hotels}
+            direction="horizontal"
+            initialBatchSize={3}
+            batchSize={hotels.length}
+            renderItem={(item) => (
+                <HotelCard key={item.id} hotel={item} variant="chat-card" />
+            )}
+        />
+    );
+};
+
 const ChatMessage = ({ message, isBot, ref }: { message: string, isBot: boolean, ref?: React.RefObject<HTMLDivElement | null> | null }) => {
     return (
         <div ref={ref} className={cn("flex items-start gap-2", isBot ? "flex-row" : "flex-row-reverse")}>
@@ -159,8 +189,23 @@ const ChatHeader = ({ onClose }: { onClose: () => void }) => {
                     <ProfilePicture isProfilePicture={true} />
                     <span> IA Assistant</span>
                 </div>
-                <ChevronDown className="h-full cursor-pointer" onClick={onClose} />
+                <div className="flex gap-2">
+                    <ExpandButton />
+                    <ChevronDown className="h-full cursor-pointer" onClick={onClose} />
+                </div>
             </div>
         </div>
+    );
+};
+
+const ExpandButton = () => {
+    const dispatch = useAppDispatch();
+    const onExpandChat = () => {
+        dispatch(toggleIsExpanded());
+    }
+    return (
+        <Button variant="secondary" onClick={onExpandChat}>
+            <ExpandIcon className="w-4 h-4" />
+        </Button>
     );
 };

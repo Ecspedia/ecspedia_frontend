@@ -3,7 +3,8 @@ export type HotelCardVariant =
   | 'vertical-card'
   | 'detail-modal'
   | 'booking-compact'
-  | 'custom';
+  | 'custom'
+  | 'chat-card';
 
 export type HotelCardLayout = 'horizontal' | 'vertical' | 'responsive';
 
@@ -30,6 +31,15 @@ export const VARIANT_CONFIG: Record<HotelCardVariant, Partial<VariantConfig>> = 
     imageSizes: '(max-width: 1024px) 100vw, 256px',
   },
   'vertical-card': {
+    layout: 'vertical',
+    showBookButton: false,
+    showPricing: true,
+    showDescription: false,
+    imageSizeClass: 'w-full',
+    imageRoundingClass: 'rounded-t-lg',
+    imageSizes: '280px',
+  },
+  'chat-card': {
     layout: 'vertical',
     showBookButton: false,
     showPricing: true,

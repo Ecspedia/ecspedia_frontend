@@ -152,6 +152,33 @@ function BookingCompactVariant({ className }: { className?: string }) {
     );
 }
 
+
+function ChatCardVariant({ className }: { className?: string }) {
+    return (
+        <HotelCard.Card className='min-h-50'>
+            <HotelCard.Image className='aspect-[4/3] w-64' />
+            <HotelCard.Content className='lg:gap-1'>
+                <div className='flex gap-1 lg:flex lg:gap-2 lg:pt-0 lg:pb-0'>
+                    <div className='self-center'>
+                        <HotelCard.RatingNumber />
+                    </div>
+                    <HotelCard.Group>
+                        <HotelCard.RatingLabel />
+                        <HotelCard.ReviewCount />
+                    </HotelCard.Group>
+                </div>
+                <div>
+                    <HotelCard.Title />
+                    <HotelCard.Location />
+                </div>
+                <HotelCard.BookButton className='w-full p-3 lg:w-40 self-end lg:mb-4' />
+            </HotelCard.Content>
+
+        </HotelCard.Card>
+    );
+}
+
+
 // Main HotelCard Component
 function HotelCard({
     hotel,
@@ -169,6 +196,7 @@ function HotelCard({
             {variant === 'vertical-card' && <VerticalCardVariant className={className} />}
             {variant === 'detail-modal' && <DetailModalVariant onClose={onClose} className={className} />}
             {variant === 'booking-compact' && <BookingCompactVariant className={className} />}
+            {variant === 'chat-card' && <ChatCardVariant className={className} />}
             {variant === 'custom' && children}
         </HotelCard.Root>
     );

@@ -2,6 +2,7 @@
 import { cn } from '@/utils/utils';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 import { useHotelImage } from '../hooks/useHotelImage.hook';
 import { VARIANT_CONFIG } from '../utils/variantConfig';
@@ -21,7 +22,7 @@ export default function HotelCardImage({
   const { imageSrc, isLoading, handleImageLoad, handleImageError } = useHotelImage(hotel);
 
   const config = VARIANT_CONFIG[variant];
-  const showLikeButton = onLikeToggle && (variant === 'search-result' || variant === 'vertical-card');
+  const showLikeButton = variant === 'search-result' || variant === 'vertical-card';
 
   return (
     <div
@@ -47,8 +48,6 @@ export default function HotelCardImage({
 
       {showLikeButton && (
         <LikeButton
-          isLiked={isLiked}
-          onClick={() => onLikeToggle(hotel.id)}
         />
       )}
     </div>
@@ -63,18 +62,19 @@ function ImageLoader() {
   );
 }
 
-interface LikeButtonProps {
-  isLiked: boolean;
-  onClick: () => void;
-}
 
-function LikeButton({ isLiked, onClick }: LikeButtonProps) {
+
+function LikeButton() {
+  const [isLiked, setIsLiked] = useState(false);
+  const handleClick = () => {
+    setIsLiked(!isLiked);
+  };
   return (
     <button
       type="button"
       aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
       aria-pressed={isLiked}
-      onClick={onClick}
+      onClick={handleClick}
       className="absolute top-3 right-3 rounded-full bg-white p-2 shadow-md transition-all hover:scale-110 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary"
     >
       <Heart
