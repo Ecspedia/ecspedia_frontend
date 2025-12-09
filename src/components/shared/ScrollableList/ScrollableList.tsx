@@ -3,7 +3,8 @@
 import { Button } from '@/components/ui';
 import { useHorizontalScroll } from '@/hooks';
 import useLazyList from '@/hooks/useLazyList.hook';
-import { Axis } from '@/types';
+import { Axis } from '@/types/global';
+
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { memo } from 'react';
 

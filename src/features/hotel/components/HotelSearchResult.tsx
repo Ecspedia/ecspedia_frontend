@@ -2,12 +2,12 @@ import { ScrollableList } from '@/components/shared';
 import HotelCard from '@/components/shared/HotelCard';
 import { Skeleton } from '@/components/ui/Skeleton/skeleton';
 import { useIsMobile } from '@/hooks';
-import type { Hotel } from '@/types/graphql';
+import type { HotelResponseDto } from '@/types/graphql';
 import { Calendar, Construction, HotelIcon, MapPin, Star } from 'lucide-react';
 import { memo } from 'react';
 
 interface HotelSearchResultProps {
-  hotels: Hotel[];
+  hotels: HotelResponseDto[];
   loading?: boolean;
   error?: string | null;
   hasSearched?: boolean;

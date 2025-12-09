@@ -1,5 +1,5 @@
 import { useDarkMode } from '@/hooks';
-import type { ServiceTab as ServiceTabType } from '@/types';
+import type { ServiceTab as ServiceTabType } from '@/types/global';
 import { cn } from '@/utils/utils';
 import Image from 'next/image';
 import { UI_DIMENSIONS } from '../types/constants';

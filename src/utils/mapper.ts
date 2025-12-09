@@ -1,6 +1,6 @@
-import type { Hotel, HotelCreateInput } from '@/types/graphql';
+import type { HotelCreateInput, HotelResponseDto } from '@/types/graphql';
 
-export function hotelToHotelCreateDtoInput(hotel: Hotel): HotelCreateInput {
+export function hotelToHotelCreateDtoInput(hotel: HotelResponseDto): HotelCreateInput {
   return {
     id: hotel.id,
     name: hotel.name,

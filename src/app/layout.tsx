@@ -4,7 +4,7 @@ import { FullscreenPopupProvider } from '@/components/shared/ExpandableTextField
 import PopUpToggle from '@/features/chatbot/components/popUpToggle';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import ConditionalHeader from './_components/ConditionalHeader';
+import ConditionalRendering from './_components/ConditionalRendering';
 import ErrorBoundaryWrapper from './_components/ErrorBoundaryWrapper';
 import ApolloProvider from './apolloProvider';
 import DarkModeProvider from './darkModeProvider';
@@ -68,9 +68,9 @@ export default function RootLayout({
             <FullscreenPopupProvider>
               <DarkModeProvider>
                 <ErrorBoundaryWrapper>
-                  <ConditionalHeader>
+                  <ConditionalRendering noRenderingPages={['/map', '/booking', '/fullscreen', '/test']}>
                     <HeaderNav />
-                  </ConditionalHeader>
+                  </ConditionalRendering>
                   <div className="relative">
                     {children}
                     <PopUpToggle />

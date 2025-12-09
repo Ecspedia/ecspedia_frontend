@@ -11,11 +11,12 @@ interface HotelCardRootProps {
   layout?: HotelCardLayout;
   children: ReactNode;
   isPriority?: boolean;
+  isSelected?: boolean;
 }
 
-export default function HotelCardRoot({ hotel, variant, layout, children, isPriority }: HotelCardRootProps) {
+export default function HotelCardRoot({ hotel, variant, layout, children, isPriority, isSelected }: HotelCardRootProps) {
   return (
-    <HotelCardContext.Provider value={{ hotel, variant, layout, isPriority }}>
+    <HotelCardContext.Provider value={{ hotel, variant, layout, isPriority, isSelected }}>
       {children}
     </HotelCardContext.Provider>
   );

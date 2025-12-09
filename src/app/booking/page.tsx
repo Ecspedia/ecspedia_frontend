@@ -1,14 +1,14 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import type { Hotel } from '@/types/graphql';
 import { BookingForm, BookingLoading, BookingNotFound, GuestFormData } from '@/features/booking/components';
+import type { HotelResponseDto } from '@/types/graphql';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
 function BookingContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [hotel, setHotel] = useState<Hotel | null>(null);
+    const [hotel, setHotel] = useState<HotelResponseDto | null>(null);
     const [loading, setLoading] = useState(true);
 
     // Get hotel ID from URL params
@@ -18,6 +18,7 @@ function BookingContent() {
         if (!hotelId) {
             // If no hotel ID, redirect back
             router.push('/search-hotels');
+
             return;
         }
 

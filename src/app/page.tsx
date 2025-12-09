@@ -10,7 +10,6 @@ import HotelPopular from '@/features/hotel/components/HotelPopular';
 import { selectService } from '@/features/service-selector/store/serviceSelectorSlice';
 import { useAppSelector } from '@/hooks';
 import { ServiceType } from '@/types/global';
-
 import { cn } from '@/utils/utils';
 import { useQuery } from '@apollo/client/react';
 
@@ -22,10 +21,8 @@ export default function Home() {
       fetchPolicy: 'cache-first',
     }
   );
-
   const currentServiceContent = () => {
     const hotels = data?.popularHotels ?? [];
-
     switch (currentServiceTabSelected) {
       case ServiceType.FLIGHTS:
         return <PopularFlights flights={flights} />;
@@ -35,40 +32,51 @@ export default function Home() {
         return null;
     }
   };
-
-
-
   return (
     <>
-      <div className="lg:relative lg:bg-[url('/images/home/main-bg.webp')] lg:bg-cover lg:bg-center lg:py-8">
-        <div className="pointer-events-none absolute inset-0 hidden bg-black/50 lg:dark:block" />
-        <MainContainer className="relative">
-          <TitleH1 className="hidden lg:block">Our biggest sale of the year</TitleH1>
-          <MultipleServicesForm />
-        </MainContainer>
-      </div>
-
-      <div className="
-        bg-[#191E3B] dark:bg-transparent dark:bg-linear-to-r dark:from-brand-primary/5 dark:via-brand-secondary/5 dark:to-brand-primary/5
-      "
-      >
-        <MainContainer>
-          <PromoBanner />
-        </MainContainer>
-      </div>
-
-      <div className={`px-4 lg:py-4 bg-accent-secondary lg:bg-background dark:bg-background`}>
-        <MainContainer className='px-0'>
-          {currentServiceContent()}
-        </MainContainer>
-      </div>
-
-
-
+      <FormServiceContent />
+      <PromoBannerWrapper />
+      <ServiceContent>
+        {currentServiceContent()}
+      </ServiceContent>
     </>
-
   );
 }
+
+const FormServiceContent = () => {
+  return (
+    <div className="lg:relative lg:bg-[url('/images/home/main-bg.webp')] lg:bg-cover lg:bg-center lg:py-8">
+      <div className="pointer-events-none absolute inset-0 hidden bg-black/50 lg:dark:block" />
+      <MainContainer className="relative">
+        <TitleH1 className="hidden lg:block">Our biggest sale of the year</TitleH1>
+        <MultipleServicesForm />
+      </MainContainer>
+    </div>
+  );
+};
+
+const ServiceContent = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className={`px-4 lg:py-4 bg-accent-secondary lg:bg-background dark:bg-background`}>
+      <MainContainer className='px-0'>
+        {children}
+      </MainContainer>
+    </div>
+  );
+};
+
+const PromoBannerWrapper = () => {
+  return (
+    <div className="
+    bg-[#191E3B] dark:bg-transparent dark:bg-linear-to-r dark:from-brand-primary/5 dark:via-brand-secondary/5 dark:to-brand-primary/5
+  "
+    >
+      <MainContainer>
+        <PromoBanner />
+      </MainContainer>
+    </div>
+  );
+};
 
 const TitleH1 = ({ children, className }: { children: React.ReactNode, className?: string }) => {
   return <h1 className={cn("text-4xl font-semibold text-white text-center", className)}>{children}</h1>;

@@ -1,6 +1,8 @@
+import { useAppDispatch } from '@/hooks/hooks';
+import { setSelectedMapHotel } from '@/stores/globalSlice';
 import { cn } from '@/utils/utils';
 import { MapPin, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 export function HotelCardTitle({ className }: { className?: string }) {
   const { hotel } = useHotelCardContext();
@@ -14,6 +16,8 @@ export function HotelCardTitle({ className }: { className?: string }) {
 export function HotelCardLocation({ className }: { className?: string }) {
   const { hotel } = useHotelCardContext();
   const router = useRouter();
+  const pathname = usePathname();
+  const dispatch = useAppDispatch();
 
   const locationParts = [
     hotel.address,
@@ -25,13 +29,9 @@ export function HotelCardLocation({ className }: { className?: string }) {
     : hotel.location;
 
   const handleOpenMap = () => {
-    const lat = hotel.latitude;
-    const lng = hotel.longitude;
-
-    if (lat && lng) {
-      router.push(`/map?lat=${lat}&lng=${lng}&hotelId=${hotel.id}`);
-    } else if (hotel.city) {
-      router.push(`/map?location=${encodeURIComponent(hotel.city)}`);
+    dispatch(setSelectedMapHotel(hotel));
+    if (pathname !== '/map') {
+      router.push('/map');
     }
   };
 

@@ -150,7 +150,7 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
     };
 
     return (
-        <MainContainer className='pb-18 px-9 sm:px-11 md:px-14 lg:px-28 xl:px-36'>
+        <MainContainer>
             <div className="my-4">
                 <Button
                     onClick={() => router.back()}

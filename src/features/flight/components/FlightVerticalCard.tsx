@@ -1,4 +1,4 @@
-import { Flight } from '@/types';
+import { Flight } from '@/types/global';
 import { Plane } from 'lucide-react';
 import Image from 'next/image';
 import { useFlightCardContext } from '../hooks';

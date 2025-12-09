@@ -1,5 +1,5 @@
 import type { RootState } from '@/stores/store';
-import { ChatResponseDto, ChatResponseType, Hotel } from '@/types/graphql';
+import { ChatResponseDto, ChatResponseType } from '@/types/graphql';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { sendMessageToApi } from '../api/sendMessageApi';
 
@@ -20,7 +20,12 @@ interface ChatbotState {
 
 const initialState: ChatbotState = {
   messages: [
-    { index: 0, message: 'Hello, I am IA Assistant. How can I help you today?', isBot: true },
+    {
+      index: 0,
+      message:
+        'Hello, I’m a hotel assistant. I can search for hotels, answer questions about specific hotels, and help you make bookings. How can I help you?',
+      isBot: true,
+    },
   ],
   loading: false,
   error: null,
@@ -64,22 +69,59 @@ const chatbotSlice = createSlice({
       .addCase(sendChatMessage.fulfilled, (state, action) => {
         const data: ChatResponseDto = action.payload;
         console.log(data);
-        if (data.typeOf === ChatResponseType.Hotels.toString()) {
-          const hotels: Hotel[] = JSON.parse(data.response).data as Hotel[];
-          state.messages.push({
-            index: state.messages.length,
-            message: '',
-            data: hotels,
-            isBot: true,
-            typeOf: ChatResponseType.Hotels,
-          });
-        } else if (data.typeOf === ChatResponseType.Normal) {
-          // state.messages.push({
-          //   index: state.messages.length,
-          //   message: action.payload.data.message,
-          //   isBot: true,
-          //   typeOf: { type: 'string', content: action.payload.data.message },
-          // });
+
+        switch (data.chatResponseType) {
+        
+          case ChatResponseType.SearchResults:
+            const hotels = data.searchData;
+            //Only get 5 hotels for the momemnts
+            const top5Hotels = hotels?.slice(0, 5);
+            state.messages.push({
+              index: state.messages.length,
+              message: '',
+              data: top5Hotels,
+              isBot: true,
+              typeOf: ChatResponseType.SearchResults,
+            });
+            break;
+          case ChatResponseType.QuestionAnswer:
+            const question = data.questionData;
+            state.messages.push({
+              index: state.messages.length,
+              message: question ?? 'error try again',
+              isBot: true,
+              typeOf: ChatResponseType.QuestionAnswer,
+            });
+            break;
+          case ChatResponseType.Booking:
+            const booking = data.bookingData;
+            state.messages.push({
+              index: state.messages.length,
+              message: booking ?? 'error try again',
+              isBot: true,
+              typeOf: ChatResponseType.Booking,
+            });
+            break;
+          case ChatResponseType.Other:
+            const other = data.otherData;
+            state.messages.push({
+              index: state.messages.length,
+              message: other ?? 'error try again',
+              isBot: true,
+              typeOf: ChatResponseType.Other,
+            });
+            break;
+          case ChatResponseType.Error:
+            const error = data.errorData;
+            state.messages.push({
+              index: state.messages.length,
+              message: error ?? 'error try again',
+              isBot: true,
+              typeOf: ChatResponseType.Error,
+            });
+            break;
+          default:
+            break;
         }
 
         state.loading = false;
@@ -97,4 +139,5 @@ export const selectMessages = (state: RootState) => state.chatbot.messages;
 export const selectLoading = (state: RootState) => state.chatbot.loading;
 export const selectError = (state: RootState) => state.chatbot.error;
 export const selectIsExpanded = (state: RootState) => state.chatbot.isExpanded;
+
 export default chatbotSlice.reducer;

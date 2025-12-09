@@ -1,8 +1,15 @@
+'use client';
+
 import { Button } from '@/components/ui';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { clearSelectedHotel, selectSelectedHotel, setSelectedHotel } from '@/stores/globalSlice';
 import { cn } from '@/utils/utils';
-import { ArrowRight, Eye } from 'lucide-react';
+import { CalendarCheck, MessageCircleQuestion, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
+
+
+const ButtonWidth = 30
 
 // HotelCardBookButton - Book now button
 interface HotelCardBookButtonProps {
@@ -28,25 +35,54 @@ export function HotelCardBookButton({ onBook, className }: HotelCardBookButtonPr
 
   return (
     <Button
-      variant="secondary"
+
       onClick={handleBookClick}
       disabled={!isAvailable}
       className={cn("w-full p-2", className)}
     >
-
+      <Button.Icon icon={CalendarCheck} />
       {isAvailable ? 'Book Now' : 'Not Available'}
-      <Button.Icon icon={ArrowRight} />
+
     </Button>
   );
 }
 
-// HotelCardDetailsButton - View details button
-export function HotelCardDetailsButton() {
+
+
+
+interface HotelCardAskButtonProps {
+
+  className?: string;
+}
+
+export function HotelCardAskButton({
+  className
+}: HotelCardAskButtonProps) {
+  const { hotel } = useHotelCardContext();
+  const dispatch = useAppDispatch();
+  const selectedHotel = useAppSelector(selectSelectedHotel);
+  const isSelected = selectedHotel?.id === hotel.id;
+
+  const handleAskClick = () => {
+    if (isSelected) {
+      dispatch(clearSelectedHotel());
+    } else {
+      dispatch(setSelectedHotel(hotel));
+    }
+  };
+
   return (
-    <Button variant="primary" className="p-2">
-      <Button.Icon icon={Eye} />
-      View Details
+    <Button
+      variant={isSelected ? 'primary' : 'secondary'}
+      onClick={handleAskClick}
+      className={cn(
+        'w-30 p-2 bg-surface text-primary  hover:bg-brand-primary/10 ring-border ring-2 dark:ring-0 dark:bg-overlay dark:border-border dark:border',
+        isSelected && 'bg-brand-primary text-white dark:bg-[#C8961E] shadow-lg hover:bg-brand-primary',
+        className
+      )}
+    >
+      <Button.Icon icon={isSelected ? Sparkles : MessageCircleQuestion} />
+      {isSelected ? 'Selected' : 'Ask AI'}
     </Button>
   );
 }
-

@@ -3,8 +3,35 @@ import { graphql } from '@/types/gql';
 export const SEND_MESSAGE_QUERY = graphql(`
   query SendMessage($message: String!) {
     sendMessage(message: $message) {
-      response
-      typeOf
+      success
+      chatResponseType
+      searchData {
+        id
+        name
+        location
+        image
+        isAvailable
+        rating
+        reviewCount
+        pricePerNight
+        latitude
+        longitude
+        hotelDescription
+        hotelTypeId
+        chain
+        currency
+        country
+        city
+        address
+        zip
+        mainPhoto
+        thumbnail
+        stars
+      }
+      questionData
+      otherData
+      bookingData
+      errorData
     }
   }
 `);

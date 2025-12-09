@@ -7,6 +7,7 @@ export type HotelCardContextType = {
   variant?: HotelCardVariant;
   layout?: HotelCardLayout;
   isPriority?: boolean;
+  isSelected?: boolean;
 };
 
 export const HotelCardContext = createContext<HotelCardContextType | undefined>(undefined);

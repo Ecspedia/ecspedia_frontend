@@ -45,44 +45,43 @@ export type Booking = {
   userId: Scalars['ID']['output'];
 };
 
+export type BookingCreateInput = {
+  currency?: InputMaybe<Scalars['String']['input']>;
+  emailGuest: Scalars['String']['input'];
+  endTimeIso: Scalars['String']['input'];
+  firstNameGuest: Scalars['String']['input'];
+  hotelId: Scalars['ID']['input'];
+  lastNameGuest: Scalars['String']['input'];
+  phoneNumberGuest?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Int']['input']>;
+  startTimeIso: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
+};
+
 export enum BookingStatus {
   Canceled = 'CANCELED',
   Confirmed = 'CONFIRMED',
   Pending = 'PENDING'
 }
 
-export enum ChatResponseType {
-  Hotels = 'HOTELS',
-  Normal = 'NORMAL'
-}
-
-export type Hotel = {
-  __typename?: 'Hotel';
-  accessibilityAttributes?: Maybe<HotelAccessibilityAttributes>;
-  address?: Maybe<Scalars['String']['output']>;
-  chain?: Maybe<Scalars['String']['output']>;
-  city?: Maybe<Scalars['String']['output']>;
-  country?: Maybe<Scalars['String']['output']>;
-  currency?: Maybe<Scalars['String']['output']>;
-  deletedAt?: Maybe<Scalars['String']['output']>;
-  facilityIds?: Maybe<Array<Scalars['Int']['output']>>;
-  hotelDescription?: Maybe<Scalars['String']['output']>;
-  hotelTypeId?: Maybe<Scalars['Int']['output']>;
-  id: Scalars['ID']['output'];
-  image?: Maybe<Scalars['String']['output']>;
-  isAvailable: Scalars['Boolean']['output'];
-  latitude?: Maybe<Scalars['Float']['output']>;
-  location: Scalars['String']['output'];
-  longitude?: Maybe<Scalars['Float']['output']>;
-  mainPhoto?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
-  pricePerNight: Scalars['Float']['output'];
-  rating?: Maybe<Scalars['Float']['output']>;
-  reviewCount?: Maybe<Scalars['Int']['output']>;
-  stars?: Maybe<Scalars['Int']['output']>;
-  thumbnail?: Maybe<Scalars['String']['output']>;
-  zip?: Maybe<Scalars['String']['output']>;
+export type ChatResponseDto = {
+  __typename?: 'ChatResponseDto';
+  bookingData?: Maybe<Scalars['String']['output']>;
+  chatResponseType: ChatResponseType;
+  errorData?: Maybe<Scalars['String']['output']>;
+  otherData?: Maybe<Scalars['String']['output']>;
+  questionData?: Maybe<Scalars['String']['output']>;
+  searchData?: Maybe<Array<HotelResponseDto>>;
+  success: Scalars['Boolean']['output'];
 };
+
+export enum ChatResponseType {
+  Booking = 'BOOKING',
+  Error = 'ERROR',
+  Other = 'OTHER',
+  QuestionAnswer = 'QUESTION_ANSWER',
+  SearchResults = 'SEARCH_RESULTS'
+}
 
 export type HotelAccessibilityAttributes = {
   __typename?: 'HotelAccessibilityAttributes';
@@ -136,6 +135,34 @@ export type HotelCreateInput = {
   zip?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type HotelResponseDto = {
+  __typename?: 'HotelResponseDto';
+  accessibilityAttributes?: Maybe<HotelAccessibilityAttributes>;
+  address?: Maybe<Scalars['String']['output']>;
+  chain?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  currency?: Maybe<Scalars['String']['output']>;
+  deletedAt?: Maybe<Scalars['String']['output']>;
+  facilityIds?: Maybe<Array<Scalars['Int']['output']>>;
+  hotelDescription?: Maybe<Scalars['String']['output']>;
+  hotelTypeId?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  isAvailable: Scalars['Boolean']['output'];
+  latitude?: Maybe<Scalars['Float']['output']>;
+  location: Scalars['String']['output'];
+  longitude?: Maybe<Scalars['Float']['output']>;
+  mainPhoto?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  pricePerNight: Scalars['Float']['output'];
+  rating?: Maybe<Scalars['Float']['output']>;
+  reviewCount?: Maybe<Scalars['Int']['output']>;
+  stars?: Maybe<Scalars['Int']['output']>;
+  thumbnail?: Maybe<Scalars['String']['output']>;
+  zip?: Maybe<Scalars['String']['output']>;
+};
+
 export type ImageUpdateResponse = {
   __typename?: 'ImageUpdateResponse';
   imageId: Scalars['ID']['output'];
@@ -167,8 +194,9 @@ export type LocationCreateInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createBooking: Booking;
-  createHotel: Hotel;
+  createHotel: HotelResponseDto;
   createLocation: Location;
+  deleteBookingById: Scalars['String']['output'];
   forgotPassword: PasswordResetResponse;
   login: AuthResponse;
   logout: Scalars['Boolean']['output'];
@@ -178,16 +206,7 @@ export type Mutation = {
 
 
 export type MutationCreateBookingArgs = {
-  currency?: InputMaybe<Scalars['String']['input']>;
-  emailGuest: Scalars['String']['input'];
-  endTime: Scalars['String']['input'];
-  firstNameGuest: Scalars['String']['input'];
-  hotelId: Scalars['ID']['input'];
-  lastNameGuest: Scalars['String']['input'];
-  phoneNumberGuest?: InputMaybe<Scalars['String']['input']>;
-  price?: InputMaybe<Scalars['Float']['input']>;
-  startTime: Scalars['String']['input'];
-  userId: Scalars['ID']['input'];
+  bookingCreateDto: BookingCreateInput;
 };
 
 
@@ -198,6 +217,11 @@ export type MutationCreateHotelArgs = {
 
 export type MutationCreateLocationArgs = {
   locationCreateDto: LocationCreateInput;
+};
+
+
+export type MutationDeleteBookingByIdArgs = {
+  bookingId: Scalars['ID']['input'];
 };
 
 
@@ -230,20 +254,19 @@ export type PasswordResetResponse = {
 
 export type Query = {
   __typename?: 'Query';
-  askHotelQuestion: Array<Hotel>;
+  askHotelQuestion: Array<HotelResponseDto>;
   bookings: Array<Booking>;
   bookingsByUserEmail: Array<Booking>;
   getAllUsers: Array<User>;
   getUserById?: Maybe<User>;
-  hotelById?: Maybe<Hotel>;
+  hotelById?: Maybe<HotelResponseDto>;
   hotelExists: Scalars['Boolean']['output'];
-  hotels: Array<Hotel>;
-  hotelsByLocation: Array<Hotel>;
-  hotelsByLocationName: Scalars['String']['output'];
-  locationByCode?: Maybe<Location>;
+  hotels: Array<HotelResponseDto>;
+  hotelsByLocation: Array<HotelResponseDto>;
   locations: Array<Location>;
   me?: Maybe<User>;
-  popularHotels: Array<Hotel>;
+  popularHotels: Array<HotelResponseDto>;
+  semanticSearchHotel: Scalars['String']['output'];
   sendMessage: ChatResponseDto;
   topLocations: Array<Location>;
 };
@@ -280,16 +303,8 @@ export type QueryHotelsByLocationArgs = {
 };
 
 
-export type QueryHotelsByLocationNameArgs = {
-  adults: Scalars['Int']['input'];
-  checkIn: Scalars['String']['input'];
-  checkOut: Scalars['String']['input'];
-  location: Scalars['String']['input'];
-};
-
-
-export type QueryLocationByCodeArgs = {
-  code: Scalars['String']['input'];
+export type QuerySemanticSearchHotelArgs = {
+  query: Scalars['String']['input'];
 };
 
 
@@ -314,12 +329,6 @@ export type UserRegistrationResponse = {
   __typename?: 'UserRegistrationResponse';
   message: Scalars['String']['output'];
   user?: Maybe<User>;
-};
-
-export type ChatResponseDto = {
-  __typename?: 'chatResponseDto';
-  response: Scalars['String']['output'];
-  typeOf: ChatResponseType;
 };
 
 export type GetLocationsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -372,7 +381,7 @@ export type SendMessageQueryVariables = Exact<{
 }>;
 
 
-export type SendMessageQuery = { __typename?: 'Query', sendMessage: { __typename?: 'chatResponseDto', response: string, typeOf: ChatResponseType } };
+export type SendMessageQuery = { __typename?: 'Query', sendMessage: { __typename?: 'ChatResponseDto', success: boolean, chatResponseType: ChatResponseType, questionData?: string | null, otherData?: string | null, bookingData?: string | null, errorData?: string | null, searchData?: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null }> | null } };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -380,16 +389,7 @@ export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 export type CurrentUserQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, email: string } | null };
 
 export type CreateBookingMutationVariables = Exact<{
-  hotelId: Scalars['ID']['input'];
-  userId: Scalars['ID']['input'];
-  firstNameGuest: Scalars['String']['input'];
-  lastNameGuest: Scalars['String']['input'];
-  emailGuest: Scalars['String']['input'];
-  phoneNumberGuest: Scalars['String']['input'];
-  startTime: Scalars['String']['input'];
-  endTime: Scalars['String']['input'];
-  price: Scalars['Float']['input'];
-  currency: Scalars['String']['input'];
+  bookingCreateDto: BookingCreateInput;
 }>;
 
 
@@ -400,7 +400,7 @@ export type CreateHotelMutationVariables = Exact<{
 }>;
 
 
-export type CreateHotelMutation = { __typename?: 'Mutation', createHotel: { __typename?: 'Hotel', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null } };
+export type CreateHotelMutation = { __typename?: 'Mutation', createHotel: { __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null } };
 
 export type BookingsByUserEmailQueryVariables = Exact<{
   email: Scalars['String']['input'];
@@ -414,31 +414,31 @@ export type HotelByIdQueryVariables = Exact<{
 }>;
 
 
-export type HotelByIdQuery = { __typename?: 'Query', hotelById?: { __typename?: 'Hotel', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null } | null };
+export type HotelByIdQuery = { __typename?: 'Query', hotelById?: { __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null } | null };
 
 export type Get_HotelsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Get_HotelsQuery = { __typename?: 'Query', hotels: Array<{ __typename?: 'Hotel', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
+export type Get_HotelsQuery = { __typename?: 'Query', hotels: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
 
 export type GetHotelsByLocationQueryVariables = Exact<{
   location: Scalars['String']['input'];
 }>;
 
 
-export type GetHotelsByLocationQuery = { __typename?: 'Query', hotelsByLocation: Array<{ __typename?: 'Hotel', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null }> };
+export type GetHotelsByLocationQuery = { __typename?: 'Query', hotelsByLocation: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null }> };
 
 export type SearchHotelsByLocationQueryVariables = Exact<{
   location: Scalars['String']['input'];
 }>;
 
 
-export type SearchHotelsByLocationQuery = { __typename?: 'Query', hotelsByLocation: Array<{ __typename?: 'Hotel', id: string, name: string, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, location: string, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, latitude?: number | null, longitude?: number | null, pricePerNight: number, rating?: number | null, reviewCount?: number | null, isAvailable: boolean, image?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
+export type SearchHotelsByLocationQuery = { __typename?: 'Query', hotelsByLocation: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, location: string, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, latitude?: number | null, longitude?: number | null, pricePerNight: number, rating?: number | null, reviewCount?: number | null, isAvailable: boolean, image?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
 
 export type TopHotelsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TopHotelsQuery = { __typename?: 'Query', popularHotels: Array<{ __typename?: 'Hotel', id: string, name: string, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, location: string, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, latitude?: number | null, longitude?: number | null, pricePerNight: number, rating?: number | null, reviewCount?: number | null, isAvailable: boolean, image?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
+export type TopHotelsQuery = { __typename?: 'Query', popularHotels: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, location: string, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, latitude?: number | null, longitude?: number | null, pricePerNight: number, rating?: number | null, reviewCount?: number | null, isAvailable: boolean, image?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
 
 
 export const GetLocationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode<GetLocationsQuery, GetLocationsQueryVariables>;
@@ -448,9 +448,9 @@ export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"O
 export const ForgotPasswordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ForgotPassword"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"forgotPassword"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
 export const ResetPasswordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ResetPassword"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"newPassword"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"resetPassword"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}},{"kind":"Argument","name":{"kind":"Name","value":"newPassword"},"value":{"kind":"Variable","name":{"kind":"Name","value":"newPassword"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<ResetPasswordMutation, ResetPasswordMutationVariables>;
 export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutMutation, LogoutMutationVariables>;
-export const SendMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SendMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"response"}},{"kind":"Field","name":{"kind":"Name","value":"typeOf"}}]}}]}}]} as unknown as DocumentNode<SendMessageQuery, SendMessageQueryVariables>;
+export const SendMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SendMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"chatResponseType"}},{"kind":"Field","name":{"kind":"Name","value":"searchData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questionData"}},{"kind":"Field","name":{"kind":"Name","value":"otherData"}},{"kind":"Field","name":{"kind":"Name","value":"bookingData"}},{"kind":"Field","name":{"kind":"Name","value":"errorData"}}]}}]}}]} as unknown as DocumentNode<SendMessageQuery, SendMessageQueryVariables>;
 export const CurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<CurrentUserQuery, CurrentUserQueryVariables>;
-export const CreateBookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBooking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"hotelId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"firstNameGuest"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lastNameGuest"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"emailGuest"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"phoneNumberGuest"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"startTime"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"price"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"currency"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBooking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"hotelId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"hotelId"}}},{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}},{"kind":"Argument","name":{"kind":"Name","value":"firstNameGuest"},"value":{"kind":"Variable","name":{"kind":"Name","value":"firstNameGuest"}}},{"kind":"Argument","name":{"kind":"Name","value":"lastNameGuest"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lastNameGuest"}}},{"kind":"Argument","name":{"kind":"Name","value":"emailGuest"},"value":{"kind":"Variable","name":{"kind":"Name","value":"emailGuest"}}},{"kind":"Argument","name":{"kind":"Name","value":"phoneNumberGuest"},"value":{"kind":"Variable","name":{"kind":"Name","value":"phoneNumberGuest"}}},{"kind":"Argument","name":{"kind":"Name","value":"startTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"startTime"}}},{"kind":"Argument","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}},{"kind":"Argument","name":{"kind":"Name","value":"price"},"value":{"kind":"Variable","name":{"kind":"Name","value":"price"}}},{"kind":"Argument","name":{"kind":"Name","value":"currency"},"value":{"kind":"Variable","name":{"kind":"Name","value":"currency"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"hotelId"}},{"kind":"Field","name":{"kind":"Name","value":"firstNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"lastNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"emailGuest"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumberGuest"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"confirmedAt"}},{"kind":"Field","name":{"kind":"Name","value":"canceledAt"}}]}}]}}]} as unknown as DocumentNode<CreateBookingMutation, CreateBookingMutationVariables>;
+export const CreateBookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBooking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bookingCreateDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BookingCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBooking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"bookingCreateDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bookingCreateDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"hotelId"}},{"kind":"Field","name":{"kind":"Name","value":"firstNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"lastNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"emailGuest"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumberGuest"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"confirmedAt"}},{"kind":"Field","name":{"kind":"Name","value":"canceledAt"}}]}}]}}]} as unknown as DocumentNode<CreateBookingMutation, CreateBookingMutationVariables>;
 export const CreateHotelDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateHotel"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"hotelCreateDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"HotelCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createHotel"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"hotelCreateDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"hotelCreateDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}},{"kind":"Field","name":{"kind":"Name","value":"facilityIds"}},{"kind":"Field","name":{"kind":"Name","value":"accessibilityAttributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"}},{"kind":"Field","name":{"kind":"Name","value":"showerChair"}},{"kind":"Field","name":{"kind":"Name","value":"entranceType"}},{"kind":"Field","name":{"kind":"Name","value":"petFriendly"}},{"kind":"Field","name":{"kind":"Name","value":"rampAngle"}},{"kind":"Field","name":{"kind":"Name","value":"rampLength"}},{"kind":"Field","name":{"kind":"Name","value":"entranceDoorWidth"}},{"kind":"Field","name":{"kind":"Name","value":"roomMaxGuestsNumber"}},{"kind":"Field","name":{"kind":"Name","value":"distanceFromTheElevatorToTheAccessibleRoom"}}]}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<CreateHotelMutation, CreateHotelMutationVariables>;
 export const BookingsByUserEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BookingsByUserEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookingsByUserEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"hotelId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"firstNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"lastNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"emailGuest"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumberGuest"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"confirmedAt"}},{"kind":"Field","name":{"kind":"Name","value":"canceledAt"}}]}}]}}]} as unknown as DocumentNode<BookingsByUserEmailQuery, BookingsByUserEmailQueryVariables>;
 export const HotelByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HotelById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hotelById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}},{"kind":"Field","name":{"kind":"Name","value":"facilityIds"}},{"kind":"Field","name":{"kind":"Name","value":"accessibilityAttributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"}},{"kind":"Field","name":{"kind":"Name","value":"showerChair"}},{"kind":"Field","name":{"kind":"Name","value":"entranceType"}},{"kind":"Field","name":{"kind":"Name","value":"petFriendly"}},{"kind":"Field","name":{"kind":"Name","value":"rampAngle"}},{"kind":"Field","name":{"kind":"Name","value":"rampLength"}},{"kind":"Field","name":{"kind":"Name","value":"entranceDoorWidth"}},{"kind":"Field","name":{"kind":"Name","value":"roomMaxGuestsNumber"}},{"kind":"Field","name":{"kind":"Name","value":"distanceFromTheElevatorToTheAccessibleRoom"}}]}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<HotelByIdQuery, HotelByIdQueryVariables>;

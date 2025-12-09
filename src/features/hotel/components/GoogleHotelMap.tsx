@@ -1,29 +1,44 @@
 import HotelCard from '@/components/shared/HotelCard';
-import { Button } from '@/components/ui';
 import { useAppSelector } from '@/hooks/hooks';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
-import type { Hotel } from '@/types/graphql';
-import { cn } from '@/utils/utils';
-import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
-import { Maximize2 } from 'lucide-react';
+import type { HotelResponseDto } from '@/types/graphql';
+import { AdvancedMarker, APIProvider, Map, useMap } from '@vis.gl/react-google-maps';
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface HotelMapProps {
-  hotels?: Hotel[];
+  hotels?: HotelResponseDto[];
   isFullScreen?: boolean;
   initialCenter?: { lat: number; lng: number };
-  initialSelectedHotelId?: string;
+  initialSelectedHotel?: HotelResponseDto;
 }
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
 
 export default function HotelMap(hotelMapProps: HotelMapProps) {
-  const { hotels, isFullScreen, initialCenter, initialSelectedHotelId } = hotelMapProps;
+  const { hotels, isFullScreen, initialCenter, initialSelectedHotel } = hotelMapProps;
 
-  const [selectedHotelId, setSelectedHotelId] = useState<string | null>(initialSelectedHotelId || null);
+  const [selectedHotel, setSelectedHotel] = useState<HotelResponseDto | null>(initialSelectedHotel || null);
   const router = useRouter();
   const isDarkMode = useAppSelector(selectIsDarkMode);
+
+  // Sync state when initialSelectedHotel prop changes
+  useEffect(() => {
+    setSelectedHotel(initialSelectedHotel || null);
+  }, [initialSelectedHotel]);
+
+  // Calculate selected hotel coordinates
+  const selectedHotelCoords = useMemo(() => {
+    if (!selectedHotel?.latitude || !selectedHotel?.longitude) return null;
+    const lat = typeof selectedHotel.latitude === 'string'
+      ? parseFloat(selectedHotel.latitude)
+      : Number(selectedHotel.latitude);
+    const lng = typeof selectedHotel.longitude === 'string'
+      ? parseFloat(selectedHotel.longitude)
+      : Number(selectedHotel.longitude);
+    if (isNaN(lat) || isNaN(lng)) return null;
+    return { lat, lng };
+  }, [selectedHotel]);
 
   const hotelsWithCoordinates = useMemo(
     () => {
@@ -73,53 +88,40 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
     return initialCenter ? 17 : 13;
   }, [initialCenter]);
 
-  const handleMarkerClick = useCallback((hotelId: string) => {
-    setSelectedHotelId(hotelId);
+  const handleMarkerClick = useCallback((hotel: HotelResponseDto) => {
+    setSelectedHotel(hotel);
   }, []);
 
   const handleCloseDetailCard = useCallback(() => {
-    setSelectedHotelId(null);
+    setSelectedHotel(null);
   }, []);
 
   const handleExpandMap = useCallback(() => {
     router.push('/map');
   }, [router]);
 
-  // Find the selected hotel by id
-  const selectedHotel = useMemo(
-    () => hotelsWithCoordinates.find((hotel) => hotel.id === selectedHotelId),
-    [hotelsWithCoordinates, selectedHotelId]
-  );
-
-
   return (
     <div className={`relative  h-full w-full ${!isFullScreen ? 'overflow-hidden rounded-xl' : ''}`}>
       {/* Special bg color only for adjust google map theme */}
-      {!isFullScreen && (
-        <Button
-          onClick={handleExpandMap}
-          variant="blank"
-          className={cn(
-            'absolute top-2 right-2 z-20 text-primary p-3 rounded-lg font-medium',
-            isDarkMode ? 'bg-[rgb(68,68,68)]' : 'bg-background'
-          )}
-          title="Expand map to full screen"
-        >
-          <Button.Icon icon={Maximize2} />
 
-        </Button>
-      )}
+
       <APIProvider apiKey={apiKey}>
         <Map
           style={{ width: '100%', height: isFullScreen ? '100vh' : '100%' }}
           defaultCenter={defaultCenter}
           defaultZoom={defaultZoom}
           mapId="hotel-map"
-          disableDefaultUI={!isFullScreen ? false : true}
-          zoomControl={!isFullScreen ? false : true}
-          streetViewControl={false}
+          zoomControl={isFullScreen}
+          fullscreenControl={isFullScreen}
+
+
+          disableDefaultUI={!isFullScreen}
+
           mapTypeControl={false}
-          clickableIcons={!isFullScreen ? false : true}
+          streetViewControl={false}
+
+
+          gestureHandling="greedy"
           colorScheme={isDarkMode ? 'DARK' : 'LIGHT'}
         >
           {isFullScreen && hotelsWithCoordinates.map((hotel) => {
@@ -133,10 +135,10 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
               <AdvancedMarker
                 key={hotel.id}
                 position={{ lat, lng }}
-                onClick={() => handleMarkerClick(hotel.id)}
+                onClick={() => handleMarkerClick(hotel)}
               >
                 <div
-                  className={`cursor-pointer rounded px-3 py-1 text-sm font-medium shadow-md ${selectedHotelId === hotel.id
+                  className={`cursor-pointer rounded px-3 py-1 text-sm font-medium shadow-md ${selectedHotel?.id === hotel.id
                     ? 'bg-brand-primary text-white'
                     : 'bg-brand-secondary text-white'
                     }`}
@@ -146,14 +148,16 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
               </AdvancedMarker>
             );
           })}
-          {/* Show marker for initial center when no hotels match */}
-          {isFullScreen && initialCenter && hotelsWithCoordinates.length === 0 && (
-            <AdvancedMarker position={initialCenter}>
+          {/* Show marker for selected hotel (when not in hotels array) */}
+          {isFullScreen && selectedHotel && selectedHotelCoords && !hotelsWithCoordinates.some(h => h.id === selectedHotel.id) && (
+            <AdvancedMarker position={selectedHotelCoords}>
               <div className="cursor-pointer rounded bg-brand-primary px-3 py-1 text-sm font-medium text-white shadow-md">
-                📍
+                ${(selectedHotel.pricePerNight || 0).toFixed(2)}
               </div>
             </AdvancedMarker>
           )}
+          {/* Pan camera to selected hotel */}
+          <MapController center={selectedHotelCoords} zoom={selectedHotelCoords ? 17 : undefined} />
         </Map>
       </APIProvider>
       {!isFullScreen && (
@@ -178,3 +182,22 @@ const ViewMapButton = ({ onClick }: { onClick: () => void }) => {
     </button>
   );
 };
+
+interface MapControllerProps {
+  center: { lat: number; lng: number } | null;
+  zoom?: number;
+}
+
+function MapController({ center, zoom }: MapControllerProps) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map || !center) return;
+    map.panTo(center);
+    if (zoom) {
+      map.setZoom(zoom);
+    }
+  }, [map, center, zoom]);
+
+  return null;
+}

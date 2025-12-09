@@ -6,7 +6,6 @@ import Logo from '@/components/shared/Header/Logo';
 import { MobileNav } from '@/components/shared/Header/MobileNav';
 import { useHeaderNav } from '@/components/shared/Header/hooks/useHeaderNav.hook';
 import { MainContainer } from '@/components/ui';
-import { Suspense } from 'react';
 
 export default function HeaderNav() {
   const {
@@ -25,38 +24,39 @@ export default function HeaderNav() {
     closeMobileMenu,
   } = useHeaderNav();
 
+  const isNotMobile = isMobile === false && isMobile !== undefined;
   return (
     <HeaderComponent>
       <MainContainer>
         <div className="relative flex h-16 items-center justify-between px-2">
           <Logo />
           <div className="transition-opacity duration-300 ease-in-out">
-            <Suspense fallback={<div />}>
-              {isDesktop && (
-                <DesktopNav
-                  username={user?.username}
-                  menuOpen={menuOpen}
-                  logoutLoading={logoutLoading}
-                  menuRef={menuRef}
-                  onToggleMenu={toggleMenu}
-                  onMyBookings={handleMyBookings}
-                  onLogout={handleLogout}
-                />
-              )}
 
-              {isMobile && (
-                <MobileNav
-                  username={user?.username}
-                  isOpen={mobileMenuOpen}
-                  logoutLoading={logoutLoading}
-                  mobileMenuRef={mobileMenuRef}
-                  onToggle={toggleMobileMenu}
-                  onClose={closeMobileMenu}
-                  onMyBookings={handleMyBookings}
-                  onLogout={handleLogout}
-                />
-              )}
-            </Suspense>
+            {isNotMobile && (
+              <DesktopNav
+                username={user?.username}
+                menuOpen={menuOpen}
+                logoutLoading={logoutLoading}
+                menuRef={menuRef}
+                onToggleMenu={toggleMenu}
+                onMyBookings={handleMyBookings}
+                onLogout={handleLogout}
+              />
+            )}
+
+            {isMobile && (
+              <MobileNav
+                username={user?.username}
+                isOpen={mobileMenuOpen}
+                logoutLoading={logoutLoading}
+                mobileMenuRef={mobileMenuRef}
+                onToggle={toggleMobileMenu}
+                onClose={closeMobileMenu}
+                onMyBookings={handleMyBookings}
+                onLogout={handleLogout}
+              />
+            )}
+
           </div>
         </div>
       </MainContainer>
