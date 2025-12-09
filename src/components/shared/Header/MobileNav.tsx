@@ -4,27 +4,32 @@ import { RefObject } from 'react';
 
 import DarkModeToggle from '@/components/shared/Header/DarkModeToggle';
 import { capitalizeUsername } from '@/utils/utils';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
+import Image from 'next/image';
 
 interface MobileNavProps {
   username?: string;
+  profilePhotoUrl?: string;
   isOpen: boolean;
   logoutLoading: boolean;
   mobileMenuRef: RefObject<HTMLDivElement | null>;
   onToggle: () => void;
   onClose: () => void;
   onMyBookings: () => void;
+  onProfile: () => void;
   onLogout: () => void;
 }
 
 export const MobileNav = ({
   username,
+  profilePhotoUrl,
   isOpen,
   logoutLoading,
   mobileMenuRef,
   onToggle,
   onClose,
   onMyBookings,
+  onProfile,
   onLogout,
 }: MobileNavProps) => {
   return (
@@ -67,13 +72,32 @@ export const MobileNav = ({
             {username ? (
               <>
                 <div className="my-2 border-t border-border" />
-                <span id="user-menu-username" data-testid="user-menu-username" className="px-4 py-2 text-sm font-bold text-primary">
-                  {capitalizeUsername(username)}
-                </span>
+                <div className="flex items-center gap-3 px-4 py-2">
+                  <span className="text-sm font-bold text-primary">
+                    {capitalizeUsername(username)}
+                  </span>
+                  {profilePhotoUrl ? (
+                    <Image
+                      src={profilePhotoUrl}
+                      alt={username}
+                      width={32}
+                      height={32}
+                      className="w-8 h-8 rounded-full object-cover border border-border"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <User className="w-4 h-4 text-primary" />
+                    </div>
+                  )}
+                </div>
                 <button
                   type="button"
+                  onClick={() => {
+                    onProfile();
+                    onClose();
+                  }}
                   className="px-4 py-2 text-left text-sm text-primary hover:text-secondary"
-                  disabled
                 >
                   Profile
                 </button>

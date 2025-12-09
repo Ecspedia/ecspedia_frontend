@@ -17,7 +17,7 @@ export const useCurrentUser = (): UseCurrentUserReturn => {
     data,
     loading,
     refetch: refetchQuery,
-  } = useQuery(CURRENT_USER_QUERY, {
+  } = useQuery<CurrentUserQuery>(CURRENT_USER_QUERY, {
     fetchPolicy: 'network-only',
     errorPolicy: 'ignore',
   });

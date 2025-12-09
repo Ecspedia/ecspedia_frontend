@@ -12,7 +12,6 @@ export default function HeaderNav() {
   const {
     user,
     isMobile,
-    isDesktop,
     menuOpen,
     mobileMenuOpen,
     logoutLoading,
@@ -20,10 +19,13 @@ export default function HeaderNav() {
     mobileMenuRef,
     handleLogout,
     handleMyBookings,
+    handleProfile,
     toggleMenu,
     toggleMobileMenu,
     closeMobileMenu,
   } = useHeaderNav();
+
+  const isDesktop = !isMobile;
 
   return (
     <HeaderComponent>
@@ -40,6 +42,7 @@ export default function HeaderNav() {
                   menuRef={menuRef}
                   onToggleMenu={toggleMenu}
                   onMyBookings={handleMyBookings}
+                  onProfile={handleProfile}
                   onLogout={handleLogout}
                 />
               )}
@@ -47,12 +50,14 @@ export default function HeaderNav() {
               {isMobile && (
                 <MobileNav
                   username={user?.username}
+                  profilePhotoUrl={(user as { profilePhotoUrl?: string })?.profilePhotoUrl}
                   isOpen={mobileMenuOpen}
                   logoutLoading={logoutLoading}
                   mobileMenuRef={mobileMenuRef}
                   onToggle={toggleMobileMenu}
                   onClose={closeMobileMenu}
                   onMyBookings={handleMyBookings}
+                  onProfile={handleProfile}
                   onLogout={handleLogout}
                 />
               )}

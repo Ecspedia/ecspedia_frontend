@@ -1,14 +1,15 @@
-import { graphql } from '@/types/gql';
+import { gql } from '@apollo/client';
 
-export const CURRENT_USER_QUERY = graphql(`
+export const CURRENT_USER_QUERY = gql`
   query CurrentUser {
     me {
       id
       username
       email
+      profilePhotoUrl
     }
   }
-`);
+`;
 
 export const userQueries = {
   CURRENT_USER: CURRENT_USER_QUERY,

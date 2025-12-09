@@ -42,6 +42,12 @@ export const useHeaderNav = () => {
     setMobileMenuOpen(false);
   };
 
+  const handleProfile = () => {
+    router.push('/profile');
+    setMenuOpen(false);
+    setMobileMenuOpen(false);
+  };
+
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
   const closeMobileMenu = () => setMobileMenuOpen(false);
@@ -57,6 +63,7 @@ export const useHeaderNav = () => {
     mobileMenuRef,
     handleLogout,
     handleMyBookings,
+    handleProfile,
     toggleMenu,
     toggleMobileMenu,
     closeMobileMenu,
