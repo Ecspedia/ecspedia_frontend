@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui';
-import useIsDesktop from '@/hooks/useIsDesktop.hook';
 import { Tag } from 'lucide-react';
 import Image from 'next/image';
 
@@ -75,7 +74,6 @@ export default function PromoBanner({
     ctaText = 'Shop deals',
     onCtaClick,
 }: PromoBannerProps) {
-    const isDesktop = useIsDesktop();
     return (
         <div className={`relative overflow-hidden py-4 lg:py-6 }`}>
             <div className="relative flex items-center justify-between gap-6">
@@ -83,9 +81,9 @@ export default function PromoBanner({
                     <PromoIcon />
                     <PromoContent title={title} description={description} />
                 </div>
-                {isDesktop && (
+                <div className="hidden lg:block">
                     <PromoButton ctaText={ctaText} onCtaClick={onCtaClick} />
-                )}
+                </div>
             </div>
         </div>
     );

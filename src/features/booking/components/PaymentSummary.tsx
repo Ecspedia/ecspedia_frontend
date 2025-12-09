@@ -1,7 +1,7 @@
-import type { Hotel } from '@/types/graphql';
+import type { HotelResponseDto } from '@/types/graphql';
 
 interface PaymentSummaryProps {
-    hotel: Hotel;
+    hotel: HotelResponseDto;
     nights?: number;
 }
 

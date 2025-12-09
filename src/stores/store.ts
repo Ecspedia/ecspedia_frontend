@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import serviceTabReducer from '@/features/service-selector/store/serviceSelectorSlice';
+import chatbotReducer from '@/features/chatbot/stores/chatbotSlice';
 import flightSearchReducer from '@/features/flight/store/flightSearchSlice';
 import hotelSearchReducer from '@/features/hotel/stores/hotelSearchSlice';
+import serviceTabReducer from '@/features/service-selector/store/serviceSelectorSlice';
 import darkModeReducer from './darkModeSlice';
-import chatbotReducer from '@/features/chatbot/stores/chatbotSlice';
+import globalReducer from './globalSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -14,6 +15,7 @@ export const makeStore = () => {
       hotelSearch: hotelSearchReducer,
       darkMode: darkModeReducer,
       chatbot: chatbotReducer,
+      global: globalReducer,
     },
   });
 };

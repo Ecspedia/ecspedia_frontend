@@ -1,5 +1,4 @@
-import type { ServiceTab } from '@/types';
-import { ServiceType } from '@/types';
+import { ServiceTab, ServiceType } from '@/types/global';
 import darkBedIcon from '../assets/dark__bed.svg';
 import darkCarIcon from '../assets/dark__car.svg';
 import darkCruiseIcon from '../assets/dark__cruise.svg';

@@ -2,7 +2,7 @@
 
 import { ScrollableList } from "@/components/shared";
 import { Spinner } from "@/components/ui/Spinner";
-import { Flight } from '@/types';
+import { Flight } from '@/types/global';
 import FlightVerticalCard from './FlightVerticalCard';
 
 interface PopularFlightsProps {

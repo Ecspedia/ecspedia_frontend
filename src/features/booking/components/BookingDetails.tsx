@@ -1,8 +1,8 @@
 import HotelCard from '@/components/shared/HotelCard';
-import type { Hotel } from '@/types/graphql';
+import type { HotelResponseDto } from '@/types/graphql';
 
 interface BookingDetailsProps {
-    hotel: Hotel;
+    hotel: HotelResponseDto;
 }
 
 export default function BookingDetails({ hotel }: BookingDetailsProps) {

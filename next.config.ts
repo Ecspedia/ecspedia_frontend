@@ -54,6 +54,13 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      // Allow SnapHotel API images
+      {
+        protocol: 'https',
+        hostname: 'snaphotelapi.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

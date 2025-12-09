@@ -9,10 +9,18 @@ import { Moon, Sun } from 'lucide-react';
 
 export default function DarkModeToggle() {
     const dispatch = useAppDispatch();
-    const { isDarkMode } = useDarkMode();
+    const { isDarkMode, isHydrated } = useDarkMode();
     const handleToggle = () => {
         dispatch(toggleDarkMode());
     };
+
+    // Prevent hydration mismatch by not rendering until hydrated
+    if (!isHydrated) {
+        return (
+            <div className="h-8 w-16 rounded-full bg-overlay ring-2 ring-primary/30 animate-pulse" />
+        );
+    }
+
     return (
         <Button
             variant="blank"
@@ -26,9 +34,11 @@ export default function DarkModeToggle() {
             role="switch"
             aria-checked={isDarkMode}
             type="button"
+            suppressHydrationWarning
         >
             <span
                 className='bg-background inline-flex h-6 w-6 transform items-center justify-center rounded-full shadow-md transition-transform duration-300 translate-x-1 dark:translate-x-9'
+                suppressHydrationWarning
             >
                 <Moon className="text-primary h-4 w-4 hidden dark:block" data-testid="moon-icon" />
                 <Sun className="text-warning h-4 w-4 block dark:hidden" data-testid="sun-icon" />

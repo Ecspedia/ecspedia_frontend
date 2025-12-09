@@ -1,34 +1,29 @@
 'use client';
 
 import { GoogleHotelMap } from '@/features/hotel/components';
+import { selectSubmittedValues } from '@/features/hotel/stores/hotelSearchSlice';
 import { useAppSelector } from '@/hooks/hooks';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
-import { selectSubmittedValues } from '@/features/hotel/stores/hotelSearchSlice';
+import { selectSelectedMapHotel } from '@/stores/globalSlice';
 import { cn } from '@/utils/utils';
 import { useQuery } from '@apollo/client/react';
 import { X } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui';
 import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
-import type { Hotel, SearchHotelsByLocationQuery } from '@/types/graphql';
+import type { HotelResponseDto, SearchHotelsByLocationQuery } from '@/types/graphql';
 import { Suspense, useMemo } from 'react';
 
 function FullScreenMapContent() {
   const router = useRouter();
-  const urlSearchParams = useSearchParams();
 
-  // Get URL parameters for direct hotel location
-  const lat = urlSearchParams.get('lat');
-  const lng = urlSearchParams.get('lng');
-  const hotelId = urlSearchParams.get('hotelId');
-  const locationParam = urlSearchParams.get('location');
+  // Get selected hotel from Redux
+  const selectedMapHotel = useAppSelector(selectSelectedMapHotel);
 
   // Read search params from Redux
   const submittedValues = useAppSelector(selectSubmittedValues);
-
-  // Use URL location param or Redux submitted values
-  const searchLocation = locationParam || submittedValues?.location;
+  const searchLocation = submittedValues?.location;
 
   // Read hotel data from Apollo cache
   const { data, loading } = useQuery<SearchHotelsByLocationQuery>(SEARCH_HOTELS_BY_LOCATION, {
@@ -39,16 +34,24 @@ function FullScreenMapContent() {
     fetchPolicy: 'cache-first',
   });
 
-  // Calculate center from URL params or default
+  // Calculate center from selected hotel coordinates
   const center = useMemo(() => {
-    if (lat && lng) {
-      return { lat: parseFloat(lat), lng: parseFloat(lng) };
+    if (selectedMapHotel?.latitude && selectedMapHotel?.longitude) {
+      const lat = typeof selectedMapHotel.latitude === 'string'
+        ? parseFloat(selectedMapHotel.latitude)
+        : Number(selectedMapHotel.latitude);
+      const lng = typeof selectedMapHotel.longitude === 'string'
+        ? parseFloat(selectedMapHotel.longitude)
+        : Number(selectedMapHotel.longitude);
+      if (!isNaN(lat) && !isNaN(lng)) {
+        return { lat, lng };
+      }
     }
     return undefined;
-  }, [lat, lng]);
+  }, [selectedMapHotel]);
 
   // Get hotels directly from the response (now it's an array)
-  const hotels = useMemo<Hotel[]>(() => {
+  const hotels = useMemo<HotelResponseDto[]>(() => {
     return data?.hotelsByLocation || [];
   }, [data?.hotelsByLocation]);
 
@@ -82,8 +85,8 @@ function FullScreenMapContent() {
     );
   }
 
-  // Show message if no hotels or no search yet (but allow direct coordinates)
-  if (!searchLocation && !center) {
+  // Show message if no hotels or no search yet (but allow selected hotel)
+  if (!searchLocation && !selectedMapHotel) {
     return (
       <div className="relative h-screen w-screen flex items-center justify-center bg-background">
         <Button
@@ -124,7 +127,7 @@ function FullScreenMapContent() {
         hotels={hotels}
         isFullScreen={true}
         initialCenter={center}
-        initialSelectedHotelId={hotelId || undefined}
+        initialSelectedHotel={selectedMapHotel ?? undefined}
       />
     </div>
   );

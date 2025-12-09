@@ -1,11 +1,12 @@
-import { Flight } from '@/types';
 
-import { ReactNode } from 'react';
-import Image from 'next/image';
-import { FlightCardContext } from '../utils';
-import { useFlightCardContext } from '../hooks';
-import { UI_DIMENSIONS } from '@/config';
+
 import { Button } from '@/components/ui';
+import { UI_DIMENSIONS } from '@/config';
+import { Flight } from '@/types/global';
+import Image from 'next/image';
+import { ReactNode } from 'react';
+import { useFlightCardContext } from '../hooks';
+import { FlightCardContext } from '../utils';
 
 
 interface FlightCardProps {

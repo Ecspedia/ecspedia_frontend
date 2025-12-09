@@ -1,8 +1,9 @@
-import { useIsMobile } from '@/hooks';
-import { Hotel } from '@/types/graphql';
+'use client';
+
+import { HotelResponseDto } from '@/types/graphql';
 import { cn } from '@/utils/utils';
 import { ReactNode } from 'react';
-import { HotelCardBookButton, HotelCardDetailsButton } from './actions';
+import { HotelCardAskButton, HotelCardBookButton } from './actions';
 import HotelCardImage from './image';
 import { HotelCardCloseButton, HotelCardDescription, HotelCardLocation, HotelCardTitle } from './info';
 import { HotelCardCard, HotelCardContent } from './layout';
@@ -18,10 +19,11 @@ import HotelCardRoot from './root';
 import type { HotelCardLayout, HotelCardVariant } from './utils/variantConfig';
 
 interface HotelCardProps {
-    hotel: Hotel;
+    hotel: HotelResponseDto;
     variant?: HotelCardVariant;
     layout?: HotelCardLayout;
     onBookClick?: () => void;
+    isSelected?: boolean;
     onClose?: () => void;
     className?: string;
     children?: ReactNode;
@@ -29,16 +31,23 @@ interface HotelCardProps {
 }
 
 // Internal variant compositions
-function SearchResultVariant({ onBookClick, className }: { onBookClick?: () => void; className?: string }) {
-    const isMobile = useIsMobile();
+function SearchResultVariant({ onBookClick, className }: { onBookClick?: () => void; onAskAboutHotel?: () => void; className?: string }) {
+
 
     return (
         <HotelCard.Card className={className}>
             <HotelCard.Image className="lg:rounded-bl-lg lg:rounded-tr-none" />
             <HotelCard.Content className='gap-1'>
                 <div>
-                    <HotelCard.Title />
-                    <HotelCard.Location />
+                    <div className='flex justify-between'>
+                        <div>
+                            <HotelCard.Title />
+                            <HotelCard.Location />
+                        </div>
+                        <HotelCard.Pricing className='text-xl lg:text-xl' >
+                            <HotelCard.PricingLabel />
+                        </HotelCard.Pricing>
+                    </div>
                     <HotelCard.Description />
                 </div>
                 <div className='flex gap-1  pb-2 justify-between'>
@@ -51,20 +60,25 @@ function SearchResultVariant({ onBookClick, className }: { onBookClick?: () => v
                             <HotelCard.ReviewCount />
                         </HotelCard.Group>
                     </div>
-                    {isMobile &&
-                        <HotelCard.Pricing className='text-xl lg:text-xl' >
-                            <HotelCard.PricingLabel />
-                        </HotelCard.Pricing>}
+
+                </div>
+                <div className='flex gap-2 justify-end mb-2'>
+                    <HotelCard.AskButton />
+                    <HotelCard.BookButton className='w-full p-3 lg:w-auto' onBook={onBookClick} />
                 </div>
 
             </HotelCard.Content>
-            <div className="flex flex-col gap-2 items-start px-2 pb-4  lg:justify-between lg:flex-col lg:items-end lg:pr-2">
+            {/* <div className="flex flex-col gap-2 items-start px-2 pb-4  lg:justify-between lg:flex-col lg:items-end lg:pr-2">
                 {!isMobile &&
                     <HotelCard.Pricing className='text-xl lg:text-xl' >
                         <HotelCard.PricingLabel />
                     </HotelCard.Pricing>}
-                <HotelCard.BookButton className='w-full p-3 lg:w-auto' onBook={onBookClick} />
-            </div>
+                <div className='flex gap-2 justify-end'>
+                    <HotelCard.AskButton />
+                    <HotelCard.BookButton className='w-full p-3 lg:w-auto' onBook={onBookClick} />
+                </div>
+
+            </div> */}
         </HotelCard.Card>
     );
 }
@@ -152,23 +166,53 @@ function BookingCompactVariant({ className }: { className?: string }) {
     );
 }
 
+
+function ChatCardVariant({ className: _className }: { className?: string }) {
+    return (
+        <HotelCard.Card className='min-h-0 gap-1 pb-2'>
+            <HotelCard.Image className='h-28 w-full object-cover' />
+            <HotelCard.Content className='gap-1 p-2'>
+                <div className='flex justify-between items-center'>
+                    <div className='flex gap-2 items-center'>
+                        <HotelCard.RatingNumber />
+                        <HotelCard.Group>
+                            <HotelCard.RatingLabel />
+                            <HotelCard.ReviewCount />
+                        </HotelCard.Group>
+                    </div>
+                    <HotelCard.AskButton className='shrink-0' />
+                </div>
+                <div className='space-y-0.5'>
+                    <HotelCard.Title />
+                    <HotelCard.Location />
+                </div>
+                <HotelCard.BookButton className='w-full p-2 mt-1' />
+            </HotelCard.Content>
+
+        </HotelCard.Card>
+    );
+}
+
+
 // Main HotelCard Component
 function HotelCard({
     hotel,
     variant = 'search-result',
     layout,
     onBookClick,
+    isSelected,
     onClose,
     className,
     children,
     priority
 }: HotelCardProps) {
     return (
-        <HotelCard.Root hotel={hotel} variant={variant} layout={layout} isPriority={priority}>
+        <HotelCard.Root hotel={hotel} variant={variant} layout={layout} isPriority={priority} isSelected={isSelected}>
             {variant === 'search-result' && <SearchResultVariant onBookClick={onBookClick} className={className} />}
             {variant === 'vertical-card' && <VerticalCardVariant className={className} />}
             {variant === 'detail-modal' && <DetailModalVariant onClose={onClose} className={className} />}
             {variant === 'booking-compact' && <BookingCompactVariant className={className} />}
+            {variant === 'chat-card' && <ChatCardVariant className={className} />}
             {variant === 'custom' && children}
         </HotelCard.Root>
     );
@@ -185,11 +229,12 @@ HotelCard.ReviewCount = HotelCardReviewCount;
 HotelCard.Pricing = HotelCardPricing;
 HotelCard.PricingLabel = HotelCardPricingLabel;
 HotelCard.BookButton = HotelCardBookButton;
-HotelCard.DetailsButton = HotelCardDetailsButton;
+
 HotelCard.Card = HotelCardCard;
 HotelCard.Content = HotelCardContent;
 HotelCard.Title = HotelCardTitle;
 HotelCard.Location = HotelCardLocation;
 HotelCard.Description = HotelCardDescription;
 HotelCard.CloseButton = HotelCardCloseButton;
+HotelCard.AskButton = HotelCardAskButton;
 export default HotelCard;

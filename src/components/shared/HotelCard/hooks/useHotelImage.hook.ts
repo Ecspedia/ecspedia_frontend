@@ -1,5 +1,5 @@
 import { useDarkMode } from '@/hooks';
-import type { Hotel } from '@/types/graphql';
+import type { HotelResponseDto } from '@/types/graphql';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 type ImageStatus = 'loading' | 'loaded' | 'error';
@@ -17,20 +17,23 @@ const FALLBACK_IMAGES = {
   dark: '/images/home/hotel_fallback_dark.svg',
 } as const;
 
-export function useHotelImage(hotel: Hotel): UseHotelImageReturn {
+export function useHotelImage(hotel: HotelResponseDto): UseHotelImageReturn {
   const { isDarkMode } = useDarkMode();
   const [status, setStatus] = useState<ImageStatus>(() => (hotel.image ? 'loading' : 'error'));
 
-  const prevImageRef = useRef(hotel.image);
+  const hotelImage = hotel.mainPhoto || hotel.image;
+
+  const prevImageRef = useRef(hotelImage);
   useEffect(() => {
-    if (prevImageRef.current !== hotel.image) {
-      prevImageRef.current = hotel.image;
-      setStatus(hotel.image ? 'loading' : 'error');
+    if (prevImageRef.current !== hotelImage) {
+      prevImageRef.current = hotelImage;
+      setStatus(hotelImage ? 'loading' : 'error');
     }
-  }, [hotel.image]);
+  }, [hotelImage]);
 
   const fallbackImage = FALLBACK_IMAGES[isDarkMode === true ? 'dark' : 'light'];
-  const imageSrc = status === 'error' || !hotel.image ? fallbackImage : hotel.image;
+
+  const imageSrc = status === 'error' || !hotelImage ? fallbackImage : hotelImage;
 
   const handleImageLoad = useCallback(() => setStatus('loaded'), []);
   const handleImageError = useCallback(() => setStatus('error'), []);

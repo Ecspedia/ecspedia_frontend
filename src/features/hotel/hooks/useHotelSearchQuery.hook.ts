@@ -4,7 +4,7 @@ import { useLazyQuery } from '@apollo/client/react';
 import { useCallback, useMemo } from 'react';
 
 import { HotelSearchParams } from '../stores/hotelSearchSlice';
-import type { Hotel, SearchHotelsByLocationQuery } from '@/types/graphql';
+import type { HotelResponseDto, SearchHotelsByLocationQuery } from '@/types/graphql';
 import { SEARCH_HOTELS_BY_LOCATION } from '../api/hotel.queries';
 
 export const useHotelSearchQuery = () => {
@@ -28,7 +28,7 @@ export const useHotelSearchQuery = () => {
     [fetchHotels]
   );
 
-  const hotels = useMemo<Hotel[]>(() => {
+  const hotels = useMemo<HotelResponseDto[]>(() => {
     return data?.hotelsByLocation || [];
   }, [data?.hotelsByLocation]);
 

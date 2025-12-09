@@ -1,30 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const CREATE_BOOKING_MUTATION = gql`
-  mutation CreateBooking(
-    $hotelId: ID!
-    $userId: ID!
-    $firstNameGuest: String!
-    $lastNameGuest: String!
-    $emailGuest: String!
-    $phoneNumberGuest: String!
-    $startTime: String!
-    $endTime: String!
-    $price: Float!
-    $currency: String!
-  ) {
-    createBooking(
-      hotelId: $hotelId
-      userId: $userId
-      firstNameGuest: $firstNameGuest
-      lastNameGuest: $lastNameGuest
-      emailGuest: $emailGuest
-      phoneNumberGuest: $phoneNumberGuest
-      startTime: $startTime
-      endTime: $endTime
-      price: $price
-      currency: $currency
-    ) {
+  mutation CreateBooking($bookingCreateDto: BookingCreateInput!) {
+    createBooking(bookingCreateDto: $bookingCreateDto) {
       id
       userId
       hotelId
