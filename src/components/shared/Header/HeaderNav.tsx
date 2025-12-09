@@ -44,21 +44,7 @@ export default function HeaderNav() {
                   onLogout={handleLogout}
                 />
               )}
-
-          {!isMobile && (
-            <DesktopNav
-              username={user?.username}
-              profilePhotoUrl={(user as { profilePhotoUrl?: string })?.profilePhotoUrl}
-              menuOpen={menuOpen}
-              logoutLoading={logoutLoading}
-              menuRef={menuRef}
-              onToggleMenu={toggleMenu}
-              onMyBookings={handleMyBookings}
-              onProfile={handleProfile}
-              onLogout={handleLogout}
-            />
-          )}
-
+       
           {isMobile && (
             <MobileNav
               username={user?.username}
@@ -73,6 +59,7 @@ export default function HeaderNav() {
               onLogout={handleLogout}
             />
           )}
+        </Suspense>
         </div>
       </MainContainer>
     </HeaderComponent>
