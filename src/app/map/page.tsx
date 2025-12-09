@@ -3,14 +3,14 @@
 import { GoogleHotelMap } from '@/features/hotel/components';
 import { useAppSelector } from '@/hooks/hooks';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
+import { selectSubmittedValues } from '@/features/hotel/stores/hotelSearchSlice';
 import { cn } from '@/utils/utils';
-import { useQuery, useReactiveVar } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 import { X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui';
 import { SEARCH_HOTELS_BY_LOCATION } from '@/features/hotel/api/hotel.queries';
-import { hotelSearchParamsVar } from '@/lib/apollo-reactive-vars';
 import type { Hotel, SearchHotelsByLocationQuery } from '@/types/graphql';
 import { Suspense, useMemo } from 'react';
 
@@ -24,11 +24,11 @@ function FullScreenMapContent() {
   const hotelId = urlSearchParams.get('hotelId');
   const locationParam = urlSearchParams.get('location');
 
-  // Read search params from Apollo reactive variable
-  const searchParams = useReactiveVar(hotelSearchParamsVar);
+  // Read search params from Redux
+  const submittedValues = useAppSelector(selectSubmittedValues);
 
-  // Use URL location param or Apollo reactive variable
-  const searchLocation = locationParam || searchParams.location;
+  // Use URL location param or Redux submitted values
+  const searchLocation = locationParam || submittedValues?.location;
 
   // Read hotel data from Apollo cache
   const { data, loading } = useQuery<SearchHotelsByLocationQuery>(SEARCH_HOTELS_BY_LOCATION, {

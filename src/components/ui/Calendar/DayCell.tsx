@@ -1,6 +1,6 @@
+import { DateHelper } from '@/utils/dateHelpers';
 import { cn } from '@/utils/utils';
 import { useCalendarContext } from './hooks';
-import { DateHelper } from '@/utils/dateHelpers';
 
 interface DayCellProps {
   day: number;
@@ -63,7 +63,7 @@ export default function DayCell({ day, date, currentYear, currentMonth, isDarkMo
     <div key={index} className="relative h-10">
       <div
         className={cn('absolute inset-0', getBackgroundClass(), {
-          'left-1/2': isStartDate && !isFirstDayOfMonth,
+          'left-1/2': isStartDate,
           'right-1/2': isEndDate && !isLastDayOfMonth,
         })}
       ></div>
@@ -72,7 +72,7 @@ export default function DayCell({ day, date, currentYear, currentMonth, isDarkMo
         type="button"
         disabled={isDisabled}
         className={cn(
-          'relative z-10 flex w-full h-10 mx-auto items-center justify-center hover:border-2 rounded-full',
+          'relative z-10 flex w-10 h-10 mx-auto items-center justify-center hover:border-2 rounded-full',
           hoverBorder,
           {
             'bg-brand-secondary text-primary font-bold': isBoundaryDate,

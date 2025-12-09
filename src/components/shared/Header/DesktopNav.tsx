@@ -35,13 +35,14 @@ export const DesktopNav = ({
       <DarkModeToggle />
       <BotonBell />
       <BotonHeader texto="Support" ruta="/support" />
-      <button
+      <BotonHeader texto="Bookings" ruta="/my-bookings" />
+      {/* <button
         type="button"
         onClick={onMyBookings}
         className="inline-flex items-center rounded-md px-3 py-2 text-sm font-bold text-primary transition hover:text-primary-inverse"
       >
         Bookings
-      </button>
+      </button> */}
       {username ? (
         <div className="relative" ref={menuRef}>
           <UserMenu

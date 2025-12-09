@@ -6,6 +6,7 @@ import TextFieldInput from './components/TextFieldInput';
 import TextFieldInputWrapper from './components/TextFieldInputWrapper';
 import TextFieldLabel from './components/TextFieldLabel';
 import TextFieldRoot from './components/TextFieldRoot';
+import TextFieldUnselect from './components/TextFieldUnselect';
 
 interface TextFieldProps {
     onClick?: () => void;
@@ -49,6 +50,6 @@ TextField.Icon = TextFieldIcon;
 TextField.Label = TextFieldLabel;
 TextField.Input = TextFieldInput;
 TextField.InputWrapper = TextFieldInputWrapper;
-
+TextField.Unselect = TextFieldUnselect;
 export default TextField;
 

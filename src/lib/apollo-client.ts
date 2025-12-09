@@ -36,7 +36,7 @@ const createApolloClient = () => {
 
   // Chain: minimumDelayLink -> httpLink (delay only in development)
   const link = createMinimumDelayLink(400).concat(httpLink);
-
+  // const link = httpLink;
   return new ApolloClient({
     link,
     cache: new InMemoryCache(),

@@ -5,12 +5,14 @@ import { useRef, useState } from 'react';
 
 import { useCurrentUser, useIsMobile, useLogout } from '@/hooks';
 import useClickOutSide from '@/hooks/useClickOutside.hooks';
+import useIsDesktop from '@/hooks/useIsDesktop.hook';
 
 export const useHeaderNav = () => {
   const { user } = useCurrentUser();
   const { logout, isLoading: logoutLoading } = useLogout();
   const router = useRouter();
   const isMobile = useIsMobile();
+  const isDesktop = useIsDesktop();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -53,6 +55,7 @@ export const useHeaderNav = () => {
   return {
     user,
     isMobile,
+    isDesktop,
     menuOpen,
     mobileMenuOpen,
     logoutLoading,

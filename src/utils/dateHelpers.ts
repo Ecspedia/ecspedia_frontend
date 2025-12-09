@@ -70,11 +70,17 @@ export class DateHelper {
     return normalized;
   }
 
+  static normalizeDateString(dateString: Date | string): string {
+    const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
+    return date.toISOString();
+  }
+
   static isToday(date: Date): boolean {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    date.setHours(0, 0, 0, 0);
-    return date.toDateString() === today.toDateString();
+    const normalizedDate = new Date(date);
+    normalizedDate.setHours(0, 0, 0, 0);
+    return normalizedDate.toDateString() === today.toDateString();
   }
   static getToday(): Date {
     const today = new Date();

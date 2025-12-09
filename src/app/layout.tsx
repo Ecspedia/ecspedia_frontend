@@ -1,6 +1,7 @@
 import '@/app/globals.css';
 import { HeaderNav } from '@/components/shared';
 import { FullscreenPopupProvider } from '@/components/shared/ExpandableTextField/FullscreenPopupContext';
+import PopUpToggle from '@/features/chatbot/components/popUpToggle';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import ConditionalHeader from './_components/ConditionalHeader';
@@ -70,7 +71,10 @@ export default function RootLayout({
                   <ConditionalHeader>
                     <HeaderNav />
                   </ConditionalHeader>
-                  {children}
+                  <div className="relative">
+                    {children}
+                    <PopUpToggle />
+                  </div>
                 </ErrorBoundaryWrapper>
               </DarkModeProvider>
             </FullscreenPopupProvider>

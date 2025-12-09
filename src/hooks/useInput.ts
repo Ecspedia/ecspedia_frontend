@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export const useDebouncedText = (text: string, delay = 200) => {
-  const [debouncedText, setDebouncedText] = useState('');
+  const [debouncedText, setDebouncedText] = useState(text);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -28,7 +28,13 @@ export const useUniqueValues = <T>(first: T[], second: T[]) => {
   return Array.from(unique);
 };
 
-export const useInput = (initialValue = '', options?: { debounceDelay?: number }) => {
+export const useInput = ({
+  initialValue = '',
+  options,
+}: {
+  initialValue?: string;
+  options?: { debounceDelay?: number };
+}) => {
   const { debounceDelay = 200 } = options || {};
   const [text, setText] = useState(initialValue);
   const debouncedText = useDebouncedText(text, debounceDelay);

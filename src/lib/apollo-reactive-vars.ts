@@ -5,53 +5,65 @@
  * without prop drilling. They're an Apollo-native alternative to Redux for simple state.
  */
 
-import { DateHelper } from '@/utils/dateHelpers';
 import { makeVar } from '@apollo/client';
 
 /**
- * Hotel Search Parameters
+ * DEPRECATED: Hotel search state has been migrated to Redux Toolkit.
+ * Use `src/features/hotel/stores/hotelSearchSlice.ts` instead.
+ *
+ * @deprecated Use Redux hotelSearchSlice selectors (selectFormValues, selectSubmittedValues)
  */
-export interface HotelSearchParams {
-  location: string;
-  startDate: string;
-  endDate: string;
-  adults: number;
-}
-
-/**
- * Reactive variable for hotel search parameters
- * Updated when user submits search form
- */
-export const hotelSearchParamsVar = makeVar<HotelSearchParams>({
-  location: 'Santiago',
-  startDate: DateHelper.getToday().toString(),
-  endDate: DateHelper.pastTomorrow().toString(),
-  adults: 1,
+export const hotelSearchParamsVar = makeVar<{ location: string; startDate: string; endDate: string; adults: number }>({
+  location: '',
+  startDate: '',
+  endDate: '',
+  adults: 2,
 });
-export const hotelSearchSubmittedParamsVar = makeVar<HotelSearchParams | null>(null);
 
 /**
- * Helper to update hotel search params
+ * DEPRECATED: Hotel search state has been migrated to Redux Toolkit.
+ * Use `src/features/hotel/stores/hotelSearchSlice.ts` instead.
+ *
+ * @deprecated Use Redux hotelSearchSlice selector selectSubmittedValues
  */
-export const updateHotelSearchParams = (params: Partial<HotelSearchParams>) => {
-  hotelSearchParamsVar({
-    ...hotelSearchParamsVar(),
-    ...params,
-  });
+export const hotelSearchSubmittedParamsVar = makeVar<{ location: string; startDate: string; endDate: string; adults: number } | null>(null);
+
+/**
+ * DEPRECATED: Hotel search state has been migrated to Redux Toolkit.
+ * Use Redux dispatch with hotelSearchSlice actions instead.
+ *
+ * @deprecated Use Redux dispatch(updateFormLocation(...)) and other hotelSearchSlice actions
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateHotelSearchParams = (_params: any) => {
+  console.warn(
+    'updateHotelSearchParams is deprecated. Use Redux hotelSearchSlice actions instead. ' +
+    'Import and dispatch actions from @/features/hotel/stores/hotelSearchSlice'
+  );
 };
 
 /**
- * Helper to reset hotel search params to defaults
+ * DEPRECATED: Hotel search state has been migrated to Redux Toolkit.
+ * Use Redux dispatch with hotelSearchSlice actions instead.
+ *
+ * @deprecated Use Redux dispatch(resetFormValues())
  */
 export const resetHotelSearchParams = () => {
-  hotelSearchParamsVar({
-    location: '',
-    startDate: DateHelper.getToday().toString(),
-    endDate: DateHelper.pastTomorrow().toString(),
-    adults: 2,
-  });
+  console.warn(
+    'resetHotelSearchParams is deprecated. Use Redux dispatch(resetFormValues()) instead. ' +
+    'Import resetFormValues from @/features/hotel/stores/hotelSearchSlice'
+  );
 };
 
+/**
+ * DEPRECATED: Hotel search state has been migrated to Redux Toolkit.
+ * Use Redux dispatch with hotelSearchSlice actions instead.
+ *
+ * @deprecated Use Redux dispatch(submitSearch())
+ */
 export const syncSubmittedValues = () => {
-  hotelSearchSubmittedParamsVar(hotelSearchParamsVar());
+  console.warn(
+    'syncSubmittedValues is deprecated. Use Redux dispatch(submitSearch()) instead. ' +
+    'Import submitSearch from @/features/hotel/stores/hotelSearchSlice'
+  );
 };

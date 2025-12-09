@@ -28,6 +28,8 @@ export const UserMenu = ({
   return (
     <>
       <button
+        id="user-menu-button"
+        data-testid="user-menu-button"
         type="button"
         onClick={onToggle}
         className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-bold text-primary transition hover:text-primary-inverse"
@@ -48,6 +50,7 @@ export const UserMenu = ({
           </div>
         )}
       </button>
+
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-overlay py-2 shadow-lg">
           <button

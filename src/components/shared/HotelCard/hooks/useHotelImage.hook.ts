@@ -1,47 +1,45 @@
 import { useDarkMode } from '@/hooks';
 import type { Hotel } from '@/types/graphql';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+type ImageStatus = 'loading' | 'loaded' | 'error';
 
 interface UseHotelImageReturn {
   imageSrc: string;
-  isExternalImage: boolean;
   isLoading: boolean;
   hasError: boolean;
   handleImageLoad: () => void;
   handleImageError: () => void;
 }
 
-const FALLBACK_IMAGE_LIGHT = '/images/home/hotel_fallback_light.svg';
-const FALLBACK_IMAGE_DARK = '/images/home/hotel_fallback_dark.svg';
+const FALLBACK_IMAGES = {
+  light: '/images/home/hotel_fallback_light.svg',
+  dark: '/images/home/hotel_fallback_dark.svg',
+} as const;
 
-const getFallbackImage = (isDarkMode: boolean) =>
-  isDarkMode ? FALLBACK_IMAGE_DARK : FALLBACK_IMAGE_LIGHT;
-
-export const useHotelImage = (hotel: Hotel): UseHotelImageReturn => {
+export function useHotelImage(hotel: Hotel): UseHotelImageReturn {
   const { isDarkMode } = useDarkMode();
+  const [status, setStatus] = useState<ImageStatus>(() => (hotel.image ? 'loading' : 'error'));
 
-  const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>(
-    hotel.image ? 'loading' : 'error'
-  );
-
+  const prevImageRef = useRef(hotel.image);
   useEffect(() => {
-    setStatus(hotel.image ? 'loading' : 'error');
-  }, [hotel.id, hotel.image]);
+    if (prevImageRef.current !== hotel.image) {
+      prevImageRef.current = hotel.image;
+      setStatus(hotel.image ? 'loading' : 'error');
+    }
+  }, [hotel.image]);
 
-  const imageSrc =
-    status === 'error' || !hotel.image ? getFallbackImage(isDarkMode ?? false) : hotel.image;
-
-  const isExternalImage = imageSrc.startsWith('http://') || imageSrc.startsWith('https://');
+  const fallbackImage = FALLBACK_IMAGES[isDarkMode === true ? 'dark' : 'light'];
+  const imageSrc = status === 'error' || !hotel.image ? fallbackImage : hotel.image;
 
   const handleImageLoad = useCallback(() => setStatus('loaded'), []);
   const handleImageError = useCallback(() => setStatus('error'), []);
 
   return {
     imageSrc,
-    isExternalImage,
     isLoading: status === 'loading',
     hasError: status === 'error',
     handleImageLoad,
     handleImageError,
   };
-};
+}

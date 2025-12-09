@@ -3,7 +3,7 @@
 import { Button, MainContainer } from '@/components/ui';
 import { useCurrentUser } from '@/hooks';
 import type { CreateBookingMutation, CreateHotelMutation, Hotel } from '@/types/graphql';
-import { useMutation, useReactiveVar } from '@apollo/client/react';
+import { useMutation } from '@apollo/client/react';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
@@ -12,7 +12,6 @@ import GuestForm, { GuestFormData } from './GuestForm';
 import PaymentSummary from './PaymentSummary';
 
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
-import { hotelSearchSubmittedParamsVar } from '@/lib/apollo-reactive-vars';
 import { DateHelper } from '@/utils/dateHelpers';
 
 
@@ -37,9 +36,8 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
     const [createHotel, { loading: isCreatingHotel }] = useMutation<CreateHotelMutation>(CREATE_HOTEL_MUTATION);
     const [createBooking, { loading: isCreatingBooking }] = useMutation<CreateBookingMutation>(CREATE_BOOKING_MUTATION);
 
-    const submittedParams = useReactiveVar(hotelSearchSubmittedParamsVar);
-    const startDate = searchParams.get('startDate') || submittedParams?.startDate || DateHelper.getToday().toString();
-    const endDate = searchParams.get('endDate') || submittedParams?.endDate || DateHelper.pastTomorrow().toString();
+    const startDate = searchParams.get('startDate') || DateHelper.getToday().toString();
+    const endDate = searchParams.get('endDate') || DateHelper.pastTomorrow().toString();
 
     const handleGuestFormSubmit = (data: GuestFormData) => {
         setGuestFormData(data);

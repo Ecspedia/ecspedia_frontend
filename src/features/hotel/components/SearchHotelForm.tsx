@@ -5,8 +5,8 @@ import useExpandableFields from '@/hooks/useExpandableFields.hook';
 import { cn } from '@/utils/utils';
 import { Controller, SubmitHandler } from 'react-hook-form';
 
-import { HotelSearchParams } from '@/lib/apollo-reactive-vars';
 import { useHotelFormValidation, useHotelState } from '../hooks';
+import { HotelSearchParams } from '../stores/hotelSearchSlice';
 import { HotelFormInput, LocationFieldType } from '../types';
 
 interface SearchHotelFormProps {
@@ -37,7 +37,17 @@ export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormPro
   >();
 
   const handleSubmitForm: SubmitHandler<HotelFormInput> = (formData) => {
-    submitSearch(formData, onSubmit);
+    const payload: HotelSearchParams = {
+      location: formData.location,
+      startDate: formData.startDate ?? '',
+      endDate: formData.endDate ?? '',
+      adults: formData.adults,
+    };
+    if (onSubmit) {
+      onSubmit(payload);
+    } else {
+      submitSearch(formData);
+    }
   };
 
   return (
@@ -89,7 +99,11 @@ export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormPro
                     onCalendarClose={closeField}
                     startDate={startField.value ? new Date(startField.value) : null}
                     endDate={endField.value ? new Date(endField.value) : null}
-                    onDateRangeSelect={(start, end) => handleDateRangeChange(start, end, startField, endField)}
+                    onDateRangeSelect={(start, end) => {
+                      startField.onChange(start.toISOString());
+                      endField.onChange(end.toISOString());
+                      handleDateRangeChange(start, end);
+                    }}
                   />
                 )}
               />
@@ -110,7 +124,10 @@ export default function SearchHotelForm(searchHotelFormProps: SearchHotelFormPro
                 isOpen={isFieldExpanded(LocationFieldType.ADULTS)}
                 onOpen={() => handleFieldClick(LocationFieldType.ADULTS)}
                 adults={field.value || adults}
-                onAdultsSelect={(selectedAdults) => handleAdultsChange(selectedAdults, field)}
+                onAdultsSelect={(selectedAdults) => {
+                  field.onChange(selectedAdults);
+                  handleAdultsChange(selectedAdults);
+                }}
                 onClose={closeField}
               />
             )}
