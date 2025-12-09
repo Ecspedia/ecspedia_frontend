@@ -42,6 +42,7 @@ export const CURRENT_USER_QUERY = graphql(`
       id
       username
       email
+      profilePhotoUrl
     }
   }
 `);

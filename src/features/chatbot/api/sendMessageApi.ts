@@ -13,7 +13,7 @@ export async function sendMessageToApi(message: string): Promise<ChatResponseDto
       fetchPolicy: 'network-only', // Don't cache AI responses
     });
 
-    return data?.sendMessage as ChatResponseDto;
+      return data?.sendMessage as ChatResponseDto;
   } catch (error) {
     console.error('API error:', error);
     throw error;

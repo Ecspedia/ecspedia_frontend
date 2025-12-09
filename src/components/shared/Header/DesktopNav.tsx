@@ -9,21 +9,25 @@ import { UserMenu } from '@/components/shared/Header/UserMenu';
 
 interface DesktopNavProps {
   username?: string;
+  profilePhotoUrl?: string;
   menuOpen: boolean;
   logoutLoading: boolean;
   menuRef: RefObject<HTMLDivElement | null>;
   onToggleMenu: () => void;
   onMyBookings: () => void;
+  onProfile: () => void;
   onLogout: () => void;
 }
 
 export const DesktopNav = ({
   username,
+  profilePhotoUrl,
   menuOpen,
   logoutLoading,
   menuRef,
   onToggleMenu,
   onMyBookings,
+  onProfile,
   onLogout,
 }: DesktopNavProps) => {
   return (
@@ -43,10 +47,12 @@ export const DesktopNav = ({
         <div className="relative" ref={menuRef}>
           <UserMenu
             username={username}
+            profilePhotoUrl={profilePhotoUrl}
             isOpen={menuOpen}
             logoutLoading={logoutLoading}
             onToggle={onToggleMenu}
             onMyBookings={onMyBookings}
+            onProfile={onProfile}
             onLogout={onLogout}
           />
         </div>
