@@ -1,5 +1,5 @@
 import { useDarkMode } from '@/hooks';
-import type { Hotel } from '@/types/graphql';
+import type { HotelResponseDto } from '@/types/graphql';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 type ImageStatus = 'loading' | 'loaded' | 'error';
@@ -17,7 +17,7 @@ const FALLBACK_IMAGES = {
   dark: '/images/home/hotel_fallback_dark.svg',
 } as const;
 
-export function useHotelImage(hotel: Hotel): UseHotelImageReturn {
+export function useHotelImage(hotel: HotelResponseDto): UseHotelImageReturn {
   const { isDarkMode } = useDarkMode();
   const [status, setStatus] = useState<ImageStatus>(() => (hotel.image ? 'loading' : 'error'));
 

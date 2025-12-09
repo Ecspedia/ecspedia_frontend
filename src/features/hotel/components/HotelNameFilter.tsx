@@ -3,13 +3,13 @@
 import { SearchTextField } from '@/components/shared/SearchTextField';
 import { useExpandableFields } from '@/hooks';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { Hotel } from '@/types/graphql';
+import { HotelResponseDto } from '@/types/graphql';
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { selectFilters, updateFilters } from '../stores/hotelSearchSlice';
 
 interface HotelNameFilterProps {
-  hotels: Hotel[];
+  hotels: HotelResponseDto[];
 }
 
 enum HotelNameFilterFieldType {
@@ -42,7 +42,7 @@ export function HotelNameFilter({ hotels }: HotelNameFilterProps) {
     <div>
       <h3 className="mb-3 text-sm font-semibold text-primary">Search by property name</h3>
       <div ref={getFieldRef(HotelNameFilterFieldType.SEARCH)}>
-        <SearchTextField<Hotel>
+        <SearchTextField<HotelResponseDto>
           icon={Search}
           placeholder="e.g. Marriott"
           value={searchQueryInput}

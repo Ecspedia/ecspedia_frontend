@@ -1,12 +1,12 @@
 'use client';
 
-import type { Hotel } from '@/types/graphql';
+import type { HotelResponseDto } from '@/types/graphql';
 import { ReactNode } from 'react';
 import { HotelCardContext } from '../hotelCardContext';
 import type { HotelCardLayout, HotelCardVariant } from '../utils/variantConfig';
 
 interface HotelCardRootProps {
-  hotel: Hotel;
+  hotel: HotelResponseDto;
   variant?: HotelCardVariant;
   layout?: HotelCardLayout;
   children: ReactNode;

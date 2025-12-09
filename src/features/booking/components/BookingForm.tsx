@@ -2,7 +2,7 @@
 
 import { Button, MainContainer } from '@/components/ui';
 import { useCurrentUser } from '@/hooks';
-import type { CreateBookingMutation, CreateHotelMutation, Hotel } from '@/types/graphql';
+import type { CreateBookingMutation, CreateHotelMutation, HotelResponseDto } from '@/types/graphql';
 import { useMutation } from '@apollo/client/react';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -21,7 +21,7 @@ import { CREATE_BOOKING_MUTATION, CREATE_HOTEL_MUTATION } from '../api/bookings.
 
 
 interface BookingFormProps {
-    hotel: Hotel;
+    hotel: HotelResponseDto;
     onGuestFormSubmit: (data: GuestFormData) => void;
     onConfirmBooking: () => void;
 }

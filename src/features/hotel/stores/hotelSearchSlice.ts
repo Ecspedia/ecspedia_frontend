@@ -2,7 +2,7 @@ import { RootState } from '@/stores/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // TODO: Restore hotelService - File was moved/deleted
 // import { hotelService } from '../api/hotelService';
-import type { Hotel } from '@/types/graphql';
+import type { HotelResponseDto } from '@/types/graphql';
 import { GuestRating } from '../utils/getRatingByFilterLabels';
 
 export interface HotelSearchParams {
@@ -20,7 +20,7 @@ interface HotelSearchFilters {
 }
 
 interface HotelSearchQueryState {
-  data: Hotel[];
+  data: HotelResponseDto[];
   loading: boolean;
   error: string | null;
 }

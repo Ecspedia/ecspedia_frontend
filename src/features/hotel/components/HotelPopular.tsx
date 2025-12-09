@@ -3,10 +3,10 @@
 import { ScrollableList } from '@/components/shared';
 import HotelCard from '@/components/shared/HotelCard';
 import { Skeleton } from '@/components/ui/Skeleton/skeleton';
-import { Hotel } from '@/types/graphql';
+import { HotelResponseDto } from '@/types/graphql';
 
 interface HotelPopularProps {
-  hotels: Hotel[];
+  hotels: HotelResponseDto[];
   loading: boolean;
   error: string;
 }

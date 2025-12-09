@@ -1,12 +1,12 @@
 'use client';
 
-import { Hotel } from '@/types/graphql';
+import { HotelResponseDto } from '@/types/graphql';
 import { HotelNameFilter } from './HotelNameFilter';
-import { HotelRatingFilter } from './HotelRatingFilter';
 import { HotelPriceFilter } from './HotelPriceFilter';
+import { HotelRatingFilter } from './HotelRatingFilter';
 
 interface HotelFilterProps {
-  hotels: Hotel[];
+  hotels: HotelResponseDto[];
 }
 
 export interface HotelFilters {

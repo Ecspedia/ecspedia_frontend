@@ -1,9 +1,9 @@
-import type { Hotel } from '@/types/graphql';
+import type { HotelResponseDto } from '@/types/graphql';
 import { createContext } from 'react';
 import type { HotelCardLayout, HotelCardVariant } from './utils/variantConfig';
 
 export type HotelCardContextType = {
-  hotel: Hotel;
+  hotel: HotelResponseDto;
   variant?: HotelCardVariant;
   layout?: HotelCardLayout;
   isPriority?: boolean;

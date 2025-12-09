@@ -109,7 +109,7 @@ const useAddMetaDataToMessage = () => {
 
 
     const addMetaDataToMessage = (message: string) => {
-        var metaData = '';
+        let metaData = '';
         if (currentUser?.user?.id) {
             metaData = `userId:${currentUser?.user?.id}`;
         }
