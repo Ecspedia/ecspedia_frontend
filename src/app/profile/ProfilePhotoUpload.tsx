@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
 import { UPDATE_PROFILE_PHOTO_MUTATION } from '@/config/graphql/global.mutations';
 import { useCurrentUser } from '@/hooks';
 import { useMutation } from '@apollo/client/react';
 import { Camera, Loader2, User } from 'lucide-react';
 import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 
 export default function ProfilePhotoUpload() {
   const { user, refetch } = useCurrentUser();
@@ -34,13 +34,13 @@ export default function ProfilePhotoUpload() {
 
     setError('');
     setUploading(true);
-    
+
     // Create preview immediately
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64String = reader.result as string;
       setPreview(base64String);
-      
+
       // Auto-upload after preview is set
       try {
         const result = await updateProfilePhotoMutation({
@@ -50,22 +50,22 @@ export default function ProfilePhotoUpload() {
             }
           }
         });
-        
+
         // Store uploaded URL to display immediately
         const uploadedPhotoUrl = (result.data as { updateProfilePhoto?: { profilePhotoUrl?: string } })?.updateProfilePhoto?.profilePhotoUrl;
         if (uploadedPhotoUrl) {
           setUploadedUrl(uploadedPhotoUrl);
         }
-        
+
         // Refresh user data
         await refetch();
-        
+
         // Clear preview and file input
         setPreview(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
-        
+
         // Trigger auth token change event to update header
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new Event('auth-token-changed'));
@@ -117,46 +117,48 @@ export default function ProfilePhotoUpload() {
           id="profile-photo-input"
           disabled={uploading}
         />
-        
+
         {displayUrl ? (
-          <div className="relative">
+          <button
+            type="button"
+            onClick={() => !uploading && fileInputRef.current?.click()}
+            className="relative group cursor-pointer"
+            disabled={uploading}
+            aria-label="Change photo"
+          >
             <Image
               src={displayUrl}
               alt="Profile photo"
               width={80}
               height={80}
-              className="w-20 h-20 rounded-full object-cover border-2 border-border"
+              className="w-20 h-20 rounded-full object-cover border-2 border-border group-hover:opacity-80 transition-opacity"
               unoptimized
             />
             {!uploading && (
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary-dark transition shadow-lg border-2 border-surface"
-                aria-label="Change photo"
-              >
-                <Camera className="w-3.5 h-3.5" />
-              </button>
+              <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 group-hover:bg-black/50 transition-colors">
+                <Camera className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
             )}
-          </div>
+          </button>
         ) : (
-          <div className="relative">
-            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+          <button
+            type="button"
+            onClick={() => !uploading && fileInputRef.current?.click()}
+            className="relative group cursor-pointer"
+            disabled={uploading}
+            aria-label="Upload photo"
+          >
+            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
               <User className="w-10 h-10 text-primary" />
             </div>
             {!uploading && (
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition shadow-lg border-2 border-surface"
-                aria-label="Upload photo"
-              >
-                <Camera className="w-3.5 h-3.5" />
-              </button>
+              <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 group-hover:bg-black/50 transition-colors">
+                <Camera className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
             )}
-          </div>
+          </button>
         )}
-        
+
         {uploading && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full">
             <div className="flex flex-col items-center gap-2">
@@ -172,7 +174,7 @@ export default function ProfilePhotoUpload() {
           </div>
         )}
       </div>
-      
+
       {error && (
         <p className="text-sm text-error">{error}</p>
       )}

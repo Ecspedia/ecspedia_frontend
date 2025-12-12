@@ -19,6 +19,7 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
   const { hotels, isFullScreen, initialCenter, initialSelectedHotel } = hotelMapProps;
 
   const [selectedHotel, setSelectedHotel] = useState<HotelResponseDto | null>(initialSelectedHotel || null);
+  const [singleHotel] = useState<HotelResponseDto | null>(initialSelectedHotel || null);
   const router = useRouter();
   const isDarkMode = useAppSelector(selectIsDarkMode);
 
@@ -39,6 +40,19 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
     if (isNaN(lat) || isNaN(lng)) return null;
     return { lat, lng };
   }, [selectedHotel]);
+
+  // Calculate single hotel coordinates (persists even when card is closed)
+  const singleHotelCoords = useMemo(() => {
+    if (!singleHotel?.latitude || !singleHotel?.longitude) return null;
+    const lat = typeof singleHotel.latitude === 'string'
+      ? parseFloat(singleHotel.latitude)
+      : Number(singleHotel.latitude);
+    const lng = typeof singleHotel.longitude === 'string'
+      ? parseFloat(singleHotel.longitude)
+      : Number(singleHotel.longitude);
+    if (isNaN(lat) || isNaN(lng)) return null;
+    return { lat, lng };
+  }, [singleHotel]);
 
   const hotelsWithCoordinates = useMemo(
     () => {
@@ -121,7 +135,7 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
           streetViewControl={false}
 
 
-          gestureHandling="greedy"
+          gestureHandling={isFullScreen ? 'greedy' : 'none'}
           colorScheme={isDarkMode ? 'DARK' : 'LIGHT'}
         >
           {isFullScreen && hotelsWithCoordinates.map((hotel) => {
@@ -148,11 +162,20 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
               </AdvancedMarker>
             );
           })}
-          {/* Show marker for selected hotel (when not in hotels array) */}
-          {isFullScreen && selectedHotel && selectedHotelCoords && !hotelsWithCoordinates.some(h => h.id === selectedHotel.id) && (
-            <AdvancedMarker position={selectedHotelCoords}>
-              <div className="cursor-pointer rounded bg-brand-primary px-3 py-1 text-sm font-medium text-white shadow-md">
-                ${(selectedHotel.pricePerNight || 0).toFixed(2)}
+          {/* Show marker for single hotel (persists even when card is closed) */}
+          {isFullScreen && singleHotel && singleHotelCoords && !hotelsWithCoordinates.some(h => h.id === singleHotel.id) && (
+            <AdvancedMarker
+              position={singleHotelCoords}
+              onClick={() => setSelectedHotel(singleHotel)}
+            >
+              <div
+                className={`cursor-pointer rounded px-3 py-1 text-sm font-medium shadow-md ${
+                  selectedHotel?.id === singleHotel.id
+                    ? 'bg-brand-primary text-white'
+                    : 'bg-brand-secondary text-white'
+                }`}
+              >
+                ${(singleHotel.pricePerNight || 0).toFixed(2)}
               </div>
             </AdvancedMarker>
           )}
@@ -193,9 +216,13 @@ function MapController({ center, zoom }: MapControllerProps) {
 
   useEffect(() => {
     if (!map || !center) return;
+
+    // Smooth pan with animation
     map.panTo(center);
     if (zoom) {
-      map.setZoom(zoom);
+      setTimeout(() => {
+        map.setZoom(zoom);
+      }, 300);
     }
   }, [map, center, zoom]);
 

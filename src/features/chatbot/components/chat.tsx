@@ -122,18 +122,6 @@ const useAddMetaDataToMessage = () => {
     return addMetaDataToMessage;
 }
 
-const useAddHotelIdIfExistToMessage = () => {
-    const selectedHotelId = useAppSelector(selectSelectedHotelId);
-
-    const addHotelIdToMessage = (message: string) => {
-        if (selectedHotelId) {
-            return `hotelId:${selectedHotelId} ${message}`;
-        }
-        return message;
-    };
-
-    return addHotelIdToMessage;
-}
 
 const ChatInput = ({ onSendMessage, loading, inputRef }: { onSendMessage: (message: string) => Promise<void>, loading: boolean, inputRef: React.RefObject<HTMLTextAreaElement | null> }) => {
     const [inputValue, setInputValue] = useState("");
