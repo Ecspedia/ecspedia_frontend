@@ -2,9 +2,9 @@
 
 import { GoogleHotelMap } from '@/features/hotel/components';
 import { selectSubmittedValues } from '@/features/hotel/stores/hotelSearchSlice';
-import { useAppSelector } from '@/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
-import { selectSelectedMapHotel } from '@/stores/globalSlice';
+import { clearSelectedMapHotel, selectSelectedMapHotel } from '@/stores/globalSlice';
 import { cn } from '@/utils/utils';
 import { useQuery } from '@apollo/client/react';
 import { X } from 'lucide-react';
@@ -17,6 +17,7 @@ import { Suspense, useMemo } from 'react';
 
 function FullScreenMapContent() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   // Get selected hotel from Redux
   const selectedMapHotel = useAppSelector(selectSelectedMapHotel);
@@ -58,6 +59,7 @@ function FullScreenMapContent() {
   const isDarkMode = useAppSelector(selectIsDarkMode);
 
   const handleClose = () => {
+    dispatch(clearSelectedMapHotel());
     router.back();
   };
 

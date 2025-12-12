@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
+import { graphql } from '@/types/gql';
 
-export const CREATE_BOOKING_MUTATION = gql`
+export const CREATE_BOOKING_MUTATION = graphql(`
   mutation CreateBooking($bookingCreateDto: BookingCreateInput!) {
     createBooking(bookingCreateDto: $bookingCreateDto) {
       id
@@ -20,45 +20,10 @@ export const CREATE_BOOKING_MUTATION = gql`
       canceledAt
     }
   }
-`;
+`);
 
-export const CREATE_HOTEL_MUTATION = gql`
-  mutation CreateHotel($hotelCreateDto: HotelCreateInput!) {
-    createHotel(hotelCreateDto: $hotelCreateDto) {
-      id
-      name
-      location
-      image
-      isAvailable
-      rating
-      reviewCount
-      pricePerNight
-      latitude
-      longitude
-      hotelDescription
-      hotelTypeId
-      chain
-      currency
-      country
-      city
-      address
-      zip
-      mainPhoto
-      thumbnail
-      stars
-      facilityIds
-      accessibilityAttributes {
-        attributes
-        showerChair
-        entranceType
-        petFriendly
-        rampAngle
-        rampLength
-        entranceDoorWidth
-        roomMaxGuestsNumber
-        distanceFromTheElevatorToTheAccessibleRoom
-      }
-      deletedAt
-    }
+export const DELETE_BOOKING_MUTATION = graphql(`
+  mutation DeleteBookingById($bookingId: ID!) {
+    deleteBookingById(bookingId: $bookingId)
   }
-`;
+`);

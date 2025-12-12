@@ -2,23 +2,20 @@
 
 import { Button, MainContainer } from '@/components/ui';
 import { useCurrentUser } from '@/hooks';
-import type { CreateBookingMutation, CreateHotelMutation, HotelResponseDto } from '@/types/graphql';
+import type { CreateBookingMutation, HotelResponseDto } from '@/types/graphql';
 import { useMutation } from '@apollo/client/react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import BookingDetails from './BookingDetails';
+
+import BookingConfirmation from './BookingConfirmation';
+import BookingStepper, { BOOKING_STEPS } from './BookingStepper';
 import GuestForm, { GuestFormData } from './GuestForm';
-import PaymentSummary from './PaymentSummary';
+import RoomSelection, { RoomType } from './RoomSelection';
 
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
 import { DateHelper } from '@/utils/dateHelpers';
-
-
-import { hotelToHotelCreateDtoInput } from '@/utils/mapper';
-import { CREATE_BOOKING_MUTATION, CREATE_HOTEL_MUTATION } from '../api/bookings.mutations';
-
-
+import { CREATE_BOOKING_MUTATION } from '../api/bookings.mutations';
 
 interface BookingFormProps {
     hotel: HotelResponseDto;
@@ -30,14 +27,29 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
     const router = useRouter();
     const searchParams = useSearchParams();
     const { user } = useCurrentUser();
+
+    // Step state
+    const [currentStep, setCurrentStep] = useState(1);
+
+    // Room selection state
+    const [selectedRoom, setSelectedRoom] = useState<RoomType | null>(null);
+
+    // Guest form state
     const [guestFormData, setGuestFormData] = useState<GuestFormData | null>(null);
     const [isFormValid, setIsFormValid] = useState(false);
+
+    // Booking state
     const [error, setError] = useState<string | null>(null);
-    const [createHotel, { loading: isCreatingHotel }] = useMutation<CreateHotelMutation>(CREATE_HOTEL_MUTATION);
+
     const [createBooking, { loading: isCreatingBooking }] = useMutation<CreateBookingMutation>(CREATE_BOOKING_MUTATION);
 
     const startDate = searchParams.get('startDate') || DateHelper.getToday().toString();
     const endDate = searchParams.get('endDate') || DateHelper.pastTomorrow().toString();
+
+    // Calculate nights
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+    const nights = Math.max(1, Math.ceil((endDateObj.getTime() - startDateObj.getTime()) / (1000 * 60 * 60 * 24)));
 
     const handleGuestFormSubmit = (data: GuestFormData) => {
         setGuestFormData(data);
@@ -49,29 +61,46 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
         setIsFormValid(isValid);
     }, []);
 
+    const handleRoomSelect = (room: RoomType) => {
+        setSelectedRoom(room);
+    };
+
+    const handleNext = () => {
+        if (currentStep < 3) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const handleBack = () => {
+        if (currentStep > 1) {
+            setCurrentStep(currentStep - 1);
+        } else {
+            router.back();
+        }
+    };
+
+    const canProceed = () => {
+        switch (currentStep) {
+            case 1:
+                return selectedRoom !== null;
+            case 2:
+                return isFormValid && guestFormData !== null;
+            case 3:
+                return true;
+            default:
+                return false;
+        }
+    };
+
     const handleConfirmBooking = async () => {
-        if (!guestFormData || !user?.id) {
+        if (!guestFormData || !user?.id || !selectedRoom) {
             return;
         }
 
         setError(null);
 
         try {
-            const hotelCreateDto = hotelToHotelCreateDtoInput(hotel);
 
-            const { data: hotelData } = await createHotel({
-                variables: {
-                    hotelCreateDto,
-                },
-            });
-
-            if (!hotelData?.createHotel) {
-                setError('Failed to create hotel. Please try again.');
-                return;
-            }
-
-            const startDateObj = new Date(startDate);
-            const endDateObj = new Date(endDate);
 
             const startTime = new Date(startDateObj);
             startTime.setHours(15, 0, 0, 0);
@@ -79,18 +108,22 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
             const endTime = new Date(endDateObj);
             endTime.setHours(11, 0, 0, 0);
 
+            const roomPrice = Math.round(hotel.pricePerNight * selectedRoom.priceMultiplier);
+
             const bookingResult = await createBooking({
                 variables: {
-                    hotelId: hotelData.createHotel.id,
-                    userId: user.id,
-                    firstNameGuest: guestFormData.firstName,
-                    lastNameGuest: guestFormData.lastName,
-                    emailGuest: guestFormData.email,
-                    phoneNumberGuest: guestFormData.phone,
-                    startTime: startTime.toISOString(),
-                    endTime: endTime.toISOString(),
-                    price: hotel.pricePerNight,
-                    currency: 'USD',
+                    bookingCreateDto: {
+                        hotelId: hotel.id,
+                        userId: user.id,
+                        firstNameGuest: guestFormData.firstName,
+                        lastNameGuest: guestFormData.lastName,
+                        emailGuest: guestFormData.email,
+                        phoneNumberGuest: guestFormData.phone,
+                        startTimeIso: startTime.toISOString(),
+                        endTimeIso: endTime.toISOString(),
+                        price: roomPrice * nights,
+                        currency: 'USD',
+                    },
                 },
                 refetchQueries: [
                     {
@@ -101,25 +134,19 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
                 awaitRefetchQueries: true,
             });
 
-            // Check if booking was created successfully
             if (bookingResult.data?.createBooking) {
-                // Navigate to my-bookings page after successful booking
-                // Use replace instead of push to prevent back navigation to booking form
                 try {
                     router.replace('/my-bookings');
                 } catch (_navError) {
-                    // Fallback to window.location if router fails
                     window.location.href = '/my-bookings';
                 }
             } else {
                 setError('Failed to create booking. Please try again.');
             }
         } catch (err: unknown) {
-            // Check if the error contains booking data (Apollo can return data even with errors)
             if (err && typeof err === 'object' && 'data' in err) {
                 const errorWithData = err as { data?: { createBooking?: unknown } };
                 if (errorWithData.data?.createBooking) {
-                    // Booking was created successfully despite error, navigate anyway
                     try {
                         router.replace('/my-bookings');
                     } catch (_navError) {
@@ -149,24 +176,80 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
         }
     };
 
+    const getStepTitle = () => {
+        switch (currentStep) {
+            case 1:
+                return 'Select Your Room';
+            case 2:
+                return 'Guest Information';
+            case 3:
+                return 'Confirm Your Booking';
+            default:
+                return 'Complete Your Booking';
+        }
+    };
+
+    const getStepDescription = () => {
+        switch (currentStep) {
+            case 1:
+                return 'Choose the room type that best fits your needs';
+            case 2:
+                return 'Enter the guest details for this reservation';
+            case 3:
+                return 'Review all details and confirm your booking';
+            default:
+                return '';
+        }
+    };
+
     return (
-        <MainContainer>
+        <MainContainer className='pb-10'>
             <div className="my-4">
-                <Button
-                    onClick={() => router.back()}
-                    variant="blank"
-                    className="inline-flex items-center gap-2 text-brand-secondary hover:text-brand-primary transition-colors mb-4 p-0 font-medium group"
-                >
-                    <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                    Back to results
-                </Button>
-                <h1 className="text-3xl font-bold text-primary mb-2">Complete Your Booking</h1>
-                <p className="text-secondary">Review your booking details and complete your reservation</p>
+                <div className="relative flex items-center justify-center mb-2">
+                    <Button
+                        onClick={() => router.back()}
+                        variant="blank"
+                        className="absolute left-0 inline-flex items-center gap-2 bg-surface-raised hover:bg-surface border border-border rounded-full px-4 py-2 text-primary transition-all font-medium group"
+                    >
+                        <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                        Back to results
+                    </Button>
+                    <h1 className="text-3xl font-bold text-primary">{getStepTitle()}</h1>
+                </div>
+                <p className="text-secondary">{getStepDescription()}</p>
             </div>
 
-            <BookingDetails hotel={hotel} />
-            <GuestForm onSubmit={handleGuestFormSubmit} onFormChange={handleFormChange} defaultEmail={user?.email || ''} />
-            <PaymentSummary hotel={hotel} nights={1} />
+            <BookingStepper steps={BOOKING_STEPS} currentStep={currentStep} />
+
+            {/* Step Content */}
+            <div className="mb-6">
+                {currentStep === 1 && (
+                    <RoomSelection
+                        basePrice={hotel.pricePerNight}
+                        selectedRoom={selectedRoom}
+                        onSelectRoom={handleRoomSelect}
+                    />
+                )}
+
+                {currentStep === 2 && (
+                    <GuestForm
+                        onSubmit={handleGuestFormSubmit}
+                        onFormChange={handleFormChange}
+                        defaultEmail={user?.email || ''}
+                    />
+                )}
+
+                {currentStep === 3 && selectedRoom && guestFormData && (
+                    <BookingConfirmation
+                        hotel={hotel}
+                        selectedRoom={selectedRoom}
+                        guestData={guestFormData}
+                        startDate={startDate}
+                        endDate={endDate}
+                        nights={nights}
+                    />
+                )}
+            </div>
 
             {error && (
                 <div className="mb-4 rounded-lg bg-error/20 border border-error p-4">
@@ -174,24 +257,37 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
                 </div>
             )}
 
+            {/* Navigation Buttons */}
             <div className="flex gap-4">
                 <Button
-                    onClick={() => router.back()}
+                    onClick={handleBack}
                     variant="blank"
                     className="rounded-full flex-1 bg-surface border border-border text-primary hover:bg-surface-raised/80 px-6 py-3 font-medium"
                 >
-                    Cancel
+                    {currentStep === 1 ? 'Cancel' : 'Back'}
                 </Button>
-                <Button
-                    onClick={handleConfirmBooking}
-                    variant="secondary"
-                    className="flex-1 px-6 py-3 font-medium"
-                    disabled={!isFormValid || !user || isCreatingHotel || isCreatingBooking}
-                >
-                    {isCreatingHotel || isCreatingBooking ? 'Creating Booking...' : 'Confirm Booking'}
-                </Button>
-            </div>
 
+                {currentStep < 3 ? (
+                    <Button
+                        onClick={handleNext}
+                        variant="secondary"
+                        className="flex-1 px-6 py-3 font-medium"
+                        disabled={!canProceed()}
+                    >
+                        <span>Continue</span>
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
+                ) : (
+                    <Button
+                        onClick={handleConfirmBooking}
+                        variant="secondary"
+                        className="flex-1 px-6 py-3 font-medium"
+                        disabled={!user || isCreatingBooking}
+                    >
+                        {isCreatingBooking ? 'Creating Booking...' : 'Confirm Booking'}
+                    </Button>
+                )}
+            </div>
         </MainContainer>
     );
 }

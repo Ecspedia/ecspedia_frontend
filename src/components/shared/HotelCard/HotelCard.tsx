@@ -1,5 +1,6 @@
 'use client';
 
+import { useIsMobile } from '@/hooks';
 import { HotelResponseDto } from '@/types/graphql';
 import { cn } from '@/utils/utils';
 import { ReactNode } from 'react';
@@ -33,7 +34,7 @@ interface HotelCardProps {
 // Internal variant compositions
 function SearchResultVariant({ onBookClick, className }: { onBookClick?: () => void; onAskAboutHotel?: () => void; className?: string }) {
 
-
+    const isMobile = useIsMobile()
     return (
         <HotelCard.Card className={className}>
             <HotelCard.Image className="lg:rounded-bl-lg lg:rounded-tr-none" />
@@ -44,9 +45,15 @@ function SearchResultVariant({ onBookClick, className }: { onBookClick?: () => v
                             <HotelCard.Title />
                             <HotelCard.Location />
                         </div>
-                        <HotelCard.Pricing className='text-xl lg:text-xl' >
-                            <HotelCard.PricingLabel />
-                        </HotelCard.Pricing>
+                        {isMobile ?
+                            <HotelCard.Pricing className='text-xl lg:text-xl' >
+                            </HotelCard.Pricing>
+                            :
+                            <HotelCard.Pricing className='text-xl lg:text-xl' >
+                                <HotelCard.PricingLabel />
+                            </HotelCard.Pricing>
+                        }
+
                     </div>
                     <HotelCard.Description />
                 </div>

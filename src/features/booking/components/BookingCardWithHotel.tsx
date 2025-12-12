@@ -1,11 +1,14 @@
 'use client';
 
-import { useQuery } from '@apollo/client/react';
-import { useState } from 'react';
-import type { Booking, HotelByIdQuery } from '@/types/graphql';
-import { HOTEL_BY_ID_QUERY } from '@/features/booking/api/bookings.queries';
 import HotelCard from '@/components/shared/HotelCard';
-import { Button, Spinner } from '@/components/ui';
+import { Button, ConfirmDialog, Spinner } from '@/components/ui';
+import { BOOKINGS_BY_USER_EMAIL_QUERY, HOTEL_BY_ID_QUERY } from '@/features/booking/api/bookings.queries';
+import { DELETE_BOOKING_MUTATION } from '@/features/booking/api/bookings.mutations';
+import type { Booking, HotelByIdQuery } from '@/types/graphql';
+import { useMutation, useQuery } from '@apollo/client/react';
+import { Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { useCurrentUser } from '@/hooks';
 
 interface BookingCardWithHotelProps {
     booking: Booking;
@@ -13,7 +16,10 @@ interface BookingCardWithHotelProps {
 }
 
 function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelProps) {
+    const { user } = useCurrentUser();
     const [isPaying, setIsPaying] = useState(false);
+    const [isRemoving, setIsRemoving] = useState(false);
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const { data: hotelData, loading: hotelLoading } = useQuery<HotelByIdQuery>(
         HOTEL_BY_ID_QUERY,
         {
@@ -21,6 +27,14 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
             skip: !booking.hotelId,
         }
     );
+    const [deleteBooking] = useMutation(DELETE_BOOKING_MUTATION, {
+        refetchQueries: [
+            {
+                query: BOOKINGS_BY_USER_EMAIL_QUERY,
+                variables: { email: user?.email || '' },
+            },
+        ],
+    });
 
     const bookingWithPayment = booking as Booking & { paymentStatus?: string; payment_status?: string };
     const paymentStatus = bookingWithPayment.paymentStatus || bookingWithPayment.payment_status || 'pending';
@@ -28,7 +42,7 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
     async function handlePay() {
         try {
             setIsPaying(true);
-            const amountCents = Math.round((booking.price || 0) * 100);
+            const amountCents = Math.round((booking.price || 100) * 100);
             const resp = await fetch('/api/stripe/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -48,6 +62,18 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
         }
     }
 
+    async function handleRemove() {
+        setIsRemoving(true);
+        try {
+            await deleteBooking({ variables: { bookingId: booking.id } });
+        } catch (err) {
+            console.error('Failed to delete booking:', err);
+        } finally {
+            setIsRemoving(false);
+            setShowConfirmDelete(false);
+        }
+    }
+
     return (
         <div className="bg-surface rounded-lg border border-border p-6 hover:bg-surface-raised/80 transition-colors">
             <div className="flex justify-between items-start mb-4">
@@ -63,7 +89,7 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
                         <p className="text-secondary">Phone: {booking.phoneNumberGuest}</p>
                     )}
                 </div>
-                <div className="text-right">
+                <div className="flex items-center gap-2">
                     <span
                         className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${isPaid
                             ? 'bg-success/20 text-success'
@@ -74,6 +100,13 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
                     >
                         {isPaid ? "PAID" : "PENDING"}
                     </span>
+                    <Button
+                        onClick={() => setShowConfirmDelete(true)}
+                        variant="blank"
+                        className="p-2 text-secondary hover:text-error hover:bg-error/10 rounded-full transition-colors"
+                    >
+                        <Trash2 className="w-5 h-5" />
+                    </Button>
                 </div>
             </div>
 
@@ -114,30 +147,28 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
                 </div>
             </div>
 
-            {booking.price && (
-                <div className="flex justify-between items-center pt-4 border-t border-border">
-                    <div>
-                        <span className="text-secondary">Total Price</span>
-                        <div className="text-xl font-bold text-primary">
-                            {booking.currency || 'USD'} {booking.price.toLocaleString()}
-                        </div>
-                    </div>
-
-                    <div>
-                        {paymentStatus === 'paid' || isPaid ? (
-                            <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-success/20 text-success">Paid</span>
-                        ) : (
-                            <Button
-                                onClick={handlePay}
-                                variant="success"
-                                className="inline-flex items-center px-4 py-2 rounded"
-                            >
-                                {isPaying ? 'Redirecting...' : 'Pay'}
-                            </Button>
-                        )}
+            <div className="flex justify-between items-center pt-4 border-t border-border">
+                <div>
+                    <span className="text-secondary">Total Price</span>
+                    <div className="text-xl font-bold text-primary">
+                        {booking.currency || 'USD'} {(booking.price || 100).toLocaleString()}
                     </div>
                 </div>
-            )}
+
+                <div>
+                    {paymentStatus === 'paid' || isPaid ? (
+                        <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-success/20 text-success">Paid</span>
+                    ) : (
+                        <Button
+                            onClick={handlePay}
+                            variant="success"
+                            className="inline-flex items-center px-4 py-2 rounded"
+                        >
+                            {isPaying ? 'Redirecting...' : 'Pay'}
+                        </Button>
+                    )}
+                </div>
+            </div>
 
             <div className="mt-4 text-sm text-secondary">
                 <p>Created: {new Date(booking.createdAt).toLocaleDateString()}</p>
@@ -148,6 +179,18 @@ function BookingCardWithHotel({ booking, isPaid = false }: BookingCardWithHotelP
                     <p>Canceled: {new Date(booking.canceledAt).toLocaleDateString()}</p>
                 )}
             </div>
+
+            <ConfirmDialog
+                isOpen={showConfirmDelete}
+                onClose={() => setShowConfirmDelete(false)}
+                onConfirm={handleRemove}
+                title="Remove Booking"
+                message="Are you sure you want to remove this booking? This action cannot be undone."
+                confirmText="Remove"
+                cancelText="Cancel"
+                isLoading={isRemoving}
+                variant="danger"
+            />
         </div>
     );
 }

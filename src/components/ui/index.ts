@@ -6,3 +6,4 @@ export { Calendar } from './Calendar';
 export { Link } from './Link';
 export { Input, FormField } from './Input';
 export { MainContainer } from './Container';
+export { default as ConfirmDialog } from './Dialog/ConfirmDialog';

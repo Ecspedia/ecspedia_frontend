@@ -85,7 +85,11 @@ export default function MyBookingsContent() {
       ) : (
         <div className="space-y-4">
           {bookings.map((booking) => (
-            <BookingCardWithHotel key={booking.id} booking={booking} isPaid={paidBookingId === booking.id} />
+            <BookingCardWithHotel
+              key={booking.id}
+              booking={booking}
+              isPaid={paidBookingId === booking.id}
+            />
           ))}
         </div>
       )}
