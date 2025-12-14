@@ -1,29 +1,30 @@
 'use client';
 
-import { Button, MainContainer } from '@/components/ui';
+import { MainContainer } from '@/components/ui';
 import { useCurrentUser } from '@/hooks';
-import type { CreateBookingMutation, HotelResponseDto } from '@/types/graphql';
+import { RoomType as RoomTypeBackEnd, type CreateBookingMutation, type HotelResponseDto } from '@/types/graphql';
+
 import { useMutation } from '@apollo/client/react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
-import BookingConfirmation from './BookingConfirmation';
+import BookingError from './BookingError';
+import BookingHeader from './BookingHeader';
+import BookingNavigation from './BookingNavigation';
+import BookingStepContent from './BookingStepContent';
 import BookingStepper, { BOOKING_STEPS } from './BookingStepper';
-import GuestForm, { GuestFormData } from './GuestForm';
-import RoomSelection, { RoomType } from './RoomSelection';
+import { GuestFormData } from './GuestForm';
+import { RoomType } from './RoomSelection';
 
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
 import { DateHelper } from '@/utils/dateHelpers';
 import { CREATE_BOOKING_MUTATION } from '../api/bookings.mutations';
 
 interface BookingFormProps {
-    hotel: HotelResponseDto;
-    onGuestFormSubmit: (data: GuestFormData) => void;
-    onConfirmBooking: () => void;
+    hotel: HotelResponseDto
 }
 
-export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking: _onConfirmBooking }: BookingFormProps) {
+export default function BookingForm({ hotel }: BookingFormProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { user } = useCurrentUser();
@@ -53,7 +54,6 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
 
     const handleGuestFormSubmit = (data: GuestFormData) => {
         setGuestFormData(data);
-        onGuestFormSubmit(data);
     };
 
     const handleFormChange = useCallback((data: GuestFormData | null, isValid: boolean) => {
@@ -100,15 +100,21 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
         setError(null);
 
         try {
-
-
             const startTime = new Date(startDateObj);
-            startTime.setHours(15, 0, 0, 0);
+            startTime.setHours(0, 0, 0, 0);
 
             const endTime = new Date(endDateObj);
-            endTime.setHours(11, 0, 0, 0);
+            endTime.setHours(0, 0, 0, 0);
 
-            const roomPrice = Math.round(hotel.pricePerNight * selectedRoom.priceMultiplier);
+            const roomPrice = Math.round(hotel.pricePerNight);
+
+            // Map frontend room id to backend RoomType enum
+            const roomTypeMap: Record<string, RoomTypeBackEnd> = {
+                standard: RoomTypeBackEnd.Standard,
+                deluxe: RoomTypeBackEnd.Deluxe,
+                suite: RoomTypeBackEnd.Suite,
+            };
+            const backendRoomType = roomTypeMap[selectedRoom.id];
 
             const bookingResult = await createBooking({
                 variables: {
@@ -121,6 +127,7 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
                         phoneNumberGuest: guestFormData.phone,
                         startTimeIso: startTime.toISOString(),
                         endTimeIso: endTime.toISOString(),
+                        roomType: backendRoomType,
                         price: roomPrice * nights,
                         currency: 'USD',
                     },
@@ -204,90 +211,39 @@ export default function BookingForm({ hotel, onGuestFormSubmit, onConfirmBooking
 
     return (
         <MainContainer className='pb-10'>
-            <div className="my-4">
-                <div className="relative flex items-center justify-center mb-2">
-                    <Button
-                        onClick={() => router.back()}
-                        variant="blank"
-                        className="absolute left-0 inline-flex items-center gap-2 bg-surface-raised hover:bg-surface border border-border rounded-full px-4 py-2 text-primary transition-all font-medium group"
-                    >
-                        <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                        Back to results
-                    </Button>
-                    <h1 className="text-3xl font-bold text-primary">{getStepTitle()}</h1>
-                </div>
-                <p className="text-secondary">{getStepDescription()}</p>
-            </div>
+            <BookingHeader
+                title={getStepTitle()}
+                description={getStepDescription()}
+                onBack={() => router.back()}
+            />
 
             <BookingStepper steps={BOOKING_STEPS} currentStep={currentStep} />
 
-            {/* Step Content */}
-            <div className="mb-6">
-                {currentStep === 1 && (
-                    <RoomSelection
-                        basePrice={hotel.pricePerNight}
-                        selectedRoom={selectedRoom}
-                        onSelectRoom={handleRoomSelect}
-                    />
-                )}
+            <BookingStepContent
+                currentStep={currentStep}
+                hotel={hotel}
+                selectedRoom={selectedRoom}
+                onSelectRoom={handleRoomSelect}
+                onGuestFormSubmit={handleGuestFormSubmit}
+                onFormChange={handleFormChange}
+                defaultEmail={user?.email || ''}
+                guestData={guestFormData}
+                startDate={startDate}
+                endDate={endDate}
+                nights={nights}
+            />
 
-                {currentStep === 2 && (
-                    <GuestForm
-                        onSubmit={handleGuestFormSubmit}
-                        onFormChange={handleFormChange}
-                        defaultEmail={user?.email || ''}
-                    />
-                )}
+            <BookingError error={error} />
 
-                {currentStep === 3 && selectedRoom && guestFormData && (
-                    <BookingConfirmation
-                        hotel={hotel}
-                        selectedRoom={selectedRoom}
-                        guestData={guestFormData}
-                        startDate={startDate}
-                        endDate={endDate}
-                        nights={nights}
-                    />
-                )}
-            </div>
-
-            {error && (
-                <div className="mb-4 rounded-lg bg-error/20 border border-error p-4">
-                    <p className="text-error text-sm font-medium">{error}</p>
-                </div>
-            )}
-
-            {/* Navigation Buttons */}
-            <div className="flex gap-4">
-                <Button
-                    onClick={handleBack}
-                    variant="blank"
-                    className="rounded-full flex-1 bg-surface border border-border text-primary hover:bg-surface-raised/80 px-6 py-3 font-medium"
-                >
-                    {currentStep === 1 ? 'Cancel' : 'Back'}
-                </Button>
-
-                {currentStep < 3 ? (
-                    <Button
-                        onClick={handleNext}
-                        variant="secondary"
-                        className="flex-1 px-6 py-3 font-medium"
-                        disabled={!canProceed()}
-                    >
-                        <span>Continue</span>
-                        <ArrowRight className="h-4 w-4 ml-2" />
-                    </Button>
-                ) : (
-                    <Button
-                        onClick={handleConfirmBooking}
-                        variant="secondary"
-                        className="flex-1 px-6 py-3 font-medium"
-                        disabled={!user || isCreatingBooking}
-                    >
-                        {isCreatingBooking ? 'Creating Booking...' : 'Confirm Booking'}
-                    </Button>
-                )}
-            </div>
+            <BookingNavigation
+                currentStep={currentStep}
+                canProceed={canProceed()}
+                isCreatingBooking={isCreatingBooking}
+                hasUser={!!user}
+                onBack={handleBack}
+                onNext={handleNext}
+                onConfirm={handleConfirmBooking}
+            />
         </MainContainer>
     );
 }

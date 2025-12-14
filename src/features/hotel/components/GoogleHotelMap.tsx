@@ -169,11 +169,10 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
               onClick={() => setSelectedHotel(singleHotel)}
             >
               <div
-                className={`cursor-pointer rounded px-3 py-1 text-sm font-medium shadow-md ${
-                  selectedHotel?.id === singleHotel.id
-                    ? 'bg-brand-primary text-white'
-                    : 'bg-brand-secondary text-white'
-                }`}
+                className={`cursor-pointer rounded px-3 py-1 text-sm font-medium shadow-md ${selectedHotel?.id === singleHotel.id
+                  ? 'bg-brand-primary text-white'
+                  : 'bg-brand-secondary text-white'
+                  }`}
               >
                 ${(singleHotel.pricePerNight || 0).toFixed(2)}
               </div>
@@ -199,7 +198,7 @@ const ViewMapButton = ({ onClick }: { onClick: () => void }) => {
     <button
       type="button"
       onClick={onClick}
-      className="absolute border bottom-0 left-0 right-0 flex h-10 cursor-pointer items-center justify-center rounded-b-xl border-t border-border bg-background text-xl lg:text-sm py-5 lg:py-1 font-medium text-brand-secondary transition hover:bg-hover"
+      className="absolute border bottom-0 left-0 right-0 flex h-10 cursor-pointer items-center justify-center rounded-b-xl border-t border-border bg-background text-base lg:text-sm py-5 lg:py-1 font-medium text-brand-secondary transition hover:bg-hover"
     >
       View in map
     </button>

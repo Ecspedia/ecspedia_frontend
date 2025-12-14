@@ -6,6 +6,7 @@ export const BOOKINGS_BY_USER_EMAIL_QUERY = gql`
       id
       hotelId
       userId
+      roomType
       firstNameGuest
       lastNameGuest
       emailGuest

@@ -23,7 +23,6 @@ interface HotelCardProps {
     hotel: HotelResponseDto;
     variant?: HotelCardVariant;
     layout?: HotelCardLayout;
-    onBookClick?: () => void;
     isSelected?: boolean;
     onClose?: () => void;
     className?: string;
@@ -32,9 +31,57 @@ interface HotelCardProps {
 }
 
 // Internal variant compositions
-function SearchResultVariant({ onBookClick, className }: { onBookClick?: () => void; onAskAboutHotel?: () => void; className?: string }) {
+function SearchResultVariant({ className }: { className?: string }) {
 
     const isMobile = useIsMobile()
+
+    if (isMobile) {
+        return (
+            <HotelCard.Card className={className} >
+                <HotelCard.Image className="h-30 object-cover" />
+                <HotelCard.Content className='gap-1'>
+
+                    <div className='flex gap-1 mt-2 justify-between'>
+                        <div className='flex gap-1 items-center'>
+                            <div >
+                                <HotelCard.RatingNumber />
+                            </div>
+                            <HotelCard.Group >
+                                <HotelCard.RatingLabel />
+                                <HotelCard.ReviewCount />
+                            </HotelCard.Group>
+                        </div>
+                        <HotelCard.AskButton />
+
+                    </div>
+
+                    <div>
+                        <div className='flex justify-between'>
+                            <div>
+                                <HotelCard.Title />
+                                <HotelCard.Location />
+                            </div>
+
+                            <HotelCard.Pricing className='text-xl lg:text-xl' >
+                            </HotelCard.Pricing>
+
+
+
+                        </div>
+                        <HotelCard.Description />
+                    </div>
+
+                    <div className='flex gap-2 justify-end mb-2'>
+
+                        <HotelCard.BookButton className='w-full p-3 lg:w-auto' />
+                    </div>
+
+                </HotelCard.Content>
+            </HotelCard.Card >
+        )
+    }
+
+
     return (
         <HotelCard.Card className={className}>
             <HotelCard.Image className="lg:rounded-bl-lg lg:rounded-tr-none" />
@@ -71,21 +118,10 @@ function SearchResultVariant({ onBookClick, className }: { onBookClick?: () => v
                 </div>
                 <div className='flex gap-2 justify-end mb-2'>
                     <HotelCard.AskButton />
-                    <HotelCard.BookButton className='w-full p-3 lg:w-auto' onBook={onBookClick} />
+                    <HotelCard.BookButton className='w-full p-3 lg:w-auto' />
                 </div>
 
             </HotelCard.Content>
-            {/* <div className="flex flex-col gap-2 items-start px-2 pb-4  lg:justify-between lg:flex-col lg:items-end lg:pr-2">
-                {!isMobile &&
-                    <HotelCard.Pricing className='text-xl lg:text-xl' >
-                        <HotelCard.PricingLabel />
-                    </HotelCard.Pricing>}
-                <div className='flex gap-2 justify-end'>
-                    <HotelCard.AskButton />
-                    <HotelCard.BookButton className='w-full p-3 lg:w-auto' onBook={onBookClick} />
-                </div>
-
-            </div> */}
         </HotelCard.Card>
     );
 }
@@ -117,47 +153,85 @@ function VerticalCardVariant({ className }: { className?: string }) {
 }
 
 function DetailModalVariant({ onClose, className }: { onClose?: () => void; className?: string }) {
+    const isMobile = useIsMobile();
+
+    if (isMobile) {
+        return (
+            <div className="border-border bg-background text-primary h-60 w-full fixed right-0 bottom-0 left-0 z-1000 rounded-none border shadow-2xl">
+                <HotelCard.Card className={cn("flex-row h-full rounded-none", className)}>
+                    <HotelCard.Image className='w-24 h-full aspect-auto rounded-none' />
+                    <div className="flex flex-1 px-2 w-auto flex-col ">
+                        <div className="flex items-start gap-2 w-full">
+                            <div className="flex flex-col flex-1 min-w-0">
+                                <HotelCard.Title />
+                                <HotelCard.Description className='line-clamp-3' />
+                                <HotelCard.Location />
+                            </div>
+                            {onClose && <HotelCard.CloseButton onClose={onClose} />}
+                        </div>
+                        <HotelCard.Rating className='mr-2 flex-0'>
+                            <HotelCard.RatingNumber />
+                            <HotelCard.Group>
+                                <HotelCard.RatingLabel />
+                                <HotelCard.ReviewCount />
+                            </HotelCard.Group>
+                            <HotelCard.Pricing className='text-xl lg:text-xl block ml-auto' >
+                            </HotelCard.Pricing >
+                        </HotelCard.Rating>
+
+                        <HotelCard.BookButton className='w-full mt-2 mb-4' />
+                    </div>
+                </HotelCard.Card>
+            </div>
+        )
+
+    }
+
+
+
     return (
-        <div className="border-border bg-background text-primary fixed right-0 bottom-0 left-0 z-1000 mx-auto w-11/12 sm:w-4/5 lg:w-3/5 xl:w-1/2 2xl:w-2/5 max-w-[700px] min-w-[320px] rounded-lg border shadow-2xl">
-            <HotelCard.Card className={cn("flex-col lg:flex-row lg:gap-2", className)}>
-                <HotelCard.Image className='lg:rounded-bl-lg lg:rounded-tr-none' />
-                <div className="flex-1 flex flex-col px-3 lg:px-0 ">
+        <div className="border-border bg-background text-primary h-60 w-full fixed right-0 bottom-0 left-0 z-1000 lg:mx-auto sm:w-4/5 lg:w-3/5 xl:w-1/2 2xl:w-2/5 max-w-[700px] min-w-[340px] rounded-none lg:rounded-lg border shadow-2xl">
+            <HotelCard.Card className={cn("flex-row h-full rounded-none lg:gap-2", className)}>
+                <HotelCard.Image className='w-24 h-auto rounded-none lg:rounded-bl-lg lg:rounded-tr-none' />
+                <div className="flex flex-1 px-2 w-auto flex-col lg:px-0 ">
                     <div className="flex items-start gap-2 w-full">
                         <div className="flex flex-col flex-1 min-w-0">
                             <HotelCard.Title />
-                            <HotelCard.Description />
+                            <HotelCard.Rating className='pb-2'>
+                                <HotelCard.RatingNumber />
+                                <HotelCard.Group>
+                                    <HotelCard.RatingLabel />
+                                    <HotelCard.ReviewCount />
+                                </HotelCard.Group>
+                                <HotelCard.Pricing className='text-xl lg:text-xl block lg:hidden ml-auto' >
+                                </HotelCard.Pricing >
+                                <HotelCard.AskButton className=' ml-auto' />
+                            </HotelCard.Rating>
+                            <HotelCard.Description className='line-clamp-3' />
                             <HotelCard.Location />
+                            <div className='flex justify-between mt-2 pb-2 items-center'>
+                                <HotelCard.Pricing className='text-xl lg:text-xl' >
+                                    <HotelCard.PricingLabel />
+                                </HotelCard.Pricing>
+                                <HotelCard.BookButton className='w-40' />
+                            </div>
                         </div>
                         {onClose && <HotelCard.CloseButton onClose={onClose} />}
                     </div>
-                    <HotelCard.Rating>
-                        <HotelCard.RatingNumber />
-                        <HotelCard.Group>
-                            <HotelCard.RatingLabel />
-                            <HotelCard.ReviewCount />
-                        </HotelCard.Group>
-                    </HotelCard.Rating>
-                    <div className='flex justify-between pr-4 pb-2 items-center'>
-                        <HotelCard.Pricing className='text-xl lg:text-xl' >
-                            <HotelCard.PricingLabel />
-                        </HotelCard.Pricing>
 
-                        <HotelCard.BookButton className='w-40' />
-                    </div>
                 </div>
-
-
             </HotelCard.Card>
         </div>
     );
 }
 
 function BookingCompactVariant({ className }: { className?: string }) {
+    const isMobile = useIsMobile()
     return (
-        <div className={cn("flex gap-4", className)}>
-            <div className="shrink-0">
-                <HotelCard.Image />
-            </div>
+        <div className={cn("flex gap-4", className, isMobile && 'flex-col items-center')}>
+
+            <HotelCard.Image />
+
             <div className="flex-1 min-w-0">
                 <HotelCard.Title />
                 <HotelCard.Location />
@@ -166,6 +240,7 @@ function BookingCompactVariant({ className }: { className?: string }) {
                     <HotelCard.RatingNumber />
                     <HotelCard.Group>
                         <HotelCard.RatingLabel />
+                        <HotelCard.ReviewCount />
                     </HotelCard.Group>
                 </HotelCard.Rating>
             </div>
@@ -187,7 +262,7 @@ function ChatCardVariant({ className: _className }: { className?: string }) {
                             <HotelCard.ReviewCount />
                         </HotelCard.Group>
                     </div>
-                    <HotelCard.AskButton className='shrink-0' />
+                    <HotelCard.AskButton className='' />
                 </div>
                 <div className='space-y-0.5'>
                     <HotelCard.Title />
@@ -206,7 +281,6 @@ function HotelCard({
     hotel,
     variant = 'search-result',
     layout,
-    onBookClick,
     isSelected,
     onClose,
     className,
@@ -215,7 +289,7 @@ function HotelCard({
 }: HotelCardProps) {
     return (
         <HotelCard.Root hotel={hotel} variant={variant} layout={layout} isPriority={priority} isSelected={isSelected}>
-            {variant === 'search-result' && <SearchResultVariant onBookClick={onBookClick} className={className} />}
+            {variant === 'search-result' && <SearchResultVariant className={className} />}
             {variant === 'vertical-card' && <VerticalCardVariant className={className} />}
             {variant === 'detail-modal' && <DetailModalVariant onClose={onClose} className={className} />}
             {variant === 'booking-compact' && <BookingCompactVariant className={className} />}

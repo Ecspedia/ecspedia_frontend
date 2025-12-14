@@ -60,6 +60,7 @@ const ServiceContent = ({ children }: { children: React.ReactNode }) => {
     <div className={`px-4 lg:py-4 bg-accent-secondary lg:bg-background dark:bg-background`}>
       <MainContainer className='px-0'>
         {children}
+
       </MainContainer>
     </div>
   );

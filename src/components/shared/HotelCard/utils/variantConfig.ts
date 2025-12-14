@@ -64,7 +64,7 @@ export const VARIANT_CONFIG: Record<HotelCardVariant, Partial<VariantConfig>> = 
     showBookButton: false,
     showPricing: false,
     showDescription: false,
-    imageSizeClass: 'w-48 h-36',
+    imageSizeClass: 'w-full h-40  lg:w-48 lg:h-full',
     imageRoundingClass: 'rounded-lg',
     imageSizes: '192px',
   },

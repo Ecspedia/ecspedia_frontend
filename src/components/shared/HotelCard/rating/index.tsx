@@ -12,7 +12,7 @@ interface HotelCardRatingProps {
 export function HotelCardRating({ children, className }: HotelCardRatingProps) {
   return (
     <div className={cn("flex-1", className)}>
-      <div className="mt-3 flex items-center gap-2">{children}</div>
+      <div className="flex items-center gap-2">{children}</div>
     </div>
   );
 }
