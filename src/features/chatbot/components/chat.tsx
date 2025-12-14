@@ -19,7 +19,7 @@ export default function Chat({ onClose }: { onClose: () => void }) {
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement | null>(null);
-    const isExpanded = useAppSelector(selectIsExpanded);
+    const _isExpanded = useAppSelector(selectIsExpanded);
 
     const addMetaDataToMessage = useAddMetaDataToMessage();
 
@@ -74,31 +74,30 @@ export default function Chat({ onClose }: { onClose: () => void }) {
     }, [isMobile]);
 
     return (
-        <div className="lg:mx-0">
-            <div className={cn(
-                "flex flex-col w-full h-[96dvh]  mx-auto rounded-lg border border-border bg-background dark:bg-overlay",
-                isExpanded ? "lg:w-200 lg:h-160" : "lg:w-100 lg:h-140"
-            )}>
-                <ChatHeader onClose={onClose} />
-                <div ref={containerRef} className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto overscroll-y-contain">
-                    {messages.map((message, index) => (
-                        <div key={`message-${index}`}>
-                            {index === lastMessageSendByUser?.index && (
-                                <div className="sentinel-top" ref={lastMessageRef}></div>
-                            )}
-                            {message.typeOf === ChatResponseType.SearchResults ? (
-                                <ChatMessageHotel hotels={message.data as HotelResponseDto[]} />
-                            ) : (
-                                <ChatMessage message={message.message} typeOf={message.typeOf} isBot={message.isBot} />
-                            )}
-                        </div>
-                    ))}
-                    {loading && <TypingIndicator />}
-                    <div id="sentinel" ref={sentinelRef}></div>
-                </div>
-                <ChatInput inputRef={inputRef} onSendMessage={onSendMessage} loading={loading} />
+
+        <div className={cn(
+            "flex flex-col w-full h-dvh rounded-none  lg:h-full lg:w-full lg:rounded-lg border border-border bg-background dark:bg-overlay",
+        )}>
+            <ChatHeader onClose={onClose} />
+            <div ref={containerRef} className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto overscroll-y-contain">
+                {messages.map((message, index) => (
+                    <div key={`message-${index}`}>
+                        {index === lastMessageSendByUser?.index && (
+                            <div className="sentinel-top" ref={lastMessageRef}></div>
+                        )}
+                        {message.typeOf === ChatResponseType.SearchResults ? (
+                            <ChatMessageHotel hotels={message.data as HotelResponseDto[]} />
+                        ) : (
+                            <ChatMessage message={message.message} typeOf={message.typeOf} isBot={message.isBot} />
+                        )}
+                    </div>
+                ))}
+                {loading && <TypingIndicator />}
+                <div id="sentinel" ref={sentinelRef}></div>
             </div>
+            <ChatInput inputRef={inputRef} onSendMessage={onSendMessage} loading={loading} />
         </div>
+
     );
 }
 
@@ -200,7 +199,6 @@ const TypingIndicator = () => {
 };
 
 const ChatMessage = ({ message, isBot, ref, typeOf }: { message: string, isBot: boolean, ref?: React.RefObject<HTMLDivElement | null> | null, typeOf?: ChatResponseType }) => {
-    console.log(typeOf);
     return (
         <div ref={ref} className={cn("flex items-start gap-2", isBot ? "flex-row" : "flex-row-reverse")}>
             {isBot && <ProfilePicture isProfilePicture={false} />}
@@ -233,7 +231,7 @@ const ChatHeader = ({ onClose }: { onClose: () => void }) => {
     const selectedHotel = useAppSelector(selectSelectedHotel);
 
     return (
-        <div className="border-b p-2 bg-brand-secondary rounded-t-lg text-white ">
+        <div className="border-b p-2 bg-brand-secondary  lg:rounded-t-lg text-white ">
             <div className="flex items-center justify-between pr-2">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                     <ProfilePicture isProfilePicture={true} />
@@ -256,6 +254,7 @@ const ChatHeader = ({ onClose }: { onClose: () => void }) => {
     );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ExpandButton = () => {
     const dispatch = useAppDispatch();
     const onExpandChat = () => {

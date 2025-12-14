@@ -68,7 +68,6 @@ const chatbotSlice = createSlice({
       })
       .addCase(sendChatMessage.fulfilled, (state, action) => {
         const data: ChatResponseDto = action.payload;
-        console.log(data);
 
         switch (data.chatResponseType) {
         

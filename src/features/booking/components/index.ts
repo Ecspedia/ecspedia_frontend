@@ -1,8 +1,12 @@
 export { default as BookingConfirmation } from './BookingConfirmation';
 export { default as BookingDetails } from './BookingDetails';
+export { default as BookingError } from './BookingError';
 export { default as BookingForm } from './BookingForm';
+export { default as BookingHeader } from './BookingHeader';
 export { default as BookingLoading } from './BookingLoading';
+export { default as BookingNavigation } from './BookingNavigation';
 export { default as BookingNotFound } from './BookingNotFound';
+export { default as BookingStepContent } from './BookingStepContent';
 export { default as BookingStepper, BOOKING_STEPS } from './BookingStepper';
 export { default as GuestForm } from './GuestForm';
 export { default as PaymentSummary } from './PaymentSummary';

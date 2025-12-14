@@ -2,7 +2,7 @@
 
 import { Button, MainContainer, Spinner } from '@/components/ui';
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
-import BookingCardWithHotel from '@/features/booking/components/BookingCardWithHotel';
+import { BookingCard } from '@/features/booking/components/mybookings';
 import { useCurrentUser } from '@/hooks';
 import type { BookingsByUserEmailQuery } from '@/types/graphql';
 import { useQuery } from '@apollo/client/react';
@@ -85,7 +85,7 @@ export default function MyBookingsContent() {
       ) : (
         <div className="space-y-4">
           {bookings.map((booking) => (
-            <BookingCardWithHotel
+            <BookingCard
               key={booking.id}
               booking={booking}
               isPaid={paidBookingId === booking.id}

@@ -9,14 +9,10 @@ import { VARIANT_CONFIG } from '../utils/variantConfig';
 
 interface HotelCardImageProps {
   className?: string;
-  isLiked?: boolean;
-  onLikeToggle?: (hotelId: string) => void;
 }
 
 export default function HotelCardImage({
   className,
-  isLiked = false,
-  onLikeToggle,
 }: HotelCardImageProps) {
   const { hotel, variant = 'search-result', isPriority } = useHotelCardContext();
   const { imageSrc, isLoading, handleImageLoad, handleImageError } = useHotelImage(hotel);
@@ -27,7 +23,7 @@ export default function HotelCardImage({
   return (
     <div
       className={cn(
-        'group relative shrink-0 overflow-hidden aspect-[4/3]',
+        'group relative overflow-hidden aspect-4/3',
         config.imageSizeClass,
         config.imageRoundingClass,
         className

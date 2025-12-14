@@ -6,6 +6,7 @@ export const CREATE_BOOKING_MUTATION = graphql(`
       id
       userId
       hotelId
+      roomType
       firstNameGuest
       lastNameGuest
       emailGuest

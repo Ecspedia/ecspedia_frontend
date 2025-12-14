@@ -2,40 +2,30 @@
 
 import { Button } from '@/components/ui';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { clearSelectedHotel, selectSelectedHotel, setSelectedHotel } from '@/stores/globalSlice';
+import { clearSelectedHotel, selectSelectedHotel, setSelectedHotel, setSelectedHotelForBooking } from '@/stores/globalSlice';
 import { cn } from '@/utils/utils';
 import { CalendarCheck, MessageCircleQuestion, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useHotelCardContext } from '../hooks/useHotelCardContext';
 
 
-const ButtonWidth = 30
-
 // HotelCardBookButton - Book now button
 interface HotelCardBookButtonProps {
-  onBook?: () => void;
   className?: string;
 }
 
-export function HotelCardBookButton({ onBook, className }: HotelCardBookButtonProps) {
+export function HotelCardBookButton({ className }: HotelCardBookButtonProps) {
   const { hotel } = useHotelCardContext();
   const router = useRouter();
   const isAvailable = hotel.isAvailable ?? true;
-
+  const dispatch = useAppDispatch();
   const handleBookClick = () => {
-    if (onBook) {
-      onBook();
-    } else {
-      // Save hotel data to localStorage
-      localStorage.setItem('selectedHotel', JSON.stringify(hotel));
-      // Navigate to booking page
-      router.push(`/booking?hotelId=${hotel.id}`);
-    }
+    dispatch(setSelectedHotelForBooking(hotel));
+    router.push(`/booking`);
   };
 
   return (
     <Button
-
       onClick={handleBookClick}
       disabled={!isAvailable}
       className={cn("w-full p-2", className)}

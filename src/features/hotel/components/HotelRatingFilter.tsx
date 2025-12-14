@@ -1,7 +1,6 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { useEffect } from 'react';
 import { selectFilters, updateFilters } from '../stores/hotelSearchSlice';
 import { GuestRating } from '../utils/getRatingByFilterLabels';
 
