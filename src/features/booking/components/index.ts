@@ -8,15 +8,15 @@ export { default as BookingLoading } from './booking/BookingLoading';
 export { default as BookingNavigation } from './booking/BookingNavigation';
 export { default as BookingNotFound } from './booking/BookingNotFound';
 export { default as BookingStepContent } from './booking/BookingStepContent';
-export { default as BookingStepper, BOOKING_STEPS } from './booking/BookingStepper';
+export { BOOKING_STEPS, default as BookingStepper } from './booking/BookingStepper';
 export { default as GuestForm } from './booking/GuestForm';
 export { default as PaymentSummary } from './booking/PaymentSummary';
-export { default as RoomSelection, ROOM_TYPES } from './booking/RoomSelection';
+export { ROOM_TYPES, default as RoomSelection } from './booking/RoomSelection';
 
 // My bookings components
 export { default as BookingCard } from './mybookings/BookingCard';
 
 // Types
-export type { GuestFormData } from './booking/GuestForm';
 export type { BookingStep } from './booking/BookingStepper';
+export type { GuestFormData } from './booking/GuestForm';
 export type { RoomType } from './booking/RoomSelection';
