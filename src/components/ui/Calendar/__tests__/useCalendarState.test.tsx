@@ -1,7 +1,7 @@
 import { DateHelper } from '@/utils/dateHelpers';
 import { act, renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { useCalendarState } from '../useCalendarState';
+import { useCalendarState } from '../hooks/useCalendarState';
 
 // Mock the useFullscreenPopup hook
 vi.mock('@/components/shared/ExpandableTextField/FullscreenPopupContext', () => ({

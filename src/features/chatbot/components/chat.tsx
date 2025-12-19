@@ -1,16 +1,43 @@
 'use client';
-import { ScrollableList } from "@/components/shared";
+import { BookingCard } from "@/components/shared/BookingCard";
 import HotelCard from "@/components/shared/HotelCard";
 import { Button } from "@/components/ui/Button";
+import { HOTEL_BY_ID_QUERY } from "@/features/booking/api/bookings.queries";
 import { useCurrentUser } from "@/hooks";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import useIsMobile from "@/hooks/useIsMobile.hook";
-import { selectSelectedHotel, selectSelectedHotelId } from "@/stores/globalSlice";
-import { ChatResponseType, HotelResponseDto } from "@/types/graphql";
+import { selectChatScrollPosition, selectSelectedHotel, selectSelectedHotelId, setChatScrollPosition } from "@/stores/globalSlice";
+import { BookingResponseDto, ChatResponseType, HotelByIdQuery, HotelResponseDto } from "@/types/graphql";
 import { cn } from "@/utils/utils";
+import { useQuery } from "@apollo/client/react";
 import { Bot, ChevronDown, ExpandIcon, Loader2, SendHorizonal, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { addMessage, selectIsExpanded, selectLoading, selectMessages, sendChatMessage, toggleIsExpanded } from "../stores/chatbotSlice";
+
+const useKeyboardHeight = () => {
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+    useEffect(() => {
+        if (typeof window === 'undefined' || !window.visualViewport) return;
+
+        const viewport = window.visualViewport;
+
+        const handleResize = () => {
+            const heightDiff = window.innerHeight - viewport.height;
+            setKeyboardHeight(heightDiff > 50 ? heightDiff : 0);
+        };
+
+        viewport.addEventListener('resize', handleResize);
+        viewport.addEventListener('scroll', handleResize);
+
+        return () => {
+            viewport.removeEventListener('resize', handleResize);
+            viewport.removeEventListener('scroll', handleResize);
+        };
+    }, []);
+
+    return keyboardHeight;
+};
 
 export default function Chat({ onClose }: { onClose: () => void }) {
     const dispatch = useAppDispatch();
@@ -20,8 +47,25 @@ export default function Chat({ onClose }: { onClose: () => void }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const lastMessageRef = useRef<HTMLDivElement | null>(null);
     const _isExpanded = useAppSelector(selectIsExpanded);
+    const savedScrollPosition = useAppSelector(selectChatScrollPosition);
+    const keyboardHeight = useKeyboardHeight();
+    const isMobile = useIsMobile();
 
     const addMetaDataToMessage = useAddMetaDataToMessage();
+
+    // Restore scroll position on mount
+    useEffect(() => {
+        if (containerRef.current && savedScrollPosition > 0) {
+            containerRef.current.scrollTop = savedScrollPosition;
+        }
+    }, []);
+
+    // Save scroll position on scroll
+    const handleScroll = () => {
+        if (containerRef.current) {
+            dispatch(setChatScrollPosition(containerRef.current.scrollTop));
+        }
+    };
 
 
 
@@ -63,7 +107,6 @@ export default function Chat({ onClose }: { onClose: () => void }) {
 
     const lastMessageSendByUser = messages.findLast((message) => message.isBot === false);
 
-    const isMobile = useIsMobile();
     useEffect(() => {
         if (isMobile) {
             document.body.style.overflow = 'hidden';
@@ -73,13 +116,27 @@ export default function Chat({ onClose }: { onClose: () => void }) {
         }
     }, [isMobile]);
 
+    // Scroll to bottom when keyboard opens
+    useEffect(() => {
+        if (keyboardHeight > 0) {
+            scrollToBottom();
+        }
+    }, [keyboardHeight]);
+
+    const containerStyle = isMobile && keyboardHeight > 0
+        ? { height: `calc(100dvh - ${keyboardHeight}px)` }
+        : undefined;
+
     return (
 
-        <div className={cn(
-            "flex flex-col w-full h-dvh rounded-none  lg:h-full lg:w-full lg:rounded-lg border border-border bg-background dark:bg-overlay",
-        )}>
+        <div
+            className={cn(
+                "flex flex-col w-full h-dvh rounded-none lg:h-full lg:w-full lg:rounded-lg border border-border bg-background dark:bg-overlay",
+            )}
+            style={containerStyle}
+        >
             <ChatHeader onClose={onClose} />
-            <div ref={containerRef} className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto overscroll-y-contain">
+            <div ref={containerRef} onScroll={handleScroll} className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto overscroll-y-contain">
                 {messages.map((message, index) => (
                     <div key={`message-${index}`}>
                         {index === lastMessageSendByUser?.index && (
@@ -87,6 +144,8 @@ export default function Chat({ onClose }: { onClose: () => void }) {
                         )}
                         {message.typeOf === ChatResponseType.SearchResults ? (
                             <ChatMessageHotel hotels={message.data as HotelResponseDto[]} />
+                        ) : message.typeOf === ChatResponseType.Booking ? (
+                            <ChatMessageBooking message={message.message} booking={message.data as BookingResponseDto | undefined} />
                         ) : (
                             <ChatMessage message={message.message} typeOf={message.typeOf} isBot={message.isBot} />
                         )}
@@ -168,20 +227,39 @@ const ChatMessageHotel = ({ hotels }: { hotels: HotelResponseDto[] }) => {
     const selectedHotel = useAppSelector(selectSelectedHotel);
 
     return (
-        <ScrollableList
-            items={hotels}
-            direction="vertical"
-            initialBatchSize={3}
-            batchSize={3}
-            renderItem={(item) => (
+        <div className="space-y-4">
+            {hotels.map((hotel) => (
                 <HotelCard
-                    key={item.id}
-                    hotel={item}
+                    key={hotel.id}
+                    hotel={hotel}
                     variant="chat-card"
-                    isSelected={selectedHotel?.id === item.id}
+                    isSelected={selectedHotel?.id === hotel.id}
                 />
-            )}
-        />
+            ))}
+        </div>
+    );
+};
+
+const ChatMessageBooking = ({ message, booking }: { message: string; booking?: BookingResponseDto }) => {
+    const { data: hotelData } = useQuery<HotelByIdQuery>(HOTEL_BY_ID_QUERY, {
+        variables: { id: booking?.hotelId },
+        skip: !booking?.hotelId,
+    });
+
+    if (!booking) return null;
+
+    const hotelName = hotelData?.hotelById?.name;
+
+    return (
+        <div className="flex items-start gap-2 flex-row">
+            <ProfilePicture isProfilePicture={false} />
+            <BookingCard
+                booking={booking}
+                variant="chat"
+                message={message}
+                hotelName={hotelName}
+            />
+        </div>
     );
 };
 

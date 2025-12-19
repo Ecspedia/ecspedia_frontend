@@ -1,0 +1,15 @@
+services:
+  e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://ecspedia-app:8080
+      - NEXT_PUBLIC_GRAPHQL_URI=http://ecspedia-app:8080/graphql
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    external: true
+    name: ecspedia_backend_ecspedia-network

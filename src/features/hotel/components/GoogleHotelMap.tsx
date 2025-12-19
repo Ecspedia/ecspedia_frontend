@@ -179,7 +179,7 @@ export default function HotelMap(hotelMapProps: HotelMapProps) {
             </AdvancedMarker>
           )}
           {/* Pan camera to selected hotel */}
-          <MapController center={selectedHotelCoords} zoom={selectedHotelCoords ? 17 : undefined} />
+          <MapController center={selectedHotelCoords} />
         </Map>
       </APIProvider>
       {!isFullScreen && (
@@ -207,10 +207,9 @@ const ViewMapButton = ({ onClick }: { onClick: () => void }) => {
 
 interface MapControllerProps {
   center: { lat: number; lng: number } | null;
-  zoom?: number;
 }
 
-function MapController({ center, zoom }: MapControllerProps) {
+function MapController({ center }: MapControllerProps) {
   const map = useMap();
 
   useEffect(() => {
@@ -218,12 +217,7 @@ function MapController({ center, zoom }: MapControllerProps) {
 
     // Smooth pan with animation
     map.panTo(center);
-    if (zoom) {
-      setTimeout(() => {
-        map.setZoom(zoom);
-      }, 300);
-    }
-  }, [map, center, zoom]);
+  }, [map, center]);
 
   return null;
 }

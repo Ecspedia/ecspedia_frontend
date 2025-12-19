@@ -18,7 +18,7 @@ import { RoomType } from './RoomSelection';
 
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
 import { DateHelper } from '@/utils/dateHelpers';
-import { CREATE_BOOKING_MUTATION } from '../api/bookings.mutations';
+import { CREATE_BOOKING_MUTATION } from '../../api/bookings.mutations';
 
 interface BookingFormProps {
     hotel: HotelResponseDto

@@ -6,12 +6,14 @@ interface GlobalState {
   selectedHotel: HotelResponseDto | null;
   selectedMapHotel: HotelResponseDto | null;
   selectedHotelForBooking: HotelResponseDto | null;
+  chatScrollPosition: number;
 }
 
 const initialState: GlobalState = {
   selectedHotel: null,
   selectedMapHotel: null,
   selectedHotelForBooking: null,
+  chatScrollPosition: 0,
 };
 
 const globalSlice = createSlice({
@@ -36,6 +38,12 @@ const globalSlice = createSlice({
     clearSelectedHotelForBooking: (state) => {
       state.selectedHotelForBooking = null;
     },
+    setChatScrollPosition: (state, action: PayloadAction<number>) => {
+      state.chatScrollPosition = action.payload;
+    },
+    resetChatScrollPosition: (state) => {
+      state.chatScrollPosition = 0;
+    },
   },
 });
 
@@ -46,6 +54,8 @@ export const {
   clearSelectedMapHotel,
   setSelectedHotelForBooking,
   clearSelectedHotelForBooking,
+  setChatScrollPosition,
+  resetChatScrollPosition,
 } = globalSlice.actions;
 
 export const selectSelectedHotel = (state: RootState) => state.global.selectedHotel;
@@ -53,5 +63,6 @@ export const selectSelectedHotelId = (state: RootState) => state.global.selected
 export const selectSelectedMapHotel = (state: RootState) => state.global.selectedMapHotel;
 export const selectSelectedHotelForBooking = (state: RootState) =>
   state.global.selectedHotelForBooking;
+export const selectChatScrollPosition = (state: RootState) => state.global.chatScrollPosition;
 
 export default globalSlice.reducer;

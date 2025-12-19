@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, MainContainer, Spinner } from '@/components/ui';
+import { MainContainer, Spinner } from '@/components/ui';
 import { BOOKINGS_BY_USER_EMAIL_QUERY } from '@/features/booking/api/bookings.queries';
 import { BookingCard } from '@/features/booking/components/mybookings';
 import { useCurrentUser } from '@/hooks';
@@ -24,6 +24,13 @@ export default function MyBookingsContent() {
   const router = useRouter();
   const [paidBookingId, setPaidBookingId] = useState<string | null>(null);
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoadingUser && !user) {
+      router.push('/login');
+    }
+  }, [user, isLoadingUser, router]);
+
   useEffect(() => {
     const paid = searchParams.get('paid');
     if (paid) {
@@ -43,22 +50,8 @@ export default function MyBookingsContent() {
 
   if (!user) {
     return (
-      <MainContainer className='pt-8'>
-        <h1 className="text-3xl font-bold text-primary mb-4">My Bookings</h1>
-        <div className="bg-surface rounded-lg border border-border p-8 text-center flex-col justify-center">
-          <p className="text-secondary text-lg">Please log in to view your bookings</p>
-          <div className='flex justify-center pt-2'>
-            <Button
-              type="button"
-              onClick={() => router.push('/login')}
-
-              className="py-2 px-4"
-            >
-              Log In
-            </Button>
-          </div>
-        </div>
-
+      <MainContainer className="flex items-center justify-center min-h-[400px]">
+        <Spinner />
       </MainContainer>
     );
   }

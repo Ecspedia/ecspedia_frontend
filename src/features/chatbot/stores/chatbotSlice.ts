@@ -93,12 +93,13 @@ const chatbotSlice = createSlice({
             });
             break;
           case ChatResponseType.Booking:
-            const booking = data.bookingData;
+            const bookingMessage = data.bookingData?.message ?? 'error try again';
             state.messages.push({
               index: state.messages.length,
-              message: booking ?? 'error try again',
+              message: bookingMessage,
               isBot: true,
               typeOf: ChatResponseType.Booking,
+              data: data.bookingData?.bookingResponseDto,
             });
             break;
           case ChatResponseType.Other:

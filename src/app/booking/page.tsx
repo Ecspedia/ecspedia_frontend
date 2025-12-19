@@ -1,7 +1,7 @@
 'use client';
 
 import { BookingForm, BookingLoading, BookingNotFound } from '@/features/booking/components';
-import { useAppSelector } from '@/hooks';
+import { useAppSelector, useCurrentUser } from '@/hooks';
 import { selectSelectedHotelForBooking } from '@/stores/globalSlice';
 import type { HotelResponseDto } from '@/types/graphql';
 import { useRouter } from 'next/navigation';
@@ -13,10 +13,17 @@ function BookingContent() {
     const [hotel, setHotel] = useState<HotelResponseDto | null>(null);
     const [loading, setLoading] = useState(true);
     const selectedHotelForBook = useAppSelector(selectSelectedHotelForBooking)
-
+    const { isAuthenticated, isLoading: isLoadingUser } = useCurrentUser();
 
     //global state
     const hotelId = selectedHotelForBook?.id;
+
+    // Redirect to login if not authenticated
+    useEffect(() => {
+        if (!isLoadingUser && !isAuthenticated) {
+            router.push('/login');
+        }
+    }, [isAuthenticated, isLoadingUser, router]);
 
     useEffect(() => {
         if (!hotelId) {
@@ -26,6 +33,14 @@ function BookingContent() {
         setHotel(selectedHotelForBook);
         setLoading(false);
     }, [hotelId, router, selectedHotelForBook]);
+
+    if (isLoadingUser) {
+        return <BookingLoading />;
+    }
+
+    if (!isAuthenticated) {
+        return <BookingLoading />;
+    }
 
 
     if (loading) {
