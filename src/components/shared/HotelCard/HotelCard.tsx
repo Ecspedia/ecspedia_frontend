@@ -57,12 +57,12 @@ function SearchResultVariant({ className }: { className?: string }) {
 
                     <div>
                         <div className='flex justify-between'>
-                            <div>
+                            <div className='flex flex-col min-w-0'>
                                 <HotelCard.Title />
                                 <HotelCard.Location />
                             </div>
 
-                            <HotelCard.Pricing className='text-xl lg:text-xl' >
+                            <HotelCard.Pricing className='text-xl lg:text-xl shrink-0' >
                             </HotelCard.Pricing>
 
 

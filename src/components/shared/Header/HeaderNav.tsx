@@ -37,6 +37,7 @@ export default function HeaderNav() {
               {isDesktop && (
                 <DesktopNav
                   username={user?.username}
+                  profilePhotoUrl={(user as { profilePhotoUrl?: string })?.profilePhotoUrl}
                   menuOpen={menuOpen}
                   logoutLoading={logoutLoading}
                   menuRef={menuRef}

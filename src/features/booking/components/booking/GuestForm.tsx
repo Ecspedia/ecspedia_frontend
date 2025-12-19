@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { guestFormValidationRules, GuestFormData } from '../utils';
+import { guestFormValidationRules, GuestFormData } from '../../utils';
 import { FormField } from '@/components/ui';
 
 interface GuestFormProps {

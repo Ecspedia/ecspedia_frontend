@@ -4,8 +4,7 @@ import useIsDesktop from '@/hooks/useIsDesktop.hook';
 import type { HotelResponseDto } from '@/types/graphql';
 import { Bed, Calendar, Mail, MapPin, Phone, User, Users } from 'lucide-react';
 import Image from 'next/image';
-
-import { GuestFormData } from '../utils';
+import type { GuestFormData } from './GuestForm';
 import type { RoomType } from './RoomSelection';
 
 interface BookingConfirmationProps {

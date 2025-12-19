@@ -30,7 +30,27 @@ export const SEND_MESSAGE_QUERY = graphql(`
       }
       questionData
       otherData
-      bookingData
+      bookingData {
+        message
+        bookingResponseDto {
+          id
+          hotelId
+          userId
+          roomType
+          firstNameGuest
+          lastNameGuest
+          emailGuest
+          phoneNumberGuest
+          startTime
+          endTime
+          status
+          price
+          currency
+          createdAt
+          confirmedAt
+          canceledAt
+        }
+      }
       errorData
     }
   }

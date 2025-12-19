@@ -2,9 +2,7 @@
 
 import type { HotelResponseDto } from '@/types/graphql';
 import BookingConfirmation from './BookingConfirmation';
-
-import { GuestFormData } from '../utils';
-import GuestForm from './booking/GuestForm';
+import GuestForm, { GuestFormData } from './GuestForm';
 import RoomSelection, { RoomType } from './RoomSelection';
 
 interface BookingStepContentProps {
