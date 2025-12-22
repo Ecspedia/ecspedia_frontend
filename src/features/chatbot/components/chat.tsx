@@ -144,7 +144,7 @@ export default function Chat({ onClose }: { onClose: () => void }) {
                         )}
                         {message.typeOf === ChatResponseType.SearchResults ? (
                             <ChatMessageHotel hotels={message.data as HotelResponseDto[]} />
-                        ) : message.typeOf === ChatResponseType.Booking ? (
+                        ) : message.typeOf === ChatResponseType.Booking && message.data ? (
                             <ChatMessageBooking message={message.message} booking={message.data as BookingResponseDto | undefined} />
                         ) : (
                             <ChatMessage message={message.message} typeOf={message.typeOf} isBot={message.isBot} />
@@ -251,15 +251,14 @@ const ChatMessageBooking = ({ message, booking }: { message: string; booking?: B
     const hotelName = hotelData?.hotelById?.name;
 
     return (
-        <div className="flex items-start gap-2 flex-row">
-            <ProfilePicture isProfilePicture={false} />
-            <BookingCard
-                booking={booking}
-                variant="chat"
-                message={message}
-                hotelName={hotelName}
-            />
-        </div>
+
+        <BookingCard
+            booking={booking}
+            variant="chat"
+            message={message}
+            hotelName={hotelName}
+        />
+
     );
 };
 
