@@ -30,6 +30,7 @@ const darkModeSlice = createSlice({
     toggleDarkMode: (state) => {
       state.isDarkMode = !state.isDarkMode;
       if (typeof window !== 'undefined') {
+        
         localStorage.setItem('darkMode', String(state.isDarkMode));
       }
     },

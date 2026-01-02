@@ -3,7 +3,7 @@ import { BookingCard } from "@/components/shared/BookingCard";
 import HotelCard from "@/components/shared/HotelCard";
 import { Button } from "@/components/ui/Button";
 import { HOTEL_BY_ID_QUERY } from "@/features/booking/api/bookings.queries";
-import { useCurrentUser } from "@/hooks";
+import { useCurrentUser, useDarkMode } from "@/hooks";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import useIsMobile from "@/hooks/useIsMobile.hook";
 import { selectChatScrollPosition, selectSelectedHotel, selectSelectedHotelId, setChatScrollPosition } from "@/stores/globalSlice";
@@ -75,9 +75,8 @@ export default function Chat({ onClose }: { onClose: () => void }) {
     const onSendMessage = async (message: string) => {
         dispatch(addMessage(message));
 
-        requestAnimationFrame(() => {
-            scrollToBottom();
-        });
+
+        setTimeout(scrollToLastMessage, 0);
 
         const messageWithMetaData = addMetaDataToMessage(message);
         await dispatch(sendChatMessage(messageWithMetaData));
@@ -101,6 +100,14 @@ export default function Chat({ onClose }: { onClose: () => void }) {
     const scrollToBottom = () => {
         sentinelRef.current?.scrollIntoView({ behavior: "auto" });
     };
+    useEffect(() => {
+        if (!loading) {
+            return;
+        }
+        scrollToBottom();
+    }, [loading]);
+
+
     // useEffect(() => {
     //     scrollToBottom();
     // }, [messages]);
@@ -151,7 +158,7 @@ export default function Chat({ onClose }: { onClose: () => void }) {
                         )}
                     </div>
                 ))}
-                {loading && <TypingIndicator />}
+                {loading && <FancyLoading />}
                 <div id="sentinel" ref={sentinelRef}></div>
             </div>
             <ChatInput inputRef={inputRef} onSendMessage={onSendMessage} loading={loading} />
@@ -274,6 +281,24 @@ const TypingIndicator = () => {
         </div>
     );
 };
+
+const FancyLoading = () => {
+    const { isDarkMode, isHydrated } = useDarkMode();
+    if (!isHydrated) return null;
+    return (
+        <div className="flex  gap-3 flex-row items-center    ">
+            <ProfilePicture isProfilePicture={false} />
+            <div className="flex items-start gap-2 flex-row justify-center">
+                {isDarkMode ? <span className="rainbow-text-dark">Working on it...</span> :
+                    <span className="rainbow-text text-black">Working on it...</span>
+                }
+
+            </div>
+
+        </div>
+    )
+}
+
 
 const ChatMessage = ({ message, isBot, ref, typeOf }: { message: string, isBot: boolean, ref?: React.RefObject<HTMLDivElement | null> | null, typeOf?: ChatResponseType }) => {
     return (

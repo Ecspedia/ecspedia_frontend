@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Top head -->
+  <path d="M50 0 L85 35 H65 V45 H35 V35 H15 L50 0Z" fill="white" />
+  <!-- Bottom head -->
+  <path d="M50 100 L85 65 H65 V55 H35 V65 H15 L50 100Z" fill="white" />
+  <!-- Joining rect -->
+  <rect x="42" y="44" width="16" height="12" fill="white" />
+</svg>
