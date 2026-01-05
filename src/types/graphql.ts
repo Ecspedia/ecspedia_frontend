@@ -5,19 +5,15 @@ export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
-  [_ in K]?: never;
-};
-export type Incremental<T> =
-  | T
-  | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type AuthInput = {
@@ -73,7 +69,7 @@ export type BookingResponseDto = {
 export enum BookingStatus {
   Canceled = 'CANCELED',
   Confirmed = 'CONFIRMED',
-  Pending = 'PENDING',
+  Pending = 'PENDING'
 }
 
 export type ChatResponseDto = {
@@ -92,7 +88,7 @@ export enum ChatResponseType {
   Error = 'ERROR',
   Other = 'OTHER',
   QuestionAnswer = 'QUESTION_ANSWER',
-  SearchResults = 'SEARCH_RESULTS',
+  SearchResults = 'SEARCH_RESULTS'
 }
 
 export type HotelAccessibilityAttributes = {
@@ -218,33 +214,41 @@ export type Mutation = {
   updateUsername: User;
 };
 
+
 export type MutationCreateBookingArgs = {
   bookingCreateDto: BookingCreateInput;
 };
+
 
 export type MutationCreateHotelArgs = {
   hotelCreateDto: HotelCreateInput;
 };
 
+
 export type MutationCreateLocationArgs = {
   locationCreateDto: LocationCreateInput;
 };
+
 
 export type MutationDeleteBookingByIdArgs = {
   bookingId: Scalars['ID']['input'];
 };
 
+
 export type MutationForgotPasswordArgs = {
   email: Scalars['String']['input'];
 };
+
 
 export type MutationLoginArgs = {
   authRequest: AuthInput;
 };
 
+
 export type MutationRegisterUserArgs = {
   userRegistrationDto: UserRegistrationInput;
 };
+
 
 export type MutationResetPasswordArgs = {
   email: Scalars['String']['input'];
@@ -252,9 +256,11 @@ export type MutationResetPasswordArgs = {
   token: Scalars['String']['input'];
 };
 
+
 export type MutationUpdateProfilePhotoArgs = {
   updateProfilePhotoDto: UpdateProfilePhotoInput;
 };
+
 
 export type MutationUpdateUsernameArgs = {
   updateUsernameDto: UpdateUsernameInput;
@@ -285,34 +291,42 @@ export type Query = {
   topLocations: Array<Location>;
 };
 
+
 export type QueryAskHotelQuestionArgs = {
   hotelId: Scalars['String']['input'];
   searchQuery: Scalars['String']['input'];
 };
 
+
 export type QueryBookingsByUserEmailArgs = {
   email: Scalars['String']['input'];
 };
+
 
 export type QueryGetUserByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryHotelByIdArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type QueryHotelExistsArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryHotelsByLocationArgs = {
   location: Scalars['String']['input'];
 };
 
+
 export type QuerySemanticSearchHotelArgs = {
   query: Scalars['String']['input'];
 };
+
 
 export type QuerySendMessageArgs = {
   message: Scalars['String']['input'];
@@ -321,7 +335,7 @@ export type QuerySendMessageArgs = {
 export enum RoomType {
   Deluxe = 'DELUXE',
   Standard = 'STANDARD',
-  Suite = 'SUITE',
+  Suite = 'SUITE'
 }
 
 export type UpdateProfilePhotoInput = {
@@ -352,65 +366,36 @@ export type UserRegistrationResponse = {
   user?: Maybe<User>;
 };
 
-export type GetLocationsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetLocationsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetLocationsQuery = {
-  __typename?: 'Query';
-  locations: Array<{
-    __typename?: 'Location';
-    id: string;
-    code: string;
-    city: string;
-    country: string;
-    state?: string | null;
-    latitude?: number | null;
-    longitude?: number | null;
-  }>;
-};
 
-export type TopLocationsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetLocationsQuery = { __typename?: 'Query', locations: Array<{ __typename?: 'Location', id: string, code: string, city: string, country: string, state?: string | null, latitude?: number | null, longitude?: number | null }> };
 
-export type TopLocationsQuery = {
-  __typename?: 'Query';
-  topLocations: Array<{
-    __typename?: 'Location';
-    id: string;
-    code: string;
-    city: string;
-    country: string;
-    state?: string | null;
-    latitude?: number | null;
-    longitude?: number | null;
-    isPopular?: boolean | null;
-  }>;
-};
+export type TopLocationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TopLocationsQuery = { __typename?: 'Query', topLocations: Array<{ __typename?: 'Location', id: string, code: string, city: string, country: string, state?: string | null, latitude?: number | null, longitude?: number | null, isPopular?: boolean | null }> };
 
 export type LoginMutationVariables = Exact<{
   authRequest: AuthInput;
 }>;
 
-export type LoginMutation = {
-  __typename?: 'Mutation';
-  login: { __typename?: 'AuthResponse'; token: string };
-};
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', token: string } };
 
 export type RegisterUserMutationVariables = Exact<{
   userRegistrationDto: UserRegistrationInput;
 }>;
 
-export type RegisterUserMutation = {
-  __typename?: 'Mutation';
-  registerUser: { __typename?: 'User'; id: string; username: string; email: string };
-};
+
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', id: string, username: string, email: string } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
 
-export type ForgotPasswordMutation = {
-  __typename?: 'Mutation';
-  forgotPassword: { __typename?: 'PasswordResetResponse'; success: boolean; message: string };
-};
+
+export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: { __typename?: 'PasswordResetResponse', success: boolean, message: string } };
 
 export type ResetPasswordMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -418,1510 +403,117 @@ export type ResetPasswordMutationVariables = Exact<{
   newPassword: Scalars['String']['input'];
 }>;
 
-export type ResetPasswordMutation = {
-  __typename?: 'Mutation';
-  resetPassword: { __typename?: 'PasswordResetResponse'; success: boolean; message: string };
-};
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename?: 'PasswordResetResponse', success: boolean, message: string } };
 
-export type LogoutMutation = { __typename?: 'Mutation'; logout: boolean };
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type UpdateUsernameMutationVariables = Exact<{
   updateUsernameDto: UpdateUsernameInput;
 }>;
 
-export type UpdateUsernameMutation = {
-  __typename?: 'Mutation';
-  updateUsername: { __typename?: 'User'; id: string; username: string; email: string };
-};
+
+export type UpdateUsernameMutation = { __typename?: 'Mutation', updateUsername: { __typename?: 'User', id: string, username: string, email: string } };
 
 export type UpdateProfilePhotoMutationVariables = Exact<{
   updateProfilePhotoDto: UpdateProfilePhotoInput;
 }>;
 
-export type UpdateProfilePhotoMutation = {
-  __typename?: 'Mutation';
-  updateProfilePhoto: {
-    __typename?: 'User';
-    id: string;
-    username: string;
-    email: string;
-    profilePhotoUrl?: string | null;
-  };
-};
+
+export type UpdateProfilePhotoMutation = { __typename?: 'Mutation', updateProfilePhoto: { __typename?: 'User', id: string, username: string, email: string, profilePhotoUrl?: string | null } };
 
 export type SendMessageQueryVariables = Exact<{
   message: Scalars['String']['input'];
 }>;
 
-export type SendMessageQuery = {
-  __typename?: 'Query';
-  sendMessage: {
-    __typename?: 'ChatResponseDto';
-    success: boolean;
-    chatResponseType: ChatResponseType;
-    questionData?: string | null;
-    otherData?: string | null;
-    errorData?: string | null;
-    searchData?: Array<{
-      __typename?: 'HotelResponseDto';
-      id: string;
-      name: string;
-      location: string;
-      image?: string | null;
-      isAvailable: boolean;
-      rating?: number | null;
-      reviewCount?: number | null;
-      pricePerNight: number;
-      latitude?: number | null;
-      longitude?: number | null;
-      hotelDescription?: string | null;
-      hotelTypeId?: number | null;
-      chain?: string | null;
-      currency?: string | null;
-      country?: string | null;
-      city?: string | null;
-      address?: string | null;
-      zip?: string | null;
-      mainPhoto?: string | null;
-      thumbnail?: string | null;
-      stars?: number | null;
-    }> | null;
-    bookingData?: {
-      __typename?: 'BookingData';
-      message: string;
-      bookingResponseDto?: {
-        __typename?: 'BookingResponseDto';
-        id: string;
-        hotelId: string;
-        userId: string;
-        roomType: RoomType;
-        firstNameGuest: string;
-        lastNameGuest: string;
-        emailGuest: string;
-        phoneNumberGuest?: string | null;
-        startTime: string;
-        endTime: string;
-        status: BookingStatus;
-        price?: number | null;
-        currency?: string | null;
-        createdAt: string;
-        confirmedAt?: string | null;
-        canceledAt?: string | null;
-      } | null;
-    } | null;
-  };
-};
 
-export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
+export type SendMessageQuery = { __typename?: 'Query', sendMessage: { __typename?: 'ChatResponseDto', success: boolean, chatResponseType: ChatResponseType, questionData?: string | null, otherData?: string | null, errorData?: string | null, searchData?: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null }> | null, bookingData?: { __typename?: 'BookingData', message: string, bookingResponseDto?: { __typename?: 'BookingResponseDto', id: string, hotelId: string, userId: string, roomType: RoomType, firstNameGuest: string, lastNameGuest: string, emailGuest: string, phoneNumberGuest?: string | null, startTime: string, endTime: string, status: BookingStatus, price?: number | null, currency?: string | null, createdAt: string, confirmedAt?: string | null, canceledAt?: string | null } | null } | null } };
 
-export type CurrentUserQuery = {
-  __typename?: 'Query';
-  me?: {
-    __typename?: 'User';
-    id: string;
-    username: string;
-    email: string;
-    profilePhotoUrl?: string | null;
-  } | null;
-};
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, email: string, profilePhotoUrl?: string | null } | null };
 
 export type CreateBookingMutationVariables = Exact<{
   bookingCreateDto: BookingCreateInput;
 }>;
 
-export type CreateBookingMutation = {
-  __typename?: 'Mutation';
-  createBooking: {
-    __typename?: 'BookingResponseDto';
-    id: string;
-    userId: string;
-    hotelId: string;
-    roomType: RoomType;
-    firstNameGuest: string;
-    lastNameGuest: string;
-    emailGuest: string;
-    phoneNumberGuest?: string | null;
-    startTime: string;
-    endTime: string;
-    status: BookingStatus;
-    price?: number | null;
-    currency?: string | null;
-    createdAt: string;
-    confirmedAt?: string | null;
-    canceledAt?: string | null;
-  };
-};
+
+export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'BookingResponseDto', id: string, userId: string, hotelId: string, roomType: RoomType, firstNameGuest: string, lastNameGuest: string, emailGuest: string, phoneNumberGuest?: string | null, startTime: string, endTime: string, status: BookingStatus, price?: number | null, currency?: string | null, createdAt: string, confirmedAt?: string | null, canceledAt?: string | null } };
 
 export type DeleteBookingByIdMutationVariables = Exact<{
   bookingId: Scalars['ID']['input'];
 }>;
 
-export type DeleteBookingByIdMutation = { __typename?: 'Mutation'; deleteBookingById: string };
+
+export type DeleteBookingByIdMutation = { __typename?: 'Mutation', deleteBookingById: string };
 
 export type BookingsByUserEmailQueryVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
 
-export type BookingsByUserEmailQuery = {
-  __typename?: 'Query';
-  bookingsByUserEmail: Array<{
-    __typename?: 'BookingResponseDto';
-    id: string;
-    hotelId: string;
-    userId: string;
-    roomType: RoomType;
-    firstNameGuest: string;
-    lastNameGuest: string;
-    emailGuest: string;
-    phoneNumberGuest?: string | null;
-    startTime: string;
-    endTime: string;
-    status: BookingStatus;
-    price?: number | null;
-    currency?: string | null;
-    createdAt: string;
-    confirmedAt?: string | null;
-    canceledAt?: string | null;
-  }>;
-};
+
+export type BookingsByUserEmailQuery = { __typename?: 'Query', bookingsByUserEmail: Array<{ __typename?: 'BookingResponseDto', id: string, hotelId: string, userId: string, roomType: RoomType, firstNameGuest: string, lastNameGuest: string, emailGuest: string, phoneNumberGuest?: string | null, startTime: string, endTime: string, status: BookingStatus, price?: number | null, currency?: string | null, createdAt: string, confirmedAt?: string | null, canceledAt?: string | null }> };
 
 export type HotelByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
-export type HotelByIdQuery = {
-  __typename?: 'Query';
-  hotelById?: {
-    __typename?: 'HotelResponseDto';
-    id: string;
-    name: string;
-    location: string;
-    image?: string | null;
-    isAvailable: boolean;
-    rating?: number | null;
-    reviewCount?: number | null;
-    pricePerNight: number;
-    latitude?: number | null;
-    longitude?: number | null;
-    hotelDescription?: string | null;
-    hotelTypeId?: number | null;
-    chain?: string | null;
-    currency?: string | null;
-    country?: string | null;
-    city?: string | null;
-    address?: string | null;
-    zip?: string | null;
-    mainPhoto?: string | null;
-    thumbnail?: string | null;
-    stars?: number | null;
-    facilityIds?: Array<number> | null;
-    deletedAt?: string | null;
-    accessibilityAttributes?: {
-      __typename?: 'HotelAccessibilityAttributes';
-      attributes?: Array<string> | null;
-      showerChair?: boolean | null;
-      entranceType?: string | null;
-      petFriendly?: string | null;
-      rampAngle?: number | null;
-      rampLength?: number | null;
-      entranceDoorWidth?: number | null;
-      roomMaxGuestsNumber?: number | null;
-      distanceFromTheElevatorToTheAccessibleRoom?: number | null;
-    } | null;
-  } | null;
-};
+
+export type HotelByIdQuery = { __typename?: 'Query', hotelById?: { __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null } | null };
 
 export type CreateHotelMutationVariables = Exact<{
   hotelCreateDto: HotelCreateInput;
 }>;
 
-export type CreateHotelMutation = {
-  __typename?: 'Mutation';
-  createHotel: {
-    __typename?: 'HotelResponseDto';
-    id: string;
-    name: string;
-    location: string;
-    image?: string | null;
-    isAvailable: boolean;
-    rating?: number | null;
-    reviewCount?: number | null;
-    pricePerNight: number;
-    latitude?: number | null;
-    longitude?: number | null;
-    hotelDescription?: string | null;
-    hotelTypeId?: number | null;
-    chain?: string | null;
-    currency?: string | null;
-    country?: string | null;
-    city?: string | null;
-    address?: string | null;
-    zip?: string | null;
-    mainPhoto?: string | null;
-    thumbnail?: string | null;
-    stars?: number | null;
-    facilityIds?: Array<number> | null;
-    deletedAt?: string | null;
-    accessibilityAttributes?: {
-      __typename?: 'HotelAccessibilityAttributes';
-      attributes?: Array<string> | null;
-      showerChair?: boolean | null;
-      entranceType?: string | null;
-      petFriendly?: string | null;
-      rampAngle?: number | null;
-      rampLength?: number | null;
-      entranceDoorWidth?: number | null;
-      roomMaxGuestsNumber?: number | null;
-      distanceFromTheElevatorToTheAccessibleRoom?: number | null;
-    } | null;
-  };
-};
 
-export type Get_HotelsQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateHotelMutation = { __typename?: 'Mutation', createHotel: { __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null } };
 
-export type Get_HotelsQuery = {
-  __typename?: 'Query';
-  hotels: Array<{
-    __typename?: 'HotelResponseDto';
-    id: string;
-    name: string;
-    location: string;
-    image?: string | null;
-    isAvailable: boolean;
-    rating?: number | null;
-    reviewCount?: number | null;
-    pricePerNight: number;
-    latitude?: number | null;
-    longitude?: number | null;
-    hotelDescription?: string | null;
-    hotelTypeId?: number | null;
-    chain?: string | null;
-    currency?: string | null;
-    country?: string | null;
-    city?: string | null;
-    address?: string | null;
-    zip?: string | null;
-    mainPhoto?: string | null;
-    thumbnail?: string | null;
-    stars?: number | null;
-    facilityIds?: Array<number> | null;
-    accessibilityAttributes?: {
-      __typename?: 'HotelAccessibilityAttributes';
-      attributes?: Array<string> | null;
-      showerChair?: boolean | null;
-      entranceType?: string | null;
-      petFriendly?: string | null;
-      rampAngle?: number | null;
-      rampLength?: number | null;
-      entranceDoorWidth?: number | null;
-      roomMaxGuestsNumber?: number | null;
-      distanceFromTheElevatorToTheAccessibleRoom?: number | null;
-    } | null;
-  }>;
-};
+export type Get_HotelsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Get_HotelsQuery = { __typename?: 'Query', hotels: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
 
 export type GetHotelsByLocationQueryVariables = Exact<{
   location: Scalars['String']['input'];
 }>;
 
-export type GetHotelsByLocationQuery = {
-  __typename?: 'Query';
-  hotelsByLocation: Array<{
-    __typename?: 'HotelResponseDto';
-    id: string;
-    name: string;
-    location: string;
-    image?: string | null;
-    isAvailable: boolean;
-    rating?: number | null;
-    reviewCount?: number | null;
-    pricePerNight: number;
-    latitude?: number | null;
-    longitude?: number | null;
-  }>;
-};
+
+export type GetHotelsByLocationQuery = { __typename?: 'Query', hotelsByLocation: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, location: string, image?: string | null, isAvailable: boolean, rating?: number | null, reviewCount?: number | null, pricePerNight: number, latitude?: number | null, longitude?: number | null }> };
 
 export type SearchHotelsByLocationQueryVariables = Exact<{
   location: Scalars['String']['input'];
 }>;
 
-export type SearchHotelsByLocationQuery = {
-  __typename?: 'Query';
-  hotelsByLocation: Array<{
-    __typename?: 'HotelResponseDto';
-    id: string;
-    name: string;
-    hotelDescription?: string | null;
-    hotelTypeId?: number | null;
-    chain?: string | null;
-    currency?: string | null;
-    location: string;
-    country?: string | null;
-    city?: string | null;
-    address?: string | null;
-    zip?: string | null;
-    latitude?: number | null;
-    longitude?: number | null;
-    pricePerNight: number;
-    rating?: number | null;
-    reviewCount?: number | null;
-    isAvailable: boolean;
-    image?: string | null;
-    mainPhoto?: string | null;
-    thumbnail?: string | null;
-    stars?: number | null;
-    facilityIds?: Array<number> | null;
-    deletedAt?: string | null;
-    accessibilityAttributes?: {
-      __typename?: 'HotelAccessibilityAttributes';
-      attributes?: Array<string> | null;
-      showerChair?: boolean | null;
-      entranceType?: string | null;
-      petFriendly?: string | null;
-      rampAngle?: number | null;
-      rampLength?: number | null;
-      entranceDoorWidth?: number | null;
-      roomMaxGuestsNumber?: number | null;
-      distanceFromTheElevatorToTheAccessibleRoom?: number | null;
-    } | null;
-  }>;
-};
 
-export type TopHotelsQueryVariables = Exact<{ [key: string]: never }>;
+export type SearchHotelsByLocationQuery = { __typename?: 'Query', hotelsByLocation: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, location: string, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, latitude?: number | null, longitude?: number | null, pricePerNight: number, rating?: number | null, reviewCount?: number | null, isAvailable: boolean, image?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
 
-export type TopHotelsQuery = {
-  __typename?: 'Query';
-  popularHotels: Array<{
-    __typename?: 'HotelResponseDto';
-    id: string;
-    name: string;
-    hotelDescription?: string | null;
-    hotelTypeId?: number | null;
-    chain?: string | null;
-    currency?: string | null;
-    location: string;
-    country?: string | null;
-    city?: string | null;
-    address?: string | null;
-    zip?: string | null;
-    latitude?: number | null;
-    longitude?: number | null;
-    pricePerNight: number;
-    rating?: number | null;
-    reviewCount?: number | null;
-    isAvailable: boolean;
-    image?: string | null;
-    mainPhoto?: string | null;
-    thumbnail?: string | null;
-    stars?: number | null;
-    facilityIds?: Array<number> | null;
-    deletedAt?: string | null;
-    accessibilityAttributes?: {
-      __typename?: 'HotelAccessibilityAttributes';
-      attributes?: Array<string> | null;
-      showerChair?: boolean | null;
-      entranceType?: string | null;
-      petFriendly?: string | null;
-      rampAngle?: number | null;
-      rampLength?: number | null;
-      entranceDoorWidth?: number | null;
-      roomMaxGuestsNumber?: number | null;
-      distanceFromTheElevatorToTheAccessibleRoom?: number | null;
-    } | null;
-  }>;
-};
+export type TopHotelsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export const GetLocationsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetLocations' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'locations' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetLocationsQuery, GetLocationsQueryVariables>;
-export const TopLocationsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'topLocations' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'topLocations' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'isPopular' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<TopLocationsQuery, TopLocationsQueryVariables>;
-export const LoginDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'Login' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'authRequest' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'AuthInput' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'login' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'authRequest' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'authRequest' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'token' } }],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
-export const RegisterUserDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'RegisterUser' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'userRegistrationDto' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserRegistrationInput' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'registerUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'userRegistrationDto' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'userRegistrationDto' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
-export const ForgotPasswordDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'ForgotPassword' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'forgotPassword' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'email' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'message' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
-export const ResetPasswordDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'ResetPassword' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'token' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'newPassword' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'resetPassword' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'email' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'token' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'token' } },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'newPassword' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'newPassword' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'message' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<ResetPasswordMutation, ResetPasswordMutationVariables>;
-export const LogoutDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'Logout' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'logout' } }],
-      },
-    },
-  ],
-} as unknown as DocumentNode<LogoutMutation, LogoutMutationVariables>;
-export const UpdateUsernameDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateUsername' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'updateUsernameDto' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UpdateUsernameInput' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'updateUsername' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'updateUsernameDto' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'updateUsernameDto' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<UpdateUsernameMutation, UpdateUsernameMutationVariables>;
-export const UpdateProfilePhotoDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateProfilePhoto' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'updateProfilePhotoDto' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UpdateProfilePhotoInput' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'updateProfilePhoto' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'updateProfilePhotoDto' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'updateProfilePhotoDto' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'profilePhotoUrl' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<UpdateProfilePhotoMutation, UpdateProfilePhotoMutationVariables>;
-export const SendMessageDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SendMessage' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'message' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'sendMessage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'message' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'message' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'chatResponseType' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'searchData' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'isAvailable' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'reviewCount' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'pricePerNight' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'hotelDescription' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'hotelTypeId' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'zip' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'mainPhoto' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'thumbnail' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'stars' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'questionData' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'otherData' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bookingData' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'bookingResponseDto' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'hotelId' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'roomType' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'firstNameGuest' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'lastNameGuest' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'emailGuest' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'phoneNumberGuest' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'confirmedAt' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canceledAt' } },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'errorData' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<SendMessageQuery, SendMessageQueryVariables>;
-export const CurrentUserDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'CurrentUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'me' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'profilePhotoUrl' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CurrentUserQuery, CurrentUserQueryVariables>;
-export const CreateBookingDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateBooking' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingCreateDto' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'BookingCreateInput' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createBooking' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'bookingCreateDto' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingCreateDto' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'roomType' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'firstNameGuest' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'lastNameGuest' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emailGuest' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'phoneNumberGuest' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'confirmedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'canceledAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CreateBookingMutation, CreateBookingMutationVariables>;
-export const DeleteBookingByIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'DeleteBookingById' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingId' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deleteBookingById' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'bookingId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingId' } },
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<DeleteBookingByIdMutation, DeleteBookingByIdMutationVariables>;
-export const BookingsByUserEmailDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'BookingsByUserEmail' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'bookingsByUserEmail' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'email' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'roomType' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'firstNameGuest' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'lastNameGuest' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emailGuest' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'phoneNumberGuest' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'startTime' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'endTime' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'confirmedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'canceledAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<BookingsByUserEmailQuery, BookingsByUserEmailQueryVariables>;
-export const HotelByIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'HotelById' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'hotelById' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'isAvailable' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'reviewCount' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pricePerNight' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelDescription' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelTypeId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'zip' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mainPhoto' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'thumbnail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'stars' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'facilityIds' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'accessibilityAttributes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'attributes' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'showerChair' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceType' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'petFriendly' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampAngle' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampLength' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceDoorWidth' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomMaxGuestsNumber' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'distanceFromTheElevatorToTheAccessibleRoom' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'deletedAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<HotelByIdQuery, HotelByIdQueryVariables>;
-export const CreateHotelDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateHotel' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'hotelCreateDto' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'HotelCreateInput' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createHotel' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'hotelCreateDto' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'hotelCreateDto' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'isAvailable' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'reviewCount' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pricePerNight' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelDescription' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelTypeId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'zip' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mainPhoto' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'thumbnail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'stars' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'facilityIds' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'accessibilityAttributes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'attributes' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'showerChair' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceType' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'petFriendly' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampAngle' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampLength' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceDoorWidth' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomMaxGuestsNumber' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'distanceFromTheElevatorToTheAccessibleRoom' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'deletedAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CreateHotelMutation, CreateHotelMutationVariables>;
-export const Get_HotelsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GET_HOTELS' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'hotels' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'isAvailable' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'reviewCount' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pricePerNight' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelDescription' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelTypeId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'zip' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mainPhoto' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'thumbnail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'stars' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'facilityIds' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'accessibilityAttributes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'attributes' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'showerChair' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceType' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'petFriendly' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampAngle' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampLength' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceDoorWidth' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomMaxGuestsNumber' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'distanceFromTheElevatorToTheAccessibleRoom' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<Get_HotelsQuery, Get_HotelsQueryVariables>;
-export const GetHotelsByLocationDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetHotelsByLocation' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'location' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'hotelsByLocation' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'location' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'location' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'isAvailable' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'reviewCount' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pricePerNight' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetHotelsByLocationQuery, GetHotelsByLocationQueryVariables>;
-export const SearchHotelsByLocationDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'searchHotelsByLocation' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'location' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'hotelsByLocation' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'location' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'location' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelDescription' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelTypeId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'zip' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pricePerNight' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'reviewCount' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'isAvailable' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mainPhoto' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'thumbnail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'stars' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'facilityIds' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'accessibilityAttributes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'attributes' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'showerChair' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceType' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'petFriendly' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampAngle' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampLength' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceDoorWidth' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomMaxGuestsNumber' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'distanceFromTheElevatorToTheAccessibleRoom' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'deletedAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<SearchHotelsByLocationQuery, SearchHotelsByLocationQueryVariables>;
-export const TopHotelsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'TopHotels' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'popularHotels' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelDescription' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'hotelTypeId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'zip' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pricePerNight' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'reviewCount' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'isAvailable' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mainPhoto' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'thumbnail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'stars' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'facilityIds' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'accessibilityAttributes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'attributes' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'showerChair' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceType' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'petFriendly' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampAngle' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rampLength' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'entranceDoorWidth' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomMaxGuestsNumber' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'distanceFromTheElevatorToTheAccessibleRoom' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'deletedAt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<TopHotelsQuery, TopHotelsQueryVariables>;
+
+export type TopHotelsQuery = { __typename?: 'Query', popularHotels: Array<{ __typename?: 'HotelResponseDto', id: string, name: string, hotelDescription?: string | null, hotelTypeId?: number | null, chain?: string | null, currency?: string | null, location: string, country?: string | null, city?: string | null, address?: string | null, zip?: string | null, latitude?: number | null, longitude?: number | null, pricePerNight: number, rating?: number | null, reviewCount?: number | null, isAvailable: boolean, image?: string | null, mainPhoto?: string | null, thumbnail?: string | null, stars?: number | null, facilityIds?: Array<number> | null, deletedAt?: string | null, accessibilityAttributes?: { __typename?: 'HotelAccessibilityAttributes', attributes?: Array<string> | null, showerChair?: boolean | null, entranceType?: string | null, petFriendly?: string | null, rampAngle?: number | null, rampLength?: number | null, entranceDoorWidth?: number | null, roomMaxGuestsNumber?: number | null, distanceFromTheElevatorToTheAccessibleRoom?: number | null } | null }> };
+
+
+export const GetLocationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode<GetLocationsQuery, GetLocationsQueryVariables>;
+export const TopLocationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"topLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"topLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"isPopular"}}]}}]}}]} as unknown as DocumentNode<TopLocationsQuery, TopLocationsQueryVariables>;
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"authRequest"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AuthInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"authRequest"},"value":{"kind":"Variable","name":{"kind":"Name","value":"authRequest"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userRegistrationDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserRegistrationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userRegistrationDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userRegistrationDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
+export const ForgotPasswordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ForgotPassword"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"forgotPassword"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+export const ResetPasswordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ResetPassword"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"newPassword"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"resetPassword"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}},{"kind":"Argument","name":{"kind":"Name","value":"newPassword"},"value":{"kind":"Variable","name":{"kind":"Name","value":"newPassword"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<ResetPasswordMutation, ResetPasswordMutationVariables>;
+export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutMutation, LogoutMutationVariables>;
+export const UpdateUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateUsernameDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateUsernameInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUsername"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateUsernameDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateUsernameDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<UpdateUsernameMutation, UpdateUsernameMutationVariables>;
+export const UpdateProfilePhotoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateProfilePhoto"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateProfilePhotoDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateProfilePhotoInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateProfilePhoto"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateProfilePhotoDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateProfilePhotoDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"profilePhotoUrl"}}]}}]}}]} as unknown as DocumentNode<UpdateProfilePhotoMutation, UpdateProfilePhotoMutationVariables>;
+export const SendMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SendMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"message"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"message"},"value":{"kind":"Variable","name":{"kind":"Name","value":"message"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"chatResponseType"}},{"kind":"Field","name":{"kind":"Name","value":"searchData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questionData"}},{"kind":"Field","name":{"kind":"Name","value":"otherData"}},{"kind":"Field","name":{"kind":"Name","value":"bookingData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"bookingResponseDto"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"hotelId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"roomType"}},{"kind":"Field","name":{"kind":"Name","value":"firstNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"lastNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"emailGuest"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumberGuest"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"confirmedAt"}},{"kind":"Field","name":{"kind":"Name","value":"canceledAt"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"errorData"}}]}}]}}]} as unknown as DocumentNode<SendMessageQuery, SendMessageQueryVariables>;
+export const CurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"profilePhotoUrl"}}]}}]}}]} as unknown as DocumentNode<CurrentUserQuery, CurrentUserQueryVariables>;
+export const CreateBookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBooking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bookingCreateDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BookingCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBooking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"bookingCreateDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bookingCreateDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"hotelId"}},{"kind":"Field","name":{"kind":"Name","value":"roomType"}},{"kind":"Field","name":{"kind":"Name","value":"firstNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"lastNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"emailGuest"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumberGuest"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"confirmedAt"}},{"kind":"Field","name":{"kind":"Name","value":"canceledAt"}}]}}]}}]} as unknown as DocumentNode<CreateBookingMutation, CreateBookingMutationVariables>;
+export const DeleteBookingByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteBookingById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bookingId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteBookingById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"bookingId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bookingId"}}}]}]}}]} as unknown as DocumentNode<DeleteBookingByIdMutation, DeleteBookingByIdMutationVariables>;
+export const BookingsByUserEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BookingsByUserEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookingsByUserEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"hotelId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"roomType"}},{"kind":"Field","name":{"kind":"Name","value":"firstNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"lastNameGuest"}},{"kind":"Field","name":{"kind":"Name","value":"emailGuest"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumberGuest"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"confirmedAt"}},{"kind":"Field","name":{"kind":"Name","value":"canceledAt"}}]}}]}}]} as unknown as DocumentNode<BookingsByUserEmailQuery, BookingsByUserEmailQueryVariables>;
+export const HotelByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HotelById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hotelById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}},{"kind":"Field","name":{"kind":"Name","value":"facilityIds"}},{"kind":"Field","name":{"kind":"Name","value":"accessibilityAttributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"}},{"kind":"Field","name":{"kind":"Name","value":"showerChair"}},{"kind":"Field","name":{"kind":"Name","value":"entranceType"}},{"kind":"Field","name":{"kind":"Name","value":"petFriendly"}},{"kind":"Field","name":{"kind":"Name","value":"rampAngle"}},{"kind":"Field","name":{"kind":"Name","value":"rampLength"}},{"kind":"Field","name":{"kind":"Name","value":"entranceDoorWidth"}},{"kind":"Field","name":{"kind":"Name","value":"roomMaxGuestsNumber"}},{"kind":"Field","name":{"kind":"Name","value":"distanceFromTheElevatorToTheAccessibleRoom"}}]}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<HotelByIdQuery, HotelByIdQueryVariables>;
+export const CreateHotelDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateHotel"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"hotelCreateDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"HotelCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createHotel"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"hotelCreateDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"hotelCreateDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}},{"kind":"Field","name":{"kind":"Name","value":"facilityIds"}},{"kind":"Field","name":{"kind":"Name","value":"accessibilityAttributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"}},{"kind":"Field","name":{"kind":"Name","value":"showerChair"}},{"kind":"Field","name":{"kind":"Name","value":"entranceType"}},{"kind":"Field","name":{"kind":"Name","value":"petFriendly"}},{"kind":"Field","name":{"kind":"Name","value":"rampAngle"}},{"kind":"Field","name":{"kind":"Name","value":"rampLength"}},{"kind":"Field","name":{"kind":"Name","value":"entranceDoorWidth"}},{"kind":"Field","name":{"kind":"Name","value":"roomMaxGuestsNumber"}},{"kind":"Field","name":{"kind":"Name","value":"distanceFromTheElevatorToTheAccessibleRoom"}}]}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<CreateHotelMutation, CreateHotelMutationVariables>;
+export const Get_HotelsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GET_HOTELS"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hotels"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}},{"kind":"Field","name":{"kind":"Name","value":"facilityIds"}},{"kind":"Field","name":{"kind":"Name","value":"accessibilityAttributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"}},{"kind":"Field","name":{"kind":"Name","value":"showerChair"}},{"kind":"Field","name":{"kind":"Name","value":"entranceType"}},{"kind":"Field","name":{"kind":"Name","value":"petFriendly"}},{"kind":"Field","name":{"kind":"Name","value":"rampAngle"}},{"kind":"Field","name":{"kind":"Name","value":"rampLength"}},{"kind":"Field","name":{"kind":"Name","value":"entranceDoorWidth"}},{"kind":"Field","name":{"kind":"Name","value":"roomMaxGuestsNumber"}},{"kind":"Field","name":{"kind":"Name","value":"distanceFromTheElevatorToTheAccessibleRoom"}}]}}]}}]}}]} as unknown as DocumentNode<Get_HotelsQuery, Get_HotelsQueryVariables>;
+export const GetHotelsByLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetHotelsByLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hotelsByLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode<GetHotelsByLocationQuery, GetHotelsByLocationQueryVariables>;
+export const SearchHotelsByLocationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchHotelsByLocation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hotelsByLocation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}},{"kind":"Field","name":{"kind":"Name","value":"facilityIds"}},{"kind":"Field","name":{"kind":"Name","value":"accessibilityAttributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"}},{"kind":"Field","name":{"kind":"Name","value":"showerChair"}},{"kind":"Field","name":{"kind":"Name","value":"entranceType"}},{"kind":"Field","name":{"kind":"Name","value":"petFriendly"}},{"kind":"Field","name":{"kind":"Name","value":"rampAngle"}},{"kind":"Field","name":{"kind":"Name","value":"rampLength"}},{"kind":"Field","name":{"kind":"Name","value":"entranceDoorWidth"}},{"kind":"Field","name":{"kind":"Name","value":"roomMaxGuestsNumber"}},{"kind":"Field","name":{"kind":"Name","value":"distanceFromTheElevatorToTheAccessibleRoom"}}]}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<SearchHotelsByLocationQuery, SearchHotelsByLocationQueryVariables>;
+export const TopHotelsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TopHotels"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"popularHotels"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"hotelDescription"}},{"kind":"Field","name":{"kind":"Name","value":"hotelTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"zip"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"pricePerNight"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"reviewCount"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"mainPhoto"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"stars"}},{"kind":"Field","name":{"kind":"Name","value":"facilityIds"}},{"kind":"Field","name":{"kind":"Name","value":"accessibilityAttributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attributes"}},{"kind":"Field","name":{"kind":"Name","value":"showerChair"}},{"kind":"Field","name":{"kind":"Name","value":"entranceType"}},{"kind":"Field","name":{"kind":"Name","value":"petFriendly"}},{"kind":"Field","name":{"kind":"Name","value":"rampAngle"}},{"kind":"Field","name":{"kind":"Name","value":"rampLength"}},{"kind":"Field","name":{"kind":"Name","value":"entranceDoorWidth"}},{"kind":"Field","name":{"kind":"Name","value":"roomMaxGuestsNumber"}},{"kind":"Field","name":{"kind":"Name","value":"distanceFromTheElevatorToTheAccessibleRoom"}}]}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<TopHotelsQuery, TopHotelsQueryVariables>;

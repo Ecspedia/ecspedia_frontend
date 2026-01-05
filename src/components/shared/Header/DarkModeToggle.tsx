@@ -6,12 +6,22 @@ import { useAppDispatch } from '@/hooks/hooks';
 import { toggleDarkMode } from '@/stores/darkModeSlice';
 import { cn } from '@/utils/utils';
 import { Moon, Sun } from 'lucide-react';
+import { flushSync } from 'react-dom';
 
 export default function DarkModeToggle() {
     const dispatch = useAppDispatch();
     const { isDarkMode, isHydrated } = useDarkMode();
     const handleToggle = () => {
-        dispatch(toggleDarkMode());
+        if (!document.startViewTransition) {
+            dispatch(toggleDarkMode());
+            return;
+        }
+
+        document.startViewTransition(() => {
+            flushSync(() => {
+                dispatch(toggleDarkMode());
+            });
+        });
     };
 
     // Prevent hydration mismatch by not rendering until hydrated

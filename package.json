@@ -17,7 +17,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --headed --project=chromium",
-    "test:docker": "docker run --rm -v $(pwd):/app -v /app/.next -v /app/node_modules test-runner",
+    "test:docker": "docker compose -f docker-compose.yml up --build --abort-on-container-exit --exit-code-from e2e",
     "prepare": "husky install",
     "codegen": "graphql-codegen --config codegen.ts"
   },

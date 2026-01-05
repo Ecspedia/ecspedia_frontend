@@ -45,23 +45,21 @@ function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose
     return (
       <CalendarContext.Provider value={contextValue}>
         <div className="bg-overlay shadow-lg flex min-w-[max(100%,300px)] overflow-y-auto max-h-[80vh] flex-col rounded-lg p-2 lg:p-4 animate-[expandDown_130ms_ease-out] origin-top-left">
-          <CalendarHeader />
+          <Calendar.Header />
           <ScrollableList
             items={listOfDates}
             direction="vertical"
             batchSize={4}
             renderItem={(date) => (
               <div className="flex flex-col gap-4" key={date.date.toISOString()}>
-                <MonthNavigator>
-                  <MonthNavigator.MonthText monthName={date.monthName} />
-                </MonthNavigator>
-                <WeekdayHeader />
-                <DaysGrid date={date.date} />
+                <Calendar.MonthNavigator>
+                  <Calendar.MonthNavigator.MonthText monthName={date.monthName} />
+                </Calendar.MonthNavigator>
+                <Calendar.WeekdayHeader />
+                <Calendar.DaysGrid date={date.date} />
               </div>
             )}
           />
-
-
           {/* <Button text={'Done'} variant="secondary" className="mt-5 w-20 self-end p-3" onClick={contextValue.actions.handleDone} disabled={!contextValue.actions.isValid}></Button> */}
         </div>
       </CalendarContext.Provider>
@@ -72,23 +70,24 @@ function Calendar({ initialStartDate, initialEndDate, onDateRangeSelect, onClose
   return (
     <CalendarContext.Provider value={contextValue}>
       <div className="bg-overlay shadow-lg flex min-w-[max(100%,600px)]  flex-col rounded-lg p-2 animate-[expandDown_130ms_ease-out] origin-top-left">
-        <CalendarHeader />
+        <Calendar.Header />
         <div className="flex gap-2">
           <div className="flex flex-col gap-4 flex-1">
-            <MonthNavigator>
-              <MonthNavigator.PrevButton />
-              <MonthNavigator.MonthText monthName={contextValue.state.leftMonthName} />
-            </MonthNavigator>
-            <WeekdayHeader />
-            <DaysGrid date={contextValue.state.leftDate} />
+            <Calendar.MonthNavigator>
+              <Calendar.MonthNavigator.PrevButton />
+              <Calendar.MonthNavigator.MonthText monthName={contextValue.state.leftMonthName} />
+
+            </Calendar.MonthNavigator>
+            <Calendar.WeekdayHeader />
+            <Calendar.DaysGrid date={contextValue.state.leftDate} />
           </div>
           <div className="flex flex-col gap-4 flex-1">
-            <MonthNavigator>
-              <MonthNavigator.MonthText monthName={contextValue.state.rightMonthName} />
-              <MonthNavigator.NextButton />
-            </MonthNavigator>
-            <WeekdayHeader />
-            <DaysGrid date={contextValue.state.rightDate} />
+            <Calendar.MonthNavigator>
+              <Calendar.MonthNavigator.MonthText monthName={contextValue.state.rightMonthName} />
+              <Calendar.MonthNavigator.NextButton />
+            </Calendar.MonthNavigator>
+            <Calendar.WeekdayHeader />
+            <Calendar.DaysGrid date={contextValue.state.rightDate} />
           </div>
         </div>
         <Button text={'Done'} variant="secondary" className="mt-5 w-20 self-end p-3" onClick={contextValue.actions.handleDone} disabled={!contextValue.actions.isValid}></Button>
