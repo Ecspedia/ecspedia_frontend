@@ -3,7 +3,7 @@ import { useLazyQuery } from '@apollo/client/react';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { SEARCH_HOTELS_BY_LOCATION } from '../api/hotel.queries';
-import { HotelSearchParams } from '../stores/hotelSearchSlice';
+import { HotelSearchParams } from '@/stores/globalSlice';
 import { useHotelSearchParams } from './useHotelSearchParams.hook';
 
 export function useHotelSearch() {

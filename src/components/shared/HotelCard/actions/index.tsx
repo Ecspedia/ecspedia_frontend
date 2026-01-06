@@ -2,7 +2,14 @@
 
 import { Button } from '@/components/ui';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { clearSelectedHotel, selectSelectedHotel, setSelectedHotel, setSelectedHotelForBooking } from '@/stores/globalSlice';
+import {
+  clearSelectedHotel,
+  selectFormValues,
+  selectSelectedHotel,
+  selectSubmittedValues,
+  setSelectedHotel,
+  setSelectedHotelForBooking,
+} from '@/stores/globalSlice';
 import { cn } from '@/utils/utils';
 import { CalendarCheck, MessageCircleQuestion, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -19,9 +26,21 @@ export function HotelCardBookButton({ className }: HotelCardBookButtonProps) {
   const router = useRouter();
   const isAvailable = hotel.isAvailable ?? true;
   const dispatch = useAppDispatch();
+  const submittedSearch = useAppSelector(selectSubmittedValues);
+  const formSearch = useAppSelector(selectFormValues);
   const handleBookClick = () => {
+    const searchValues = submittedSearch ?? formSearch;
+    const params = new URLSearchParams();
+    if (searchValues?.startDate) {
+      params.set('startDate', searchValues.startDate);
+    }
+    if (searchValues?.endDate) {
+      params.set('endDate', searchValues.endDate);
+    }
+
     dispatch(setSelectedHotelForBooking(hotel));
-    router.push(`/booking`);
+    const query = params.toString();
+    router.push(query ? `/booking?${query}` : '/booking');
   };
 
   return (

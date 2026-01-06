@@ -3,7 +3,7 @@
 import { useLazyQuery } from '@apollo/client/react';
 import { useCallback, useMemo } from 'react';
 
-import { HotelSearchParams } from '../stores/hotelSearchSlice';
+import { HotelSearchParams } from '@/stores/globalSlice';
 import type { HotelResponseDto, SearchHotelsByLocationQuery } from '@/types/graphql';
 import { SEARCH_HOTELS_BY_LOCATION } from '../api/hotel.queries';
 

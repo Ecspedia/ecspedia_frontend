@@ -19,7 +19,7 @@ export function BookingPrice({ className }: BookingPriceProps) {
       <span className="text-xs text-secondary">Total Price</span>
       <span className={`${priceSize} font-bold text-primary`}>
         <span className="text-xs font-normal text-secondary mr-1">{booking.currency || 'USD'}</span>
-        {booking.price.toLocaleString()}
+        {booking.price}
       </span>
     </div>
   );

@@ -3,12 +3,8 @@
 import { GoogleMapContent } from '@/app/_components';
 import { MainContainer, Spinner } from '@/components/ui';
 import { HotelFilter, HotelSearchResult, SearchHotelForm } from '@/features/hotel/components';
-import {
-    resetFilters,
-    selectFilters,
-    updateFormValues,
-    updateSubmittedValues
-} from '@/features/hotel/stores/hotelSearchSlice';
+import { updateFormValues, updateSubmittedValues } from '@/stores/globalSlice';
+import { resetFilters, selectFilters } from '@/features/hotel/stores/hotelSearchSlice';
 import { useIsMobile } from '@/hooks';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 

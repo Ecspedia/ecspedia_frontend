@@ -1,10 +1,9 @@
 'use client';
 
 import { GoogleHotelMap } from '@/features/hotel/components';
-import { selectSubmittedValues } from '@/features/hotel/stores/hotelSearchSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { selectIsDarkMode } from '@/stores/darkModeSlice';
-import { clearSelectedMapHotel, selectSelectedMapHotel } from '@/stores/globalSlice';
+import { clearSelectedMapHotel, selectSelectedMapHotel, selectSubmittedValues } from '@/stores/globalSlice';
 import { cn } from '@/utils/utils';
 import { useQuery } from '@apollo/client/react';
 import { X } from 'lucide-react';

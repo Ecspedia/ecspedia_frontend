@@ -6,7 +6,7 @@ import { cn } from '@/utils/utils';
 import { Controller, SubmitHandler } from 'react-hook-form';
 
 import { useHotelFormValidation, useHotelState } from '../hooks';
-import { HotelSearchParams } from '../stores/hotelSearchSlice';
+import { HotelSearchParams } from '@/stores/globalSlice';
 import { HotelFormInput, LocationFieldType } from '../types';
 
 interface SearchHotelFormProps {

@@ -8,7 +8,7 @@ import {
   selectFormValues,
   submitSearch as submitSearchAction,
   updateFormValues,
-} from '../stores/hotelSearchSlice';
+} from '@/stores/globalSlice';
 import { HotelFormInput } from '../types';
 
 export const useHotelState = () => {

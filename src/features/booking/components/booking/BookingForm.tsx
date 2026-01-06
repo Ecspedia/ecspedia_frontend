@@ -98,6 +98,7 @@ export default function BookingForm({ hotel }: BookingFormProps) {
         }
 
         setError(null);
+        console.log('Creating booking...');
 
         try {
             const startTime = new Date(startDateObj);
@@ -106,7 +107,7 @@ export default function BookingForm({ hotel }: BookingFormProps) {
             const endTime = new Date(endDateObj);
             endTime.setHours(0, 0, 0, 0);
 
-            const roomPrice = Math.round(hotel.pricePerNight);
+            const roomPrice = Math.round(selectedRoom.price);
 
             // Map frontend room id to backend RoomType enum
             const roomTypeMap: Record<string, RoomTypeBackEnd> = {
@@ -115,6 +116,10 @@ export default function BookingForm({ hotel }: BookingFormProps) {
                 suite: RoomTypeBackEnd.Suite,
             };
             const backendRoomType = roomTypeMap[selectedRoom.id];
+
+
+            const totalPrice = roomPrice * nights;
+            console.log('Total Price:', totalPrice);
 
             const bookingResult = await createBooking({
                 variables: {
@@ -128,7 +133,7 @@ export default function BookingForm({ hotel }: BookingFormProps) {
                         startTimeIso: startTime.toISOString(),
                         endTimeIso: endTime.toISOString(),
                         roomType: backendRoomType,
-                        price: roomPrice * nights,
+                        price: totalPrice,
                         currency: 'USD',
                     },
                 },
