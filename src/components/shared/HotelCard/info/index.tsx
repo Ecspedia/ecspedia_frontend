@@ -39,10 +39,18 @@ export function HotelCardLocation({ className }: { className?: string }) {
     <button
       type="button"
       onClick={handleOpenMap}
-      className={cn("mt-1 flex cursor-pointer items-center gap-1 transition-colors hover:text-primary overflow-hidden max-w-full", className)}
+      className={cn(
+        "mt-1 grid grid-cols-[auto_1fr] w-full items-center gap-1 transition-colors hover:text-primary",
+        className
+      )}
     >
-      <MapPin className="h-3 w-3 text-secondary shrink-0" />
-      <p className="text-sm text-secondary hover:underline whitespace-nowrap text-ellipsis overflow-hidden">{locationString}</p>
+      <MapPin className="h-3 w-3 text-secondary" />
+
+      <div className="min-w-0">
+        <p className="text-sm text-secondary hover:underline truncate text-left" title={"locationString"}>
+          {locationString}
+        </p>
+      </div>
     </button>
   );
 }
